@@ -1,0 +1,10 @@
+build
+node_modules
+prebuilds
+src
+index.js
+
+.tool-versions
+*.log
+
+!src/scanner.cc

@@ -1,0 +1,260 @@
+==================
+abstraction
+==================
+
+a = 1, b => a
+
+---
+
+(program
+  (abstraction
+    parameters: (parameters
+      (parameter
+        name: (identifier)
+        default: (number))
+      (parameter
+        name: (identifier)))
+    body: (identifier)))
+
+==================
+application
+==================
+
+a()()
++()
+a(1)
++ 1
+a 1
+1 `a` -b()
+
+---
+
+(program
+  (application
+    expression: (application
+      expression: (identifier)))
+  (application
+    expression: (identifier))
+  (application
+    expression: (identifier)
+    arguments: (arguments
+      (argument
+        (number))))
+  (prefix_application
+    left: (identifier)
+    right: (number))
+  (prefix_application
+    left: (identifier)
+    right: (number))
+  (infix_application
+    left: (number)
+    right: (prefix_application
+      left: (identifier)
+      right: (application
+        expression: (identifier)))))
+
+==================
+return
+==================
+
+return 1
+return a =>
+  1
+
+---
+
+(program
+  (return
+    (number))
+  (return
+    (abstraction
+      (parameters
+        (parameter
+          (identifier)))
+      (block
+        (number)))))
+
+==================
+pass
+==================
+
+pass
+
+---
+
+(program
+  (pass))
+
+==================
+pipeline
+==================
+
+a.b.c()
+
+---
+
+(program
+  (application
+    expression: (pipeline
+      left: (pipeline
+        left: (identifier)
+        right: (identifier))
+      right: (identifier))))
+
+==================
+unary expressions
+==================
+
+!false
++1
+-1
+~1
+
+---
+
+(program
+  (prefix_application
+    left: (identifier)
+    right: (boolean))
+  (prefix_application
+    left: (identifier)
+    right: (number))
+  (prefix_application
+    left: (identifier)
+    right: (number))
+  (prefix_application
+    left: (identifier)
+    right: (number)))
+
+==================
+binary expressions
+==================
+
+1 ^ 1
+1 * 1
+1 / 1
+1 + 1
+1 - 1
+1 % 1
+1 < 1
+1 <= 1
+1 > 1
+1 >= 1
+1 == 1
+1 != 1
+a === 1
+1 !== b
+a ~ b
+false && false
+false || false
+false ==> true <=> true
+false && false || false
+false || false && false
+1 - 1 + 1
+1 - -1
+1 * 1 / 1 - 1
+false || !false
+(a.b) . c ^ 1 . (d.e)
+
+---
+
+(program
+  (infix_application
+    left: (number)
+    right: (number))
+  (infix_application
+    left: (number)
+    right: (number))
+  (infix_application
+    left: (number)
+    right: (number))
+  (infix_application
+    left: (number)
+    right: (number))
+  (infix_application
+    left: (number)
+    right: (number))
+  (infix_application
+    left: (number)
+    right: (number))
+  (infix_application
+    left: (number)
+    right: (number))
+  (infix_application
+    left: (number)
+    right: (number))
+  (infix_application
+    left: (number)
+    right: (number))
+  (infix_application
+    left: (number)
+    right: (number))
+  (infix_application
+    left: (number)
+    right: (number))
+  (infix_application
+    left: (number)
+    right: (number))
+  (infix_application
+    left: (identifier)
+    right: (number))
+  (infix_application
+    left: (number)
+    right: (identifier))
+  (infix_application
+    left: (identifier)
+    right: (identifier))
+  (infix_application
+    left: (boolean)
+    right: (boolean))
+  (infix_application
+    left: (boolean)
+    right: (boolean))
+  (infix_application
+    left: (infix_application
+      left: (boolean)
+      right: (boolean))
+    right: (boolean))
+  (infix_application
+    left: (infix_application
+      left: (boolean)
+      right: (boolean))
+    right: (boolean))
+  (infix_application
+    left: (boolean)
+    right: (infix_application
+      left: (boolean)
+      right: (boolean)))
+  (infix_application
+    left: (infix_application
+      left: (number)
+      right: (number))
+    right: (number))
+  (infix_application
+    left: (number)
+    right: (prefix_application
+      left: (identifier)
+      right: (number)))
+  (infix_application
+    left: (infix_application
+      left: (infix_application
+        left: (number)
+        right: (number))
+      right: (number))
+    right: (number))
+  (infix_application
+    left: (boolean)
+    right: (prefix_application
+      left: (identifier)
+      right: (boolean)))
+  (infix_application
+    left: (pipeline
+      left: (pipeline
+        left: (identifier)
+        right: (identifier))
+      right: (identifier))
+    right: (pipeline
+      left: (number)
+      right: (pipeline
+        left: (identifier)
+        right: (identifier)))))

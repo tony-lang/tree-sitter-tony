@@ -1,0 +1,229 @@
+==================
+map
+==================
+
+{}
+{a => 1, b => 'str'}
+
+---
+
+(program
+  (map)
+  (map
+    (expression_pair
+      (identifier)
+      (number))
+    (expression_pair
+      (identifier)
+      (string))))
+
+==================
+tuple
+==================
+
+(a, 1, 'str')
+(1,1)
+
+---
+
+(program
+  (tuple
+    (identifier)
+    (number)
+    (string))
+  (tuple
+    (number)
+    (number)))
+
+==================
+list
+==================
+
+[]
+[a, 1, 'str']
+[1..1]
+[1,1..1,1]
+
+---
+
+(program
+  (list)
+  (list
+    (identifier)
+    (number)
+    (string))
+  (list
+    (range
+      (number)
+      (number)))
+  (list
+    (number)
+    (range
+      (number)
+      (number))
+    (number)))
+
+==================
+boolean
+==================
+
+false
+true
+
+---
+
+(program
+  (boolean)
+  (boolean))
+
+==================
+decimal
+==================
+
+-0.6_6
++0.1_1
+123.4123
+1_1.3_1
+1_1.0
+1e3_4
+0.3e1_4
+1e322
+1e-3
+1e3
+1.8e10
+1.0e10
+-1e10
+
+---
+
+(program
+  (prefix_application
+    left: (identifier)
+    right: (number))
+  (prefix_application
+    left: (identifier)
+    right: (number))
+  (number)
+  (number)
+  (number)
+  (number)
+  (number)
+  (number)
+  (number)
+  (number)
+  (number)
+  (number)
+  (prefix_application
+    left: (identifier)
+    right: (number)))
+
+==================
+integer
+==================
+
+-1
+0xDEAD
+0o123
+0b001
+1_1
+0x1_1
+0o1_1
+0b1_1
+
+---
+
+(program
+  (prefix_application
+    left: (identifier)
+    right: (number))
+  (number)
+  (number)
+  (number)
+  (number)
+  (number)
+  (number)
+  (number))
+
+=====================================
+identifier
+=====================================
+
+abs
+a5_ds_
+_abs?
++
+\
+||
+/
+
+---
+
+(program
+  (identifier)
+  (identifier)
+  (identifier)
+  (identifier)
+  (identifier)
+  (identifier)
+  (identifier))
+
+=====================================
+string
+=====================================
+
+"I'm ok"
+'"ok"'
+"\\"
+"/"
+"multiline \
+string"
+'{func}'
+
+---
+
+(program
+  (string)
+  (string)
+  (string
+    (escape_sequence))
+  (string)
+  (string
+    (escape_sequence))
+  (string
+    (interpolation
+      expression: (identifier))))
+
+=====================================
+regex
+=====================================
+
+/one\\/
+/one/g
+/one/i
+/one/gim
+/on\/e/gim
+/on[^/]afe/gim
+/[\]/]/
+
+---
+
+(program
+  (regex
+    (regex_pattern))
+  (regex
+    (regex_pattern)
+    (regex_flags))
+  (regex
+    (regex_pattern)
+    (regex_flags))
+  (regex
+    (regex_pattern)
+    (regex_flags))
+  (regex
+    (regex_pattern)
+    (regex_flags))
+  (regex
+    (regex_pattern)
+    (regex_flags))
+  (regex
+    (regex_pattern)))

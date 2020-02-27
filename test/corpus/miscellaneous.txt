@@ -1,0 +1,49 @@
+==================
+empty program
+==================
+
+---
+
+(program)
+
+==================
+hash bang line
+==================
+
+#!/usr/bin/env tony
+
+---
+
+(program
+  (hash_bang_line))
+
+==================
+grouped expression
+==================
+
+(1)
+(n)
+(-1)
+(-n)
+n / ((n + 1) * (-2))
+
+---
+
+(program
+  (number)
+  (identifier)
+  (prefix_application
+    left: (identifier)
+    right: (number))
+  (prefix_application
+    left: (identifier)
+    right: (identifier))
+  (infix_application
+    left: (identifier)
+    right: (infix_application
+      left: (infix_application
+        left: (identifier)
+        right: (number))
+      right: (prefix_application
+        left: (identifier)
+        right: (number)))))
