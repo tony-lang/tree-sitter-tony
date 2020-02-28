@@ -33,11 +33,11 @@ n / ((n + 1) * (-2))
   (number)
   (identifier)
   (prefix_application
-    left: (identifier)
-    right: (number))
+    (identifier)
+    argument: (number))
   (prefix_application
-    left: (identifier)
-    right: (identifier))
+    (identifier)
+    argument: (identifier))
   (infix_application
     left: (identifier)
     right: (infix_application
@@ -45,5 +45,5 @@ n / ((n + 1) * (-2))
         left: (identifier)
         right: (number))
       right: (prefix_application
-        left: (identifier)
-        right: (number)))))
+        (identifier)
+        argument: (number)))))

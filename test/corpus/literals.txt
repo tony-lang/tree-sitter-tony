@@ -98,11 +98,11 @@ decimal
 
 (program
   (prefix_application
-    left: (identifier)
-    right: (number))
+    (identifier)
+    argument: (number))
   (prefix_application
-    left: (identifier)
-    right: (number))
+    (identifier)
+    argument: (number))
   (number)
   (number)
   (number)
@@ -114,8 +114,8 @@ decimal
   (number)
   (number)
   (prefix_application
-    left: (identifier)
-    right: (number)))
+    (identifier)
+    argument: (number)))
 
 ==================
 integer
@@ -134,8 +134,8 @@ integer
 
 (program
   (prefix_application
-    left: (identifier)
-    right: (number))
+    (identifier)
+    argument: (number))
   (number)
   (number)
   (number)

@@ -20,38 +20,50 @@ a = 1, b => a
 application
 ==================
 
-a()()
-+()
+a(1)(1)
++(1)
 a(1)
 + 1
 a 1
-1 `a` -b()
+1 `a` -b(1)
 
 ---
 
 (program
   (application
-    expression: (application
-      expression: (identifier)))
+    (application
+      (identifier)
+    arguments: (arguments
+      (argument
+        (number))))
+  arguments: (arguments
+      (argument
+        (number))))
   (application
-    expression: (identifier))
+    (identifier)
+  arguments: (arguments
+      (argument
+        (number))))
   (application
-    expression: (identifier)
+    (identifier)
     arguments: (arguments
       (argument
         (number))))
   (prefix_application
-    left: (identifier)
-    right: (number))
+    (identifier)
+    argument: (number))
   (prefix_application
-    left: (identifier)
-    right: (number))
+    (identifier)
+    argument: (number))
   (infix_application
     left: (number)
     right: (prefix_application
-      left: (identifier)
-      right: (application
-        expression: (identifier)))))
+      (identifier)
+      argument: (application
+        (identifier)
+        arguments: (arguments
+          (argument
+            (number)))))))
 
 ==================
 return
@@ -75,31 +87,23 @@ return a =>
         (number)))))
 
 ==================
-pass
-==================
-
-pass
-
----
-
-(program
-  (pass))
-
-==================
 pipeline
 ==================
 
-a.b.c()
+a.b.c(1)
 
 ---
 
 (program
   (application
-    expression: (pipeline
+    (pipeline
       left: (pipeline
         left: (identifier)
         right: (identifier))
-      right: (identifier))))
+      right: (identifier))
+    arguments: (arguments
+      (argument
+        (number)))))
 
 ==================
 unary expressions
@@ -114,17 +118,17 @@ unary expressions
 
 (program
   (prefix_application
-    left: (identifier)
-    right: (boolean))
+    (identifier)
+    argument: (boolean))
   (prefix_application
-    left: (identifier)
-    right: (number))
+    (identifier)
+    argument: (number))
   (prefix_application
-    left: (identifier)
-    right: (number))
+    (identifier)
+    argument: (number))
   (prefix_application
-    left: (identifier)
-    right: (number)))
+    (identifier)
+    argument: (number)))
 
 ==================
 binary expressions
@@ -233,8 +237,8 @@ false || !false
   (infix_application
     left: (number)
     right: (prefix_application
-      left: (identifier)
-      right: (number)))
+      (identifier)
+      argument: (number)))
   (infix_application
     left: (infix_application
       left: (infix_application
@@ -245,8 +249,8 @@ false || !false
   (infix_application
     left: (boolean)
     right: (prefix_application
-      left: (identifier)
-      right: (boolean)))
+      (identifier)
+      argument: (boolean)))
   (infix_application
     left: (pipeline
       left: (pipeline
