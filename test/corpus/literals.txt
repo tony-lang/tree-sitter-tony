@@ -3,7 +3,7 @@ map
 ==================
 
 {}
-{a => 1, b => 'str'}
+{'a' => 1, 'b' => 'str'}
 
 ---
 
@@ -11,10 +11,10 @@ map
   (map)
   (map
     (expression_pair
-      (identifier)
+      (string)
       (number))
     (expression_pair
-      (identifier)
+      (string)
       (string))))
 
 ==================
