@@ -254,11 +254,11 @@ a := a =>
 
 (program
   (assignment
-    name: (identifier)
-    value: (number))
+    left: (identifier)
+    right: (number))
   (assignment
-    name: (identifier)
-    value: (abstraction
+    left: (identifier)
+    right: (abstraction
       parameters: (parameters
         (parameter
           name: (identifier)))
