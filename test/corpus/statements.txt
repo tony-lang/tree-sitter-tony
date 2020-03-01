@@ -14,3 +14,28 @@ import {a => b, c} from 'source'
         right: (identifier))
       (identifier))
     source: (string)))
+
+==================
+export
+==================
+
+export a := 1
+export a := a =>
+  1
+
+---
+
+(program
+  (export
+    declaration: (assignment
+      left: (identifier)
+      right: (number)))
+  (export
+    declaration: (assignment
+      left: (identifier)
+      right: (abstraction
+        parameters: (parameters
+          (parameter
+            name: (identifier)))
+        body: (block
+          (number))))))
