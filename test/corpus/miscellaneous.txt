@@ -40,10 +40,13 @@ n / ((n + 1) * (-2))
     argument: (identifier))
   (infix_application
     left: (identifier)
+    abstraction: (infix_application_operator)
     right: (infix_application
       left: (infix_application
         left: (identifier)
+        abstraction: (infix_application_operator)
         right: (number))
+      abstraction: (infix_application_operator)
       right: (prefix_application
         abstraction: (identifier)
         argument: (number)))))

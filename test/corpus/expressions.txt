@@ -2,11 +2,17 @@
 abstraction
 ==================
 
-a = 1, b => a
+a => a
+(a = 1, b) => a
 
 ---
 
 (program
+  (abstraction
+    parameters: (parameters
+      (parameter
+        name: (identifier)))
+    body: (identifier))
   (abstraction
     parameters: (parameters
       (parameter
@@ -57,6 +63,7 @@ a 1
     argument: (number))
   (infix_application
     left: (number)
+    abstraction: (infix_application_operator)
     right: (prefix_application
       abstraction: (identifier)
       argument: (application
@@ -125,77 +132,103 @@ false || !false
 (program
   (infix_application
     left: (number)
+    abstraction: (infix_application_operator)
     right: (number))
   (infix_application
     left: (number)
+    abstraction: (infix_application_operator)
     right: (number))
   (infix_application
     left: (number)
+    abstraction: (infix_application_operator)
     right: (number))
   (infix_application
     left: (number)
+    abstraction: (infix_application_operator)
     right: (number))
   (infix_application
     left: (number)
+    abstraction: (infix_application_operator)
     right: (number))
   (infix_application
     left: (number)
+    abstraction: (infix_application_operator)
     right: (number))
   (infix_application
     left: (number)
+    abstraction: (infix_application_operator)
     right: (number))
   (infix_application
     left: (number)
+    abstraction: (infix_application_operator)
     right: (number))
   (infix_application
     left: (number)
+    abstraction: (infix_application_operator)
     right: (number))
   (infix_application
     left: (number)
+    abstraction: (infix_application_operator)
     right: (number))
   (infix_application
     left: (number)
+    abstraction: (infix_application_operator)
     right: (number))
   (infix_application
     left: (number)
+    abstraction: (infix_application_operator)
     right: (number))
   (infix_application
     left: (identifier)
+    abstraction: (infix_application_operator)
     right: (number))
   (infix_application
     left: (number)
+    abstraction: (infix_application_operator)
     right: (identifier))
   (infix_application
     left: (identifier)
+    abstraction: (infix_application_operator)
     right: (identifier))
   (infix_application
     left: (boolean)
+    abstraction: (infix_application_operator)
     right: (boolean))
   (infix_application
     left: (boolean)
+    abstraction: (infix_application_operator)
     right: (boolean))
   (infix_application
     left: (infix_application
       left: (boolean)
+      abstraction: (infix_application_operator)
       right: (boolean))
+    abstraction: (infix_application_operator)
     right: (boolean))
   (infix_application
     left: (infix_application
       left: (boolean)
+      abstraction: (infix_application_operator)
       right: (boolean))
+    abstraction: (infix_application_operator)
     right: (boolean))
   (infix_application
     left: (boolean)
+    abstraction: (infix_application_operator)
     right: (infix_application
       left: (boolean)
+      abstraction: (infix_application_operator)
       right: (boolean)))
   (infix_application
     left: (infix_application
       left: (number)
+      abstraction: (infix_application_operator)
       right: (number))
+    abstraction: (infix_application_operator)
     right: (number))
   (infix_application
     left: (number)
+    abstraction: (infix_application_operator)
     right: (prefix_application
       abstraction: (identifier)
       argument: (number)))
@@ -203,11 +236,15 @@ false || !false
     left: (infix_application
       left: (infix_application
         left: (number)
+        abstraction: (infix_application_operator)
         right: (number))
+      abstraction: (infix_application_operator)
       right: (number))
+    abstraction: (infix_application_operator)
     right: (number))
   (infix_application
     left: (boolean)
+    abstraction: (infix_application_operator)
     right: (prefix_application
       abstraction: (identifier)
       argument: (boolean)))
@@ -217,6 +254,7 @@ false || !false
         left: (identifier)
         right: (identifier))
       right: (identifier))
+    abstraction: (infix_application_operator)
     right: (pipeline
       left: (number)
       right: (pipeline

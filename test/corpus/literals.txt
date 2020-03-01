@@ -3,7 +3,7 @@ map
 ==================
 
 {}
-{'a' => 1, 'b' => 'str'}
+{'a' -> 1, b, 'c' -> 'str', d, e}
 
 ---
 
@@ -13,9 +13,12 @@ map
     (expression_pair
       (string)
       (number))
+    (shorthand_pair_identifier)
     (expression_pair
       (string)
-      (string))))
+      (string))
+    (shorthand_pair_identifier)
+    (shorthand_pair_identifier)))
 
 ==================
 tuple
