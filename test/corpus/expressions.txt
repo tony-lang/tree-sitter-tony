@@ -11,7 +11,7 @@ a = 1, b => a
     parameters: (parameters
       (parameter
         name: (identifier)
-        default: (number))
+        value: (number))
       (parameter
         name: (identifier)))
     body: (identifier)))
@@ -31,79 +31,39 @@ a 1
 
 (program
   (application
-    (application
-      (identifier)
+    abstraction: (application
+      abstraction: (identifier)
     arguments: (arguments
       (argument
-        (number))))
+        value: (number))))
   arguments: (arguments
       (argument
-        (number))))
+        value: (number))))
   (application
-    (identifier)
+    abstraction: (identifier)
   arguments: (arguments
       (argument
-        (number))))
+        value: (number))))
   (application
-    (identifier)
+    abstraction: (identifier)
     arguments: (arguments
       (argument
-        (number))))
+        value: (number))))
   (prefix_application
-    (identifier)
+    abstraction: (identifier)
     argument: (number))
   (prefix_application
-    (identifier)
+    abstraction: (identifier)
     argument: (number))
   (infix_application
     left: (number)
     right: (prefix_application
-      (identifier)
+      abstraction: (identifier)
       argument: (application
-        (identifier)
+        abstraction: (identifier)
         arguments: (arguments
           (argument
-            (number)))))))
-
-==================
-return
-==================
-
-return 1
-return a =>
-  1
-
----
-
-(program
-  (return
-    (number))
-  (return
-    (abstraction
-      (parameters
-        (parameter
-          (identifier)))
-      (block
-        (number)))))
-
-==================
-pipeline
-==================
-
-a.b.c(1)
-
----
-
-(program
-  (application
-    (pipeline
-      left: (pipeline
-        left: (identifier)
-        right: (identifier))
-      right: (identifier))
-    arguments: (arguments
-      (argument
-        (number)))))
+            value: (number)))))))
 
 ==================
 unary expressions
@@ -118,16 +78,16 @@ unary expressions
 
 (program
   (prefix_application
-    (identifier)
+    abstraction: (identifier)
     argument: (boolean))
   (prefix_application
-    (identifier)
+    abstraction: (identifier)
     argument: (number))
   (prefix_application
-    (identifier)
+    abstraction: (identifier)
     argument: (number))
   (prefix_application
-    (identifier)
+    abstraction: (identifier)
     argument: (number)))
 
 ==================
@@ -237,7 +197,7 @@ false || !false
   (infix_application
     left: (number)
     right: (prefix_application
-      (identifier)
+      abstraction: (identifier)
       argument: (number)))
   (infix_application
     left: (infix_application
@@ -249,7 +209,7 @@ false || !false
   (infix_application
     left: (boolean)
     right: (prefix_application
-      (identifier)
+      abstraction: (identifier)
       argument: (boolean)))
   (infix_application
     left: (pipeline
@@ -262,3 +222,66 @@ false || !false
       right: (pipeline
         left: (identifier)
         right: (identifier)))))
+
+==================
+pipeline
+==================
+
+a.b.c(1)
+
+---
+
+(program
+  (application
+    abstraction: (pipeline
+      left: (pipeline
+        left: (identifier)
+        right: (identifier))
+      right: (identifier))
+    arguments: (arguments
+      (argument
+        value: (number)))))
+
+==================
+assignment
+==================
+
+a := 1
+a := a =>
+  1
+
+---
+
+(program
+  (assignment
+    name: (identifier)
+    value: (number))
+  (assignment
+    name: (identifier)
+    value: (abstraction
+      parameters: (parameters
+        (parameter
+          name: (identifier)))
+      body: (block
+        (number)))))
+
+==================
+return
+==================
+
+return 1
+return a =>
+  1
+
+---
+
+(program
+  (return
+    (number))
+  (return
+    (abstraction
+      (parameters
+        (parameter
+          (identifier)))
+      (block
+        (number)))))

@@ -98,10 +98,10 @@ decimal
 
 (program
   (prefix_application
-    (identifier)
+    abstraction: (identifier)
     argument: (number))
   (prefix_application
-    (identifier)
+    abstraction: (identifier)
     argument: (number))
   (number)
   (number)
@@ -114,7 +114,7 @@ decimal
   (number)
   (number)
   (prefix_application
-    (identifier)
+    abstraction: (identifier)
     argument: (number)))
 
 ==================
@@ -134,7 +134,7 @@ integer
 
 (program
   (prefix_application
-    (identifier)
+    abstraction: (identifier)
     argument: (number))
   (number)
   (number)
@@ -191,7 +191,7 @@ string"
     (escape_sequence))
   (string
     (interpolation
-      expression: (identifier))))
+      value: (identifier))))
 
 =====================================
 regex
