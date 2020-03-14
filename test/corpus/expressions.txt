@@ -2,25 +2,76 @@
 abstraction
 ==================
 
-a => a
-(a = 1, b) => a
+(a, b) => a
+(a = 1, b, 1, {c}) => a
+
+fib := (0) =>
+         0,
+       (1) =>
+         1,
+       (n) =>
+         fib(n - 1) + fib(n - 2)
 
 ---
 
 (program
   (abstraction
-    parameters: (parameters
-      (parameter
-        name: (identifier)))
-    body: (identifier))
+    (abstraction_branch
+      parameters: (parameters
+        (parameter
+          name: (identifier))
+        (parameter
+          name: (identifier)))
+      body: (identifier)))
   (abstraction
-    parameters: (parameters
-      (parameter
-        name: (identifier)
-        value: (number))
-      (parameter
-        name: (identifier)))
-    body: (identifier)))
+    (abstraction_branch
+      parameters: (parameters
+        (parameter
+          name: (identifier)
+          value: (number))
+        (parameter
+          name: (identifier))
+        (parameter
+          value: (number))
+        (parameter
+          pattern: (map
+            (shorthand_pair_identifier))))
+      body: (identifier)))
+  (assignment
+    left: (identifier)
+    right: (abstraction
+      (abstraction_branch
+        parameters: (parameters
+          (parameter
+            value: (number)))
+        body: (number))
+      (abstraction_branch
+        parameters: (parameters
+          (parameter
+            value: (number)))
+        body: (number))
+      (abstraction_branch
+        parameters: (parameters
+          (parameter
+            name: (identifier)))
+        body: (infix_application
+          left: (application
+            abstraction: (identifier)
+            arguments: (arguments
+              (argument
+                value: (infix_application
+                  left: (identifier)
+                  abstraction: (infix_application_operator)
+                  right: (number)))))
+          abstraction: (infix_application_operator)
+          right: (application
+            abstraction: (identifier)
+            arguments: (arguments
+              (argument
+                value: (infix_application
+                  left: (identifier)
+                  abstraction: (infix_application_operator)
+                  right: (number))))))))))
 
 ==================
 application
@@ -285,7 +336,7 @@ assignment
 ==================
 
 a := 1
-a := a =>
+a := (a) =>
   1
 
 ---
@@ -297,29 +348,29 @@ a := a =>
   (assignment
     left: (identifier)
     right: (abstraction
-      parameters: (parameters
-        (parameter
-          name: (identifier)))
-      body: (block
-        (number)))))
+      (abstraction_branch
+        parameters: (parameters
+          (parameter
+            name: (identifier)))
+        body: (number)))))
 
 ==================
 return
 ==================
 
 return 1
-return a =>
+return (a )=>
   1
 
 ---
 
 (program
   (return
-    (number))
+    value: (number))
   (return
-    (abstraction
-      (parameters
-        (parameter
-          (identifier)))
-      (block
-        (number)))))
+    value: (abstraction
+      (abstraction_branch
+        parameters: (parameters
+          (parameter
+            name: (identifier)))
+        body: (number)))))

@@ -20,7 +20,7 @@ export
 ==================
 
 export a := 1
-export a := a =>
+export a := (a) =>
   1
 
 ---
@@ -34,8 +34,8 @@ export a := a =>
     declaration: (assignment
       left: (identifier)
       right: (abstraction
-        parameters: (parameters
-          (parameter
-            name: (identifier)))
-        body: (block
-          (number))))))
+        (abstraction_branch
+          parameters: (parameters
+            (parameter
+              name: (identifier)))
+          body: (number))))))
