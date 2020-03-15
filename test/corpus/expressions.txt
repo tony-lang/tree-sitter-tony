@@ -79,7 +79,7 @@ application
 
 a(1)(1)
 +(1)
-a(1)
+a(?, 1)
 + 1
 a 1
 1 `a` -b(1)
@@ -104,6 +104,7 @@ a 1
   (application
     abstraction: (identifier)
     arguments: (arguments
+      (argument)
       (argument
         value: (number))))
   (prefix_application
