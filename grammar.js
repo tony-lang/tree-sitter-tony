@@ -239,7 +239,7 @@ module.exports = grammar({
     generator_condition: $ => seq('if', $._expression),
 
     _identifier_without_operators: $ => /[a-z_][a-z0-9_]*\??/,
-    _operator: $ => choice(/(==|[!@#$%^&*|<>~*\\\-+/.]+)=*>?/, '/'),
+    _operator: $ => choice(/(==|[!@$%^&*|<>~*\\\-+/.]+)=*>?/, '/'),
     identifier: $ => choice($._operator, $._identifier_without_operators),
 
     _literal: $ => choice(
