@@ -63,6 +63,83 @@ list
     (number)))
 
 ==================
+list comprehension
+==================
+
+[i * 2 | i in 1..10]
+[i / 2 | i in 1..10 if i % 2 == 0]
+[[x, y] | x in 1..10 if x % 2 == 0, y in 1..10 if i % 2 == 0]
+
+---
+
+(program
+  (list_comprehension
+    body: (infix_application
+      left: (identifier)
+      abstraction: (infix_application_operator)
+      right: (number))
+    generators: (generators
+      (generator
+        name: (identifier)
+        value: (infix_application
+          left: (number)
+          abstraction: (infix_application_operator)
+          right: (number)))))
+  (list_comprehension
+    body: (infix_application
+      left: (identifier)
+      abstraction: (infix_application_operator)
+      right: (number))
+    generators: (generators
+      (generator
+        name: (identifier)
+        value: (infix_application
+          left: (number)
+          abstraction: (infix_application_operator)
+          right: (number))
+        condition: (generator_condition
+          (infix_application
+            left: (infix_application
+              left: (identifier)
+              abstraction: (infix_application_operator)
+              right: (number))
+            abstraction: (infix_application_operator)
+            right: (number))))))
+  (list_comprehension
+    body: (list
+      (identifier)
+      (identifier))
+    generators: (generators
+      (generator
+        name: (identifier)
+        value: (infix_application
+          left: (number)
+          abstraction: (infix_application_operator)
+          right: (number))
+        condition: (generator_condition
+          (infix_application
+            left: (infix_application
+              left: (identifier)
+              abstraction: (infix_application_operator)
+              right: (number))
+            abstraction: (infix_application_operator)
+            right: (number))))
+      (generator
+        name: (identifier)
+        value: (infix_application
+          left: (number)
+          abstraction: (infix_application_operator)
+          right: (number))
+        condition: (generator_condition
+          (infix_application
+            left: (infix_application
+              left: (identifier)
+              abstraction: (infix_application_operator)
+              right: (number))
+            abstraction: (infix_application_operator)
+            right: (number)))))))
+
+==================
 boolean
 ==================
 
