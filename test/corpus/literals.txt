@@ -44,7 +44,6 @@ list
 
 []
 [a, 1, 'str']
-[1..1]
 [1,1..1,1]
 
 ---
@@ -56,14 +55,11 @@ list
     (number)
     (string))
   (list
-    (range
-      (number)
-      (number)))
-  (list
     (number)
-    (range
-      (number)
-      (number))
+    (infix_application
+      left: (number)
+      abstraction: (infix_application_operator)
+      right: (number))
     (number)))
 
 ==================
