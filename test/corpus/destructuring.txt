@@ -1,5 +1,5 @@
 ============================================
-map destructuring assignment
+map destructuring declaration
 ============================================
 
 {'b' -> b} := a
@@ -7,7 +7,7 @@ map destructuring assignment
 ---
 
 (program
-  (assignment
+  (declaration
     left: (map
       (expression_pair
         left: (string)
@@ -15,7 +15,7 @@ map destructuring assignment
     right: (identifier)))
 
 ============================================
-tuple destructuring assignment
+tuple destructuring declaration
 ============================================
 
 (b, c) := a
@@ -24,12 +24,12 @@ tuple destructuring assignment
 ---
 
 (program
-  (assignment
+  (declaration
     left: (tuple
       (identifier)
       (identifier))
     right: (identifier))
-  (assignment
+  (declaration
     left: (tuple
       (identifier)
       (identifier)
@@ -38,7 +38,7 @@ tuple destructuring assignment
     right: (identifier)))
 
 ============================================
-list destructuring assignment
+list destructuring declaration
 ============================================
 
 [b, c] := a
@@ -47,12 +47,12 @@ list destructuring assignment
 ---
 
 (program
-  (assignment
+  (declaration
     left: (list
       (identifier)
       (identifier))
     right: (identifier))
-  (assignment
+  (declaration
     left: (list
       (identifier)
       (identifier)
