@@ -27,11 +27,11 @@ export a := (a) =>
 
 (program
   (export
-    declaration: (assignment
+    declaration: (declaration
       left: (identifier)
       right: (number)))
   (export
-    declaration: (assignment
+    declaration: (declaration
       left: (identifier)
       right: (abstraction
         (abstraction_branch
