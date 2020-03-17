@@ -20,7 +20,7 @@ map pattern
         left: (string_pattern)
         right: (identifier_pattern))
       (shorthand_pair_identifier_pattern)
-      (rest
+      (rest_pattern
         name: (identifier_pattern)))
     right: (identifier)))
 
@@ -42,7 +42,7 @@ tuple pattern
   (assignment
     left: (tuple_pattern
       (identifier_pattern)
-      (rest
+      (rest_pattern
         name: (identifier_pattern)))
     right: (identifier)))
 
@@ -65,6 +65,6 @@ list pattern
     left: (list_pattern
       (identifier_pattern)
       (identifier_pattern)
-      (rest
+      (rest_pattern
         name: (identifier_pattern)))
     right: (identifier)))
