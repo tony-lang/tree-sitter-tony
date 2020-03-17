@@ -341,7 +341,7 @@ a.b.c(1)
 assignment
 ==================
 
-mutable a := 1
+a := 1
 a := (a) =>
   1
 

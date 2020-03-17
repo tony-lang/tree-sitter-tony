@@ -177,7 +177,6 @@ module.exports = grammar({
     )),
 
     assignment: $ => seq(
-      optional(field('mutable', 'mutable')),
       field('left', choice($.identifier, $._destructuring_pattern)),
       ':=',
       field('right', $._expression)
