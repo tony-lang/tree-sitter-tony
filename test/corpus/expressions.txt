@@ -37,7 +37,7 @@ fib := (0) =>
           pattern: (map
             (shorthand_pair_identifier))))
       body: (identifier)))
-  (declaration
+  (assignment
     left: (identifier)
     right: (abstraction
       (abstraction_branch
@@ -338,34 +338,11 @@ a.b.c(1)
         value: (number)))))
 
 ==================
-declaration
+assignment
 ==================
 
 mutable a := 1
 a := (a) =>
-  1
-
----
-
-(program
-  (declaration
-    left: (identifier)
-    right: (number))
-  (declaration
-    left: (identifier)
-    right: (abstraction
-      (abstraction_branch
-        parameters: (parameters
-          (parameter
-            name: (identifier)))
-        body: (number)))))
-
-==================
-assignment
-==================
-
-a = 1
-a = (a) =>
   1
 
 ---
