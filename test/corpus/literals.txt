@@ -3,20 +3,25 @@ map
 ==================
 
 {}
-{'a' -> 1, b, 'c' -> 'str', d, e}
+{a, b}
+{'a' -> 1, ...b, 'c' -> 'str', d, e}
 
 ---
 
 (program
   (map)
   (map
-    (expression_pair
-      (string)
-      (number))
     (shorthand_pair_identifier)
+    (shorthand_pair_identifier))
+  (map
     (expression_pair
-      (string)
-      (string))
+      left: (string)
+      right: (number))
+    (spread
+      value: (identifier))
+    (expression_pair
+      left: (string)
+      right: (string))
     (shorthand_pair_identifier)
     (shorthand_pair_identifier)))
 
@@ -24,7 +29,7 @@ map
 tuple
 ==================
 
-(a, 1, 'str')
+(a, 1, ...b, 'str')
 (1,1)
 
 ---
@@ -33,6 +38,8 @@ tuple
   (tuple
     (identifier)
     (number)
+    (spread
+      value: (identifier))
     (string))
   (tuple
     (number)
@@ -43,7 +50,7 @@ list
 ==================
 
 []
-[a, 1, 'str']
+[a, 1, ...b, 'str']
 [1,1..1,1]
 
 ---
@@ -53,6 +60,8 @@ list
   (list
     (identifier)
     (number)
+    (spread
+      value: (identifier))
     (string))
   (list
     (number)
