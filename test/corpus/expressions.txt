@@ -34,11 +34,11 @@ fib := (0) =>
         (parameter
           value: (number))
         (parameter
-          pattern: (map
-            (shorthand_pair_identifier))))
+          pattern: (map_pattern
+            (shorthand_pair_identifier_pattern))))
       body: (identifier)))
   (assignment
-    left: (identifier)
+    left: (identifier_pattern)
     right: (abstraction
       (abstraction_branch
         parameters: (parameters
@@ -349,10 +349,10 @@ a := (a) =>
 
 (program
   (assignment
-    left: (identifier)
+    left: (identifier_pattern)
     right: (number))
   (assignment
-    left: (identifier)
+    left: (identifier_pattern)
     right: (abstraction
       (abstraction_branch
         parameters: (parameters
