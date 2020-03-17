@@ -3,13 +3,13 @@ abstraction
 ==================
 
 (a, b) => a
-(a = 1, b, 1, {c}, ...d) => a
+(a, b, 1, {c}, ...d = 1) => a
 
 fib := (0) =>
          0,
        (1) =>
          1,
-       (n) =>
+       (n = 2) =>
          fib(n - 1) + fib(n - 2)
 
 ---
@@ -18,44 +18,46 @@ fib := (0) =>
   (abstraction
     (abstraction_branch
       parameters: (parameters
-        (parameter
-          name: (identifier))
-        (parameter
-          name: (identifier)))
+        (pattern
+            name: (identifier_pattern))
+        (pattern
+            name: (identifier_pattern)))
       body: (identifier)))
   (abstraction
     (abstraction_branch
       parameters: (parameters
-        (parameter
-          name: (identifier)
-          value: (number))
-        (parameter
-          name: (identifier))
-        (parameter
-          value: (number))
-        (parameter
+        (pattern
+            name: (identifier_pattern))
+        (pattern
+            name: (identifier_pattern))
+        (pattern
+            value: (number))
+        (pattern
           pattern: (map_pattern
-            (shorthand_pair_identifier_pattern)))
-        (rest_parameter
-          name: (identifier_pattern)))
+            (shorthand_pair_identifier_pattern
+              name: (identifier_pattern))))
+        (rest
+          name: (identifier_pattern)
+          value: (number)))
       body: (identifier)))
   (assignment
     left: (identifier_pattern)
     right: (abstraction
       (abstraction_branch
         parameters: (parameters
-          (parameter
+          (pattern
             value: (number)))
         body: (number))
       (abstraction_branch
         parameters: (parameters
-          (parameter
+          (pattern
             value: (number)))
         body: (number))
       (abstraction_branch
         parameters: (parameters
-          (parameter
-            name: (identifier)))
+          (pattern
+            name: (identifier_pattern)
+            value: (number)))
         body: (infix_application
           left: (application
             abstraction: (identifier)
@@ -127,7 +129,7 @@ a 1
             value: (number)))))))
 
 ==================
-unary expressions
+prefix application
 ==================
 
 !false
@@ -152,7 +154,7 @@ unary expressions
     argument: (number)))
 
 ==================
-binary expressions
+infix application
 ==================
 
 1 .. 1
@@ -358,8 +360,8 @@ a := (a) =>
     right: (abstraction
       (abstraction_branch
         parameters: (parameters
-          (parameter
-            name: (identifier)))
+          (pattern
+            name: (identifier_pattern)))
         body: (number)))))
 
 ==================
@@ -367,7 +369,7 @@ return
 ==================
 
 return 1
-return (a )=>
+return (a) =>
   1
 
 ---
@@ -379,6 +381,6 @@ return (a )=>
     value: (abstraction
       (abstraction_branch
         parameters: (parameters
-          (parameter
-            name: (identifier)))
+          (pattern
+            name: (identifier_pattern)))
         body: (number)))))

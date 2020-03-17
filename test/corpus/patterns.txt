@@ -12,15 +12,18 @@ map pattern
     left: (map_pattern
       (pattern_pair
         left: (string_pattern)
-        right: (identifier_pattern)))
+        right: (pattern
+          name: (identifier_pattern))))
     right: (identifier))
   (assignment
     left: (map_pattern
       (pattern_pair
         left: (string_pattern)
-        right: (identifier_pattern))
-      (shorthand_pair_identifier_pattern)
-      (rest_pattern
+        right: (pattern
+          name: (identifier_pattern)))
+      (shorthand_pair_identifier_pattern
+        name: (identifier_pattern))
+      (rest
         name: (identifier_pattern)))
     right: (identifier)))
 
@@ -36,13 +39,16 @@ tuple pattern
 (program
   (assignment
     left: (tuple_pattern
-      (identifier_pattern)
-      (identifier_pattern))
+      (pattern
+        name: (identifier_pattern))
+      (pattern
+        name: (identifier_pattern)))
     right: (identifier))
   (assignment
     left: (tuple_pattern
-      (identifier_pattern)
-      (rest_pattern
+      (pattern
+        name: (identifier_pattern))
+      (rest
         name: (identifier_pattern)))
     right: (identifier)))
 
@@ -58,13 +64,17 @@ list pattern
 (program
   (assignment
     left: (list_pattern
-      (identifier_pattern)
-      (identifier_pattern))
+      (pattern
+        name: (identifier_pattern))
+      (pattern
+        name: (identifier_pattern)))
     right: (identifier))
   (assignment
     left: (list_pattern
-      (identifier_pattern)
-      (identifier_pattern)
-      (rest_pattern
+      (pattern
+        name: (identifier_pattern))
+      (pattern
+        name: (identifier_pattern))
+      (rest
         name: (identifier_pattern)))
     right: (identifier)))
