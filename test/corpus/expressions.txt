@@ -3,7 +3,7 @@ abstraction
 ==================
 
 (a, b) => a
-(a = 1, b, 1, {c}) => a
+(a = 1, b, 1, {c}, ...d) => a
 
 fib := (0) =>
          0,
@@ -35,7 +35,9 @@ fib := (0) =>
           value: (number))
         (parameter
           pattern: (map_pattern
-            (shorthand_pair_identifier_pattern))))
+            (shorthand_pair_identifier_pattern)))
+        (rest_parameter
+          name: (identifier_pattern)))
       body: (identifier)))
   (assignment
     left: (identifier_pattern)
