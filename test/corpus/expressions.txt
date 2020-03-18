@@ -3,7 +3,7 @@ abstraction
 ==================
 
 (a, b) => a
-(a, b, 1, {c}, ...d = 1) => a
+(a, b, 1, {c = 1}, ...d) => a
 
 fib := (0) =>
          0,
@@ -35,10 +35,10 @@ fib := (0) =>
         (pattern
           pattern: (map_pattern
             (shorthand_pair_identifier_pattern
-              name: (identifier_pattern))))
-        (rest
-          name: (identifier_pattern)
-          value: (number)))
+              name: (identifier_pattern)
+              value: (number))))
+        (rest_list
+          name: (identifier_pattern)))
       body: (identifier)))
   (assignment
     left: (identifier_pattern)
