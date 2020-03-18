@@ -5,12 +5,17 @@ abstraction
 (a, b) => a
 (a, b, 1, {c = 1}, ...d) => a
 
-fib := (0) =>
-         0,
-       (1) =>
-         1,
-       (n = 2) =>
-         fib(n - 1) + fib(n - 2)
+fib :=
+  (0) =>
+      0
+  (1) => 1
+  (n = 2) =>
+      fib(n - 1) + fib(n - 2)
+
+(a) =>
+  b := (c) =>
+    c
+  b(1)
 
 ---
 
@@ -47,35 +52,58 @@ fib := (0) =>
         parameters: (parameters
           (pattern
             value: (number)))
-        body: (number))
+        body: (block
+          (number)))
       (abstraction_branch
         parameters: (parameters
           (pattern
             value: (number)))
-        body: (number))
+        body: (block
+          (number)))
       (abstraction_branch
         parameters: (parameters
           (pattern
             name: (identifier_pattern)
             value: (number)))
-        body: (infix_application
-          left: (application
-            abstraction: (identifier)
-            arguments: (arguments
-              (argument
-                value: (infix_application
-                  left: (identifier)
-                  abstraction: (infix_application_operator)
-                  right: (number)))))
-          abstraction: (infix_application_operator)
-          right: (application
-            abstraction: (identifier)
-            arguments: (arguments
-              (argument
-                value: (infix_application
-                  left: (identifier)
-                  abstraction: (infix_application_operator)
-                  right: (number))))))))))
+        body: (block
+          (infix_application
+            left: (application
+              abstraction: (identifier)
+              arguments: (arguments
+                (argument
+                  value: (infix_application
+                    left: (identifier)
+                    abstraction: (infix_application_operator)
+                    right: (number)))))
+            abstraction: (infix_application_operator)
+            right: (application
+              abstraction: (identifier)
+              arguments: (arguments
+                (argument
+                  value: (infix_application
+                    left: (identifier)
+                    abstraction: (infix_application_operator)
+                    right: (number))))))))))
+  (abstraction
+    (abstraction_branch
+      parameters: (parameters
+        (pattern
+          name: (identifier_pattern)))
+      body: (block
+        (assignment
+          left: (identifier_pattern)
+          right: (abstraction
+            (abstraction_branch
+              parameters: (parameters
+                (pattern
+                  name: (identifier_pattern)))
+              body: (block
+                (identifier)))))
+        (application
+          abstraction: (identifier)
+          arguments: (arguments
+            (argument
+              value: (number))))))))
 
 ==================
 application
@@ -362,7 +390,8 @@ a := (a) =>
         parameters: (parameters
           (pattern
             name: (identifier_pattern)))
-        body: (number)))))
+        body: (block
+          (number))))))
 
 ==================
 return
@@ -384,3 +413,57 @@ return (a) =>
           (pattern
             name: (identifier_pattern)))
         body: (number)))))
+
+==================
+if
+==================
+
+if false then
+  1
+if true then
+  1
+else
+  1
+if true then
+  1
+else if false then 1
+else if true then
+  1
+
+if false then 1
+if true then 1 else 1
+
+---
+
+(program
+  (if
+    condition: (boolean)
+    consequence: (block
+      (number)))
+  (if
+    condition: (boolean)
+    consequence: (block
+      (number))
+    alternative: (block
+      (number)))
+  (if
+    condition: (boolean)
+    consequence: (block
+      (number))
+    alternatives: (else_if_clauses
+      (else_if_clause
+        condition: (boolean)
+        consequence: (block
+          (number)))
+      (else_if_clause
+        condition: (boolean)
+        consequence: (block
+          (number)))))
+  (if
+    condition: (boolean)
+    consequence: (block
+      (number)))
+  (if
+    condition: (boolean)
+    consequence: (number)
+    alternative: (number)))
