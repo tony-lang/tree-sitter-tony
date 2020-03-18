@@ -38,4 +38,5 @@ export a := (a) =>
           parameters: (parameters
             (pattern
               name: (identifier_pattern)))
-          body: (number))))))
+          body: (block
+            (number)))))))
