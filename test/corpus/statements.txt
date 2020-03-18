@@ -36,6 +36,6 @@ export a := (a) =>
       right: (abstraction
         (abstraction_branch
           parameters: (parameters
-            (parameter
-              name: (identifier)))
+            (pattern
+              name: (identifier_pattern)))
           body: (number))))))
