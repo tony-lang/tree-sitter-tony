@@ -370,6 +370,29 @@ a.b.c(1)
         value: (number)))))
 
 ==================
+access
+==================
+
+a->b(1)
+a.b->[c]
+
+---
+
+(program
+  (application
+    abstraction: (access
+      left: (identifier)
+      right: (shorthand_access_identifier))
+    arguments: (arguments
+      (argument
+        value: (number))))
+  (pipeline
+    left: (identifier)
+    right: (access
+      left: (identifier)
+      right: (identifier))))
+
+==================
 assignment
 ==================
 
@@ -514,3 +537,27 @@ else 1
           (number))))
     default: (block
       (number))))
+
+==================
+module
+==================
+
+module a
+  a := 1
+module a where a := 1
+
+---
+
+(program
+  (module
+    name: (identifier)
+    body: (block
+      (assignment
+        left: (identifier_pattern)
+        right: (number))))
+  (module
+    name: (identifier)
+    body: (block
+      (assignment
+        left: (identifier_pattern)
+        right: (number)))))
