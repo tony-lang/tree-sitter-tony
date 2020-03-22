@@ -342,12 +342,7 @@ module.exports = grammar({
     ),
     expression_list: $ => commaSep1($._simple_expression),
 
-    module: $ => seq(
-      'module',
-      field('name', $.identifier),
-      optional('where'),
-      field('body', $.block)
-    ),
+    module: $ => seq('module', field('body', $.block)),
 
     map: $ => seq(
       '{',
