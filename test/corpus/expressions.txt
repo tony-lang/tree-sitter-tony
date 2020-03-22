@@ -536,22 +536,24 @@ else 1
 module
 ==================
 
-module a
+a := module
   a := 1
-module a where a := 1
+a := module a := 1
 
 ---
 
 (program
-  (module
-    name: (identifier)
-    body: (block
-      (assignment
-        left: (identifier_pattern)
-        right: (number))))
-  (module
-    name: (identifier)
-    body: (block
-      (assignment
-        left: (identifier_pattern)
-        right: (number)))))
+  (assignment
+    left: (identifier_pattern)
+    right: (module
+      body: (block
+        (assignment
+          left: (identifier_pattern)
+          right: (number)))))
+  (assignment
+    left: (identifier_pattern)
+    right: (module
+      body: (block
+        (assignment
+          left: (identifier_pattern)
+          right: (number))))))
