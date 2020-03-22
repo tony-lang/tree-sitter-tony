@@ -225,7 +225,7 @@ module.exports = grammar({
       ')'
     )),
     prefix_application: $ => prec.right(PREC.PREFIX, seq(
-      field('abstraction', $.identifier),
+      field('abstraction', alias($._operator, $.identifier)),
       field('argument', $._simple_expression)
     )),
     infix_application: $ => choice(
