@@ -13,16 +13,12 @@ jobs:
           - ubuntu-latest
           - windows-latest
           # - macOS-latest
-        node:
-          - '12.x'
-          - '13.x'
 
-    name: OS ${{ matrix.os }}, Node ${{ matrix.node }}
     steps:
     - uses: actions/checkout@master
     - uses: actions/setup-node@v1
       with:
-        node-version: ${{ matrix.node }}
+        node-version: 12
     - name: Install Tree-sitter
       run: yarn global add tree-sitter-cli
     - name: Generate parser
