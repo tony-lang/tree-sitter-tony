@@ -8,16 +8,17 @@ const PREC = Object.freeze({
   AND: 6,
   EQUALITY: 7,
   ORDER: 8,
-  SUM: 9,
-  PRODUCT: 10,
-  EXPONENTIATION: 11,
-  NOT: 12,
-  PREFIX: 13,
-  EXPRESSION: 14,
-  PATTERN: 14,
-  APPLICATION: 15,
-  PIPELINE: 16,
-  ACCESS: 17
+  MOD: 9,
+  SUM: 10,
+  PRODUCT: 11,
+  EXPONENTIATION: 12,
+  NOT: 13,
+  PREFIX: 14,
+  EXPRESSION: 15,
+  PATTERN: 15,
+  APPLICATION: 16,
+  PIPELINE: 17,
+  ACCESS: 18
 });
 
 module.exports = grammar({
@@ -233,9 +234,9 @@ module.exports = grammar({
       prec.left(PREC.EXPONENTIATION, seq(field('left', $._simple_expression), field('abstraction', alias('^', $.infix_application_operator)), field('right', $._simple_expression))),
       prec.left(PREC.PRODUCT, seq(field('left', $._simple_expression), field('abstraction', alias('*', $.infix_application_operator)), field('right', $._simple_expression))),
       prec.left(PREC.PRODUCT, seq(field('left', $._simple_expression), field('abstraction', alias('/', $.infix_application_operator)), field('right', $._simple_expression))),
-      prec.left(PREC.PRODUCT, seq(field('left', $._simple_expression), field('abstraction', alias('%', $.infix_application_operator)), field('right', $._simple_expression))),
       prec.left(PREC.SUM, seq(field('left', $._simple_expression), field('abstraction', alias('+', $.infix_application_operator)), field('right', $._simple_expression))),
       prec.left(PREC.SUM, seq(field('left', $._simple_expression), field('abstraction', alias('-', $.infix_application_operator)), field('right', $._simple_expression))),
+      prec.left(PREC.MOD, seq(field('left', $._simple_expression), field('abstraction', alias('%', $.infix_application_operator)), field('right', $._simple_expression))),
       prec.left(PREC.ORDER, seq(field('left', $._simple_expression), field('abstraction', alias('<', $.infix_application_operator)), field('right', $._simple_expression))),
       prec.left(PREC.ORDER, seq(field('left', $._simple_expression), field('abstraction', alias('<=', $.infix_application_operator)), field('right', $._simple_expression))),
       prec.left(PREC.ORDER, seq(field('left', $._simple_expression), field('abstraction', alias('>', $.infix_application_operator)), field('right', $._simple_expression))),
