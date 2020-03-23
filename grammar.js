@@ -139,7 +139,7 @@ module.exports = grammar({
     )),
     map_pattern: $ => prec(PREC.PATTERN, seq(
       '{',
-      commaSep1(choice($.pattern_pair, $.shorthand_pair_identifier_pattern)),
+      commaSep(choice($.pattern_pair, $.shorthand_pair_identifier_pattern)),
       optional(seq(',', alias($.rest, $.rest_map))),
       '}'
     )),
@@ -154,7 +154,7 @@ module.exports = grammar({
     )),
     list_pattern: $ => prec(PREC.PATTERN, seq(
       '[',
-      commaSep1($.pattern),
+      commaSep($.pattern),
       optional(seq(',', alias($.rest, $.rest_list))),
       ']'
     )),
@@ -275,8 +275,8 @@ module.exports = grammar({
         seq('[', field('right', $._simple_expression), ']'),
         field('right', choice(
           alias($.identifier, $.shorthand_access_identifier),
-          $.number)
-        )
+          $.number
+        ))
       )
     )),
 
