@@ -273,7 +273,10 @@ module.exports = grammar({
       '->',
       choice(
         seq('[', field('right', $._simple_expression), ']'),
-        field('right', alias($.identifier, $.shorthand_access_identifier))
+        field('right', choice(
+          alias($.identifier, $.shorthand_access_identifier),
+          $.number)
+        )
       )
     )),
 
@@ -336,11 +339,11 @@ module.exports = grammar({
     ),
     when_clause: $ => seq(
       'when',
-      field('values', $.expression_list),
+      field('values', $.pattern_list),
       optional('then'),
       field('consequence', $.block)
     ),
-    expression_list: $ => commaSep1($._simple_expression),
+    pattern_list: $ => commaSep1($.pattern),
 
     module: $ => seq('module', field('body', $.block)),
 
