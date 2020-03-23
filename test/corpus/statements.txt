@@ -2,7 +2,7 @@
 import
 ==================
 
-import {a => b, c} from 'source'
+import {a -> b, c} from 'source'
 
 ---
 

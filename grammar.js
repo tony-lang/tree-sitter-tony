@@ -75,7 +75,7 @@ module.exports = grammar({
     ),
     import_clause_identifier_pair: $ => seq(
       field('left', $.identifier),
-      '=>',
+      '->',
       field('right', $.identifier)
     ),
 
