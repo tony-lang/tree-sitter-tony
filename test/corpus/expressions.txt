@@ -452,7 +452,7 @@ a :=
   else if true
     1
 
-if false then 1
+fn(if false then 1)
 if true then 1 else 1
 
 ---
@@ -483,10 +483,13 @@ if true then 1 else 1
           condition: (boolean)
           consequence: (block
             (number))))))
-  (if
-    condition: (boolean)
-    consequence: (block
-      (number)))
+  (application
+    abstraction: (identifier)
+    arguments: (arguments
+      (argument
+        value: (if
+          condition: (boolean)
+          consequence: (number)))))
   (if
     condition: (boolean)
     consequence: (number)

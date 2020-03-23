@@ -314,7 +314,7 @@ module.exports = grammar({
       field('condition', $._simple_expression),
       'then',
       field('consequence', $._simple_expression),
-      seq('else', field('alternative', $._simple_expression))
+      optional(seq('else', field('alternative', $._simple_expression)))
     )),
     compound_if: $ => prec.right(seq(
       'if',
