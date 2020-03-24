@@ -14,7 +14,8 @@ map pattern
         left: (identifier_pattern)
         right: (pattern
           name: (identifier_pattern))))
-    type: (type)
+    type: (type_constructor
+        (type))
     right: (identifier))
   (assignment
     left: (map_pattern
@@ -26,7 +27,8 @@ map pattern
         name: (identifier_pattern))
       (rest_map
         name: (identifier_pattern)))
-    type: (type)
+    type: (type_constructor
+        (type))
     right: (identifier)))
 
 ============================================
@@ -45,7 +47,8 @@ tuple pattern
         name: (identifier_pattern))
       (pattern
         name: (identifier_pattern)))
-    type: (type)
+    type: (type_constructor
+        (type))
     right: (identifier))
   (assignment
     left: (tuple_pattern
@@ -53,7 +56,8 @@ tuple pattern
         name: (identifier_pattern))
       (rest_list
         name: (identifier_pattern)))
-    type: (type)
+    type: (type_constructor
+        (type))
     right: (identifier)))
 
 ============================================
@@ -72,7 +76,8 @@ list pattern
         name: (identifier_pattern))
       (pattern
         name: (identifier_pattern)))
-    type: (type)
+    type: (type_constructor
+        (type))
     right: (identifier))
   (assignment
     left: (list_pattern
@@ -82,5 +87,6 @@ list pattern
         name: (identifier_pattern))
       (rest_list
         name: (identifier_pattern)))
-    type: (type)
+    type: (type_constructor
+        (type))
     right: (identifier)))

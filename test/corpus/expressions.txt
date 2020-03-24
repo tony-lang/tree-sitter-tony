@@ -47,7 +47,8 @@ fib :: Type :=
       body: (identifier)))
   (assignment
     left: (identifier_pattern)
-    type: (type)
+    type: (type_constructor
+      (type))
     right: (abstraction
       (abstraction_branch
         parameters: (parameters
@@ -93,7 +94,8 @@ fib :: Type :=
       body: (block
         (assignment
           left: (identifier_pattern)
-          type: (type)
+          type: (type_constructor
+            (type))
           right: (abstraction
             (abstraction_branch
               parameters: (parameters
@@ -413,11 +415,13 @@ a :: Type := (a) =>
 (program
   (assignment
     left: (identifier_pattern)
-    type: (type)
+    type: (type_constructor
+      (type))
     right: (number))
   (assignment
     left: (identifier_pattern)
-    type: (type)
+    type: (type_constructor
+      (type))
     right: (abstraction
       (abstraction_branch
         parameters: (parameters
@@ -482,7 +486,8 @@ if true then 1 else 1
       (number)))
   (assignment
     left: (identifier_pattern)
-    type: (type)
+    type: (type_constructor
+      (type))
     right: (if
       condition: (boolean)
       consequence: (block
@@ -527,7 +532,8 @@ else 1
 (program
   (assignment
     left: (identifier_pattern)
-    type: (type)
+    type: (type_constructor
+      (type))
     right: (case
       value: (identifier)
       branches: (when_clauses
@@ -574,21 +580,25 @@ a :: Type := module a :: Type := 1
 (program
   (assignment
     left: (identifier_pattern)
-    type: (type)
+    type: (type_constructor
+      (type))
     right: (module
       body: (block
         (assignment
           left: (identifier_pattern)
-          type: (type)
+          type: (type_constructor
+            (type))
           right: (number)))))
   (assignment
     left: (identifier_pattern)
-    type: (type)
+    type: (type_constructor
+      (type))
     right: (module
       body: (block
         (assignment
           left: (identifier_pattern)
-          type: (type)
+          type: (type_constructor
+            (type))
           right: (number))))))
 
 ==================

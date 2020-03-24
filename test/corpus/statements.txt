@@ -29,12 +29,14 @@ export a :: Type := (a) =>
   (export
     declaration: (assignment
       left: (identifier_pattern)
-      type: (type)
+      type: (type_constructor
+        (type))
       right: (number)))
   (export
     declaration: (assignment
       left: (identifier_pattern)
-      type: (type)
+      type: (type_constructor
+        (type))
       right: (abstraction
         (abstraction_branch
           parameters: (parameters
