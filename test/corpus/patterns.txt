@@ -2,8 +2,8 @@
 map pattern
 ============================================
 
-{ b: c } := a
-{ b: c, d, ...e } := a
+{ b: c } :: Type := a
+{ b: c, d, ...e } :: Type := a
 
 ---
 
@@ -14,6 +14,7 @@ map pattern
         left: (identifier_pattern)
         right: (pattern
           name: (identifier_pattern))))
+    type: (type)
     right: (identifier))
   (assignment
     left: (map_pattern
@@ -25,14 +26,15 @@ map pattern
         name: (identifier_pattern))
       (rest_map
         name: (identifier_pattern)))
+    type: (type)
     right: (identifier)))
 
 ============================================
 tuple pattern
 ============================================
 
-(b, c) := a
-(b, ...d) := a
+(b, c) :: Type := a
+(b, ...d) :: Type := a
 
 ---
 
@@ -43,6 +45,7 @@ tuple pattern
         name: (identifier_pattern))
       (pattern
         name: (identifier_pattern)))
+    type: (type)
     right: (identifier))
   (assignment
     left: (tuple_pattern
@@ -50,14 +53,15 @@ tuple pattern
         name: (identifier_pattern))
       (rest_list
         name: (identifier_pattern)))
+    type: (type)
     right: (identifier)))
 
 ============================================
 list pattern
 ============================================
 
-[b, c] := a
-[b, c, ...d] := a
+[b, c] :: Type := a
+[b, c, ...d] :: Type := a
 
 ---
 
@@ -68,6 +72,7 @@ list pattern
         name: (identifier_pattern))
       (pattern
         name: (identifier_pattern)))
+    type: (type)
     right: (identifier))
   (assignment
     left: (list_pattern
@@ -77,4 +82,5 @@ list pattern
         name: (identifier_pattern))
       (rest_list
         name: (identifier_pattern)))
+    type: (type)
     right: (identifier)))

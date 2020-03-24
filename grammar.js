@@ -286,6 +286,8 @@ module.exports = grammar({
         alias($.identifier, $.identifier_pattern),
         $._destructuring_pattern
       )),
+      '::',
+      field('type', $.type),
       ':=',
       field('right', $._simple_expression)
     ),
@@ -294,6 +296,8 @@ module.exports = grammar({
         alias($.identifier, $.identifier_pattern),
         $._destructuring_pattern
       )),
+      '::',
+      field('type', $.type),
       ':=',
       choice(
         field('right', $._compound_expression),
@@ -385,6 +389,7 @@ module.exports = grammar({
     ),
     generator_condition: $ => seq('if', $._simple_expression),
 
+    type: $ => /_?[A-Z0-9][a-zA-Z0-9]*/,
     _identifier_without_operators: $ => /[a-z_][a-z0-9_]*\??/,
     _operator: $ => choice(/(==|[!@$%^&*|<>~*\\\-+/.]+)=*>?/, '/'),
     identifier: $ => choice($._operator, $._identifier_without_operators),
