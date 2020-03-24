@@ -380,7 +380,7 @@ access
 ==================
 
 a[0]
-a->b(1)
+A->b(1)
 a.b[c]
 
 ---
@@ -391,7 +391,7 @@ a.b[c]
       right: (number))
   (application
     abstraction: (access
-      left: (identifier)
+      left: (type)
       right: (shorthand_access_identifier))
     arguments: (arguments
       (argument
@@ -571,35 +571,29 @@ else 1
 module
 ==================
 
-a :: Type := module
+module Type
   a :: Type := 1
-a :: Type := module a :: Type := 1
+module Type where a :: Type := 1
 
 ---
 
 (program
-  (assignment
-    left: (identifier_pattern)
-    type: (type_constructor
-      (type))
-    right: (module
-      body: (block
-        (assignment
-          left: (identifier_pattern)
-          type: (type_constructor
-            (type))
-          right: (number)))))
-  (assignment
-    left: (identifier_pattern)
-    type: (type_constructor
-      (type))
-    right: (module
-      body: (block
-        (assignment
-          left: (identifier_pattern)
-          type: (type_constructor
-            (type))
-          right: (number))))))
+  (module
+    name: (type)
+    body: (block
+      (assignment
+        left: (identifier_pattern)
+        type: (type_constructor
+          (type))
+        right: (number))))
+  (module
+    name: (type)
+    body: (block
+      (assignment
+        left: (identifier_pattern)
+        type: (type_constructor
+          (type))
+        right: (number)))))
 
 ==================
 list comprehension

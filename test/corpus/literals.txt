@@ -75,28 +75,14 @@ list
 type
 ==================
 
-a :: Type := 1
-a :: 5aA0Z := 1
-a :: _Type := 1
+Type
+AaA0Z
 
 ---
 
 (program
-  (assignment
-    left: (identifier_pattern)
-    type: (type_constructor
-      (type))
-    right: (number))
-  (assignment
-    left: (identifier_pattern)
-    type: (type_constructor
-      (type))
-    right: (number))
-  (assignment
-    left: (identifier_pattern)
-    type: (type_constructor
-      (type))
-    right: (number)))
+  (type)
+  (type))
 
 ==================
 map type
