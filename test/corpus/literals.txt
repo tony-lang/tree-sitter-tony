@@ -72,81 +72,75 @@ list
     (number)))
 
 ==================
-list comprehension
+type
 ==================
 
-[i * 2 | i in 1..10]
-[i / 2 | i in 1..10 if i % 2 == 0]
-[[x, y] | x in 1..10 if x % 2 == 0, y in 1..10 if i % 2 == 0]
+a :: Type := 1
+a :: 5aA0Z := 1
+a :: _Type := 1
 
 ---
 
 (program
-  (list_comprehension
-    body: (infix_application
-      left: (identifier)
-      abstraction: (infix_application_operator)
-      right: (number))
-    generators: (generators
-      (generator
-        name: (identifier)
-        value: (infix_application
-          left: (number)
-          abstraction: (infix_application_operator)
-          right: (number)))))
-  (list_comprehension
-    body: (infix_application
-      left: (identifier)
-      abstraction: (infix_application_operator)
-      right: (number))
-    generators: (generators
-      (generator
-        name: (identifier)
-        value: (infix_application
-          left: (number)
-          abstraction: (infix_application_operator)
-          right: (number))
-        condition: (generator_condition
-          (infix_application
-            left: (infix_application
-              left: (identifier)
-              abstraction: (infix_application_operator)
-              right: (number))
-            abstraction: (infix_application_operator)
-            right: (number))))))
-  (list_comprehension
-    body: (list
-      (identifier)
-      (identifier))
-    generators: (generators
-      (generator
-        name: (identifier)
-        value: (infix_application
-          left: (number)
-          abstraction: (infix_application_operator)
-          right: (number))
-        condition: (generator_condition
-          (infix_application
-            left: (infix_application
-              left: (identifier)
-              abstraction: (infix_application_operator)
-              right: (number))
-            abstraction: (infix_application_operator)
-            right: (number))))
-      (generator
-        name: (identifier)
-        value: (infix_application
-          left: (number)
-          abstraction: (infix_application_operator)
-          right: (number))
-        condition: (generator_condition
-          (infix_application
-            left: (infix_application
-              left: (identifier)
-              abstraction: (infix_application_operator)
-              right: (number))
-            abstraction: (infix_application_operator)
-            right: (number)))))))
+  (assignment
+    left: (identifier_pattern)
+    type: (type)
+    right: (number))
+  (assignment
+    left: (identifier_pattern)
+    type: (type)
+    right: (number))
+  (assignment
+    left: (identifier_pattern)
+    type: (type)
+    right: (number)))
+
+==================
+map type
+==================
+
+a :: { Type: Type } := 1
+
+---
+
+(program
+  (assignment
+    left: (identifier_pattern)
+    type: (map_type
+      left: (type)
+      right: (type))
+    right: (number)))
+
+==================
+tuple type
+==================
+
+a :: (Type, Type) := 1
+
+---
+
+(program
+  (assignment
+    left: (identifier_pattern)
+    type: (tuple_type
+      (type)
+      (type))
+    right: (number)))
+
+==================
+list type
+==================
+
+a :: [Type] := 1
+
+---
+
+(program
+  (assignment
+    left: (identifier_pattern)
+    type: (list_type
+      type: (type))
+    right: (number)))
 
 ==================
 boolean
