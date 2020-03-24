@@ -3,8 +3,8 @@ map
 ==================
 
 {}
-{a, b}
-{'a' -> 1, ...b, 'c' -> 'str', d, e}
+{ a, b }
+{ ['a']: 1, ...b, c: 'str', d, e }
 
 ---
 
@@ -20,7 +20,7 @@ map
     (spread
       value: (identifier))
     (expression_pair
-      left: (string)
+      left: (shorthand_access_identifier)
       right: (string))
     (shorthand_pair_identifier)
     (shorthand_pair_identifier)))
