@@ -271,13 +271,9 @@ module.exports = grammar({
 
     access: $ => prec.left(PREC.ACCESS, seq(
       field('left', $._simple_expression),
-      '->',
       choice(
         seq('[', field('right', $._simple_expression), ']'),
-        field('right', choice(
-          alias($.identifier, $.shorthand_access_identifier),
-          $.number
-        ))
+        seq('->', field('right', alias($.identifier, $.shorthand_access_identifier)))
       )
     )),
 
