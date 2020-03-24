@@ -2,8 +2,8 @@
 map pattern
 ============================================
 
-{'b' -> b} := a
-{'b' -> b, c, ...d} := a
+{ b: c } := a
+{ b: c, d, ...e } := a
 
 ---
 
@@ -11,14 +11,14 @@ map pattern
   (assignment
     left: (map_pattern
       (pattern_pair
-        left: (string_pattern)
+        left: (identifier_pattern)
         right: (pattern
           name: (identifier_pattern))))
     right: (identifier))
   (assignment
     left: (map_pattern
       (pattern_pair
-        left: (string_pattern)
+        left: (identifier_pattern)
         right: (pattern
           name: (identifier_pattern)))
       (shorthand_pair_identifier_pattern

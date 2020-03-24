@@ -76,7 +76,7 @@ module.exports = grammar({
     ),
     import_clause_identifier_pair: $ => seq(
       field('left', $.identifier),
-      '->',
+      ':',
       field('right', $.identifier)
     ),
 
@@ -160,8 +160,8 @@ module.exports = grammar({
       ']'
     )),
     pattern_pair: $ => seq(
-      field('left', $.string_pattern),
-      '->',
+      field('left', alias($.identifier, $.identifier_pattern)),
+      ':',
       field('right', $.pattern)
     ),
     shorthand_pair_identifier_pattern: $ => seq(
@@ -360,8 +360,11 @@ module.exports = grammar({
     tuple: $ => seq('(', commaSep2(choice($._simple_expression, $.spread)), ')'),
     list: $ => seq('[', commaSep(choice($._simple_expression, $.spread)), ']'),
     expression_pair: $ => seq(
-      field('left', $._simple_expression),
-      '->',
+      choice(
+        seq('[', field('left', $._simple_expression), ']'),
+        field('left', alias($.identifier, $.shorthand_access_identifier),)
+      ),
+      ':',
       field('right', $._simple_expression)
     ),
     spread: $ => seq('...', field('value', $._simple_expression)),
