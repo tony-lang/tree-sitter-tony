@@ -174,6 +174,7 @@ module.exports = grammar({
     ),
 
     _literal_pattern: $ => choice(
+      $.type,
       $.boolean,
       $.number,
       $.string_pattern,
@@ -346,7 +347,12 @@ module.exports = grammar({
     ),
     pattern_list: $ => commaSep1($.pattern),
 
-    module: $ => seq('module', field('body', $.block)),
+    module: $ => seq(
+      'module',
+      field('name', $.type),
+      optional('where'),
+      field('body', $.block)
+    ),
 
     map: $ => seq(
       '{',
@@ -386,10 +392,10 @@ module.exports = grammar({
     generator_condition: $ => seq('if', $._simple_expression),
 
     type_constructor: $ => $._curried_type,
-    _curried_type: $ => choice(
+    _curried_type: $ => prec.right(choice(
       $._atomic_type,
       seq($._atomic_type, '->', optional($._curried_type))
-    ),
+    )),
     _atomic_type: $ => choice(
       $._type_group,
       $.type,
@@ -402,17 +408,19 @@ module.exports = grammar({
     tuple_type: $ => seq('(', commaSep2($.type_constructor), ')'),
     list_type: $ => seq('[', field('type', $.type_constructor), ']'),
 
-    type: $ => /_?[A-Z0-9][a-zA-Z0-9]*/,
     _identifier_without_operators: $ => /[a-z_][a-z0-9_]*\??/,
     _operator: $ => choice(/(==|[!@$%^&*|<>~*\\\-+/.]+)=*>?/, '/'),
     identifier: $ => choice($._operator, $._identifier_without_operators),
 
     _literal: $ => choice(
+      $.type,
       $.boolean,
       $.number,
       $.string,
       prec(PREC.REGEX, $.regex)
     ),
+
+    type: $ => /[A-Z][a-zA-Z0-9]*/,
 
     boolean: $ => choice('false', 'true'),
 

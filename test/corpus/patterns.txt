@@ -35,8 +35,8 @@ map pattern
 tuple pattern
 ============================================
 
-(b, c) :: Type := a
-(b, ...d) :: Type := a
+(A, b) :: Type := a
+(b, ...c) :: Type := a
 
 ---
 
@@ -44,7 +44,7 @@ tuple pattern
   (assignment
     left: (tuple_pattern
       (pattern
-        name: (identifier_pattern))
+        value: (type))
       (pattern
         name: (identifier_pattern)))
     type: (type_constructor
