@@ -283,7 +283,7 @@ module.exports = grammar({
         $._destructuring_pattern
       )),
       '::',
-      field('type', $._type),
+      field('type', $.type_constructor),
       ':=',
       field('right', $._simple_expression)
     ),
@@ -293,7 +293,7 @@ module.exports = grammar({
         $._destructuring_pattern
       )),
       '::',
-      field('type', $._type),
+      field('type', $.type_constructor),
       ':=',
       choice(
         field('right', $._compound_expression),
@@ -385,15 +385,22 @@ module.exports = grammar({
     ),
     generator_condition: $ => seq('if', $._simple_expression),
 
-    _type: $ => choice(
+    type_constructor: $ => $._curried_type,
+    _curried_type: $ => choice(
+      $._atomic_type,
+      seq($._atomic_type, '->', optional($._curried_type))
+    ),
+    _atomic_type: $ => choice(
+      $._type_group,
       $.type,
       $.map_type,
       $.tuple_type,
       $.list_type
     ),
-    map_type: $ => seq('{', field('left', $.type), ':', field('right', $.type), '}'),
-    tuple_type: $ => seq('(', commaSep2($.type), ')'),
-    list_type: $ => seq('[', field('type', $.type), ']'),
+    _type_group: $ => seq('(', $.type_constructor, ')'),
+    map_type: $ => seq('{', field('left', $.type_constructor), ':', field('right', $.type_constructor), '}'),
+    tuple_type: $ => seq('(', commaSep2($.type_constructor), ')'),
+    list_type: $ => seq('[', field('type', $.type_constructor), ']'),
 
     type: $ => /_?[A-Z0-9][a-zA-Z0-9]*/,
     _identifier_without_operators: $ => /[a-z_][a-z0-9_]*\??/,

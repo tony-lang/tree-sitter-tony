@@ -84,15 +84,18 @@ a :: _Type := 1
 (program
   (assignment
     left: (identifier_pattern)
-    type: (type)
+    type: (type_constructor
+      (type))
     right: (number))
   (assignment
     left: (identifier_pattern)
-    type: (type)
+    type: (type_constructor
+      (type))
     right: (number))
   (assignment
     left: (identifier_pattern)
-    type: (type)
+    type: (type_constructor
+      (type))
     right: (number)))
 
 ==================
@@ -106,9 +109,12 @@ a :: { Type: Type } := 1
 (program
   (assignment
     left: (identifier_pattern)
-    type: (map_type
-      left: (type)
-      right: (type))
+    type: (type_constructor
+      (map_type
+        left: (type_constructor
+          (type))
+        right: (type_constructor
+          (type))))
     right: (number)))
 
 ==================
@@ -122,9 +128,12 @@ a :: (Type, Type) := 1
 (program
   (assignment
     left: (identifier_pattern)
-    type: (tuple_type
-      (type)
-      (type))
+    type: (type_constructor
+      (tuple_type
+        (type_constructor
+          (type))
+        (type_constructor
+          (type))))
     right: (number)))
 
 ==================
@@ -138,8 +147,36 @@ a :: [Type] := 1
 (program
   (assignment
     left: (identifier_pattern)
-    type: (list_type
-      type: (type))
+    type: (type_constructor
+      (list_type
+        type: (type_constructor
+          (type))))
+    right: (number)))
+
+==================
+curried type
+==================
+
+a :: Type -> Type := 1
+a :: Type -> (Type -> Type) -> Type := 1
+
+---
+
+(program
+  (assignment
+    left: (identifier_pattern)
+    type: (type_constructor
+      (type)
+      (type))
+    right: (number))
+  (assignment
+    left: (identifier_pattern)
+    type: (type_constructor
+      (type)
+      (type_constructor
+        (type)
+        (type))
+      (type))
     right: (number)))
 
 ==================
