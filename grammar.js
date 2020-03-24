@@ -283,7 +283,7 @@ module.exports = grammar({
         $._destructuring_pattern
       )),
       '::',
-      field('type', $.type),
+      field('type', $._type),
       ':=',
       field('right', $._simple_expression)
     ),
@@ -293,7 +293,7 @@ module.exports = grammar({
         $._destructuring_pattern
       )),
       '::',
-      field('type', $.type),
+      field('type', $._type),
       ':=',
       choice(
         field('right', $._compound_expression),
@@ -384,6 +384,16 @@ module.exports = grammar({
       optional(field('condition', $.generator_condition))
     ),
     generator_condition: $ => seq('if', $._simple_expression),
+
+    _type: $ => choice(
+      $.type,
+      $.map_type,
+      $.tuple_type,
+      $.list_type
+    ),
+    map_type: $ => seq('{', field('left', $.type), ':', field('right', $.type), '}'),
+    tuple_type: $ => seq('(', commaSep2($.type), ')'),
+    list_type: $ => seq('[', field('type', $.type), ']'),
 
     type: $ => /_?[A-Z0-9][a-zA-Z0-9]*/,
     _identifier_without_operators: $ => /[a-z_][a-z0-9_]*\??/,
