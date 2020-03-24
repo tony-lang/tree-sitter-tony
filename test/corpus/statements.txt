@@ -19,8 +19,8 @@ import { a: b, c } from 'source'
 export
 ==================
 
-export a := 1
-export a := (a) =>
+export a :: Type := 1
+export a :: Type := (a) =>
   1
 
 ---
@@ -29,10 +29,12 @@ export a := (a) =>
   (export
     declaration: (assignment
       left: (identifier_pattern)
+      type: (type)
       right: (number)))
   (export
     declaration: (assignment
       left: (identifier_pattern)
+      type: (type)
       right: (abstraction
         (abstraction_branch
           parameters: (parameters

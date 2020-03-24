@@ -5,7 +5,7 @@ abstraction
 (a, b) => a
 (a, b, 1, {c = 1}, ...d) => a
 
-fib :=
+fib :: Type :=
   (0) =>
     0
   (1) => 1
@@ -13,7 +13,7 @@ fib :=
     fib(n - 1) + fib(n - 2)
 
 (a) =>
-  b := (c) =>
+  b :: Type := (c) =>
     c
   b(1)
 
@@ -47,6 +47,7 @@ fib :=
       body: (identifier)))
   (assignment
     left: (identifier_pattern)
+    type: (type)
     right: (abstraction
       (abstraction_branch
         parameters: (parameters
@@ -92,6 +93,7 @@ fib :=
       body: (block
         (assignment
           left: (identifier_pattern)
+          type: (type)
           right: (abstraction
             (abstraction_branch
               parameters: (parameters
@@ -402,8 +404,8 @@ a.b[c]
 assignment
 ==================
 
-a := 1
-a := (a) =>
+a :: Type := 1
+a :: Type := (a) =>
   1
 
 ---
@@ -411,9 +413,11 @@ a := (a) =>
 (program
   (assignment
     left: (identifier_pattern)
+    type: (type)
     right: (number))
   (assignment
     left: (identifier_pattern)
+    type: (type)
     right: (abstraction
       (abstraction_branch
         parameters: (parameters
@@ -453,7 +457,7 @@ if true
   1
 else
   1
-a :=
+a :: Type :=
   if true
     1
   else if false then 1
@@ -478,6 +482,7 @@ if true then 1 else 1
       (number)))
   (assignment
     left: (identifier_pattern)
+    type: (type)
     right: (if
       condition: (boolean)
       consequence: (block
@@ -507,9 +512,9 @@ if true then 1 else 1
 case
 ==================
 
-a := case a
-     when 1
-       1
+a :: Type := case a
+             when 1
+               1
 
 case a
 when [1, a]
@@ -522,6 +527,7 @@ else 1
 (program
   (assignment
     left: (identifier_pattern)
+    type: (type)
     right: (case
       value: (identifier)
       branches: (when_clauses
@@ -559,24 +565,28 @@ else 1
 module
 ==================
 
-a := module
-  a := 1
-a := module a := 1
+a :: Type := module
+  a :: Type := 1
+a :: Type := module a :: Type := 1
 
 ---
 
 (program
   (assignment
     left: (identifier_pattern)
+    type: (type)
     right: (module
       body: (block
         (assignment
           left: (identifier_pattern)
+          type: (type)
           right: (number)))))
   (assignment
     left: (identifier_pattern)
+    type: (type)
     right: (module
       body: (block
         (assignment
           left: (identifier_pattern)
+          type: (type)
           right: (number))))))
