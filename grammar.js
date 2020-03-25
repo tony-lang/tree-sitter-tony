@@ -35,7 +35,6 @@ module.exports = grammar({
   extras: $ => [$.comment, /\s+/],
   word: $ => $._identifier_without_operators,
   conflicts: $ => [
-    [$.infix_application],
     [$._simple_expression, $.pattern],
     [$._literal, $._literal_pattern],
     [$.string, $.string_pattern],
@@ -444,7 +443,7 @@ module.exports = grammar({
     list_type: $ => seq('[', field('type', $.type_constructor), ']'),
 
     _identifier_without_operators: $ => /[a-z_][a-z0-9_]*\??/,
-    _operator: $ => choice(/(==|[!@$%^&*|<>~*\\\-+/.]+)=*>?/, '/'),
+    _operator: $ => /[!@$%^&*|<>~*\\\-+.=]+/,
     identifier: $ => choice($._operator, $._identifier_without_operators),
 
     _literal: $ => choice(
