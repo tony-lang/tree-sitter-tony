@@ -17,6 +17,8 @@ fib :: Type :=
     c
   b(1)
 
+() => 1
+
 ---
 
 (program
@@ -136,7 +138,11 @@ fib :: Type :=
           abstraction: (identifier)
           arguments: (arguments
             (argument
-              value: (number))))))))
+              value: (number)))))))
+  (abstraction
+    (abstraction_branch
+      parameters: (parameters)
+      body: (number))))
 
 ==================
 application

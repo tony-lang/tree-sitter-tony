@@ -227,13 +227,13 @@ module.exports = grammar({
 
     parameters: $ => seq(
       '(',
-      choice(
+      optional(choice(
         seq(
           commaSep1($.pattern),
           optional(seq(',', alias($.rest, $.rest_list))),
         ),
         alias($.rest, $.rest_list)
-      ),
+      )),
       ')'
     ),
 
