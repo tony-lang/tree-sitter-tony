@@ -20,7 +20,7 @@ export
 ==================
 
 export a :: Type := 1
-export a :: Type := (a) =>
+export a :: Type := (a :: Type) =>
   1
 
 ---
@@ -28,19 +28,24 @@ export a :: Type := (a) =>
 (program
   (export
     declaration: (assignment
-      left: (identifier_pattern)
-      type: (type_constructor
-        (type))
+      left: (identifier_pattern
+        name: (identifier_pattern_name)
+        type: (type_constructor
+          (type)))
       right: (number)))
   (export
     declaration: (assignment
-      left: (identifier_pattern)
-      type: (type_constructor
-        (type))
+      left: (identifier_pattern
+        name: (identifier_pattern_name)
+        type: (type_constructor
+          (type)))
       right: (abstraction
         (abstraction_branch
           parameters: (parameters
             (pattern
-              name: (identifier_pattern)))
+              name: (identifier_pattern
+                name: (identifier_pattern_name)
+                type: (type_constructor
+                  (type)))))
           body: (block
             (number)))))))

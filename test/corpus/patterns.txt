@@ -2,8 +2,8 @@
 map pattern
 ============================================
 
-{ b: c } :: Type := a
-{ b: c, d, ...e } :: Type := a
+{ b: c :: Type } := a
+{ b: c :: Type, d :: Type, ...e :: Type } := a
 
 ---
 
@@ -11,32 +11,40 @@ map pattern
   (assignment
     left: (map_pattern
       (pattern_pair
-        left: (identifier_pattern)
+        left: (identifier_pattern_name)
         right: (pattern
-          name: (identifier_pattern))))
-    type: (type_constructor
-        (type))
+          name: (identifier_pattern
+            name: (identifier_pattern_name)
+            type: (type_constructor
+              (type))))))
     right: (identifier))
   (assignment
     left: (map_pattern
       (pattern_pair
-        left: (identifier_pattern)
+        left: (identifier_pattern_name)
         right: (pattern
-          name: (identifier_pattern)))
+          name: (identifier_pattern
+            name: (identifier_pattern_name)
+            type: (type_constructor
+              (type)))))
       (shorthand_pair_identifier_pattern
-        name: (identifier_pattern))
+        name: (identifier_pattern
+          name: (identifier_pattern_name)
+          type: (type_constructor
+              (type))))
       (rest_map
-        name: (identifier_pattern)))
-    type: (type_constructor
-        (type))
+        name: (identifier_pattern
+          name: (identifier_pattern_name)
+          type: (type_constructor
+              (type)))))
     right: (identifier)))
 
 ============================================
 tuple pattern
 ============================================
 
-(A, b) :: Type := a
-(b, ...c) :: Type := a
+(A, b :: Type) := a
+(b :: Type, ...c :: Type) := a
 
 ---
 
@@ -46,26 +54,31 @@ tuple pattern
       (pattern
         value: (type))
       (pattern
-        name: (identifier_pattern)))
-    type: (type_constructor
-        (type))
+        name: (identifier_pattern
+          name: (identifier_pattern_name)
+          type: (type_constructor
+            (type)))))
     right: (identifier))
   (assignment
     left: (tuple_pattern
       (pattern
-        name: (identifier_pattern))
+        name: (identifier_pattern
+          name: (identifier_pattern_name)
+          type: (type_constructor
+            (type))))
       (rest_list
-        name: (identifier_pattern)))
-    type: (type_constructor
-        (type))
+        name: (identifier_pattern
+          name: (identifier_pattern_name)
+          type: (type_constructor
+            (type)))))
     right: (identifier)))
 
 ============================================
 list pattern
 ============================================
 
-[b, c] :: Type := a
-[b, c, ...d] :: Type := a
+[b :: Type, c :: Type] := a
+[b :: Type, c :: Type, ...d :: Type] := a
 
 ---
 
@@ -73,20 +86,31 @@ list pattern
   (assignment
     left: (list_pattern
       (pattern
-        name: (identifier_pattern))
+        name: (identifier_pattern
+          name: (identifier_pattern_name)
+          type: (type_constructor
+            (type))))
       (pattern
-        name: (identifier_pattern)))
-    type: (type_constructor
-        (type))
+        name: (identifier_pattern
+          name: (identifier_pattern_name)
+          type: (type_constructor
+            (type)))))
     right: (identifier))
   (assignment
     left: (list_pattern
       (pattern
-        name: (identifier_pattern))
+        name: (identifier_pattern
+          name: (identifier_pattern_name)
+          type: (type_constructor
+            (type))))
       (pattern
-        name: (identifier_pattern))
+        name: (identifier_pattern
+          name: (identifier_pattern_name)
+          type: (type_constructor
+            (type))))
       (rest_list
-        name: (identifier_pattern)))
-    type: (type_constructor
-        (type))
+        name: (identifier_pattern
+          name: (identifier_pattern_name)
+          type: (type_constructor
+            (type)))))
     right: (identifier)))

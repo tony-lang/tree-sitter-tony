@@ -2,18 +2,18 @@
 abstraction
 ==================
 
-(a, b) => a
-(a, b, 1, {c = 1}, ...d) => a
+(a :: Type, b :: Type) => a
+(a :: Type, b :: Type, 1, { c :: Type = 1 }, ...d :: Type) => a
 
 fib :: Type :=
   (0) =>
     0
   (1) => 1
-  (n = 2) =>
+  (n :: Type = 2) =>
     fib(n - 1) + fib(n - 2)
 
-(a) =>
-  b :: Type := (c) =>
+(a :: Type) =>
+  b :: Type := (c :: Type) =>
     c
   b(1)
 
@@ -24,31 +24,50 @@ fib :: Type :=
     (abstraction_branch
       parameters: (parameters
         (pattern
-            name: (identifier_pattern))
+          name: (identifier_pattern
+            name: (identifier_pattern_name)
+            type: (type_constructor
+              (type))))
         (pattern
-            name: (identifier_pattern)))
+          name: (identifier_pattern
+            name: (identifier_pattern_name)
+            type: (type_constructor
+              (type)))))
       body: (identifier)))
   (abstraction
     (abstraction_branch
       parameters: (parameters
         (pattern
-            name: (identifier_pattern))
+          name: (identifier_pattern
+            name: (identifier_pattern_name)
+            type: (type_constructor
+              (type))))
         (pattern
-            name: (identifier_pattern))
+          name: (identifier_pattern
+            name: (identifier_pattern_name)
+            type: (type_constructor
+              (type))))
         (pattern
-            value: (number))
+          value: (number))
         (pattern
           pattern: (map_pattern
             (shorthand_pair_identifier_pattern
-              name: (identifier_pattern)
+              name: (identifier_pattern
+                name: (identifier_pattern_name)
+                type: (type_constructor
+                  (type)))
               value: (number))))
         (rest_list
-          name: (identifier_pattern)))
+          name: (identifier_pattern
+            name: (identifier_pattern_name)
+            type: (type_constructor
+              (type)))))
       body: (identifier)))
   (assignment
-    left: (identifier_pattern)
-    type: (type_constructor
-      (type))
+    left: (identifier_pattern
+      name: (identifier_pattern_name)
+      type: (type_constructor
+        (type)))
     right: (abstraction
       (abstraction_branch
         parameters: (parameters
@@ -65,7 +84,10 @@ fib :: Type :=
       (abstraction_branch
         parameters: (parameters
           (pattern
-            name: (identifier_pattern)
+            name: (identifier_pattern
+              name: (identifier_pattern_name)
+              type: (type_constructor
+                (type)))
             value: (number)))
         body: (block
           (infix_application
@@ -90,17 +112,24 @@ fib :: Type :=
     (abstraction_branch
       parameters: (parameters
         (pattern
-          name: (identifier_pattern)))
+          name: (identifier_pattern
+            name: (identifier_pattern_name)
+            type: (type_constructor
+              (type)))))
       body: (block
         (assignment
-          left: (identifier_pattern)
-          type: (type_constructor
-            (type))
+          left: (identifier_pattern
+            name: (identifier_pattern_name)
+            type: (type_constructor
+              (type)))
           right: (abstraction
             (abstraction_branch
               parameters: (parameters
                 (pattern
-                  name: (identifier_pattern)))
+                  name: (identifier_pattern
+                    name: (identifier_pattern_name)
+                    type: (type_constructor
+                      (type)))))
               body: (block
                 (identifier)))))
         (application
@@ -407,26 +436,31 @@ assignment
 ==================
 
 a :: Type := 1
-a :: Type := (a) =>
+a :: Type := (a :: Type) =>
   1
 
 ---
 
 (program
   (assignment
-    left: (identifier_pattern)
-    type: (type_constructor
-      (type))
+    left: (identifier_pattern
+      name: (identifier_pattern_name)
+      type: (type_constructor
+        (type)))
     right: (number))
   (assignment
-    left: (identifier_pattern)
-    type: (type_constructor
-      (type))
+    left: (identifier_pattern
+      name: (identifier_pattern_name)
+      type: (type_constructor
+        (type)))
     right: (abstraction
       (abstraction_branch
         parameters: (parameters
           (pattern
-            name: (identifier_pattern)))
+            name: (identifier_pattern
+              name: (identifier_pattern_name)
+              type: (type_constructor
+                (type)))))
         body: (block
           (number))))))
 
@@ -435,7 +469,7 @@ return
 ==================
 
 return 1
-return (a) =>
+return (a :: Type) =>
   1
 
 ---
@@ -448,7 +482,10 @@ return (a) =>
       (abstraction_branch
         parameters: (parameters
           (pattern
-            name: (identifier_pattern)))
+            name: (identifier_pattern
+              name: (identifier_pattern_name)
+              type: (type_constructor
+                (type)))))
         body: (number)))))
 
 ==================
@@ -485,9 +522,10 @@ if true then 1 else 1
     alternative: (block
       (number)))
   (assignment
-    left: (identifier_pattern)
-    type: (type_constructor
-      (type))
+    left: (identifier_pattern
+      name: (identifier_pattern_name)
+      type: (type_constructor
+        (type)))
     right: (if
       condition: (boolean)
       consequence: (block
@@ -522,7 +560,7 @@ a :: Type := case a
                1
 
 case a
-when [1, a]
+when [1, a :: Type]
   a
 when 1, 1 then 1
 else 1
@@ -531,9 +569,10 @@ else 1
 
 (program
   (assignment
-    left: (identifier_pattern)
-    type: (type_constructor
-      (type))
+    left: (identifier_pattern
+      name: (identifier_pattern_name)
+      type: (type_constructor
+        (type)))
     right: (case
       value: (identifier)
       branches: (when_clauses
@@ -553,7 +592,10 @@ else 1
               (pattern
                 value: (number))
               (pattern
-                name: (identifier_pattern)))))
+                name: (identifier_pattern
+                  name: (identifier_pattern_name)
+                  type: (type_constructor
+                    (type)))))))
         consequence: (block
           (identifier)))
       (when_clause
@@ -582,17 +624,19 @@ module Type where a :: Type := 1
     name: (type)
     body: (block
       (assignment
-        left: (identifier_pattern)
-        type: (type_constructor
-          (type))
+        left: (identifier_pattern
+          name: (identifier_pattern_name)
+          type: (type_constructor
+            (type)))
         right: (number))))
   (module
     name: (type)
     body: (block
       (assignment
-        left: (identifier_pattern)
-        type: (type_constructor
-          (type))
+        left: (identifier_pattern
+          name: (identifier_pattern_name)
+          type: (type_constructor
+            (type)))
         right: (number)))))
 
 ==================

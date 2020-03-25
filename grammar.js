@@ -128,7 +128,7 @@ module.exports = grammar({
       field('pattern', $._destructuring_pattern),
       field('value', $._literal_pattern),
       seq(
-        field('name', alias($.identifier, $.identifier_pattern)),
+        field('name', $.identifier_pattern),
         optional(seq('=', field('value', $._simple_expression)))
       )
     )),
@@ -160,17 +160,17 @@ module.exports = grammar({
       ']'
     )),
     pattern_pair: $ => seq(
-      field('left', alias($.identifier, $.identifier_pattern)),
+      field('left', alias($.identifier, $.identifier_pattern_name)),
       ':',
       field('right', $.pattern)
     ),
     shorthand_pair_identifier_pattern: $ => seq(
-      field('name', alias($.identifier, $.identifier_pattern)),
+      field('name', $.identifier_pattern),
       optional(seq('=', field('value', $._simple_expression)))
     ),
     rest: $ => seq(
       '...',
-      field('name', alias($.identifier, $.identifier_pattern))
+      field('name', $.identifier_pattern)
     ),
 
     _literal_pattern: $ => choice(
@@ -184,6 +184,12 @@ module.exports = grammar({
       $._string_start,
       repeat(choice($.escape_sequence, $._string_content)),
       $._string_end
+    ),
+
+    identifier_pattern: $ => seq(
+      field('name', alias($.identifier, $.identifier_pattern_name)),
+      '::',
+      field('type', $.type_constructor)
     ),
 
     parameters: $ => seq(
@@ -280,21 +286,17 @@ module.exports = grammar({
 
     simple_assignment: $ => seq(
       field('left', choice(
-        alias($.identifier, $.identifier_pattern),
+        $.identifier_pattern,
         $._destructuring_pattern
       )),
-      '::',
-      field('type', $.type_constructor),
       ':=',
       field('right', $._simple_expression)
     ),
     compound_assignment: $ => seq(
       field('left', choice(
-        alias($.identifier, $.identifier_pattern),
+        $.identifier_pattern,
         $._destructuring_pattern
       )),
-      '::',
-      field('type', $.type_constructor),
       ':=',
       choice(
         field('right', $._compound_expression),
