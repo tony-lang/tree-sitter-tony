@@ -237,7 +237,7 @@ module.exports = grammar({
     ),
 
     argument: $ => prec.left(choice('?', field('value', $._simple_expression))),
-    arguments: $ => commaSep1($.argument),
+    arguments: $ => seq('(', commaSep($.argument), ')'),
 
     _group: $ => seq('(', $._simple_expression, ')'),
 
@@ -260,9 +260,7 @@ module.exports = grammar({
 
     application: $ => prec(PREC.APPLICATION, seq(
       field('abstraction', $._simple_expression),
-      '(',
-      field('arguments', $.arguments),
-      ')'
+      field('arguments', $.arguments)
     )),
     prefix_application: $ => prec.right(PREC.PREFIX, seq(
       field('abstraction', alias($._operator, $.identifier)),
