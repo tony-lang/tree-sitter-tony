@@ -82,11 +82,11 @@ module.exports = grammar({
 
     simple_export: $ => seq(
       'export',
-      field('declaration', alias($.simple_assignment, $.assignment))
+      field('declaration', $._simple_declaration)
     ),
     compound_export: $ => seq(
       'export',
-      field('declaration', alias($.compound_assignment, $.assignment))
+      field('declaration', $._compound_declaration)
     ),
 
     _expression: $ => choice(
@@ -116,6 +116,14 @@ module.exports = grammar({
       alias($.compound_assignment, $.assignment),
       alias($.compound_if, $.if),
       $.case,
+      $.module
+    ),
+
+    _simple_declaration: $ => choice(
+      alias($.simple_assignment, $.assignment)
+    ),
+    _compound_declaration: $ => choice(
+      alias($.compound_assignment, $.assignment),
       $.module
     ),
 
