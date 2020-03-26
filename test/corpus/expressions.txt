@@ -469,6 +469,36 @@ a :: Type := (a :: Type) =>
           (number))))))
 
 ==================
+export
+==================
+
+export a :: Type := 1
+export module A
+  export a :: Type := 1
+
+---
+
+(program
+  (export
+    declaration: (assignment
+      left: (identifier_pattern
+        name: (identifier_pattern_name)
+        type: (type_constructor
+          (type)))
+      right: (number)))
+  (export
+    declaration: (module
+      name: (type)
+      body: (block
+        (export
+          declaration: (assignment
+            left: (identifier_pattern
+              name: (identifier_pattern_name)
+              type: (type_constructor
+                (type)))
+            right: (number)))))))
+
+==================
 return
 ==================
 

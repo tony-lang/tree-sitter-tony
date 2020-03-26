@@ -257,7 +257,7 @@ identifier
 
 abs
 a5_ds_
-_abs?
+abs?
 +
 \
 ||

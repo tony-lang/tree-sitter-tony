@@ -37,32 +37,3 @@ import extern { a: b :: Type, c :: Type } from 'source'
         type: (type_constructor
           (type))))
     source: (string)))
-
-==================
-export
-==================
-
-export a :: Type := 1
-export module A
-  a :: Type := 1
-
----
-
-(program
-  (export
-    declaration: (assignment
-      left: (identifier_pattern
-        name: (identifier_pattern_name)
-        type: (type_constructor
-          (type)))
-      right: (number)))
-  (export
-    declaration: (module
-      name: (type)
-      body: (block
-        (assignment
-          left: (identifier_pattern
-            name: (identifier_pattern_name)
-            type: (type_constructor
-              (type)))
-          right: (number))))))
