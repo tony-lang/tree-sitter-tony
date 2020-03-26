@@ -55,13 +55,9 @@ module.exports = grammar({
     _simple_statement: $ => choice(
       $.import,
       $.external_import,
-      alias($.simple_export, $.export),
       $._simple_expression
     ),
-    _compound_statement: $ => choice(
-      alias($.compound_export, $.export),
-      $._compound_expression
-    ),
+    _compound_statement: $ => $._compound_expression,
 
     import: $ => seq(
       'import',
@@ -104,15 +100,6 @@ module.exports = grammar({
       field('right', $.identifier_pattern)
     ),
 
-    simple_export: $ => seq(
-      'export',
-      field('declaration', $._simple_declaration)
-    ),
-    compound_export: $ => seq(
-      'export',
-      field('declaration', $._compound_declaration)
-    ),
-
     _expression: $ => choice(
       seq($._simple_expression, $._newline),
       $._compound_expression
@@ -126,6 +113,7 @@ module.exports = grammar({
       $.pipeline,
       $.access,
       alias($.simple_assignment, $.assignment),
+      alias($.simple_export, $.export),
       $.return,
       alias($.simple_if, $.if),
       $.map,
@@ -138,6 +126,7 @@ module.exports = grammar({
     _compound_expression: $ => choice(
       alias($.compound_abstraction, $.abstraction),
       alias($.compound_assignment, $.assignment),
+      alias($.compound_export, $.export),
       alias($.compound_if, $.if),
       $.case,
       $.module
@@ -338,6 +327,15 @@ module.exports = grammar({
       )
     ),
 
+    simple_export: $ => seq(
+      'export',
+      field('declaration', $._simple_declaration)
+    ),
+    compound_export: $ => seq(
+      'export',
+      field('declaration', $._compound_declaration)
+    ),
+
     return: $ => prec.right(seq(
       'return',
       optional(field('value', $._simple_expression))
@@ -440,7 +438,7 @@ module.exports = grammar({
     tuple_type: $ => seq('(', commaSep2($.type_constructor), ')'),
     list_type: $ => seq('[', field('type', $.type_constructor), ']'),
 
-    _identifier_without_operators: $ => /[a-z_][a-z0-9_]*\??/,
+    _identifier_without_operators: $ => /[a-z][a-z0-9_]*\??/,
     _operator: $ => /[!@$%^&*|<>~*\\\-+.=]+/,
     identifier: $ => choice($._operator, $._identifier_without_operators),
 
