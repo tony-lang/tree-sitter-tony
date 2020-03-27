@@ -181,7 +181,10 @@ module.exports = grammar({
       ']'
     )),
     pattern_pair: $ => seq(
-      field('left', alias($.identifier, $.identifier_pattern_name)),
+      choice(
+        seq('[', field('left', $._simple_expression), ']'),
+        field('left', alias($.identifier, $.shorthand_access_identifier))
+      ),
       ':',
       field('right', $.pattern)
     ),
@@ -398,7 +401,7 @@ module.exports = grammar({
     expression_pair: $ => seq(
       choice(
         seq('[', field('left', $._simple_expression), ']'),
-        field('left', alias($.identifier, $.shorthand_access_identifier),)
+        field('left', alias($.identifier, $.shorthand_access_identifier))
       ),
       ':',
       field('right', $._simple_expression)
