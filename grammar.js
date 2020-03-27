@@ -63,7 +63,7 @@ module.exports = grammar({
       'import',
       field('clause', $.import_clause),
       'from',
-      field('source', $.string)
+      field('source', $.string_pattern)
     ),
     import_clause: $ => seq(
       '{',
@@ -84,7 +84,7 @@ module.exports = grammar({
       'extern',
       field('clause', $.external_import_clause),
       'from',
-      field('source', $.string)
+      field('source', $.string_pattern)
     ),
     external_import_clause: $ => seq(
       '{',
