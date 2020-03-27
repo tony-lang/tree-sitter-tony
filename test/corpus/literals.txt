@@ -146,7 +146,7 @@ a :: [Type] := 1
 curried type
 ==================
 
-a :: Type -> Type := 1
+a :: Type -> ...[Type] -> Type := 1
 a :: Type -> (Type -> Type) -> Type := 1
 
 ---
@@ -157,6 +157,10 @@ a :: Type -> (Type -> Type) -> Type := 1
       name: (identifier_pattern_name)
       type: (type_constructor
         (type)
+        (rest_list_type
+          type: (list_type
+            type: (type_constructor
+              (type))))
         (type)))
     right: (number))
   (assignment

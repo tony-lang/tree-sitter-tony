@@ -431,12 +431,14 @@ module.exports = grammar({
       $.type,
       $.map_type,
       $.tuple_type,
-      $.list_type
+      $.list_type,
+      $.rest_list_type
     ),
     _type_group: $ => seq('(', $.type_constructor, ')'),
     map_type: $ => seq('{', field('left', $.type_constructor), ':', field('right', $.type_constructor), '}'),
     tuple_type: $ => seq('(', commaSep2($.type_constructor), ')'),
     list_type: $ => seq('[', field('type', $.type_constructor), ']'),
+    rest_list_type: $ => seq('...', field('type', $.list_type)),
 
     _identifier_without_operators: $ => /[a-z][a-z0-9_]*\??/,
     _operator: $ => /[!@$%^&*|<>~*\\\-+.=]+/,
