@@ -3,7 +3,7 @@ map pattern
 ============================================
 
 { b: c :: Type } := a
-{ b: c :: Type, d :: Type, ...e :: Type } := a
+{ b: c :: Type, d :: Type, ['e']: e :: Type, ...f :: Type } := a
 
 ---
 
@@ -11,7 +11,7 @@ map pattern
   (assignment
     left: (map_pattern
       (pattern_pair
-        left: (identifier_pattern_name)
+        left: (shorthand_access_identifier)
         right: (pattern
           name: (identifier_pattern
             name: (identifier_pattern_name)
@@ -21,7 +21,7 @@ map pattern
   (assignment
     left: (map_pattern
       (pattern_pair
-        left: (identifier_pattern_name)
+        left: (shorthand_access_identifier)
         right: (pattern
           name: (identifier_pattern
             name: (identifier_pattern_name)
@@ -32,6 +32,13 @@ map pattern
           name: (identifier_pattern_name)
           type: (type_constructor
               (type))))
+      (pattern_pair
+        left: (string)
+        right: (pattern
+          name: (identifier_pattern
+            name: (identifier_pattern_name)
+            type: (type_constructor
+              (type)))))
       (rest_map
         name: (identifier_pattern
           name: (identifier_pattern_name)
