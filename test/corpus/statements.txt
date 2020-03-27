@@ -13,7 +13,7 @@ import { a: b, c } from 'source'
         left: (identifier_pattern_name)
         right: (identifier_pattern_name))
       (identifier_pattern_name))
-    source: (string)))
+    source: (string_pattern)))
 
 ==================
 external import
@@ -36,4 +36,4 @@ import extern { a: b :: Type, c :: Type } from 'source'
         name: (identifier_pattern_name)
         type: (type_constructor
           (type))))
-    source: (string)))
+    source: (string_pattern)))
