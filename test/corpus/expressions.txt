@@ -734,3 +734,27 @@ list comprehension
               right: (number))
             abstraction: (infix_application_operator)
             right: (number)))))))
+
+==================
+type interpretation
+==================
+
+1 as Type
+x :: Type := a as Type
+
+---
+
+(program
+  (type_interpretation
+    value: (number)
+    type: (type_constructor
+      (type)))
+  (assignment
+    left: (identifier_pattern
+      name: (identifier_pattern_name)
+      type: (type_constructor
+        (type)))
+    right: (type_interpretation
+      value: (identifier)
+      type: (type_constructor
+        (type)))))
