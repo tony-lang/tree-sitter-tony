@@ -35,11 +35,12 @@ module.exports = grammar({
   extras: $ => [$.comment, /\s+/],
   word: $ => $._identifier_without_operators,
   conflicts: $ => [
-    [$._simple_expression, $.pattern],
+    [$._simple_expression, $.identifier_pattern],
     [$._literal, $._literal_pattern],
     [$.string, $.string_pattern],
-    [$.shorthand_pair_identifier_pattern, $.map],
-    [$.map, $.identifier_pattern]
+    [$.map, $.map_pattern],
+    [$.list, $.list_pattern],
+    [$.identifier_pattern_for_map, $.map]
   ],
 
   rules: {
@@ -146,27 +147,27 @@ module.exports = grammar({
       seq($._newline, $._indent, repeat1($._expression), $._dedent)
     ),
 
-    pattern: $ => prec(PREC.PATTERN, choice(
+    pattern: $ => choice(
       field('pattern', $._destructuring_pattern),
       field('value', $._literal_pattern),
       seq(
         field('name', $.identifier_pattern),
         optional(seq('=', field('value', $._simple_expression)))
       )
-    )),
+    ),
 
-    _destructuring_pattern: $ => prec(PREC.PATTERN, choice(
+    _destructuring_pattern: $ => choice(
       $.map_pattern,
       $.tuple_pattern,
       $.list_pattern
-    )),
-    map_pattern: $ => prec(PREC.PATTERN, seq(
+    ),
+    map_pattern: $ => seq(
       '{',
       commaSep(choice($.pattern_pair, $.shorthand_pair_identifier_pattern)),
       optional(seq(',', alias($.rest, $.rest_map))),
       '}'
-    )),
-    tuple_pattern: $ => prec(PREC.PATTERN, choice(
+    ),
+    tuple_pattern: $ => choice(
       seq('(', $.pattern, ',', alias($.rest, $.rest_list), ')'),
       seq(
         '(',
@@ -174,13 +175,13 @@ module.exports = grammar({
         optional(seq(',', alias($.rest, $.rest_list))),
         ')'
       )
-    )),
-    list_pattern: $ => prec(PREC.PATTERN, seq(
+    ),
+    list_pattern: $ => seq(
       '[',
       commaSep($.pattern),
       optional(seq(',', alias($.rest, $.rest_list))),
       ']'
-    )),
+    ),
     pattern_pair: $ => seq(
       choice(
         seq('[', field('left', $._simple_expression), ']'),
@@ -190,7 +191,7 @@ module.exports = grammar({
       field('right', $.pattern)
     ),
     shorthand_pair_identifier_pattern: $ => seq(
-      field('name', $.identifier_pattern),
+      field('name', alias($.identifier_pattern_for_map, $.identifier_pattern)),
       optional(seq('=', field('value', $._simple_expression)))
     ),
     rest: $ => seq(
@@ -211,7 +212,12 @@ module.exports = grammar({
       $._string_end
     ),
 
-    identifier_pattern: $ => seq(
+    identifier_pattern: $ => prec(PREC.PATTERN, seq(
+      field('name', alias($.identifier, $.identifier_pattern_name)),
+      optional(seq('::', field('type', $.type_constructor)))
+    )),
+    // fixes conflicts between map_pattern and map
+    identifier_pattern_for_map: $ => seq(
       field('name', alias($.identifier, $.identifier_pattern_name)),
       optional(seq('::', field('type', $.type_constructor)))
     ),
