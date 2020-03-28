@@ -38,7 +38,8 @@ module.exports = grammar({
     [$._simple_expression, $.pattern],
     [$._literal, $._literal_pattern],
     [$.string, $.string_pattern],
-    [$.shorthand_pair_identifier_pattern, $.map]
+    [$.shorthand_pair_identifier_pattern, $.map],
+    [$.map, $.identifier_pattern]
   ],
 
   rules: {
@@ -212,8 +213,7 @@ module.exports = grammar({
 
     identifier_pattern: $ => seq(
       field('name', alias($.identifier, $.identifier_pattern_name)),
-      '::',
-      field('type', $.type_constructor)
+      optional(seq('::', field('type', $.type_constructor)))
     ),
 
     parameters: $ => seq(
