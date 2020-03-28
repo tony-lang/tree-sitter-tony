@@ -239,7 +239,7 @@ module.exports = grammar({
     simple_abstraction_branch: $ => prec.left(seq(
       field('parameters', $.parameters),
       '=>',
-      field('body', $._simple_expression)
+      field('body', alias($._simple_expression, $.block))
     )),
     compound_abstraction: $ => prec.left(repeat1(
       alias($.compound_abstraction_branch, $.abstraction_branch)
@@ -348,8 +348,8 @@ module.exports = grammar({
       'if',
       field('condition', $._simple_expression),
       'then',
-      field('consequence', $._simple_expression),
-      optional(seq('else', field('alternative', $._simple_expression)))
+      field('consequence', alias($._simple_expression, $.block)),
+      optional(seq('else', field('alternative', alias($._simple_expression, $.block))))
     )),
     compound_if: $ => prec.right(seq(
       'if',

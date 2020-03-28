@@ -35,7 +35,8 @@ fib :: Type :=
             name: (identifier_pattern_name)
             type: (type_constructor
               (type)))))
-      body: (identifier)))
+      body: (block
+        (identifier))))
   (abstraction
     (abstraction_branch
       parameters: (parameters
@@ -64,7 +65,8 @@ fib :: Type :=
             name: (identifier_pattern_name)
             type: (type_constructor
               (type)))))
-      body: (identifier)))
+      body: (block
+        (identifier))))
   (assignment
     left: (identifier_pattern
       name: (identifier_pattern_name)
@@ -142,7 +144,8 @@ fib :: Type :=
   (abstraction
     (abstraction_branch
       parameters: (parameters)
-      body: (number))))
+      body: (block
+        (number)))))
 
 ==================
 application
@@ -520,7 +523,8 @@ return (a :: Type) =>
               name: (identifier_pattern_name)
               type: (type_constructor
                 (type)))))
-        body: (number)))))
+        body: (block
+          (number))))))
 
 ==================
 if
@@ -579,11 +583,14 @@ if true then 1 else 1
       (argument
         value: (if
           condition: (boolean)
-          consequence: (number)))))
+          consequence: (block
+            (number))))))
   (if
     condition: (boolean)
-    consequence: (number)
-    alternative: (number)))
+    consequence: (block
+      (number))
+    alternative: (block
+      (number))))
 
 ==================
 case
