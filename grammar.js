@@ -122,6 +122,7 @@ module.exports = grammar({
       $.tuple,
       $.list,
       $.list_comprehension,
+      $.type_interpretation,
       $.identifier,
       $._literal
     )),
@@ -312,15 +313,15 @@ module.exports = grammar({
       )
     )),
 
-    simple_assignment: $ => seq(
+    simple_assignment: $ => prec.right(seq(
       field('left', choice(
         $.identifier_pattern,
         $._destructuring_pattern
       )),
       ':=',
       field('right', $._simple_expression)
-    ),
-    compound_assignment: $ => seq(
+    )),
+    compound_assignment: $ => prec.right(seq(
       field('left', choice(
         $.identifier_pattern,
         $._destructuring_pattern
@@ -334,7 +335,7 @@ module.exports = grammar({
           $._dedent
         )
       )
-    ),
+    )),
 
     simple_export: $ => seq(
       'export',
@@ -429,6 +430,12 @@ module.exports = grammar({
       optional(field('condition', $.generator_condition))
     ),
     generator_condition: $ => seq('if', $._simple_expression),
+
+    type_interpretation: $ => seq(
+      field('value', $._simple_expression),
+      'as',
+      field('type', $.type_constructor)
+    ),
 
     type_constructor: $ => $._curried_type,
     _curried_type: $ => prec.right(choice(
