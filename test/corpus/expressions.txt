@@ -148,6 +148,7 @@ a(1)(1)
 a(?, 1)
 + 1
 1 `a` -b()
+a(...(a, b))
 
 ---
 
@@ -180,7 +181,15 @@ a(?, 1)
       abstraction: (identifier)
       argument: (application
         abstraction: (identifier)
-        arguments: (arguments)))))
+        arguments: (arguments))))
+  (application
+    abstraction: (identifier)
+    arguments: (arguments
+      (argument
+        value: (spread
+          value: (tuple
+            (identifier)
+            (identifier)))))))
 
 ==================
 prefix application

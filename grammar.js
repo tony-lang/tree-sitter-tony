@@ -235,7 +235,10 @@ module.exports = grammar({
       ')'
     ),
 
-    argument: $ => prec.left(choice('?', field('value', $._simple_expression))),
+    argument: $ => prec.left(choice(
+      '?',
+      field('value', choice($._simple_expression, $.spread))
+    )),
     arguments: $ => seq('(', commaSep($.argument), ')'),
 
     _group: $ => seq('(', $._simple_expression, ')'),
