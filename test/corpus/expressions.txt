@@ -749,7 +749,7 @@ type interpretation
 ==================
 
 1 as Type
-x :: Type := a as Type
+x :: Type := (a) => a as Type
 
 ---
 
@@ -763,7 +763,14 @@ x :: Type := a as Type
       name: (identifier_pattern_name)
       type: (type_constructor
         (type)))
-    right: (type_interpretation
-      value: (identifier)
-      type: (type_constructor
-        (type)))))
+    right: (abstraction
+      (abstraction_branch
+        parameters: (parameters
+          (pattern
+            name: (identifier_pattern
+              name: (identifier_pattern_name))))
+        body: (block
+          (type_interpretation
+            value: (identifier)
+            type: (type_constructor
+              (type))))))))
