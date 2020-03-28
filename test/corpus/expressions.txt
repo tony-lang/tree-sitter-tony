@@ -2,7 +2,7 @@
 abstraction
 ==================
 
-(a :: Type, b :: Type) => a
+(a, b) => a
 (a :: Type, b :: Type, 1, { c :: Type = 1 }, ...d :: Type) => a
 
 fib :=
@@ -27,14 +27,10 @@ fib :=
       parameters: (parameters
         (pattern
           name: (identifier_pattern
-            name: (identifier_pattern_name)
-            type: (type_constructor
-              (type))))
+            name: (identifier_pattern_name)))
         (pattern
           name: (identifier_pattern
-            name: (identifier_pattern_name)
-            type: (type_constructor
-              (type)))))
+            name: (identifier_pattern_name))))
       body: (block
         (identifier))))
   (abstraction
