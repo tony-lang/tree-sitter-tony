@@ -1,5 +1,4 @@
 const PREC = Object.freeze({
-  PARAMETERS: -1,
   NAMED_INFIX: 1,
   OPERATOR_INFIX: 2,
   BICONDITIONAL: 3,
@@ -222,10 +221,7 @@ module.exports = grammar({
       optional(seq('::', field('type', $.type_constructor)))
     ),
 
-    parameters: $ => prec(PREC.PARAMETERS, choice(
-      commaSep1($.pattern),
-      seq('(', ')')
-    )),
+    parameters: $ => seq('(', commaSep($.pattern), ')'),
 
     argument: $ => prec.left(choice(
       '?',
