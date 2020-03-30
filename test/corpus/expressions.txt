@@ -417,19 +417,27 @@ pipeline
 ==================
 
 a.b.c(1)
+a.+1.c
 
 ---
 
 (program
-  (application
-    abstraction: (pipeline
-      left: (pipeline
-        left: (identifier)
-        right: (identifier))
+  (pipeline
+    left: (pipeline
+      left: (identifier)
       right: (identifier))
-    arguments: (arguments
-      (argument
-        value: (number)))))
+    right: (application
+      abstraction: (identifier)
+      arguments: (arguments
+        (argument
+          value: (number)))))
+  (pipeline
+    left: (pipeline
+      left: (identifier)
+      right: (prefix_application
+        abstraction: (identifier)
+        argument: (number)))
+    right: (identifier)))
 
 ==================
 access
