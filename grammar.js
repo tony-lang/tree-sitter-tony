@@ -408,7 +408,7 @@ module.exports = grammar({
 
     list_comprehension: $ => seq(
       '[',
-      field('body', $._simple_expression),
+      field('body', alias($._simple_expression, $.block)),
       '|',
       field('generators', $.generators),
       ']'
