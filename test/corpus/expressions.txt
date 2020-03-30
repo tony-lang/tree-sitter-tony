@@ -2,18 +2,19 @@
 abstraction
 ==================
 
-(a, b) => a
-(a :: Type, b :: Type, 1, { c :: Type = 1 }, ...d :: Type) => a
+a => a
+a, b => a
+a :: Type, b :: Type, 1, { c :: Type = 1 } => a
 
 fib :=
-  (0) =>
+  0 =>
     0
-  (1) => 1
-  (n :: Type = 2) =>
+  1 => 1
+  n :: Type = 2 =>
     fib(n - 1) + fib(n - 2)
 
-(a :: Type) =>
-  b := (c :: Type) =>
+a :: Type =>
+  b := c :: Type =>
     c
   b(1)
 
@@ -22,6 +23,14 @@ fib :=
 ---
 
 (program
+  (abstraction
+    (abstraction_branch
+      parameters: (parameters
+        (pattern
+          name: (identifier_pattern
+            name: (identifier_pattern_name))))
+      body: (block
+        (identifier))))
   (abstraction
     (abstraction_branch
       parameters: (parameters
@@ -55,12 +64,7 @@ fib :=
                 name: (identifier_pattern_name)
                 type: (type_constructor
                   (type)))
-              value: (number))))
-        (rest_list
-          name: (identifier_pattern
-            name: (identifier_pattern_name)
-            type: (type_constructor
-              (type)))))
+              value: (number)))))
       body: (block
         (identifier))))
   (assignment
@@ -444,7 +448,7 @@ assignment
 ==================
 
 a :: Type := 1
-a := (a :: Type) =>
+a := a :: Type =>
   1
 
 ---
@@ -501,7 +505,7 @@ return
 ==================
 
 return 1
-return (a :: Type) =>
+return a :: Type =>
   1
 
 ---
@@ -749,7 +753,7 @@ type interpretation
 ==================
 
 1 as Type
-x :: Type := (a) => a as Type
+x :: Type := a => a as Type
 
 ---
 
