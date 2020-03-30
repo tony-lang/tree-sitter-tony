@@ -2,24 +2,24 @@
 abstraction
 ==================
 
-a => a
-a, b => a
-a :: Type, b :: Type, 1, { c :: Type = 1 } => a
+(a) => a
+(a, b) => a
+(a :: Type, b :: Type, 1, { c :: Type = 1 }) => a
 
 fib :=
-  0 =>
+  (0) =>
     0
-  1 => 1
-  n :: Type = 2 =>
+  (1) => 1
+  (n :: Type = 2) =>
     fib(n - 1) + fib(n - 2)
 
-a :: Type =>
-  b := c :: Type =>
+(a :: Type) =>
+  b := (c :: Type) =>
     c
   b(1)
 
 () => 1
-/ := a, b => /
+/ := (a, b) => /
 
 ---
 
@@ -463,7 +463,7 @@ assignment
 ==================
 
 a :: Type := 1
-a := a :: Type =>
+a := (a :: Type) =>
   1
 
 ---
@@ -520,7 +520,7 @@ return
 ==================
 
 return 1
-return a :: Type =>
+return (a :: Type) =>
   1
 
 ---
