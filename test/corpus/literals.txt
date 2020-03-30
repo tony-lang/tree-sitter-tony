@@ -67,7 +67,7 @@ list
     (number)
     (infix_application
       left: (number)
-      abstraction: (infix_application_operator)
+      abstraction: (identifier)
       right: (number))
     (number)))
 
