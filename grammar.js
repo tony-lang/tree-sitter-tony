@@ -169,11 +169,11 @@ module.exports = grammar({
       '}'
     ),
     tuple_pattern: $ => choice(
-      seq('(', $.pattern, ',', alias($.rest, $.rest_list), ')'),
+      seq('(', $.pattern, ',', alias($.rest, $.rest_tuple), ')'),
       seq(
         '(',
         commaSep2($.pattern),
-        optional(seq(',', alias($.rest, $.rest_list))),
+        optional(seq(',', alias($.rest, $.rest_tuple))),
         ')'
       )
     ),
