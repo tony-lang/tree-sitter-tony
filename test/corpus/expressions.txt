@@ -698,10 +698,11 @@ list comprehension
 
 (program
   (list_comprehension
-    body: (infix_application
-      left: (identifier)
-      abstraction: (identifier)
-      right: (number))
+    body: (block
+      (infix_application
+        left: (identifier)
+        abstraction: (identifier)
+        right: (number)))
     generators: (generators
       (generator
         name: (identifier)
@@ -710,10 +711,11 @@ list comprehension
           abstraction: (identifier)
           right: (number)))))
   (list_comprehension
-    body: (infix_application
-      left: (identifier)
-      abstraction: (identifier)
-      right: (number))
+    body: (block
+      (infix_application
+        left: (identifier)
+        abstraction: (identifier)
+        right: (number)))
     generators: (generators
       (generator
         name: (identifier)
@@ -730,9 +732,10 @@ list comprehension
             abstraction: (identifier)
             right: (number))))))
   (list_comprehension
-    body: (list
-      (identifier)
-      (identifier))
+    body: (block
+      (list
+        (identifier)
+        (identifier)))
     generators: (generators
       (generator
         name: (identifier)
