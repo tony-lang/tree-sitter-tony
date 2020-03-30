@@ -73,7 +73,7 @@ tuple pattern
           name: (identifier_pattern_name)
           type: (type_constructor
             (type))))
-      (rest_list
+      (rest_tuple
         name: (identifier_pattern
           name: (identifier_pattern_name)
           type: (type_constructor
