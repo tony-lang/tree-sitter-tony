@@ -224,17 +224,10 @@ module.exports = grammar({
       optional(seq('::', field('type', $.type_constructor)))
     ),
 
-    parameters: $ => seq(
-      '(',
-      optional(choice(
-        seq(
-          commaSep1($.pattern),
-          optional(seq(',', alias($.rest, $.rest_list))),
-        ),
-        alias($.rest, $.rest_list)
-      )),
-      ')'
-    ),
+    parameters: $ => prec(-1, choice(
+      commaSep1($.pattern),
+      seq('(', ')')
+    )),
 
     argument: $ => prec.left(choice(
       '?',
