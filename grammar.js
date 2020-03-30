@@ -19,8 +19,7 @@ const PREC = Object.freeze({
   PATTERN: 15,
   APPLICATION: 16,
   PIPELINE: 17,
-  ACCESS: 18,
-  TYPE_INTERPRETATION: 19
+  ACCESS: 18
 });
 
 module.exports = grammar({
@@ -124,7 +123,6 @@ module.exports = grammar({
       $.tuple,
       $.list,
       $.list_comprehension,
-      $.type_interpretation,
       $.identifier,
       $._literal
     )),
@@ -428,12 +426,6 @@ module.exports = grammar({
       optional(field('condition', $.generator_condition))
     ),
     generator_condition: $ => seq('if', $._simple_expression),
-
-    type_interpretation: $ => prec(PREC.TYPE_INTERPRETATION, seq(
-      field('value', $._simple_expression),
-      'as',
-      field('type', $.type_constructor)
-    )),
 
     type_constructor: $ => $._curried_type,
     _curried_type: $ => prec.right(choice(
