@@ -264,10 +264,12 @@ abs?
 +
 \
 ||
+/
 
 ---
 
 (program
+  (identifier)
   (identifier)
   (identifier)
   (identifier)
@@ -305,13 +307,13 @@ string"
 regex
 =====================================
 
-/one\\/
-/one/g
-/one/i
-/one/gim
-/on\/e/gim
-/on[^/]afe/gim
-/[\]/]/
+r/one\\/
+r/one/g
+r/one/i
+r/one/gim
+r/on\/e/gim
+r/on[^/]afe/gim
+r/[\]/]/
 
 ---
 
