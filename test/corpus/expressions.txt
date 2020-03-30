@@ -19,6 +19,7 @@ a :: Type =>
   b(1)
 
 () => 1
+/ := a, b => /
 
 ---
 
@@ -141,7 +142,21 @@ a :: Type =>
     (abstraction_branch
       parameters: (parameters)
       body: (block
-        (number)))))
+        (number))))
+  (assignment
+    left: (identifier_pattern
+      name: (identifier_pattern_name))
+    right: (abstraction
+      (abstraction_branch
+        parameters: (parameters
+          (pattern
+            name: (identifier_pattern
+              name: (identifier_pattern_name)))
+          (pattern
+            name: (identifier_pattern
+              name: (identifier_pattern_name))))
+        body: (block
+          (identifier))))))
 
 ==================
 application

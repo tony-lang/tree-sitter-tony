@@ -1,6 +1,5 @@
 const PREC = Object.freeze({
-  PARAMETERS: -2,
-  REGEX: -1,
+  PARAMETERS: -1,
   NAMED_INFIX: 1,
   OPERATOR_INFIX: 2,
   BICONDITIONAL: 3,
@@ -205,7 +204,7 @@ module.exports = grammar({
       $.boolean,
       $.number,
       $.string_pattern,
-      prec(PREC.REGEX, $.regex)
+      $.regex
     ),
     string_pattern: $ => seq(
       $._string_start,
@@ -445,7 +444,7 @@ module.exports = grammar({
     list_type: $ => seq('[', field('type', $.type_constructor), ']'),
 
     _identifier_without_operators: $ => /[a-z][a-z0-9_]*\??/,
-    _operator: $ => /[!@$%^&*|<>~*\\\-+.=]+/,
+    _operator: $ => /[!@$%^&*|<>~*\\\-+.=\/]+/,
     identifier: $ => choice($._operator, $._identifier_without_operators),
 
     _literal: $ => choice(
@@ -453,7 +452,7 @@ module.exports = grammar({
       $.boolean,
       $.number,
       $.string,
-      prec(PREC.REGEX, $.regex)
+      $.regex
     ),
 
     type: $ => /[A-Z][a-zA-Z0-9]*/,
@@ -499,9 +498,9 @@ module.exports = grammar({
     )),
 
     regex: $ => seq(
-      '/',
+      'r/',
       $.regex_pattern,
-      token.immediate('/'),
+      '/',
       optional($.regex_flags)
     ),
     regex_pattern: $ => token.immediate(
