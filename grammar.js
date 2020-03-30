@@ -12,11 +12,11 @@ const PREC = Object.freeze({
   PRODUCT: 11,
   EXPONENTIATION: 12,
   NOT: 13,
-  EXPRESSION: 14,
-  PATTERN: 14,
-  PIPELINE: 15,
-  PREFIX: 16,
-  APPLICATION: 17,
+  PREFIX: 14,
+  EXPRESSION: 15,
+  PATTERN: 15,
+  APPLICATION: 16,
+  PIPELINE: 17,
   ACCESS: 18
 });
 
@@ -440,7 +440,7 @@ module.exports = grammar({
     list_type: $ => seq('[', field('type', $.type_constructor), ']'),
 
     _identifier_without_operators: $ => /[a-z][a-z0-9_]*\??/,
-    _operator: $ => /(\.\.|[!@$%^&*|<>~*\\\-+=/]+)\.*/,
+    _operator: $ => /[!@$%^&*|<>~*\\\-+.=\/]+/,
     identifier: $ => choice($._operator, $._identifier_without_operators),
 
     _literal: $ => choice(
