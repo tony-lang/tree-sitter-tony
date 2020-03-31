@@ -265,10 +265,12 @@ abs?
 \
 ||
 /
+.?
 
 ---
 
 (program
+  (identifier)
   (identifier)
   (identifier)
   (identifier)

@@ -2,7 +2,8 @@
 abstraction
 ==================
 
-(a) => a
+(a) =>
+  a
 (a, b) => a
 (a :: Type, b :: Type, 1, { c :: Type = 1 }) => a
 
