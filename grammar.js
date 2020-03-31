@@ -440,7 +440,7 @@ module.exports = grammar({
     list_type: $ => seq('[', field('type', $.type_constructor), ']'),
 
     _identifier_without_operators: $ => /[a-z][a-z0-9_]*\??/,
-    _operator: $ => /[!@$%^&*|<>~*\\\-+.=\/]+/,
+    _operator: $ => /(==|[!@$%^&*|<>~*\\\-+/.])[!@$%^&*|<>~*\\\-+/.=?]*/,
     identifier: $ => choice($._operator, $._identifier_without_operators),
 
     _literal: $ => choice(
