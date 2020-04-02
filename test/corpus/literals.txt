@@ -29,7 +29,7 @@ map
 tuple
 ==================
 
-(a, 1, ...b, 'str')
+(a, 1, 'str')
 (1,1)
 
 ---
@@ -38,8 +38,6 @@ tuple
   (tuple
     (identifier)
     (number)
-    (spread
-      value: (identifier))
     (string))
   (tuple
     (number)

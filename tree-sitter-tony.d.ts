@@ -53,7 +53,6 @@ declare module 'tree-sitter-tony' {
     RegexPattern = 'regex_pattern',
     RestList = 'rest_list',
     RestMap = 'rest_map',
-    RestTuple = 'rest_tuple',
     Return = 'return',
     ShorthandAccessIdentifier = 'shorthand_access_identifier',
     ShorthandPairIdentifier = 'shorthand_pair_identifier',

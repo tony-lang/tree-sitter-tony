@@ -166,14 +166,10 @@ module.exports = grammar({
       optional(seq(',', alias($.rest, $.rest_map))),
       '}'
     ),
-    tuple_pattern: $ => choice(
-      seq('(', $.pattern, ',', alias($.rest, $.rest_tuple), ')'),
-      seq(
-        '(',
-        commaSep2($.pattern),
-        optional(seq(',', alias($.rest, $.rest_tuple))),
-        ')'
-      )
+    tuple_pattern: $ => seq(
+      '(',
+      commaSep2($.pattern),
+      ')'
     ),
     list_pattern: $ => seq(
       '[',
@@ -394,7 +390,7 @@ module.exports = grammar({
       )),
       '}'
     ),
-    tuple: $ => seq('(', commaSep2(choice($._simple_expression, $.spread)), ')'),
+    tuple: $ => seq('(', commaSep2($._simple_expression), ')'),
     list: $ => seq('[', commaSep(choice($._simple_expression, $.spread)), ']'),
     expression_pair: $ => seq(
       choice(
