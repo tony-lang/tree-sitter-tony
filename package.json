@@ -3,6 +3,7 @@
   "version": "0.2.0-alpha.9",
   "description": "Tony grammar for tree-sitter",
   "main": "index.js",
+  "types": "tree-sitter-tony.d.ts",
   "scripts": {
     "generate": "tree-sitter generate",
     "parse": "tree-sitter parse",
