@@ -66,13 +66,13 @@ fib :=
                 name: (identifier_pattern_name)
                 type: (type_constructor
                   (type)))
-              value: (number)))))
+              default: (number)))))
       body: (block
         (identifier))))
   (assignment
-    left: (identifier_pattern
+    pattern: (identifier_pattern
       name: (identifier_pattern_name))
-    right: (abstraction
+    value: (abstraction
       (abstraction_branch
         parameters: (parameters
           (pattern
@@ -92,25 +92,25 @@ fib :=
               name: (identifier_pattern_name)
               type: (type_constructor
                 (type)))
-            value: (number)))
+            default: (number)))
         body: (block
           (infix_application
             left: (application
-              abstraction: (identifier)
+              value: (identifier)
               arguments: (arguments
                 (argument
                   value: (infix_application
                     left: (identifier)
-                    abstraction: (identifier)
+                    value: (identifier)
                     right: (number)))))
-            abstraction: (identifier)
+            value: (identifier)
             right: (application
-              abstraction: (identifier)
+              value: (identifier)
               arguments: (arguments
                 (argument
                   value: (infix_application
                     left: (identifier)
-                    abstraction: (identifier)
+                    value: (identifier)
                     right: (number))))))))))
   (abstraction
     (abstraction_branch
@@ -122,9 +122,9 @@ fib :=
               (type)))))
       body: (block
         (assignment
-          left: (identifier_pattern
+          pattern: (identifier_pattern
             name: (identifier_pattern_name))
-          right: (abstraction
+          value: (abstraction
             (abstraction_branch
               parameters: (parameters
                 (pattern
@@ -135,7 +135,7 @@ fib :=
               body: (block
                 (identifier)))))
         (application
-          abstraction: (identifier)
+          value: (identifier)
           arguments: (arguments
             (argument
               value: (number)))))))
@@ -145,9 +145,9 @@ fib :=
       body: (block
         (number))))
   (assignment
-    left: (identifier_pattern
+    pattern: (identifier_pattern
       name: (identifier_pattern_name))
-    right: (abstraction
+    value: (abstraction
       (abstraction_branch
         parameters: (parameters
           (pattern
@@ -174,8 +174,8 @@ a(...(a, b))
 
 (program
   (application
-    abstraction: (application
-      abstraction: (identifier)
+    value: (application
+      value: (identifier)
     arguments: (arguments
       (argument
         value: (number))))
@@ -183,27 +183,27 @@ a(...(a, b))
       (argument
         value: (number))))
   (prefix_application
-    abstraction: (identifier)
+    value: (identifier)
     argument: (number))
   (application
-    abstraction: (identifier)
+    value: (identifier)
     arguments: (arguments
       (argument)
       (argument
         value: (number))))
   (prefix_application
-    abstraction: (identifier)
+    value: (identifier)
     argument: (number))
   (infix_application
     left: (number)
-    abstraction: (identifier)
+    value: (identifier)
     right: (prefix_application
-      abstraction: (identifier)
+      value: (identifier)
       argument: (application
-        abstraction: (identifier)
+        value: (identifier)
         arguments: (arguments))))
   (application
-    abstraction: (identifier)
+    value: (identifier)
     arguments: (arguments
       (argument
         value: (spread
@@ -224,16 +224,16 @@ prefix application
 
 (program
   (prefix_application
-    abstraction: (identifier)
+    value: (identifier)
     argument: (boolean))
   (prefix_application
-    abstraction: (identifier)
+    value: (identifier)
     argument: (number))
   (prefix_application
-    abstraction: (identifier)
+    value: (identifier)
     argument: (number))
   (prefix_application
-    abstraction: (identifier)
+    value: (identifier)
     argument: (number)))
 
 ==================
@@ -273,145 +273,145 @@ false || !false
 (program
   (infix_application
     left: (number)
-    abstraction: (identifier)
+    value: (identifier)
     right: (number))
   (infix_application
     left: (number)
-    abstraction: (identifier)
+    value: (identifier)
     right: (number))
   (infix_application
     left: (number)
-    abstraction: (identifier)
+    value: (identifier)
     right: (number))
   (infix_application
     left: (number)
-    abstraction: (identifier)
+    value: (identifier)
     right: (number))
   (infix_application
     left: (number)
-    abstraction: (identifier)
+    value: (identifier)
     right: (number))
   (infix_application
     left: (number)
-    abstraction: (identifier)
+    value: (identifier)
     right: (number))
   (infix_application
     left: (number)
-    abstraction: (identifier)
+    value: (identifier)
     right: (number))
   (infix_application
     left: (number)
-    abstraction: (identifier)
+    value: (identifier)
     right: (number))
   (infix_application
     left: (number)
-    abstraction: (identifier)
+    value: (identifier)
     right: (number))
   (infix_application
     left: (number)
-    abstraction: (identifier)
+    value: (identifier)
     right: (number))
   (infix_application
     left: (number)
-    abstraction: (identifier)
+    value: (identifier)
     right: (number))
   (infix_application
     left: (number)
-    abstraction: (identifier)
+    value: (identifier)
     right: (number))
   (infix_application
     left: (number)
-    abstraction: (identifier)
+    value: (identifier)
     right: (number))
   (infix_application
     left: (identifier)
-    abstraction: (identifier)
+    value: (identifier)
     right: (number))
   (infix_application
     left: (number)
-    abstraction: (identifier)
+    value: (identifier)
     right: (identifier))
   (infix_application
     left: (identifier)
-    abstraction: (identifier)
+    value: (identifier)
     right: (identifier))
   (infix_application
     left: (boolean)
-    abstraction: (identifier)
+    value: (identifier)
     right: (boolean))
   (infix_application
     left: (boolean)
-    abstraction: (identifier)
+    value: (identifier)
     right: (boolean))
   (infix_application
     left: (infix_application
       left: (boolean)
-      abstraction: (identifier)
+      value: (identifier)
       right: (boolean))
-    abstraction: (identifier)
+    value: (identifier)
     right: (boolean))
   (infix_application
     left: (infix_application
       left: (boolean)
-      abstraction: (identifier)
+      value: (identifier)
       right: (boolean))
-    abstraction: (identifier)
+    value: (identifier)
     right: (boolean))
   (infix_application
     left: (boolean)
-    abstraction: (identifier)
+    value: (identifier)
     right: (infix_application
       left: (boolean)
-      abstraction: (identifier)
+      value: (identifier)
       right: (boolean)))
   (infix_application
     left: (infix_application
       left: (number)
-      abstraction: (identifier)
+      value: (identifier)
       right: (number))
-    abstraction: (identifier)
+    value: (identifier)
     right: (number))
   (infix_application
     left: (infix_application
       left: (number)
-      abstraction: (identifier)
+      value: (identifier)
       right: (number))
-    abstraction: (identifier)
+    value: (identifier)
     right: (number))
   (infix_application
     left: (number)
-    abstraction: (identifier)
+    value: (identifier)
     right: (prefix_application
-      abstraction: (identifier)
+      value: (identifier)
       argument: (number)))
   (infix_application
     left: (infix_application
       left: (infix_application
         left: (number)
-        abstraction: (identifier)
+        value: (identifier)
         right: (number))
-      abstraction: (identifier)
+      value: (identifier)
       right: (number))
-    abstraction: (identifier)
+    value: (identifier)
     right: (number))
   (infix_application
     left: (boolean)
-    abstraction: (identifier)
+    value: (identifier)
     right: (prefix_application
-      abstraction: (identifier)
+      value: (identifier)
       argument: (boolean)))
   (infix_application
     left: (pipeline
-      left: (pipeline
-        left: (identifier)
-        right: (identifier))
-      right: (identifier))
-    abstraction: (identifier)
+      argument: (pipeline
+        argument: (identifier)
+        value: (identifier))
+      value: (identifier))
+    value: (identifier)
     right: (pipeline
-      left: (number)
-      right: (pipeline
-        left: (identifier)
-        right: (identifier)))))
+      argument: (number)
+      value: (pipeline
+        argument: (identifier)
+        value: (identifier)))))
 
 ==================
 pipeline
@@ -423,11 +423,11 @@ a.b.c(1)
 
 (program
   (application
-    abstraction: (pipeline
-      left: (pipeline
-        left: (identifier)
-        right: (identifier))
-      right: (identifier))
+    value: (pipeline
+      argument: (pipeline
+        argument: (identifier)
+        value: (identifier))
+      value: (identifier))
     arguments: (arguments
       (argument
         value: (number)))))
@@ -444,20 +444,20 @@ a.b[c]
 
 (program
   (access
-      left: (identifier)
-      right: (number))
+      value: (identifier)
+      accessor: (number))
   (application
-    abstraction: (access
-      left: (type)
-      right: (shorthand_access_identifier))
+    value: (access
+      value: (type)
+      accessor: (shorthand_access_identifier))
     arguments: (arguments
       (argument
         value: (number))))
   (pipeline
-    left: (identifier)
-    right: (access
-      left: (identifier)
-      right: (identifier))))
+    argument: (identifier)
+    value: (access
+      value: (identifier)
+      accessor: (identifier))))
 
 ==================
 assignment
@@ -471,15 +471,15 @@ a := (a :: Type) =>
 
 (program
   (assignment
-    left: (identifier_pattern
+    pattern: (identifier_pattern
       name: (identifier_pattern_name)
       type: (type_constructor
         (type)))
-    right: (number))
+    value: (number))
   (assignment
-    left: (identifier_pattern
+    pattern: (identifier_pattern
       name: (identifier_pattern_name))
-    right: (abstraction
+    value: (abstraction
       (abstraction_branch
         parameters: (parameters
           (pattern
@@ -503,18 +503,18 @@ export module A
 (program
   (export
     declaration: (assignment
-      left: (identifier_pattern
+      pattern: (identifier_pattern
         name: (identifier_pattern_name))
-      right: (number)))
+      value: (number)))
   (export
     declaration: (module
       name: (type)
       body: (block
         (export
           declaration: (assignment
-            left: (identifier_pattern
+            pattern: (identifier_pattern
               name: (identifier_pattern_name))
-            right: (number)))))))
+            value: (number)))))))
 
 ==================
 return
@@ -575,9 +575,9 @@ if true then 1 else 1
     alternative: (block
       (number)))
   (assignment
-    left: (identifier_pattern
+    pattern: (identifier_pattern
       name: (identifier_pattern_name))
-    right: (if
+    value: (if
       condition: (boolean)
       consequence: (block
         (number))
@@ -591,7 +591,7 @@ if true then 1 else 1
           consequence: (block
             (number))))))
   (application
-    abstraction: (identifier)
+    value: (identifier)
     arguments: (arguments
       (argument
         value: (if
@@ -623,9 +623,9 @@ else 1
 
 (program
   (assignment
-    left: (identifier_pattern
+    pattern: (identifier_pattern
       name: (identifier_pattern_name))
-    right: (case
+    value: (case
       value: (identifier)
       branches: (when_clauses
         (when_clause
@@ -676,16 +676,16 @@ module Type where a := 1
     name: (type)
     body: (block
       (assignment
-        left: (identifier_pattern
+        pattern: (identifier_pattern
           name: (identifier_pattern_name))
-        right: (number))))
+        value: (number))))
   (module
     name: (type)
     body: (block
       (assignment
-        left: (identifier_pattern
+        pattern: (identifier_pattern
           name: (identifier_pattern_name))
-        right: (number)))))
+        value: (number)))))
 
 ==================
 list comprehension
@@ -702,36 +702,35 @@ list comprehension
     body: (block
       (infix_application
         left: (identifier)
-        abstraction: (identifier)
+        value: (identifier)
         right: (number)))
     generators: (generators
       (generator
-        name: (identifier)
+        name: (identifier_pattern_name)
         value: (infix_application
           left: (number)
-          abstraction: (identifier)
+          value: (identifier)
           right: (number)))))
   (list_comprehension
     body: (block
       (infix_application
         left: (identifier)
-        abstraction: (identifier)
+        value: (identifier)
         right: (number)))
     generators: (generators
       (generator
-        name: (identifier)
+        name: (identifier_pattern_name)
         value: (infix_application
           left: (number)
-          abstraction: (identifier)
+          value: (identifier)
           right: (number))
-        condition: (generator_condition
-          (infix_application
-            left: (infix_application
-              left: (identifier)
-              abstraction: (identifier)
-              right: (number))
-            abstraction: (identifier)
-            right: (number))))))
+        condition: (infix_application
+          left: (infix_application
+            left: (identifier)
+            value: (identifier)
+            right: (number))
+          value: (identifier)
+          right: (number)))))
   (list_comprehension
     body: (block
       (list
@@ -739,30 +738,28 @@ list comprehension
         (identifier)))
     generators: (generators
       (generator
-        name: (identifier)
+        name: (identifier_pattern_name)
         value: (infix_application
           left: (number)
-          abstraction: (identifier)
+          value: (identifier)
           right: (number))
-        condition: (generator_condition
-          (infix_application
-            left: (infix_application
-              left: (identifier)
-              abstraction: (identifier)
-              right: (number))
-            abstraction: (identifier)
-            right: (number))))
+        condition: (infix_application
+          left: (infix_application
+            left: (identifier)
+            value: (identifier)
+            right: (number))
+          value: (identifier)
+          right: (number)))
       (generator
-        name: (identifier)
+        name: (identifier_pattern_name)
         value: (infix_application
           left: (number)
-          abstraction: (identifier)
+          value: (identifier)
           right: (number))
-        condition: (generator_condition
-          (infix_application
-            left: (infix_application
-              left: (identifier)
-              abstraction: (identifier)
-              right: (number))
-            abstraction: (identifier)
-            right: (number)))))))
+        condition: (infix_application
+          left: (infix_application
+            left: (identifier)
+            value: (identifier)
+            right: (number))
+          value: (identifier)
+          right: (number))))))
