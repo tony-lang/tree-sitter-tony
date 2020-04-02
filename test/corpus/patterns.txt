@@ -51,7 +51,6 @@ tuple pattern
 ============================================
 
 (A, b :: Type) := a
-(b :: Type, ...c :: Type) := a
 
 ---
 
@@ -61,19 +60,6 @@ tuple pattern
       (pattern
         value: (type))
       (pattern
-        name: (identifier_pattern
-          name: (identifier_pattern_name)
-          type: (type_constructor
-            (type)))))
-    value: (identifier))
-  (assignment
-    pattern: (tuple_pattern
-      (pattern
-        name: (identifier_pattern
-          name: (identifier_pattern_name)
-          type: (type_constructor
-            (type))))
-      (rest_tuple
         name: (identifier_pattern
           name: (identifier_pattern_name)
           type: (type_constructor
