@@ -64,7 +64,7 @@ module.exports = grammar({
       'import',
       field('clause', $.import_clause),
       'from',
-      field('source', alias($.string_pattern, $.string))
+      field('source', $.string_pattern)
     ),
     import_clause: $ => seq(
       '{',
@@ -85,7 +85,7 @@ module.exports = grammar({
       'extern',
       field('clause', $.external_import_clause),
       'from',
-      field('source', alias($.string_pattern, $.string))
+      field('source', $.string_pattern)
     ),
     external_import_clause: $ => seq(
       '{',
@@ -202,7 +202,7 @@ module.exports = grammar({
       $.type,
       $.boolean,
       $.number,
-      alias($.string_pattern, $.string),
+      $.string_pattern, $.string,
       $.regex
     ),
     string_pattern: $ => seq(
@@ -410,9 +410,10 @@ module.exports = grammar({
       '[',
       field('body', alias($._simple_expression, $.block)),
       '|',
-      field('generators', alias(commaSep1($.generator), $.generators)),
+      field('generators', $.generators),
       ']'
     ),
+    generators: $ => commaSep1($.generator),
     generator: $ => seq(
       field('name', alias($.identifier, $.identifier_pattern_name)),
       'in',

@@ -9,20 +9,20 @@ map pattern
 
 (program
   (assignment
-    left: (map_pattern
+    pattern: (map_pattern
       (pattern_pair
-        left: (shorthand_access_identifier)
-        right: (pattern
+        key: (shorthand_access_identifier)
+        value: (pattern
           name: (identifier_pattern
             name: (identifier_pattern_name)
             type: (type_constructor
               (type))))))
-    right: (identifier))
+    value: (identifier))
   (assignment
-    left: (map_pattern
+    pattern: (map_pattern
       (pattern_pair
-        left: (shorthand_access_identifier)
-        right: (pattern
+        key: (shorthand_access_identifier)
+        value: (pattern
           name: (identifier_pattern
             name: (identifier_pattern_name)
             type: (type_constructor
@@ -33,8 +33,8 @@ map pattern
           type: (type_constructor
               (type))))
       (pattern_pair
-        left: (string)
-        right: (pattern
+        key: (string)
+        value: (pattern
           name: (identifier_pattern
             name: (identifier_pattern_name)
             type: (type_constructor
@@ -44,7 +44,7 @@ map pattern
           name: (identifier_pattern_name)
           type: (type_constructor
               (type)))))
-    right: (identifier)))
+    value: (identifier)))
 
 ============================================
 tuple pattern
@@ -57,7 +57,7 @@ tuple pattern
 
 (program
   (assignment
-    left: (tuple_pattern
+    pattern: (tuple_pattern
       (pattern
         value: (type))
       (pattern
@@ -65,9 +65,9 @@ tuple pattern
           name: (identifier_pattern_name)
           type: (type_constructor
             (type)))))
-    right: (identifier))
+    value: (identifier))
   (assignment
-    left: (tuple_pattern
+    pattern: (tuple_pattern
       (pattern
         name: (identifier_pattern
           name: (identifier_pattern_name)
@@ -78,7 +78,7 @@ tuple pattern
           name: (identifier_pattern_name)
           type: (type_constructor
             (type)))))
-    right: (identifier)))
+    value: (identifier)))
 
 ============================================
 list pattern
@@ -91,7 +91,7 @@ list pattern
 
 (program
   (assignment
-    left: (list_pattern
+    pattern: (list_pattern
       (pattern
         name: (identifier_pattern
           name: (identifier_pattern_name)
@@ -102,9 +102,9 @@ list pattern
           name: (identifier_pattern_name)
           type: (type_constructor
             (type)))))
-    right: (identifier))
+    value: (identifier))
   (assignment
-    left: (list_pattern
+    pattern: (list_pattern
       (pattern
         name: (identifier_pattern
           name: (identifier_pattern_name)
@@ -120,4 +120,4 @@ list pattern
           name: (identifier_pattern_name)
           type: (type_constructor
             (type)))))
-    right: (identifier)))
+    value: (identifier)))

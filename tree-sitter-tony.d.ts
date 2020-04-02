@@ -60,6 +60,7 @@ declare module 'tree-sitter-tony' {
     ShorthandPairIdentifierPattern = 'shorthand_pair_identifier_pattern',
     Spread = 'spread',
     String = 'string',
+    StringPattern = 'string_pattern',
     Tuple = 'tuple',
     TuplePattern = 'tuple_pattern',
     TupleType = 'tuple_type',
@@ -72,6 +73,7 @@ declare module 'tree-sitter-tony' {
   type Expression = Abstraction | Access | Application | Assignment | Case | Export | Identifier | If | InfixApplication | List | ListComprehension | Literal | Map | Module | Pipeline | PrefixApplication | Return | Tuple
   type Declaration = Assignment | Module
   type Literal = Boolean | Number | Regex | String | Type
+  type LiteralPattern = Boolean | Number | Regex | StringPattern | Type
   type DestructuringPattern = ListPattern | MapPattern | TuplePattern
 
   export interface Abstraction extends Parser.SyntaxNode {}
@@ -117,7 +119,7 @@ declare module 'tree-sitter-tony' {
   }
   export interface ExternalImport extends Parser.SyntaxNode {
     clauseNode: ExternalImportClause
-    sourceNode: String
+    sourceNode: StringPattern
   }
   export interface ExternalImportClause extends Parser.SyntaxNode {}
   export interface ExternalImportClauseIdentifierPair extends Parser.SyntaxNode {
@@ -145,7 +147,7 @@ declare module 'tree-sitter-tony' {
   }
   export interface Import extends Parser.SyntaxNode {
     clauseNode: ImportClause
-    sourceNode: String
+    sourceNode: StringPattern
   }
   export interface ImportClause extends Parser.SyntaxNode {}
   export interface ImportClauseIdentifierPair extends Parser.SyntaxNode {
@@ -183,7 +185,7 @@ declare module 'tree-sitter-tony' {
   export interface Parameters extends Parser.SyntaxNode {}
   export interface Pattern extends Parser.SyntaxNode {
     patternNode?: DestructuringPattern
-    valueNode?: Literal
+    valueNode?: LiteralPattern
     nameNode?: IdentifierPattern
     defaultNode?: Expression
   }
@@ -226,6 +228,7 @@ declare module 'tree-sitter-tony' {
     valueNode: Expression
   }
   export interface String extends Parser.SyntaxNode {}
+  export interface StringPattern extends Parser.SyntaxNode {}
   export interface Tuple extends Parser.SyntaxNode {}
   export interface TuplePattern extends Parser.SyntaxNode {}
   export interface TupleType extends Parser.SyntaxNode {}
