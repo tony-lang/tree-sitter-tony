@@ -45,39 +45,9 @@ module.exports = grammar({
   rules: {
     program: $ => seq(
       optional($.hash_bang_line),
-      optional(repeat1($._statement)),
+      optional(repeat1($._expression)),
     ),
     hash_bang_line: $ => /#!.*/,
-
-    _statement: $ => choice(
-      seq($._simple_statement, $._newline),
-      $._compound_statement
-    ),
-    _simple_statement: $ => choice(
-      $.import,
-      $._simple_expression
-    ),
-    _compound_statement: $ => $._compound_expression,
-
-    import: $ => seq(
-      'import',
-      field('clause', $.import_clause),
-      'from',
-      field('source', $.string_pattern)
-    ),
-    import_clause: $ => seq(
-      '{',
-      commaSep1(choice(
-        $.identifier_pattern,
-        $.import_clause_identifier_pair
-      )),
-      '}'
-    ),
-    import_clause_identifier_pair: $ => seq(
-      field('name', alias($.identifier, $.identifier_pattern_name)),
-      ':',
-      field('as', $.identifier_pattern)
-    ),
 
     _expression: $ => choice(
       seq($._simple_expression, $._newline),
@@ -92,6 +62,7 @@ module.exports = grammar({
       $.pipeline,
       $.access,
       alias($.simple_assignment, $.assignment),
+      $.import,
       alias($.simple_export, $.export),
       $.return,
       alias($.simple_if, $.if),
@@ -301,6 +272,26 @@ module.exports = grammar({
         )
       )
     )),
+
+    import: $ => seq(
+      'import',
+      field('clause', $.import_clause),
+      'from',
+      field('source', $.string_pattern)
+    ),
+    import_clause: $ => seq(
+      '{',
+      commaSep1(choice(
+        $.identifier_pattern,
+        $.import_clause_identifier_pair
+      )),
+      '}'
+    ),
+    import_clause_identifier_pair: $ => seq(
+      field('name', alias($.identifier, $.identifier_pattern_name)),
+      ':',
+      field('as', $.identifier_pattern)
+    ),
 
     simple_export: $ => seq(
       'export',
