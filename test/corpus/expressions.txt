@@ -494,7 +494,14 @@ a := (a :: Type) =>
 import
 ==================
 
-import { a: b, c, a: b :: Type, c :: Type } from 'source'
+import {
+  a: b,
+  c,
+  a: b :: Type,
+  c :: Type,
+  Type: Type,
+  Type
+} from 'source'
 
 ---
 
@@ -516,7 +523,11 @@ import { a: b, c, a: b :: Type, c :: Type } from 'source'
       (identifier_pattern
         name: (identifier_pattern_name)
         type: (type_constructor
-            (type))))
+            (type)))
+      (import_clause_type_pair
+        name: (type_name)
+        as: (type_name))
+      (type_name))
     source: (string_pattern)))
 
 ==================
@@ -537,7 +548,7 @@ export module A
       value: (number)))
   (export
     declaration: (module
-      name: (type)
+      name: (type_name)
       body: (block
         (export
           declaration: (assignment
@@ -702,14 +713,14 @@ module Type where a := 1
 
 (program
   (module
-    name: (type)
+    name: (type_name)
     body: (block
       (assignment
         pattern: (identifier_pattern
           name: (identifier_pattern_name))
         value: (number))))
   (module
-    name: (type)
+    name: (type_name)
     body: (block
       (assignment
         pattern: (identifier_pattern
