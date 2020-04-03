@@ -55,7 +55,6 @@ module.exports = grammar({
     ),
     _simple_statement: $ => choice(
       $.import,
-      $.external_import,
       $._simple_expression
     ),
     _compound_statement: $ => $._compound_expression,
@@ -69,36 +68,15 @@ module.exports = grammar({
     import_clause: $ => seq(
       '{',
       commaSep1(choice(
-        alias($.identifier, $.identifier_pattern_name),
+        $.identifier_pattern,
         $.import_clause_identifier_pair
       )),
       '}'
     ),
     import_clause_identifier_pair: $ => seq(
-      field('left', alias($.identifier, $.identifier_pattern_name)),
+      field('name', alias($.identifier, $.identifier_pattern_name)),
       ':',
-      field('right', alias($.identifier, $.identifier_pattern_name))
-    ),
-
-    external_import: $ => seq(
-      'import',
-      'extern',
-      field('clause', $.external_import_clause),
-      'from',
-      field('source', $.string_pattern)
-    ),
-    external_import_clause: $ => seq(
-      '{',
-      commaSep1(choice(
-        $.identifier_pattern,
-        $.external_import_clause_identifier_pair
-      )),
-      '}'
-    ),
-    external_import_clause_identifier_pair: $ => seq(
-      field('left', alias($.identifier, $.identifier_pattern_name)),
-      ':',
-      field('right', $.identifier_pattern)
+      field('as', $.identifier_pattern)
     ),
 
     _expression: $ => choice(

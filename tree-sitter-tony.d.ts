@@ -17,9 +17,6 @@ declare module 'tree-sitter-tony' {
     EscapeSequence = 'escape_sequence',
     Export = 'export',
     ExpressionPair = 'expression_pair',
-    ExternalImport = 'external_import',
-    ExternalImportClause = 'external_import_clause',
-    ExternalImportClauseIdentifierPair = 'external_import_clause_identifier_pair',
     Generator = 'generator',
     Generators = 'generators',
     HashBangLine = 'hash_bang_line',
@@ -116,15 +113,6 @@ declare module 'tree-sitter-tony' {
     keyNode: ShorthandAccessIdentifier | Expression
     valueNode: Expression
   }
-  export interface ExternalImport extends Parser.SyntaxNode {
-    clauseNode: ExternalImportClause
-    sourceNode: StringPattern
-  }
-  export interface ExternalImportClause extends Parser.SyntaxNode {}
-  export interface ExternalImportClauseIdentifierPair extends Parser.SyntaxNode {
-    leftNode: IdentifierPatternName
-    rightNode: IdentifierPattern
-  }
   export interface Generator extends Parser.SyntaxNode {
     nameNode: IdentifierPatternName
     valueNode: Expression
@@ -150,8 +138,8 @@ declare module 'tree-sitter-tony' {
   }
   export interface ImportClause extends Parser.SyntaxNode {}
   export interface ImportClauseIdentifierPair extends Parser.SyntaxNode {
-    leftNode: IdentifierPatternName
-    rightNode: IdentifierPatternName
+    nameNode: IdentifierPatternName
+    asNode: IdentifierPattern
   }
   export interface InfixApplication extends Parser.SyntaxNode {
     leftNode: Expression
