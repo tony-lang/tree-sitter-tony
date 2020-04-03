@@ -2,7 +2,7 @@
 import
 ==================
 
-import { a: b, c } from 'source'
+import { a: b, c, a: b :: Type, c :: Type } from 'source'
 
 ---
 
@@ -10,30 +10,19 @@ import { a: b, c } from 'source'
   (import
     clause: (import_clause
       (import_clause_identifier_pair
-        left: (identifier_pattern_name)
-        right: (identifier_pattern_name))
-      (identifier_pattern_name))
-    source: (string_pattern)))
-
-==================
-external import
-==================
-
-import extern { a: b :: Type, c :: Type } from 'source'
-
----
-
-(program
-  (external_import
-    clause: (external_import_clause
-      (external_import_clause_identifier_pair
-        left: (identifier_pattern_name)
-        right: (identifier_pattern
+        name: (identifier_pattern_name)
+        as: (identifier_pattern
+          name: (identifier_pattern_name)))
+      (identifier_pattern
+        name: (identifier_pattern_name))
+      (import_clause_identifier_pair
+        name: (identifier_pattern_name)
+        as: (identifier_pattern
           name: (identifier_pattern_name)
           type: (type_constructor
             (type))))
       (identifier_pattern
         name: (identifier_pattern_name)
         type: (type_constructor
-          (type))))
+            (type))))
     source: (string_pattern)))
