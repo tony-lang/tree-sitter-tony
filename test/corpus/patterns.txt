@@ -47,7 +47,7 @@ map pattern
 tuple pattern
 ============================================
 
-(A, b :: Type) := a
+(A, b :: Type, ...c) := a
 
 ---
 
@@ -58,7 +58,10 @@ tuple pattern
       (identifier_pattern
         name: (identifier_pattern_name)
         type: (type_constructor
-          (type))))
+          (type)))
+      (rest_tuple
+        name: (identifier_pattern
+          name: (identifier_pattern_name))))
     value: (identifier)))
 
 ============================================
