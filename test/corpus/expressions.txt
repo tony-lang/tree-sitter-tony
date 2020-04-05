@@ -525,9 +525,9 @@ import {
         type: (type_constructor
             (type)))
       (import_clause_type_pair
-        name: (type_name)
-        as: (type_name))
-      (type_name))
+        name: (type)
+        as: (type))
+      (type))
     source: (string_pattern)))
 
 ==================
@@ -548,7 +548,7 @@ export module A
       value: (number)))
   (export
     declaration: (module
-      name: (type_name)
+      name: (type)
       body: (block
         (export
           declaration: (assignment
@@ -713,14 +713,14 @@ module Type where a := 1
 
 (program
   (module
-    name: (type_name)
+    name: (type)
     body: (block
       (assignment
         pattern: (identifier_pattern
           name: (identifier_pattern_name))
         value: (number))))
   (module
-    name: (type_name)
+    name: (type)
     body: (block
       (assignment
         pattern: (identifier_pattern
