@@ -3,7 +3,7 @@ map pattern
 ============================================
 
 { b: c :: Type } := a
-{ b: c :: Type, d :: Type, ['e']: e :: Type, ...f :: Type } := a
+{ b: c :: Type, d :: Type, ['e']: e :: Type, ...f :: Type = {} } := a
 
 ---
 
@@ -12,38 +12,35 @@ map pattern
     pattern: (map_pattern
       (pattern_pair
         key: (shorthand_access_identifier)
-        value: (pattern
-          name: (identifier_pattern
-            name: (identifier_pattern_name)
-            type: (type_constructor
-              (type))))))
+        value: (identifier_pattern
+          name: (identifier_pattern_name)
+          type: (type_constructor
+            (type)))))
     value: (identifier))
   (assignment
     pattern: (map_pattern
       (pattern_pair
         key: (shorthand_access_identifier)
-        value: (pattern
-          name: (identifier_pattern
-            name: (identifier_pattern_name)
-            type: (type_constructor
-              (type)))))
-      (shorthand_pair_identifier_pattern
-        name: (identifier_pattern
+        value: (identifier_pattern
           name: (identifier_pattern_name)
           type: (type_constructor
-              (type))))
+            (type))))
+      (shorthand_pair_identifier_pattern
+        name: (identifier_pattern_name)
+        type: (type_constructor
+            (type)))
       (pattern_pair
         key: (string)
-        value: (pattern
-          name: (identifier_pattern
-            name: (identifier_pattern_name)
-            type: (type_constructor
-              (type)))))
+        value: (identifier_pattern
+          name: (identifier_pattern_name)
+          type: (type_constructor
+            (type))))
       (rest_map
         name: (identifier_pattern
           name: (identifier_pattern_name)
           type: (type_constructor
-              (type)))))
+              (type))
+          default: (map))))
     value: (identifier)))
 
 ============================================
@@ -57,13 +54,11 @@ tuple pattern
 (program
   (assignment
     pattern: (tuple_pattern
-      (pattern
-        value: (type))
-      (pattern
-        name: (identifier_pattern
-          name: (identifier_pattern_name)
-          type: (type_constructor
-            (type)))))
+      (type)
+      (identifier_pattern
+        name: (identifier_pattern_name)
+        type: (type_constructor
+          (type))))
     value: (identifier)))
 
 ============================================
@@ -71,39 +66,37 @@ list pattern
 ============================================
 
 [b :: Type, c :: Type] := a
-[b :: Type, c :: Type, ...d :: Type] := a
+[b :: Type, c :: Type, ...d :: Type = [1]] := a
 
 ---
 
 (program
   (assignment
     pattern: (list_pattern
-      (pattern
-        name: (identifier_pattern
-          name: (identifier_pattern_name)
-          type: (type_constructor
-            (type))))
-      (pattern
-        name: (identifier_pattern
-          name: (identifier_pattern_name)
-          type: (type_constructor
-            (type)))))
+      (identifier_pattern
+        name: (identifier_pattern_name)
+        type: (type_constructor
+          (type)))
+      (identifier_pattern
+        name: (identifier_pattern_name)
+        type: (type_constructor
+          (type))))
     value: (identifier))
   (assignment
     pattern: (list_pattern
-      (pattern
-        name: (identifier_pattern
-          name: (identifier_pattern_name)
-          type: (type_constructor
-            (type))))
-      (pattern
-        name: (identifier_pattern
-          name: (identifier_pattern_name)
-          type: (type_constructor
-            (type))))
+      (identifier_pattern
+        name: (identifier_pattern_name)
+        type: (type_constructor
+          (type)))
+      (identifier_pattern
+        name: (identifier_pattern_name)
+        type: (type_constructor
+          (type)))
       (rest_list
         name: (identifier_pattern
           name: (identifier_pattern_name)
           type: (type_constructor
-            (type)))))
+            (type))
+          default: (list
+            (number)))))
     value: (identifier)))

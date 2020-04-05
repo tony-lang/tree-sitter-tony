@@ -28,45 +28,37 @@ fib :=
   (abstraction
     (abstraction_branch
       parameters: (parameters
-        (pattern
-          name: (identifier_pattern
-            name: (identifier_pattern_name))))
+        (identifier_pattern
+          name: (identifier_pattern_name)))
       body: (block
         (identifier))))
   (abstraction
     (abstraction_branch
       parameters: (parameters
-        (pattern
-          name: (identifier_pattern
-            name: (identifier_pattern_name)))
-        (pattern
-          name: (identifier_pattern
-            name: (identifier_pattern_name))))
+        (identifier_pattern
+          name: (identifier_pattern_name))
+        (identifier_pattern
+          name: (identifier_pattern_name)))
       body: (block
         (identifier))))
   (abstraction
     (abstraction_branch
       parameters: (parameters
-        (pattern
-          name: (identifier_pattern
+        (identifier_pattern
+          name: (identifier_pattern_name)
+          type: (type_constructor
+            (type)))
+        (identifier_pattern
+          name: (identifier_pattern_name)
+          type: (type_constructor
+            (type)))
+        (number)
+        (map_pattern
+          (shorthand_pair_identifier_pattern
             name: (identifier_pattern_name)
             type: (type_constructor
-              (type))))
-        (pattern
-          name: (identifier_pattern
-            name: (identifier_pattern_name)
-            type: (type_constructor
-              (type))))
-        (pattern
-          value: (number))
-        (pattern
-          pattern: (map_pattern
-            (shorthand_pair_identifier_pattern
-              name: (identifier_pattern
-                name: (identifier_pattern_name)
-                type: (type_constructor
-                  (type)))
-              default: (number)))))
+              (type))
+            default: (number))))
       body: (block
         (identifier))))
   (assignment
@@ -75,23 +67,20 @@ fib :=
     value: (abstraction
       (abstraction_branch
         parameters: (parameters
-          (pattern
-            value: (number)))
+          (number))
         body: (block
           (number)))
       (abstraction_branch
         parameters: (parameters
-          (pattern
-            value: (number)))
+          (number))
         body: (block
           (number)))
       (abstraction_branch
         parameters: (parameters
-          (pattern
-            name: (identifier_pattern
-              name: (identifier_pattern_name)
-              type: (type_constructor
-                (type)))
+          (identifier_pattern
+            name: (identifier_pattern_name)
+            type: (type_constructor
+              (type))
             default: (number)))
         body: (block
           (infix_application
@@ -115,11 +104,10 @@ fib :=
   (abstraction
     (abstraction_branch
       parameters: (parameters
-        (pattern
-          name: (identifier_pattern
-            name: (identifier_pattern_name)
-            type: (type_constructor
-              (type)))))
+        (identifier_pattern
+          name: (identifier_pattern_name)
+          type: (type_constructor
+            (type))))
       body: (block
         (assignment
           pattern: (identifier_pattern
@@ -127,11 +115,10 @@ fib :=
           value: (abstraction
             (abstraction_branch
               parameters: (parameters
-                (pattern
-                  name: (identifier_pattern
-                    name: (identifier_pattern_name)
-                    type: (type_constructor
-                      (type)))))
+                (identifier_pattern
+                  name: (identifier_pattern_name)
+                  type: (type_constructor
+                    (type))))
               body: (block
                 (identifier)))))
         (application
@@ -150,12 +137,10 @@ fib :=
     value: (abstraction
       (abstraction_branch
         parameters: (parameters
-          (pattern
-            name: (identifier_pattern
-              name: (identifier_pattern_name)))
-          (pattern
-            name: (identifier_pattern
-              name: (identifier_pattern_name))))
+          (identifier_pattern
+            name: (identifier_pattern_name))
+          (identifier_pattern
+            name: (identifier_pattern_name)))
         body: (block
           (identifier))))))
 
@@ -482,11 +467,10 @@ a := (a :: Type) =>
     value: (abstraction
       (abstraction_branch
         parameters: (parameters
-          (pattern
-            name: (identifier_pattern
-              name: (identifier_pattern_name)
-              type: (type_constructor
-                (type)))))
+          (identifier_pattern
+            name: (identifier_pattern_name)
+            type: (type_constructor
+              (type))))
         body: (block
           (number))))))
 
@@ -573,11 +557,10 @@ return (a :: Type) =>
     value: (abstraction
       (abstraction_branch
         parameters: (parameters
-          (pattern
-            name: (identifier_pattern
-              name: (identifier_pattern_name)
-              type: (type_constructor
-                (type)))))
+          (identifier_pattern
+            name: (identifier_pattern_name)
+            type: (type_constructor
+              (type))))
         body: (block
           (number))))))
 
@@ -670,8 +653,7 @@ else 1
       branches: (when_clauses
         (when_clause
           values: (pattern_list
-            (pattern
-              value: (number)))
+            (number))
           consequence: (block
             (number))))))
   (case
@@ -679,23 +661,18 @@ else 1
     branches: (when_clauses
       (when_clause
         values: (pattern_list
-          (pattern
-            pattern: (list_pattern
-              (pattern
-                value: (number))
-              (pattern
-                name: (identifier_pattern
-                  name: (identifier_pattern_name)
-                  type: (type_constructor
-                    (type)))))))
+          (list_pattern
+            (number)
+            (identifier_pattern
+              name: (identifier_pattern_name)
+              type: (type_constructor
+                (type)))))
         consequence: (block
           (identifier)))
       (when_clause
         values: (pattern_list
-          (pattern
-            value: (number))
-          (pattern
-            value: (number)))
+          (number)
+          (number))
         consequence: (block
           (number))))
     default: (block
