@@ -17,7 +17,7 @@ map
     (expression_pair
       key: (string)
       value: (number))
-    (spread
+    (spread_map
       value: (identifier))
     (expression_pair
       key: (shorthand_access_identifier)
@@ -29,7 +29,7 @@ map
 tuple
 ==================
 
-(a, 1, 'str')
+(a, 1, 'str', ...x)
 (1,1)
 
 ---
@@ -38,7 +38,9 @@ tuple
   (tuple
     (identifier)
     (number)
-    (string))
+    (string)
+    (spread_tuple
+      value: (identifier)))
   (tuple
     (number)
     (number)))
@@ -58,7 +60,7 @@ list
   (list
     (identifier)
     (number)
-    (spread
+    (spread_list
       value: (identifier))
     (string))
   (list

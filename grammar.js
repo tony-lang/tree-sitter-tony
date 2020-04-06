@@ -118,6 +118,7 @@ module.exports = grammar({
     tuple_pattern: $ => prec(PREC.PATTERN, seq(
       '(',
       commaSep2($._pattern),
+      optional(seq(',', alias($.rest, $.rest_tuple))),
       ')'
     )),
     list_pattern: $ => prec(PREC.PATTERN, seq(
@@ -158,11 +159,16 @@ module.exports = grammar({
       optional(seq('=', field('default', $._simple_expression)))
     )),
 
-    parameters: $ => seq('(', commaSep($._pattern), ')'),
+    parameters: $ => seq(
+      '(',
+      commaSep($._pattern),
+      optional(seq(',', alias($.rest, $.rest_tuple))),
+      ')'
+    ),
 
     argument: $ => prec.left(choice(
       '?',
-      field('value', choice($._simple_expression, $.spread))
+      field('value', choice($._simple_expression, alias($.spread, $.spread_tuple)))
     )),
     arguments: $ => seq('(', commaSep($.argument), ')'),
 
@@ -354,12 +360,12 @@ module.exports = grammar({
       commaSep(choice(
         $.expression_pair,
         alias($.identifier, $.shorthand_pair_identifier),
-        $.spread
+        alias($.spread, $.spread_map)
       )),
       '}'
     )),
-    tuple: $ => prec(PREC.EXPRESSION, seq('(', commaSep2($._simple_expression), ')')),
-    list: $ => prec(PREC.EXPRESSION, seq('[', commaSep(choice($._simple_expression, $.spread)), ']')),
+    tuple: $ => prec(PREC.EXPRESSION, seq('(', commaSep2(choice($._simple_expression, alias($.spread, $.spread_tuple))), ')')),
+    list: $ => prec(PREC.EXPRESSION, seq('[', commaSep(choice($._simple_expression, alias($.spread, $.spread_list))), ']')),
     expression_pair: $ => seq(
       choice(
         seq('[', field('key', $._simple_expression), ']'),

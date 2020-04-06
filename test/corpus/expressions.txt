@@ -191,7 +191,7 @@ a(...(a, b))
     value: (identifier)
     arguments: (arguments
       (argument
-        value: (spread
+        value: (spread_tuple
           value: (tuple
             (identifier)
             (identifier)))))))
