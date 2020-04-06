@@ -147,7 +147,7 @@ curried type
 ==================
 
 a :: Type -> [Type] -> Type := 1
-a :: Type -> (Type -> Type) -> Type := 1
+a :: Type -> (Type -> Type) -> a := 1
 
 ---
 
@@ -170,7 +170,7 @@ a :: Type -> (Type -> Type) -> Type := 1
         (type_constructor
           (type)
           (type))
-        (type)))
+        (type_variable)))
     value: (number)))
 
 ==================

@@ -401,7 +401,8 @@ module.exports = grammar({
       $.type,
       $.map_type,
       $.tuple_type,
-      $.list_type
+      $.list_type,
+      alias($.identifier, $.type_variable)
     ),
     _type_group: $ => seq('(', $.type_constructor, ')'),
     map_type: $ => seq('{', field('key', $.type_constructor), ':', field('value', $.type_constructor), '}'),
