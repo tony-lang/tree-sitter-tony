@@ -1,4 +1,5 @@
 const PREC = Object.freeze({
+  CURRIED_TYPE: 1,
   NAMED_INFIX: 1,
   OPERATOR_INFIX: 2,
   BICONDITIONAL: 3,
@@ -392,18 +393,22 @@ module.exports = grammar({
     ),
 
     type_constructor: $ => $._curried_type,
-    _curried_type: $ => prec.right(choice(
+    _curried_type: $ => prec.right(PREC.CURRIED_TYPE, choice(
       $._atomic_type,
       seq($._atomic_type, '->', optional($._curried_type))
     )),
     _atomic_type: $ => choice(
       $._type_group,
       $.type,
+      $.intersection,
+      $.union,
       $.map_type,
       $.tuple_type,
       $.list_type
     ),
     _type_group: $ => seq('(', $.type_constructor, ')'),
+    intersection: $ => prec.left(seq($.type_constructor, '&', $.type_constructor)),
+    union: $ => prec.left(seq($.type_constructor, '|', $.type_constructor)),
     map_type: $ => seq('{', field('key', $.type_constructor), ':', field('value', $.type_constructor), '}'),
     tuple_type: $ => seq('(', commaSep2($.type_constructor), ')'),
     list_type: $ => seq('[', field('type', $.type_constructor), ']'),
