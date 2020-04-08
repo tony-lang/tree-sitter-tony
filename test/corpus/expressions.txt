@@ -14,7 +14,7 @@ fib :=
   (n :: Type = 2) =>
     fib(n - 1) + fib(n - 2)
 
-(a :: Type) =>
+(...a :: Type) =>
   b := (c :: Type) =>
     c
   b(1)
@@ -104,10 +104,11 @@ fib :=
   (abstraction
     (abstraction_branch
       parameters: (parameters
-        (identifier_pattern
-          name: (identifier_pattern_name)
-          type: (type_constructor
-            (type))))
+        (rest_tuple
+          name: (identifier_pattern
+            name: (identifier_pattern_name)
+            type: (type_constructor
+              (type)))))
       body: (block
         (assignment
           pattern: (identifier_pattern

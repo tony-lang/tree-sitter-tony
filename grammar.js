@@ -118,7 +118,7 @@ module.exports = grammar({
     )),
     tuple_pattern: $ => prec(PREC.PATTERN, seq(
       '(',
-      commaSep2($._pattern),
+      commaSep1($._pattern),
       optional(seq(',', alias($.rest, $.rest_tuple))),
       ')'
     )),
@@ -162,8 +162,13 @@ module.exports = grammar({
 
     parameters: $ => seq(
       '(',
-      commaSep($._pattern),
-      optional(seq(',', alias($.rest, $.rest_tuple))),
+      optional(choice(
+        alias($.rest, $.rest_tuple),
+        seq(
+          commaSep1($._pattern),
+          optional(seq(',', alias($.rest, $.rest_tuple))),
+        )
+      )),
       ')'
     ),
 
