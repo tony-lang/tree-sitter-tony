@@ -479,40 +479,46 @@ a := (a :: Type) =>
 import
 ==================
 
-import {
+import
   a: b,
   c,
   a: b :: Type,
   c :: Type,
   Type: Type,
   Type
-} from 'source'
+from 'source'
+import a, b from 'source'
 
 ---
 
 (program
   (import
-    clause: (import_clause
-      (import_clause_identifier_pair
-        name: (identifier_pattern_name)
-        as: (identifier_pattern
-          name: (identifier_pattern_name)))
-      (identifier_pattern
-        name: (identifier_pattern_name))
-      (import_clause_identifier_pair
-        name: (identifier_pattern_name)
-        as: (identifier_pattern
-          name: (identifier_pattern_name)
-          type: (type_constructor
-            (type))))
-      (identifier_pattern
+    import: (import_identifier_pair
+      name: (identifier_pattern_name)
+      as: (identifier_pattern
+        name: (identifier_pattern_name)))
+    import: (identifier_pattern
+      name: (identifier_pattern_name))
+    import: (import_identifier_pair
+      name: (identifier_pattern_name)
+      as: (identifier_pattern
         name: (identifier_pattern_name)
         type: (type_constructor
-            (type)))
-      (import_clause_type_pair
-        name: (type)
-        as: (type))
-      (type))
+          (type))))
+    import: (identifier_pattern
+      name: (identifier_pattern_name)
+      type: (type_constructor
+          (type)))
+    import: (import_type_pair
+      name: (type)
+      as: (type))
+    import: (type)
+    source: (string_pattern))
+  (import
+    import: (identifier_pattern
+      name: (identifier_pattern_name))
+    import: (identifier_pattern
+      name: (identifier_pattern_name))
     source: (string_pattern)))
 
 ==================

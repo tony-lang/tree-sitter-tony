@@ -279,26 +279,21 @@ module.exports = grammar({
 
     import: $ => seq(
       'import',
-      field('clause', $.import_clause),
+      field('import', commaSep1(choice(
+        $.identifier_pattern,
+        $.import_identifier_pair,
+        $.type,
+        $.import_type_pair
+      ))),
       'from',
       field('source', $.string_pattern)
     ),
-    import_clause: $ => seq(
-      '{',
-      commaSep1(choice(
-        $.identifier_pattern,
-        $.import_clause_identifier_pair,
-        $.type,
-        $.import_clause_type_pair
-      )),
-      '}'
-    ),
-    import_clause_identifier_pair: $ => seq(
+    import_identifier_pair: $ => seq(
       field('name', alias($.identifier, $.identifier_pattern_name)),
       ':',
       field('as', $.identifier_pattern)
     ),
-    import_clause_type_pair: $ => seq(
+    import_type_pair: $ => seq(
       field('name', $.type),
       ':',
       field('as', $.type)
@@ -405,7 +400,6 @@ module.exports = grammar({
     _atomic_type: $ => choice(
       $._type_group,
       $.type,
-      $.intersection,
       $.union,
       $.map_type,
       $.tuple_type,
@@ -413,7 +407,6 @@ module.exports = grammar({
       alias($.identifier, $.type_variable)
     ),
     _type_group: $ => seq('(', $.type_constructor, ')'),
-    intersection: $ => prec.left(seq($.type_constructor, '&', $.type_constructor)),
     union: $ => prec.left(seq($.type_constructor, '|', $.type_constructor)),
     map_type: $ => seq('{', field('key', $.type_constructor), ':', field('value', $.type_constructor), '}'),
     tuple_type: $ => seq('(', commaSep2($.type_constructor), ')'),
