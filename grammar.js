@@ -1,7 +1,6 @@
 const PREC = Object.freeze({
-  UNION_TYPE: 1,
+  TYPE: 1,
   NAMED_INFIX: 1,
-  CURRIED_TYPE: 2,
   OPERATOR_INFIX: 2,
   BICONDITIONAL: 3,
   IMPLICATION: 4,
@@ -36,18 +35,19 @@ module.exports = grammar({
   extras: $ => [$.comment, /\s+/],
   word: $ => $._identifier_without_operators,
   conflicts: $ => [
+    [$._simple_block, $._compound_block],
     [$._simple_expression, $.identifier_pattern],
     [$._literal, $._literal_pattern],
     [$.string, $.string_pattern],
     [$.map, $.map_pattern],
     [$.list, $.list_pattern],
-    [$.identifier_pattern, $.map]
+    [$.parameters, $.tuple_pattern]
   ],
 
   rules: {
     program: $ => seq(
-      optional($.hash_bang_line),
-      optional(repeat1($._expression)),
+      optional(field('hash_bang_line', $.hash_bang_line)),
+      optional(repeat1(field('expression', $._expression))),
     ),
     hash_bang_line: $ => /#!.*/,
 
@@ -93,9 +93,10 @@ module.exports = grammar({
       $.module
     ),
 
-    block: $ => choice(
-      seq($._simple_expression, $._newline),
-      seq($._newline, $._indent, repeat1($._expression), $._dedent)
+    _simple_block: $ => field('expression', $._simple_expression),
+    _compound_block: $ => choice(
+      seq(field('expression', $._simple_expression), $._newline),
+      seq($._newline, $._indent, repeat1(field('expression', $._expression)), $._dedent)
     ),
 
     _pattern: $ => choice(
@@ -111,23 +112,23 @@ module.exports = grammar({
     ),
     map_pattern: $ => prec(PREC.PATTERN, seq(
       '{',
-      commaSep(choice(
+      commaSep(field('element', choice(
         $.pattern_pair,
         alias($.identifier_pattern, $.shorthand_pair_identifier_pattern)
-      )),
-      optional(seq(',', alias($.rest, $.rest_map))),
+      ))),
+      optional(seq(',', field('element', alias($.rest, $.rest_map)))),
       '}'
     )),
     tuple_pattern: $ => prec(PREC.PATTERN, seq(
       '(',
-      commaSep1($._pattern),
-      optional(seq(',', alias($.rest, $.rest_tuple))),
+      commaSep1(field('element', $._pattern)),
+      optional(seq(',', field('element', alias($.rest, $.rest_tuple)))),
       ')'
     )),
     list_pattern: $ => prec(PREC.PATTERN, seq(
       '[',
-      commaSep($._pattern),
-      optional(seq(',', alias($.rest, $.rest_list))),
+      commaSep(field('element', $._pattern)),
+      optional(seq(',', field('element', alias($.rest, $.rest_list)))),
       ']'
     )),
     pattern_pair: $ => seq(
@@ -152,23 +153,23 @@ module.exports = grammar({
     ),
     string_pattern: $ => seq(
       $._string_start,
-      repeat(choice($.escape_sequence, $._string_content)),
+      repeat(choice(field('escape_sequence', $.escape_sequence), $._string_content)),
       $._string_end
     ),
 
-    identifier_pattern: $ => prec(PREC.PATTERN, seq(
+    identifier_pattern: $ => prec.right(PREC.PATTERN, seq(
       field('name', alias($.identifier, $.identifier_pattern_name)),
-      optional(seq('::', field('type', $.type_constructor))),
+      optional(seq('::', field('type', $._type_constructor))),
       optional(seq('=', field('default', $._simple_expression)))
     )),
 
     parameters: $ => seq(
       '(',
       optional(choice(
-        alias($.rest, $.rest_tuple),
+        field('parameter', alias($.rest, $.rest_tuple)),
         seq(
-          commaSep1($._pattern),
-          optional(seq(',', alias($.rest, $.rest_tuple))),
+          commaSep1(field('parameter', $._pattern)),
+          optional(seq(',', field('parameter', alias($.rest, $.rest_tuple)))),
         )
       )),
       ')'
@@ -178,25 +179,25 @@ module.exports = grammar({
       '?',
       field('value', choice($._simple_expression, alias($.spread, $.spread_tuple)))
     )),
-    arguments: $ => seq('(', commaSep($.argument), ')'),
+    arguments: $ => seq('(', commaSep(field('argument', $.argument)), ')'),
 
     _group: $ => seq('(', $._simple_expression, ')'),
 
     simple_abstraction: $ => prec.left(commaSep1(
-      alias($.simple_abstraction_branch, $.abstraction_branch)
+      field('branch', alias($.simple_abstraction_branch, $.abstraction_branch))
     )),
     simple_abstraction_branch: $ => prec.left(seq(
       field('parameters', $.parameters),
       '=>',
-      field('body', alias($._simple_expression, $.block))
+      field('body', alias($._simple_block, $.block))
     )),
     compound_abstraction: $ => prec.left(repeat1(
-      alias($.compound_abstraction_branch, $.abstraction_branch)
+      field('branch', alias($.compound_abstraction_branch, $.abstraction_branch))
     )),
     compound_abstraction_branch: $ => prec.left(seq(
       field('parameters', $.parameters),
       '=>',
-      field('body', $.block)
+      field('body', alias($._compound_block, $.block))
     )),
 
     application: $ => prec(PREC.APPLICATION, seq(
@@ -281,7 +282,7 @@ module.exports = grammar({
 
     import: $ => seq(
       'import',
-      field('import', commaSep1(choice(
+      commaSep1(field('import', choice(
         $.identifier_pattern,
         $.import_identifier_pair,
         $.type,
@@ -292,12 +293,12 @@ module.exports = grammar({
     ),
     import_identifier_pair: $ => seq(
       field('name', alias($.identifier, $.identifier_pattern_name)),
-      ':',
+      'as',
       field('as', $.identifier_pattern)
     ),
     import_type_pair: $ => seq(
       field('name', $.type),
-      ':',
+      'as',
       field('as', $.type)
     ),
 
@@ -319,56 +320,55 @@ module.exports = grammar({
       'if',
       field('condition', $._simple_expression),
       'then',
-      field('consequence', alias($._simple_expression, $.block)),
-      optional(seq('else', field('alternative', alias($._simple_expression, $.block))))
+      field('body', alias($._simple_block, $.block)),
+      optional(seq('else', field('else', alias($._simple_block, $.block))))
     )),
     compound_if: $ => prec.right(seq(
       'if',
       field('condition', $._simple_expression),
       optional('then'),
-      field('consequence', $.block),
-      field('alternatives', alias(repeat($.else_if_clause), $.else_if_clauses)),
-      optional(seq('else', field('alternative', $.block)))
+      field('body', alias($._compound_block, $.block)),
+      repeat(field('else_if', $.else_if)),
+      optional(seq('else', field('else', alias($._compound_block, $.block))))
     )),
-    else_if_clause: $ => seq(
+    else_if: $ => seq(
       'else if',
       field('condition', $._simple_expression),
       optional('then'),
-      field('consequence', $.block)
+      field('body', alias($._compound_block, $.block))
     ),
 
     case: $ => seq(
       'case',
       field('value', $._simple_expression),
-      field('branches', alias(repeat1($.when_clause), $.when_clauses)),
-      optional(seq('else', field('default', $.block)))
+      repeat1(field('when', $.when)),
+      optional(seq('else', field('else', alias($._compound_block, $.block))))
     ),
-    when_clause: $ => seq(
+    when: $ => seq(
       'when',
-      field('values', $.pattern_list),
+      commaSep1(field('pattern', $._pattern)),
       optional('then'),
-      field('consequence', $.block)
+      field('body', alias($._compound_block, $.block))
     ),
-    pattern_list: $ => commaSep1($._pattern),
 
     module: $ => seq(
       'module',
       field('name', $.type_declaration),
       optional('where'),
-      field('body', $.block)
+      field('body', alias($._compound_block, $.block))
     ),
 
     map: $ => prec(PREC.EXPRESSION, seq(
       '{',
-      commaSep(choice(
+      commaSep(field('element', choice(
         $.expression_pair,
         alias($.identifier, $.shorthand_pair_identifier),
         alias($.spread, $.spread_map)
-      )),
+      ))),
       '}'
     )),
-    tuple: $ => prec(PREC.EXPRESSION, seq('(', commaSep2(choice($._simple_expression, alias($.spread, $.spread_tuple))), ')')),
-    list: $ => prec(PREC.EXPRESSION, seq('[', commaSep(choice($._simple_expression, alias($.spread, $.spread_list))), ']')),
+    tuple: $ => prec(PREC.EXPRESSION, seq('(', commaSep2(field('element', choice($._simple_expression, alias($.spread, $.spread_tuple)))), ')')),
+    list: $ => prec(PREC.EXPRESSION, seq('[', commaSep(field('element', choice($._simple_expression, alias($.spread, $.spread_list)))), ']')),
     expression_pair: $ => seq(
       choice(
         seq('[', field('key', $._simple_expression), ']'),
@@ -381,12 +381,11 @@ module.exports = grammar({
 
     list_comprehension: $ => seq(
       '[',
-      field('body', alias($._simple_expression, $.block)),
+      field('body', alias($._simple_block, $.block)),
       '|',
-      field('generators', $.generators),
+      commaSep1(field('generator', $.generator)),
       ']'
     ),
-    generators: $ => commaSep1($.generator),
     generator: $ => seq(
       field('name', alias($.identifier, $.identifier_pattern_name)),
       'in',
@@ -396,38 +395,43 @@ module.exports = grammar({
 
     type_alias: $ => seq(
       'type',
-      field('type', $.type_declaration),
+      field('name', $.type_declaration),
       ':=',
-      field('alias', $.type_constructor)
+      field('type', $._type_constructor)
     ),
 
-    type_constructor: $ => $._curried_type,
-    _curried_type: $ => prec.right(PREC.CURRIED_TYPE, choice(
-      $._atomic_type,
-      seq($._atomic_type, '->', optional($._curried_type))
-    )),
-    parametric_type: $ => prec.right(seq(
-      field('name', $.type),
-      optional(seq(
-        '<',
-        field('parameter', commaSep1($._atomic_type)),
-        '>'
-      ))
-    )),
-    _atomic_type: $ => choice(
+    _type_constructor: $ => choice(
       $._type_group,
       $.parametric_type,
-      $.union,
+      $.curried_type,
+      $.union_type,
       $.map_type,
       $.tuple_type,
       $.list_type,
       alias($.identifier, $.type_variable)
     ),
-    _type_group: $ => seq('(', $.type_constructor, ')'),
-    union: $ => prec.left(PREC.UNION_TYPE, seq($.type_constructor, '|', $.type_constructor)),
-    map_type: $ => seq('{', field('key', $.type_constructor), ':', field('value', $.type_constructor), '}'),
-    tuple_type: $ => seq('(', commaSep2($.type_constructor), ')'),
-    list_type: $ => seq('[', field('type', $.type_constructor), ']'),
+    _type_group: $ => seq('(', $._type_constructor, ')'),
+    parametric_type: $ => prec.right(seq(
+      field('name', $.type),
+      optional(seq(
+        '<',
+        commaSep1(field('parameter', $._type_constructor)),
+        '>'
+      ))
+    )),
+    curried_type: $ => prec.right(PREC.TYPE, seq(
+      field('parameter', $._type_constructor),
+      '->',
+      field('parameter', $._type_constructor)
+    )),
+    union_type: $ => prec.left(PREC.TYPE, seq(
+      field('parameter', $._type_constructor),
+      '|',
+      field('parameter', $._type_constructor)
+    )),
+    map_type: $ => seq('{', field('key', $._type_constructor), ':', field('value', $._type_constructor), '}'),
+    tuple_type: $ => seq('(', commaSep2(field('parameter', $._type_constructor)), ')'),
+    list_type: $ => seq('[', field('parameter', $._type_constructor), ']'),
 
     type_declaration: $ => seq(
       field('name', $.type),
@@ -473,7 +477,7 @@ module.exports = grammar({
 
     string: $ => seq(
       $._string_start,
-      repeat(choice($.interpolation, $.escape_sequence, $._string_content)),
+      repeat(choice(field('interpolation', $.interpolation), field('escape_sequence', $.escape_sequence), $._string_content)),
       $._string_end
     ),
     interpolation: $ => seq(

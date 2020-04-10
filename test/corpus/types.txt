@@ -7,17 +7,14 @@ a :: { Type: Type } := 1
 ---
 
 (program
-  (assignment
+  expression: (assignment
     pattern: (identifier_pattern
       name: (identifier_pattern_name)
-      type: (type_constructor
-        (map_type
-          key: (type_constructor
-            (parametric_type
-              name: (type)))
-          value: (type_constructor
-            (parametric_type
-              name: (type))))))
+      type: (map_type
+        key: (parametric_type
+          name: (type))
+        value: (parametric_type
+          name: (type))))
     value: (number)))
 
 ==================
@@ -29,17 +26,14 @@ a :: (Type, Type) := 1
 ---
 
 (program
-  (assignment
+  expression: (assignment
     pattern: (identifier_pattern
       name: (identifier_pattern_name)
-      type: (type_constructor
-        (tuple_type
-          (type_constructor
-            (parametric_type
-              name: (type)))
-          (type_constructor
-            (parametric_type
-              name: (type))))))
+      type: (tuple_type
+        parameter: (parametric_type
+          name: (type))
+        parameter: (parametric_type
+          name: (type))))
     value: (number)))
 
 ==================
@@ -51,14 +45,12 @@ a :: [Type] := 1
 ---
 
 (program
-  (assignment
+  expression: (assignment
     pattern: (identifier_pattern
       name: (identifier_pattern_name)
-      type: (type_constructor
-        (list_type
-          type: (type_constructor
-            (parametric_type
-              name: (type))))))
+      type: (list_type
+        parameter: (parametric_type
+          name: (type))))
     value: (number)))
 
 ==================
@@ -71,55 +63,57 @@ a :: Type -> (Type -> Type) -> a := 1
 ---
 
 (program
-  (assignment
+  expression: (assignment
     pattern: (identifier_pattern
       name: (identifier_pattern_name)
-      type: (type_constructor
-        (parametric_type
+      type: (curried_type
+        parameter: (parametric_type
           name: (type))
-        (list_type
-          type: (type_constructor
-            (parametric_type
-              name: (type))))
-        (parametric_type
-          name: (type))))
+        parameter: (curried_type
+          parameter: (list_type
+            parameter: (parametric_type
+              name: (type)))
+          parameter: (parametric_type
+            name: (type)))))
     value: (number))
-  (assignment
+  expression: (assignment
     pattern: (identifier_pattern
       name: (identifier_pattern_name)
-      type: (type_constructor
-        (parametric_type
+      type: (curried_type
+        parameter: (parametric_type
           name: (type))
-        (type_constructor
-          (parametric_type
-            name: (type))
-          (parametric_type
-            name: (type)))
-        (type_variable)))
+        parameter: (curried_type
+          parameter: (curried_type
+            parameter: (parametric_type
+              name: (type))
+            parameter: (parametric_type
+              name: (type)))
+          parameter: (type_variable))))
     value: (number)))
 
 ==================
 union type
 ==================
 
-a :: Type -> Type | Type := 1
+a :: Type -> Type | Type | Type := 1
 
 ---
 
 (program
-  (assignment
+  expression: (assignment
     pattern: (identifier_pattern
       name: (identifier_pattern_name)
-      type: (type_constructor
-        (union
-          (type_constructor
-            (parametric_type
+      type: (curried_type
+        parameter: (parametric_type
+          name: (type))
+        parameter: (union_type
+          parameter: (union_type
+            parameter: (parametric_type
               name: (type))
-            (parametric_type
+            parameter: (parametric_type
               name: (type)))
-          (type_constructor
-            (parametric_type
-              name: (type))))))
+          parameter: (parametric_type
+            name: (type)))))
     value: (number)))
 
 
@@ -134,12 +128,12 @@ Type<Type, a, Type>
 ---
 
 (program
-  (parametric_type
+  expression: (parametric_type
     name: (type))
-  (parametric_type
+  expression: (parametric_type
     name: (type)
     parameter: (type_variable))
-  (parametric_type
+  expression: (parametric_type
     name: (type)
     parameter: (parametric_type
       name: (type))
