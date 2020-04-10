@@ -1,6 +1,7 @@
 const PREC = Object.freeze({
-  CURRIED_TYPE: 1,
+  UNION_TYPE: 1,
   NAMED_INFIX: 1,
+  CURRIED_TYPE: 2,
   OPERATOR_INFIX: 2,
   BICONDITIONAL: 3,
   IMPLICATION: 4,
@@ -71,6 +72,7 @@ module.exports = grammar({
       $.tuple,
       $.list,
       $.list_comprehension,
+      $.type_alias,
       $.identifier,
       $._literal
     )),
@@ -392,6 +394,13 @@ module.exports = grammar({
       optional(seq('if', field('condition', $._simple_expression)))
     ),
 
+    type_alias: $ => seq(
+      'type',
+      field('type', $.type_declaration),
+      ':=',
+      field('alias', $.type_constructor)
+    ),
+
     type_constructor: $ => $._curried_type,
     _curried_type: $ => prec.right(PREC.CURRIED_TYPE, choice(
       $._atomic_type,
@@ -415,7 +424,7 @@ module.exports = grammar({
       alias($.identifier, $.type_variable)
     ),
     _type_group: $ => seq('(', $.type_constructor, ')'),
-    union: $ => prec.left(seq($.type_constructor, '|', $.type_constructor)),
+    union: $ => prec.left(PREC.UNION_TYPE, seq($.type_constructor, '|', $.type_constructor)),
     map_type: $ => seq('{', field('key', $.type_constructor), ':', field('value', $.type_constructor), '}'),
     tuple_type: $ => seq('(', commaSep2($.type_constructor), ')'),
     list_type: $ => seq('[', field('type', $.type_constructor), ']'),
