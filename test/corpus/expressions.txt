@@ -47,17 +47,20 @@ fib :=
         (identifier_pattern
           name: (identifier_pattern_name)
           type: (type_constructor
-            (type)))
+            (parametric_type
+              name: (type))))
         (identifier_pattern
           name: (identifier_pattern_name)
           type: (type_constructor
-            (type)))
+            (parametric_type
+              name: (type))))
         (number)
         (map_pattern
           (shorthand_pair_identifier_pattern
             name: (identifier_pattern_name)
             type: (type_constructor
-              (type))
+              (parametric_type
+                name: (type)))
             default: (number))))
       body: (block
         (identifier))))
@@ -80,7 +83,8 @@ fib :=
           (identifier_pattern
             name: (identifier_pattern_name)
             type: (type_constructor
-              (type))
+              (parametric_type
+                name: (type)))
             default: (number)))
         body: (block
           (infix_application
@@ -108,7 +112,8 @@ fib :=
           name: (identifier_pattern
             name: (identifier_pattern_name)
             type: (type_constructor
-              (type)))))
+              (parametric_type
+                name: (type))))))
       body: (block
         (assignment
           pattern: (identifier_pattern
@@ -119,7 +124,8 @@ fib :=
                 (identifier_pattern
                   name: (identifier_pattern_name)
                   type: (type_constructor
-                    (type))))
+                    (parametric_type
+                      name: (type)))))
               body: (block
                 (identifier)))))
         (application
@@ -434,7 +440,8 @@ a.b[c]
       accessor: (number))
   (application
     value: (access
-      value: (type)
+      value: (parametric_type
+        name: (type))
       accessor: (shorthand_access_identifier))
     arguments: (arguments
       (argument
@@ -460,7 +467,8 @@ a := (a :: Type) =>
     pattern: (identifier_pattern
       name: (identifier_pattern_name)
       type: (type_constructor
-        (type)))
+        (parametric_type
+          name: (type))))
     value: (number))
   (assignment
     pattern: (identifier_pattern
@@ -471,7 +479,8 @@ a := (a :: Type) =>
           (identifier_pattern
             name: (identifier_pattern_name)
             type: (type_constructor
-              (type))))
+              (parametric_type
+                name: (type)))))
         body: (block
           (number))))))
 
@@ -504,11 +513,13 @@ import a, b from 'source'
       as: (identifier_pattern
         name: (identifier_pattern_name)
         type: (type_constructor
-          (type))))
+          (parametric_type
+            name: (type)))))
     import: (identifier_pattern
       name: (identifier_pattern_name)
       type: (type_constructor
-          (type)))
+          (parametric_type
+            name: (type))))
     import: (import_type_pair
       name: (type)
       as: (type))
@@ -539,7 +550,8 @@ export module A
       value: (number)))
   (export
     declaration: (module
-      name: (type)
+      name: (type_declaration
+        name: (type))
       body: (block
         (export
           declaration: (assignment
@@ -567,7 +579,8 @@ return (a :: Type) =>
           (identifier_pattern
             name: (identifier_pattern_name)
             type: (type_constructor
-              (type))))
+              (parametric_type
+                name: (type)))))
         body: (block
           (number))))))
 
@@ -673,7 +686,8 @@ else 1
             (identifier_pattern
               name: (identifier_pattern_name)
               type: (type_constructor
-                (type)))))
+                (parametric_type
+                  name: (type))))))
         consequence: (block
           (identifier)))
       (when_clause
@@ -697,14 +711,16 @@ module Type where a := 1
 
 (program
   (module
-    name: (type)
+    name: (type_declaration
+      name: (type))
     body: (block
       (assignment
         pattern: (identifier_pattern
           name: (identifier_pattern_name))
         value: (number))))
   (module
-    name: (type)
+    name: (type_declaration
+      name: (type))
     body: (block
       (assignment
         pattern: (identifier_pattern

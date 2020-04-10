@@ -15,7 +15,8 @@ map pattern
         value: (identifier_pattern
           name: (identifier_pattern_name)
           type: (type_constructor
-            (type)))))
+            (parametric_type
+              name: (type))))))
     value: (identifier))
   (assignment
     pattern: (map_pattern
@@ -24,22 +25,26 @@ map pattern
         value: (identifier_pattern
           name: (identifier_pattern_name)
           type: (type_constructor
-            (type))))
+            (parametric_type
+              name: (type)))))
       (shorthand_pair_identifier_pattern
         name: (identifier_pattern_name)
         type: (type_constructor
-            (type)))
+            (parametric_type
+              name: (type))))
       (pattern_pair
         key: (string)
         value: (identifier_pattern
           name: (identifier_pattern_name)
           type: (type_constructor
-            (type))))
+            (parametric_type
+              name: (type)))))
       (rest_map
         name: (identifier_pattern
           name: (identifier_pattern_name)
           type: (type_constructor
-              (type))
+              (parametric_type
+                name: (type)))
           default: (map))))
     value: (identifier)))
 
@@ -54,11 +59,13 @@ tuple pattern
 (program
   (assignment
     pattern: (tuple_pattern
-      (type)
+      (parametric_type
+        name: (type))
       (identifier_pattern
         name: (identifier_pattern_name)
         type: (type_constructor
-          (type)))
+          (parametric_type
+            name: (type))))
       (rest_tuple
         name: (identifier_pattern
           name: (identifier_pattern_name))))
@@ -79,27 +86,32 @@ list pattern
       (identifier_pattern
         name: (identifier_pattern_name)
         type: (type_constructor
-          (type)))
+          (parametric_type
+            name: (type))))
       (identifier_pattern
         name: (identifier_pattern_name)
         type: (type_constructor
-          (type))))
+          (parametric_type
+            name: (type)))))
     value: (identifier))
   (assignment
     pattern: (list_pattern
       (identifier_pattern
         name: (identifier_pattern_name)
         type: (type_constructor
-          (type)))
+          (parametric_type
+            name: (type))))
       (identifier_pattern
         name: (identifier_pattern_name)
         type: (type_constructor
-          (type)))
+          (parametric_type
+            name: (type))))
       (rest_list
         name: (identifier_pattern
           name: (identifier_pattern_name)
           type: (type_constructor
-            (type))
+            (parametric_type
+              name: (type)))
           default: (list
             (number)))))
     value: (identifier)))

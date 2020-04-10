@@ -1,0 +1,148 @@
+==================
+map type
+==================
+
+a :: { Type: Type } := 1
+
+---
+
+(program
+  (assignment
+    pattern: (identifier_pattern
+      name: (identifier_pattern_name)
+      type: (type_constructor
+        (map_type
+          key: (type_constructor
+            (parametric_type
+              name: (type)))
+          value: (type_constructor
+            (parametric_type
+              name: (type))))))
+    value: (number)))
+
+==================
+tuple type
+==================
+
+a :: (Type, Type) := 1
+
+---
+
+(program
+  (assignment
+    pattern: (identifier_pattern
+      name: (identifier_pattern_name)
+      type: (type_constructor
+        (tuple_type
+          (type_constructor
+            (parametric_type
+              name: (type)))
+          (type_constructor
+            (parametric_type
+              name: (type))))))
+    value: (number)))
+
+==================
+list type
+==================
+
+a :: [Type] := 1
+
+---
+
+(program
+  (assignment
+    pattern: (identifier_pattern
+      name: (identifier_pattern_name)
+      type: (type_constructor
+        (list_type
+          type: (type_constructor
+            (parametric_type
+              name: (type))))))
+    value: (number)))
+
+==================
+curried type
+==================
+
+a :: Type -> [Type] -> Type := 1
+a :: Type -> (Type -> Type) -> a := 1
+
+---
+
+(program
+  (assignment
+    pattern: (identifier_pattern
+      name: (identifier_pattern_name)
+      type: (type_constructor
+        (parametric_type
+          name: (type))
+        (list_type
+          type: (type_constructor
+            (parametric_type
+              name: (type))))
+        (parametric_type
+          name: (type))))
+    value: (number))
+  (assignment
+    pattern: (identifier_pattern
+      name: (identifier_pattern_name)
+      type: (type_constructor
+        (parametric_type
+          name: (type))
+        (type_constructor
+          (parametric_type
+            name: (type))
+          (parametric_type
+            name: (type)))
+        (type_variable)))
+    value: (number)))
+
+==================
+union type
+==================
+
+a :: Type -> Type | Type := 1
+
+---
+
+(program
+  (assignment
+    pattern: (identifier_pattern
+      name: (identifier_pattern_name)
+      type: (type_constructor
+        (union
+          (type_constructor
+            (parametric_type
+              name: (type))
+            (parametric_type
+              name: (type)))
+          (type_constructor
+            (parametric_type
+              name: (type))))))
+    value: (number)))
+
+
+==================
+parametric type
+==================
+
+Type
+Type<a>
+Type<Type, a, Type>
+
+---
+
+(program
+  (parametric_type
+    name: (type))
+  (parametric_type
+    name: (type)
+    parameter: (type_variable))
+  (parametric_type
+    name: (type)
+    parameter: (parametric_type
+      name: (type))
+    parameter: (type_variable)
+    parameter: (parametric_type
+      name: (type))))
