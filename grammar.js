@@ -142,7 +142,7 @@ module.exports = grammar({
     ),
 
     _literal_pattern: $ => choice(
-      $.type,
+      $.parametric_type,
       $.boolean,
       $.number,
       $.string_pattern,
@@ -351,7 +351,7 @@ module.exports = grammar({
 
     module: $ => seq(
       'module',
-      field('name', $.type),
+      field('name', $.type_declaration),
       optional('where'),
       field('body', $.block)
     ),
@@ -397,9 +397,17 @@ module.exports = grammar({
       $._atomic_type,
       seq($._atomic_type, '->', optional($._curried_type))
     )),
+    parametric_type: $ => prec.right(seq(
+      field('name', $.type),
+      optional(seq(
+        '<',
+        field('parameter', commaSep1($._atomic_type)),
+        '>'
+      ))
+    )),
     _atomic_type: $ => choice(
       $._type_group,
-      $.type,
+      $.parametric_type,
       $.union,
       $.map_type,
       $.tuple_type,
@@ -412,12 +420,21 @@ module.exports = grammar({
     tuple_type: $ => seq('(', commaSep2($.type_constructor), ')'),
     list_type: $ => seq('[', field('type', $.type_constructor), ']'),
 
+    type_declaration: $ => seq(
+      field('name', $.type),
+      optional(seq(
+        '<',
+        field('parameter', commaSep1(alias($.identifier, $.type_variable))),
+        '>'
+      ))
+    ),
+
     _identifier_without_operators: $ => /[a-z][a-z0-9_]*\??/,
     _operator: $ => /(==|[!@$%^&*|<>~*\\\-+/.])[!@$%^&*|<>~*\\\-+/.=?]*/,
     identifier: $ => choice($._operator, $._identifier_without_operators),
 
     _literal: $ => choice(
-      $.type,
+      $.parametric_type,
       $.boolean,
       $.number,
       $.string,
