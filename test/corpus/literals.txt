@@ -174,27 +174,6 @@ a :: Type -> (Type -> Type) -> a := 1
     value: (number)))
 
 ==================
-intersection type
-==================
-
-a :: Type -> Type & Type := 1
-
----
-
-(program
-  (assignment
-    pattern: (identifier_pattern
-      name: (identifier_pattern_name)
-      type: (type_constructor
-        (intersection
-          (type_constructor
-            (type)
-            (type))
-          (type_constructor
-            (type)))))
-    value: (number)))
-
-==================
 union type
 ==================
 

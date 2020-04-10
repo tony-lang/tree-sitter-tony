@@ -405,7 +405,6 @@ module.exports = grammar({
     _atomic_type: $ => choice(
       $._type_group,
       $.type,
-      $.intersection,
       $.union,
       $.map_type,
       $.tuple_type,
@@ -413,7 +412,6 @@ module.exports = grammar({
       alias($.identifier, $.type_variable)
     ),
     _type_group: $ => seq('(', $.type_constructor, ')'),
-    intersection: $ => prec.left(seq($.type_constructor, '&', $.type_constructor)),
     union: $ => prec.left(seq($.type_constructor, '|', $.type_constructor)),
     map_type: $ => seq('{', field('key', $.type_constructor), ':', field('value', $.type_constructor), '}'),
     tuple_type: $ => seq('(', commaSep2($.type_constructor), ')'),
