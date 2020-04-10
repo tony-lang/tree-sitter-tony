@@ -12,21 +12,21 @@ declare module 'tree-sitter-tony' {
     Block = 'block',
     Boolean = 'boolean',
     Case = 'case',
-    ElseIfClause = 'else_if_clause',
-    ElseIfClauses = 'else_if_clauses',
+    Comment = 'comment',
+    CurriedType = 'curried_type',
+    ElseIf = 'else_if',
     EscapeSequence = 'escape_sequence',
     Export = 'export',
     ExpressionPair = 'expression_pair',
     Generator = 'generator',
-    Generators = 'generators',
     HashBangLine = 'hash_bang_line',
     Identifier = 'identifier',
     IdentifierPattern = 'identifier_pattern',
     IdentifierPatternName = 'identifier_pattern_name',
     If = 'if',
     Import = 'import',
-    ImportClause = 'import_clause',
-    ImportClauseIdentifierPair = 'import_clause_identifier_pair',
+    ImportIdentifierPair = 'import_identifier_pair',
+    ImportTypePair = 'import_type_pair',
     InfixApplication = 'infix_application',
     Interpolation = 'interpolation',
     List = 'list',
@@ -39,8 +39,7 @@ declare module 'tree-sitter-tony' {
     Module = 'module',
     Number = 'number',
     Parameters = 'parameters',
-    Pattern = 'pattern',
-    PatternList = 'pattern_list',
+    ParametricType = 'parametric_type',
     PatternPair = 'pattern_pair',
     Pipeline = 'pipeline',
     PrefixApplication = 'prefix_application',
@@ -50,29 +49,40 @@ declare module 'tree-sitter-tony' {
     RegexPattern = 'regex_pattern',
     RestList = 'rest_list',
     RestMap = 'rest_map',
+    RestTuple = 'rest_tuple',
     Return = 'return',
     ShorthandAccessIdentifier = 'shorthand_access_identifier',
     ShorthandPairIdentifier = 'shorthand_pair_identifier',
     ShorthandPairIdentifierPattern = 'shorthand_pair_identifier_pattern',
-    Spread = 'spread',
+    SpreadList = 'spread_list',
+    SpreadMap = 'spread_map',
+    SpreadTuple = 'spread_tuple',
     String = 'string',
     StringPattern = 'string_pattern',
     Tuple = 'tuple',
     TuplePattern = 'tuple_pattern',
     TupleType = 'tuple_type',
     Type = 'type',
-    TypeConstructor = 'type_constructor',
-    WhenClause = 'when_clause',
-    WhenClauses = 'when_clauses'
+    TypeAlias = 'type_alias',
+    TypeDeclaration = 'type_declaration',
+    TypeVariable = 'type_variable',
+    UnionType = 'union_type',
+    When = 'when',
   }
 
-  type Expression = Abstraction | Access | Application | Assignment | Case | Export | Identifier | If | InfixApplication | List | ListComprehension | Literal | Map | Module | Pipeline | PrefixApplication | Return | Tuple
+  type Expression = Abstraction | Access | Application | Assignment | Case | Export | Identifier | If | Import | InfixApplication | List | ListComprehension | Literal | Map | Module | Pipeline | PrefixApplication | Return | Tuple | TypeAlias
   type Declaration = Assignment | Module
-  type Literal = Boolean | Number | Regex | String | Type
-  type LiteralPattern = Boolean | Number | Regex | StringPattern | Type
+  type Literal = Boolean | Number | ParametricType | Regex | String
+
+  type Pattern = IdentifierPattern | DestructuringPattern | LiteralPattern
+  type LiteralPattern = Boolean | Number | ParametricType | Regex | StringPattern
   type DestructuringPattern = ListPattern | MapPattern | TuplePattern
 
-  export interface Abstraction extends Parser.SyntaxNode {}
+  type TypeConstructor = CurriedType | ListType | MapType | ParametricType | TupleType | TypeVariable | UnionType
+
+  export interface Abstraction extends Parser.SyntaxNode {
+    branchNodes: AbstractionBranch[]
+  }
   export interface AbstractionBranch extends Parser.SyntaxNode {
     parametersNode: Parameters
     bodyNode: Block
@@ -86,31 +96,38 @@ declare module 'tree-sitter-tony' {
     argumentsNode: Arguments
   }
   export interface Argument extends Parser.SyntaxNode {
-    valueNode?: Expression | Spread
+    valueNode?: Expression | SpreadTuple
   }
-  export interface Arguments extends Parser.SyntaxNode {}
+  export interface Arguments extends Parser.SyntaxNode {
+    argumentNodes: Argument[]
+  }
   export interface Assignment extends Parser.SyntaxNode {
     patternNode: IdentifierPattern | DestructuringPattern
     valueNode: Expression
   }
-  export interface Block extends Parser.SyntaxNode {}
+  export interface Block extends Parser.SyntaxNode {
+    expressionNodes: Expression[]
+  }
   export interface Boolean extends Parser.SyntaxNode {}
   export interface Case extends Parser.SyntaxNode {
     valueNode: Expression
-    branchesNode: WhenClauses
-    defaultNode?: Block
+    branchNodes: When[]
+    elseNode?: Block
   }
-  export interface ElseIfClause extends Parser.SyntaxNode {
+  export interface Comment extends Parser.SyntaxNode {}
+  export interface CurriedType extends Parser.SyntaxNode {
+    parameterNodes: TypeConstructor[]
+  }
+  export interface ElseIf extends Parser.SyntaxNode {
     conditionNode: Expression
-    consequenceNode: Block
+    bodyNode: Block
   }
-  export interface ElseIfClauses extends Parser.SyntaxNode {}
   export interface EscapeSequence extends Parser.SyntaxNode {}
   export interface Export extends Parser.SyntaxNode {
     declarationNode: Declaration
   }
   export interface ExpressionPair extends Parser.SyntaxNode {
-    keyNode: ShorthandAccessIdentifier | Expression
+    keyNode: Expression | ShorthandAccessIdentifier
     valueNode: Expression
   }
   export interface Generator extends Parser.SyntaxNode {
@@ -118,28 +135,31 @@ declare module 'tree-sitter-tony' {
     valueNode: Expression
     conditionNode?: Expression
   }
-  export interface Generators extends Parser.SyntaxNode {}
   export interface HashBangLine extends Parser.SyntaxNode {}
   export interface Identifier extends Parser.SyntaxNode {}
   export interface IdentifierPattern extends Parser.SyntaxNode {
     nameNode: IdentifierPatternName
     typeNode?: TypeConstructor
+    defaultNode?: Expression
   }
-  export interface IdentifierPatternName extends Parser.SyntaxNode {}
+  export interface IdentifierPatternName extends Identifier {}
   export interface If extends Parser.SyntaxNode {
     conditionNode: Expression
-    consequenceNode: Block
-    alternativesNode?: ElseIfClauses
-    alternativeNode?: Block
+    bodyNode: Block
+    elseIfNodes: ElseIf[]
+    elseNode?: Block
   }
   export interface Import extends Parser.SyntaxNode {
-    clauseNode: ImportClause
+    importNodes: (IdentifierPattern | ImportIdentifierPair | Type | ImportTypePair)[]
     sourceNode: StringPattern
   }
-  export interface ImportClause extends Parser.SyntaxNode {}
-  export interface ImportClauseIdentifierPair extends Parser.SyntaxNode {
+  export interface ImportIdentifierPair extends Parser.SyntaxNode {
     nameNode: IdentifierPatternName
     asNode: IdentifierPattern
+  }
+  export interface ImportTypePair extends Parser.SyntaxNode {
+    nameNode: Type
+    asNode: Type
   }
   export interface InfixApplication extends Parser.SyntaxNode {
     leftNode: Expression
@@ -149,34 +169,41 @@ declare module 'tree-sitter-tony' {
   export interface Interpolation extends Parser.SyntaxNode {
     valueNode: Expression
   }
-  export interface List extends Parser.SyntaxNode {}
+  export interface List extends Parser.SyntaxNode {
+    elementNodes: (Expression | SpreadList)[]
+  }
   export interface ListComprehension extends Parser.SyntaxNode {
     bodyNode: Block
-    generatorsNode: Generators
+    generatorNodes: Generator[]
   }
-  export interface ListPattern extends Parser.SyntaxNode {}
+  export interface ListPattern extends Parser.SyntaxNode {
+    elementNodes: (Pattern | RestList)[]
+  }
   export interface ListType extends Parser.SyntaxNode {
-    typeNode: TypeConstructor
+    parameterNode: TypeConstructor
   }
-  export interface Map extends Parser.SyntaxNode {}
-  export interface MapPattern extends Parser.SyntaxNode {}
+  export interface Map extends Parser.SyntaxNode {
+    elementNodes: (ExpressionPair | ShorthandPairIdentifier | SpreadMap)[]
+  }
+  export interface MapPattern extends Parser.SyntaxNode {
+    elementNodes: (PatternPair | ShorthandPairIdentifierPattern | RestMap)[]
+  }
   export interface MapType extends Parser.SyntaxNode {
     keyNode: TypeConstructor
     valueNode: TypeConstructor
   }
   export interface Module extends Parser.SyntaxNode {
-    nameNode: Type
+    nameNode: TypeDeclaration
     bodyNode: Block
   }
   export interface Number extends Parser.SyntaxNode {}
-  export interface Parameters extends Parser.SyntaxNode {}
-  export interface Pattern extends Parser.SyntaxNode {
-    patternNode?: DestructuringPattern
-    valueNode?: LiteralPattern
-    nameNode?: IdentifierPattern
-    defaultNode?: Expression
+  export interface Parameters extends Parser.SyntaxNode {
+    parameterNodes: (Pattern | RestTuple)[]
   }
-  export interface PatternList extends Parser.SyntaxNode {}
+  export interface ParametricType extends Parser.SyntaxNode {
+    nameNode: Type
+    parameterNodes: TypeConstructor[]
+  }
   export interface PatternPair extends Parser.SyntaxNode {
     keyNode: Expression | ShorthandAccessIdentifier
     valueNode: Pattern
@@ -189,10 +216,13 @@ declare module 'tree-sitter-tony' {
     valueNode: Identifier
     argumentNode: Expression
   }
-  export interface Program extends Parser.SyntaxNode {}
+  export interface Program extends Parser.SyntaxNode {
+    hashBangLineNode: HashBangLine
+    expressionNodes: Expression[]
+  }
   export interface Regex extends Parser.SyntaxNode {
     patternNode: RegexPattern
-    flagsNode: RegexFlags
+    flagsNode?: RegexFlags
   }
   export interface RegexFlags extends Parser.SyntaxNode {}
   export interface RegexPattern extends Parser.SyntaxNode {}
@@ -203,27 +233,50 @@ declare module 'tree-sitter-tony' {
   export interface RestMap extends Rest {}
   export interface RestTuple extends Rest {}
   export interface Return extends Parser.SyntaxNode {
-    valueNode: Expression
+    valueNode?: Expression
   }
   export interface ShorthandAccessIdentifier extends Identifier {}
   export interface ShorthandPairIdentifier extends Identifier {}
-  export interface ShorthandPairIdentifierPattern extends Parser.SyntaxNode {
-    nameNode: IdentifierPattern
-    defaultNode?: Expression
-  }
+  export interface ShorthandPairIdentifierPattern extends IdentifierPattern {}
   export interface Spread extends Parser.SyntaxNode {
     valueNode: Expression
   }
-  export interface String extends Parser.SyntaxNode {}
-  export interface StringPattern extends Parser.SyntaxNode {}
-  export interface Tuple extends Parser.SyntaxNode {}
-  export interface TuplePattern extends Parser.SyntaxNode {}
-  export interface TupleType extends Parser.SyntaxNode {}
-  export interface Type extends Parser.SyntaxNode {}
-  export interface TypeConstructor extends Parser.SyntaxNode {}
-  export interface WhenClause extends Parser.SyntaxNode {
-    valuesNode: PatternList
-    consequenceNode: Block
+  export interface SpreadList extends Spread {}
+  export interface SpreadMap extends Spread {}
+  export interface SpreadTuple extends Spread {}
+  export interface String extends Parser.SyntaxNode {
+    interpolationNodes: Interpolation[]
+    escapeSequenceNodes: EscapeSequence[]
   }
-  export interface WhenClauses extends Parser.SyntaxNode {}
+  export interface StringPattern extends Parser.SyntaxNode {
+    escapeSequenceNodes: EscapeSequence[]
+  }
+  export interface Tuple extends Parser.SyntaxNode {
+    elementNodes: (Expression | SpreadTuple)[]
+  }
+  export interface TuplePattern extends Parser.SyntaxNode {
+    elementNodes: (Pattern | RestTuple)[]
+  }
+  export interface TupleType extends Parser.SyntaxNode {
+    parameterNodes: TypeConstructor[]
+  }
+  export interface Type extends Parser.SyntaxNode {}
+  export interface TypeAlias extends Parser.SyntaxNode {
+    nameNode: TypeDeclaration
+    typeNode: TypeConstructor
+  }
+  export interface TypeDeclaration extends Parser.SyntaxNode {
+    nameNode: Type
+    parameterNodes: TypeVariable[]
+  }
+  export interface TypeVariable extends Parser.SyntaxNode {
+    parameterNodes: AtomicType[]
+  }
+  export interface UnionType extends Parser.SyntaxNode {
+    parameterNodes: TypeConstructor[]
+  }
+  export interface When extends Parser.SyntaxNode {
+    patternNodes: Pattern[]
+    bodyNode: Block
+  }
 }

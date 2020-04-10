@@ -15,7 +15,7 @@ hash bang line
 ---
 
 (program
-  (hash_bang_line))
+  hash_bang_line: (hash_bang_line))
 
 ==================
 grouped expression
@@ -30,15 +30,15 @@ n / ((n + 1) * (-2))
 ---
 
 (program
-  (number)
-  (identifier)
-  (prefix_application
+  expression: (number)
+  expression: (identifier)
+  expression: (prefix_application
     value: (identifier)
     argument: (number))
-  (prefix_application
+  expression: (prefix_application
     value: (identifier)
     argument: (identifier))
-  (infix_application
+  expression: (infix_application
     left: (identifier)
     value: (identifier)
     right: (infix_application

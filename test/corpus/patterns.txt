@@ -8,43 +8,38 @@ map pattern
 ---
 
 (program
-  (assignment
+  expression: (assignment
     pattern: (map_pattern
-      (pattern_pair
+      element: (pattern_pair
         key: (shorthand_access_identifier)
         value: (identifier_pattern
           name: (identifier_pattern_name)
-          type: (type_constructor
-            (parametric_type
-              name: (type))))))
+          type: (parametric_type
+            name: (type)))))
     value: (identifier))
-  (assignment
+  expression: (assignment
     pattern: (map_pattern
-      (pattern_pair
+      element: (pattern_pair
         key: (shorthand_access_identifier)
         value: (identifier_pattern
           name: (identifier_pattern_name)
-          type: (type_constructor
-            (parametric_type
-              name: (type)))))
-      (shorthand_pair_identifier_pattern
+          type: (parametric_type
+            name: (type))))
+      element: (shorthand_pair_identifier_pattern
         name: (identifier_pattern_name)
-        type: (type_constructor
-            (parametric_type
-              name: (type))))
-      (pattern_pair
+        type: (parametric_type
+          name: (type)))
+      element: (pattern_pair
         key: (string)
         value: (identifier_pattern
           name: (identifier_pattern_name)
-          type: (type_constructor
-            (parametric_type
-              name: (type)))))
-      (rest_map
+          type: (parametric_type
+            name: (type))))
+      element: (rest_map
         name: (identifier_pattern
           name: (identifier_pattern_name)
-          type: (type_constructor
-              (parametric_type
-                name: (type)))
+          type: (parametric_type
+            name: (type))
           default: (map))))
     value: (identifier)))
 
@@ -57,16 +52,15 @@ tuple pattern
 ---
 
 (program
-  (assignment
+  expression: (assignment
     pattern: (tuple_pattern
-      (parametric_type
+      element: (parametric_type
         name: (type))
-      (identifier_pattern
+      element: (identifier_pattern
         name: (identifier_pattern_name)
-        type: (type_constructor
-          (parametric_type
-            name: (type))))
-      (rest_tuple
+        type: (parametric_type
+          name: (type)))
+      element: (rest_tuple
         name: (identifier_pattern
           name: (identifier_pattern_name))))
     value: (identifier)))
@@ -81,37 +75,32 @@ list pattern
 ---
 
 (program
-  (assignment
+  expression: (assignment
     pattern: (list_pattern
-      (identifier_pattern
+      element: (identifier_pattern
         name: (identifier_pattern_name)
-        type: (type_constructor
-          (parametric_type
-            name: (type))))
-      (identifier_pattern
+        type: (parametric_type
+          name: (type)))
+      element: (identifier_pattern
         name: (identifier_pattern_name)
-        type: (type_constructor
-          (parametric_type
-            name: (type)))))
+        type: (parametric_type
+          name: (type))))
     value: (identifier))
-  (assignment
+  expression: (assignment
     pattern: (list_pattern
-      (identifier_pattern
+      element: (identifier_pattern
         name: (identifier_pattern_name)
-        type: (type_constructor
-          (parametric_type
-            name: (type))))
-      (identifier_pattern
+        type: (parametric_type
+          name: (type)))
+      element: (identifier_pattern
         name: (identifier_pattern_name)
-        type: (type_constructor
-          (parametric_type
-            name: (type))))
-      (rest_list
+        type: (parametric_type
+          name: (type)))
+      element: (rest_list
         name: (identifier_pattern
           name: (identifier_pattern_name)
-          type: (type_constructor
-            (parametric_type
-              name: (type)))
+          type: (parametric_type
+            name: (type))
           default: (list
-            (number)))))
+            element: (number)))))
     value: (identifier)))

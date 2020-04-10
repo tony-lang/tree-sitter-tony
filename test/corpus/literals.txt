@@ -1,77 +1,4 @@
 ==================
-map
-==================
-
-{}
-{ a, b }
-{ ['a']: 1, ...b, c: 'str', d, e }
-
----
-
-(program
-  (map)
-  (map
-    (shorthand_pair_identifier)
-    (shorthand_pair_identifier))
-  (map
-    (expression_pair
-      key: (string)
-      value: (number))
-    (spread_map
-      value: (identifier))
-    (expression_pair
-      key: (shorthand_access_identifier)
-      value: (string))
-    (shorthand_pair_identifier)
-    (shorthand_pair_identifier)))
-
-==================
-tuple
-==================
-
-(a, 1, 'str', ...x)
-(1,1)
-
----
-
-(program
-  (tuple
-    (identifier)
-    (number)
-    (string)
-    (spread_tuple
-      value: (identifier)))
-  (tuple
-    (number)
-    (number)))
-
-==================
-list
-==================
-
-[]
-[a, 1, ...b, 'str']
-[1,1..1,1]
-
----
-
-(program
-  (list)
-  (list
-    (identifier)
-    (number)
-    (spread_list
-      value: (identifier))
-    (string))
-  (list
-    (number)
-    (infix_application
-      left: (number)
-      value: (identifier)
-      right: (number))
-    (number)))
-
-==================
 type
 ==================
 
@@ -81,9 +8,9 @@ AaA0Z
 ---
 
 (program
-  (parametric_type
+  expression: (parametric_type
     name: (type))
-  (parametric_type
+  expression: (parametric_type
     name: (type)))
 
 ==================
@@ -96,8 +23,8 @@ true
 ---
 
 (program
-  (boolean)
-  (boolean))
+  expression: (boolean)
+  expression: (boolean))
 
 ==================
 decimal
@@ -120,23 +47,23 @@ decimal
 ---
 
 (program
-  (prefix_application
+  expression: (prefix_application
     value: (identifier)
     argument: (number))
-  (prefix_application
+  expression: (prefix_application
     value: (identifier)
     argument: (number))
-  (number)
-  (number)
-  (number)
-  (number)
-  (number)
-  (number)
-  (number)
-  (number)
-  (number)
-  (number)
-  (prefix_application
+  expression: (number)
+  expression: (number)
+  expression: (number)
+  expression: (number)
+  expression: (number)
+  expression: (number)
+  expression: (number)
+  expression: (number)
+  expression: (number)
+  expression: (number)
+  expression: (prefix_application
     value: (identifier)
     argument: (number)))
 
@@ -156,16 +83,16 @@ integer
 ---
 
 (program
-  (prefix_application
+  expression: (prefix_application
     value: (identifier)
     argument: (number))
-  (number)
-  (number)
-  (number)
-  (number)
-  (number)
-  (number)
-  (number))
+  expression: (number)
+  expression: (number)
+  expression: (number)
+  expression: (number)
+  expression: (number)
+  expression: (number)
+  expression: (number))
 
 =====================================
 identifier
@@ -183,14 +110,14 @@ abs?
 ---
 
 (program
-  (identifier)
-  (identifier)
-  (identifier)
-  (identifier)
-  (identifier)
-  (identifier)
-  (identifier)
-  (identifier))
+  expression: (identifier)
+  expression: (identifier)
+  expression: (identifier)
+  expression: (identifier)
+  expression: (identifier)
+  expression: (identifier)
+  expression: (identifier)
+  expression: (identifier))
 
 =====================================
 string
@@ -207,15 +134,15 @@ string"
 ---
 
 (program
-  (string)
-  (string)
-  (string
-    (escape_sequence))
-  (string)
-  (string
-    (escape_sequence))
-  (string
-    (interpolation
+  expression: (string)
+  expression: (string)
+  expression: (string
+    escape_sequence: (escape_sequence))
+  expression: (string)
+  expression: (string
+    escape_sequence: (escape_sequence))
+  expression: (string
+    interpolation: (interpolation
       value: (identifier))))
 
 =====================================
@@ -233,22 +160,22 @@ r/[\]/]/
 ---
 
 (program
-  (regex
-    (regex_pattern))
-  (regex
-    (regex_pattern)
-    (regex_flags))
-  (regex
-    (regex_pattern)
-    (regex_flags))
-  (regex
-    (regex_pattern)
-    (regex_flags))
-  (regex
-    (regex_pattern)
-    (regex_flags))
-  (regex
-    (regex_pattern)
-    (regex_flags))
-  (regex
-    (regex_pattern)))
+  expression: (regex
+    pattern: (regex_pattern))
+  expression: (regex
+    pattern: (regex_pattern)
+    flags: (regex_flags))
+  expression: (regex
+    pattern: (regex_pattern)
+    flags: (regex_flags))
+  expression: (regex
+    pattern: (regex_pattern)
+    flags: (regex_flags))
+  expression: (regex
+    pattern: (regex_pattern)
+    flags: (regex_flags))
+  expression: (regex
+    pattern: (regex_pattern)
+    flags: (regex_flags))
+  expression: (regex
+    pattern: (regex_pattern)))
