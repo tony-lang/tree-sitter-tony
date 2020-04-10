@@ -279,26 +279,21 @@ module.exports = grammar({
 
     import: $ => seq(
       'import',
-      field('clause', $.import_clause),
+      field('import', commaSep1(choice(
+        $.identifier_pattern,
+        $.import_identifier_pair,
+        $.type,
+        $.import_type_pair
+      ))),
       'from',
       field('source', $.string_pattern)
     ),
-    import_clause: $ => seq(
-      '{',
-      commaSep1(choice(
-        $.identifier_pattern,
-        $.import_clause_identifier_pair,
-        $.type,
-        $.import_clause_type_pair
-      )),
-      '}'
-    ),
-    import_clause_identifier_pair: $ => seq(
+    import_identifier_pair: $ => seq(
       field('name', alias($.identifier, $.identifier_pattern_name)),
       ':',
       field('as', $.identifier_pattern)
     ),
-    import_clause_type_pair: $ => seq(
+    import_type_pair: $ => seq(
       field('name', $.type),
       ':',
       field('as', $.type)
