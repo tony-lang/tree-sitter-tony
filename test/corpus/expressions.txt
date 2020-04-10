@@ -705,7 +705,7 @@ module
 
 module Type
   a := 1
-module Type where a := 1
+module Type<a> where a :: a := 1
 
 ---
 
@@ -720,11 +720,14 @@ module Type where a := 1
         value: (number))))
   (module
     name: (type_declaration
-      name: (type))
+      name: (type)
+      parameter: (type_variable))
     body: (block
       (assignment
         pattern: (identifier_pattern
-          name: (identifier_pattern_name))
+          name: (identifier_pattern_name)
+          type: (type_constructor
+            (type_variable)))
         value: (number)))))
 
 ==================
