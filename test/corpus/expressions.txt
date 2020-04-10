@@ -806,3 +806,38 @@ list comprehension
             right: (number))
           value: (identifier)
           right: (number))))))
+
+==================
+type alias
+==================
+
+type Type := Type
+type Type<a, b> := (a | b) -> (a | b)
+
+---
+
+(program
+  (type_alias
+    type: (type_declaration
+      name: (type))
+    alias: (type_constructor
+      (parametric_type
+        name: (type))))
+  (type_alias
+    type: (type_declaration
+      name: (type)
+      parameter: (type_variable)
+      parameter: (type_variable))
+    alias: (type_constructor
+      (type_constructor
+        (union
+          (type_constructor
+            (type_variable))
+          (type_constructor
+            (type_variable))))
+      (type_constructor
+        (union
+          (type_constructor
+            (type_variable))
+          (type_constructor
+            (type_variable)))))))
