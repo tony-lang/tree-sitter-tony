@@ -70,15 +70,47 @@ declare module 'tree-sitter-tony' {
     When = 'when',
   }
 
-  type Expression = Abstraction | Access | Application | Assignment | Case | Export | Identifier | If | Import | InfixApplication | List | ListComprehension | Literal | Map | Module | Pipeline | PrefixApplication | Return | Tuple | TypeAlias
+  type Expression =
+    | Abstraction
+    | Access
+    | Application
+    | Assignment
+    | Case
+    | Export
+    | Identifier
+    | If
+    | Import
+    | InfixApplication
+    | List
+    | ListComprehension
+    | Literal
+    | Map
+    | Module
+    | Pipeline
+    | PrefixApplication
+    | Return
+    | Tuple
+    | TypeAlias
   type Declaration = Assignment | Module
   type Literal = Boolean | Number | ParametricType | Regex | String
 
   type Pattern = IdentifierPattern | DestructuringPattern | LiteralPattern
-  type LiteralPattern = Boolean | Number | ParametricType | Regex | StringPattern
+  type LiteralPattern =
+    | Boolean
+    | Number
+    | ParametricType
+    | Regex
+    | StringPattern
   type DestructuringPattern = ListPattern | MapPattern | TuplePattern
 
-  type TypeConstructor = CurriedType | ListType | MapType | ParametricType | TupleType | TypeVariable | UnionType
+  type TypeConstructor =
+    | CurriedType
+    | ListType
+    | MapType
+    | ParametricType
+    | TupleType
+    | TypeVariable
+    | UnionType
 
   export interface Abstraction extends Parser.SyntaxNode {
     branchNodes: AbstractionBranch[]
@@ -150,7 +182,12 @@ declare module 'tree-sitter-tony' {
     elseNode?: Block
   }
   export interface Import extends Parser.SyntaxNode {
-    importNodes: (IdentifierPattern | ImportIdentifierPair | Type | ImportTypePair)[]
+    importNodes: (
+      | IdentifierPattern
+      | ImportIdentifierPair
+      | Type
+      | ImportTypePair
+    )[]
     sourceNode: StringPattern
   }
   export interface ImportIdentifierPair extends Parser.SyntaxNode {
@@ -269,9 +306,7 @@ declare module 'tree-sitter-tony' {
     nameNode: Type
     parameterNodes: TypeVariable[]
   }
-  export interface TypeVariable extends Parser.SyntaxNode {
-    parameterNodes: AtomicType[]
-  }
+  export interface TypeVariable extends Identifier {}
   export interface UnionType extends Parser.SyntaxNode {
     parameterNodes: TypeConstructor[]
   }
