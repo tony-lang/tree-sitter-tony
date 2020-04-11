@@ -13,7 +13,7 @@
     "install": "prebuild-install || node-gyp rebuild"
   },
   "engines": {
-    "node": ">=8"
+    "node": ">=10"
   },
   "repository": {
     "type": "git",
