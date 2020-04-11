@@ -9,8 +9,6 @@ jobs:
     strategy:
       matrix:
         node:
-          - '8.x'
-          - '9.x'
           - '10.x'
           - '11.x'
           - '12.x'
@@ -28,5 +26,9 @@ jobs:
       run: yarn generate
     - name: Test rebuild
       run: yarn install
+    - name: Prettier
+      run: yarn lint
+    - name: TypeScript
+      run: yarn tsc
     - name: Test parser
       run: yarn test

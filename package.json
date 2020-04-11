@@ -8,10 +8,12 @@
     "generate": "tree-sitter generate",
     "parse": "tree-sitter parse",
     "test": "tree-sitter test",
+    "lint": "prettier --check *.js *.ts",
+    "prettier": "prettier --write *.js *.ts",
     "install": "prebuild-install || node-gyp rebuild"
   },
   "engines": {
-    "node": ">=8"
+    "node": ">=10"
   },
   "repository": {
     "type": "git",
@@ -34,6 +36,9 @@
   },
   "devDependencies": {
     "prebuild": "^10.0.0",
-    "tree-sitter-cli": "^0.16.5"
+    "prettier": "^2.0.2",
+    "tree-sitter": "^0.16.1",
+    "tree-sitter-cli": "^0.16.5",
+    "typescript": "^3.8.3"
   }
 }
