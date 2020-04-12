@@ -70,7 +70,7 @@ declare module 'tree-sitter-tony' {
     When = 'when',
   }
 
-  type Expression =
+  export type Expression =
     | Abstraction
     | Access
     | Application
@@ -91,19 +91,22 @@ declare module 'tree-sitter-tony' {
     | Return
     | Tuple
     | TypeAlias
-  type Declaration = Assignment | Module
-  type Literal = Boolean | Number | ParametricType | Regex | String
+  export type Declaration = Assignment | Module
+  export type Literal = Boolean | Number | ParametricType | Regex | String
 
-  type Pattern = IdentifierPattern | DestructuringPattern | LiteralPattern
-  type LiteralPattern =
+  export type Pattern =
+    | IdentifierPattern
+    | DestructuringPattern
+    | LiteralPattern
+  export type LiteralPattern =
     | Boolean
     | Number
     | ParametricType
     | Regex
     | StringPattern
-  type DestructuringPattern = ListPattern | MapPattern | TuplePattern
+  export type DestructuringPattern = ListPattern | MapPattern | TuplePattern
 
-  type TypeConstructor =
+  export type TypeConstructor =
     | CurriedType
     | ListType
     | MapType
