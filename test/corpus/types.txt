@@ -92,32 +92,6 @@ a :: Type -> (Type -> Type) -> a := 1
     value: (number)))
 
 ==================
-union type
-==================
-
-a :: Type -> Type | Type | Type := 1
-
----
-
-(program
-  expression: (assignment
-    pattern: (identifier_pattern
-      name: (identifier_pattern_name)
-      type: (curried_type
-        parameter: (parametric_type
-          name: (type))
-        parameter: (union_type
-          parameter: (union_type
-            parameter: (parametric_type
-              name: (type))
-            parameter: (parametric_type
-              name: (type)))
-          parameter: (parametric_type
-            name: (type)))))
-    value: (number)))
-
-
-==================
 parametric type
 ==================
 

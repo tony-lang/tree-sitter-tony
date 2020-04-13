@@ -863,7 +863,7 @@ type alias
 ==================
 
 type Type := Type
-type Type<a, b> := (a | b) -> (a | b)
+type Type<a, b> := a -> b
 
 ---
 
@@ -879,9 +879,5 @@ type Type<a, b> := (a | b) -> (a | b)
       parameter: (type_variable)
       parameter: (type_variable))
     type: (curried_type
-      parameter: (union_type
-        parameter: (type_variable)
-        parameter: (type_variable))
-      parameter: (union_type
-        parameter: (type_variable)
-        parameter: (type_variable)))))
+      parameter: (type_variable)
+      parameter: (type_variable))))

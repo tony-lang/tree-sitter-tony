@@ -66,7 +66,6 @@ declare module 'tree-sitter-tony' {
     TypeAlias = 'type_alias',
     TypeDeclaration = 'type_declaration',
     TypeVariable = 'type_variable',
-    UnionType = 'union_type',
     When = 'when',
   }
 
@@ -113,7 +112,6 @@ declare module 'tree-sitter-tony' {
     | ParametricType
     | TupleType
     | TypeVariable
-    | UnionType
 
   export interface Abstraction extends Parser.SyntaxNode {
     branchNodes: AbstractionBranch[]
@@ -162,7 +160,7 @@ declare module 'tree-sitter-tony' {
     declarationNode: Declaration
   }
   export interface ExpressionPair extends Parser.SyntaxNode {
-    keyNode: Expression | ShorthandAccessIdentifier
+    keyNode: ShorthandAccessIdentifier | Expression
     valueNode: Expression
   }
   export interface Generator extends Parser.SyntaxNode {
@@ -245,7 +243,7 @@ declare module 'tree-sitter-tony' {
     parameterNodes: TypeConstructor[]
   }
   export interface PatternPair extends Parser.SyntaxNode {
-    keyNode: Expression | ShorthandAccessIdentifier
+    keyNode: ShorthandAccessIdentifier | Expression
     valueNode: Pattern
   }
   export interface Pipeline extends Parser.SyntaxNode {
@@ -310,9 +308,6 @@ declare module 'tree-sitter-tony' {
     parameterNodes: TypeVariable[]
   }
   export interface TypeVariable extends Identifier {}
-  export interface UnionType extends Parser.SyntaxNode {
-    parameterNodes: TypeConstructor[]
-  }
   export interface When extends Parser.SyntaxNode {
     patternNodes: Pattern[]
     bodyNode: Block
