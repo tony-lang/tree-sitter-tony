@@ -523,7 +523,7 @@ import a, b from 'source'
     source: (string_pattern)))
 
 ==================
-export import
+external export
 ==================
 
 export a, b from 'source'
@@ -531,7 +531,7 @@ export a, b from 'source'
 ---
 
 (program
-  expression: (export_import
+  expression: (external_export
     import: (identifier_pattern
       name: (identifier_pattern_name))
     import: (identifier_pattern

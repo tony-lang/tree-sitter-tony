@@ -67,7 +67,7 @@ module.exports = grammar({
           $.access,
           alias($.simple_assignment, $.assignment),
           $.import,
-          $.export_import,
+          $.external_export,
           alias($.simple_export, $.export),
           $.return,
           alias($.simple_if, $.if),
@@ -510,7 +510,7 @@ module.exports = grammar({
         'import',
         $._import_body,
       ),
-    export_import: ($) =>
+    external_export: ($) =>
       seq(
         'export',
         $._import_body,
