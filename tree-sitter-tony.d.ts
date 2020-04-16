@@ -17,6 +17,7 @@ declare module 'tree-sitter-tony' {
     ElseIf = 'else_if',
     EscapeSequence = 'escape_sequence',
     Export = 'export',
+    ExportImport = 'export_import',
     ExpressionPair = 'expression_pair',
     Generator = 'generator',
     HashBangLine = 'hash_bang_line',
@@ -76,6 +77,7 @@ declare module 'tree-sitter-tony' {
     | Assignment
     | Case
     | Export
+    | ExportImport
     | Identifier
     | If
     | Import
@@ -158,6 +160,15 @@ declare module 'tree-sitter-tony' {
   export interface EscapeSequence extends Parser.SyntaxNode {}
   export interface Export extends Parser.SyntaxNode {
     declarationNode: Declaration
+  }
+  export interface ExportImport extends Parser.SyntaxNode {
+    importNodes: (
+      | IdentifierPattern
+      | ImportIdentifierPair
+      | Type
+      | ImportTypePair
+    )[]
+    sourceNode: StringPattern
   }
   export interface ExpressionPair extends Parser.SyntaxNode {
     keyNode: ShorthandAccessIdentifier | Expression

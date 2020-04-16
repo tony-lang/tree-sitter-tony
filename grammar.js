@@ -67,6 +67,7 @@ module.exports = grammar({
           $.access,
           alias($.simple_assignment, $.assignment),
           $.import,
+          $.export_import,
           alias($.simple_export, $.export),
           $.return,
           alias($.simple_if, $.if),
@@ -507,20 +508,28 @@ module.exports = grammar({
     import: ($) =>
       seq(
         'import',
-        commaSep1(
-          field(
-            'import',
-            choice(
-              $.identifier_pattern,
-              $.import_identifier_pair,
-              $.type,
-              $.import_type_pair,
-            ),
+        $._import_body,
+      ),
+    export_import: ($) =>
+      seq(
+        'export',
+        $._import_body,
+      ),
+    _import_body: $ => seq(
+      commaSep1(
+        field(
+          'import',
+          choice(
+            $.identifier_pattern,
+            $.import_identifier_pair,
+            $.type,
+            $.import_type_pair,
           ),
         ),
-        'from',
-        field('source', $.string_pattern),
       ),
+      'from',
+      field('source', $.string_pattern)
+    ),
     import_identifier_pair: ($) =>
       seq(
         field('name', alias($.identifier, $.identifier_pattern_name)),
