@@ -31,7 +31,7 @@
   },
   "homepage": "https://github.com/tony-lang/tree-sitter-tony",
   "dependencies": {
-    "nan": "^2.14.0",
+    "nan": "^2.14.1",
     "prebuild-install": "^5.3.3"
   },
   "devDependencies": {
