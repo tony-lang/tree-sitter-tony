@@ -32,7 +32,7 @@
   "homepage": "https://github.com/tony-lang/tree-sitter-tony",
   "dependencies": {
     "nan": "^2.14.1",
-    "prebuild-install": "^5.3.3"
+    "prebuild-install": "^5.3.4"
   },
   "devDependencies": {
     "prebuild": "^10.0.0",
