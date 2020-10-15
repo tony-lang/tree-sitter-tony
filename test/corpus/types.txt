@@ -67,28 +67,29 @@ a :: Type -> (Type -> Type) -> a := 1
     pattern: (identifier_pattern
       name: (identifier_pattern_name)
       type: (curried_type
-        parameter: (parametric_type
+        from: (parametric_type
           name: (type))
-        parameter: (curried_type
-          parameter: (list_type
+        to: (curried_type
+          from: (list_type
             parameter: (parametric_type
               name: (type)))
-          parameter: (parametric_type
+          to: (parametric_type
             name: (type)))))
     value: (number))
   expression: (assignment
     pattern: (identifier_pattern
       name: (identifier_pattern_name)
       type: (curried_type
-        parameter: (parametric_type
+        from: (parametric_type
           name: (type))
-        parameter: (curried_type
-          parameter: (curried_type
-            parameter: (parametric_type
-              name: (type))
-            parameter: (parametric_type
-              name: (type)))
-          parameter: (type_variable))))
+        to: (curried_type
+          from: (type_group
+            type: (curried_type
+              from: (parametric_type
+                name: (type))
+              to: (parametric_type
+                name: (type))))
+          to: (type_variable))))
     value: (number)))
 
 ==================
@@ -97,7 +98,7 @@ parametric type
 
 Type
 Type<a>
-Type<Type, a, Type>
+Type<Type, a, typeof b, 'string', 5>
 
 ---
 
@@ -112,8 +113,10 @@ Type<Type, a, Type>
     parameter: (parametric_type
       name: (type))
     parameter: (type_variable)
-    parameter: (parametric_type
-      name: (type))))
+    parameter: (typeof
+      value: (identifier))
+    parameter: (string)
+    parameter: (number)))
 
 ==================
 intersection/union type

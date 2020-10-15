@@ -157,7 +157,8 @@ a(...(a, b))
       value: (number)))
   expression: (prefix_application
     value: (identifier)
-    argument: (number))
+    argument: (group
+      value: (number)))
   expression: (application
     value: (identifier)
     argument: (argument)
@@ -372,16 +373,18 @@ false || !false
       argument: (boolean)))
   expression: (infix_application
     left: (pipeline
-      argument: (pipeline
-        argument: (identifier)
-        value: (identifier))
+      argument: (group
+        value: (pipeline
+          argument: (identifier)
+          value: (identifier)))
       value: (identifier))
     value: (identifier)
     right: (pipeline
       argument: (number)
-      value: (pipeline
-        argument: (identifier)
-        value: (identifier)))))
+      value: (group
+        value: (pipeline
+          argument: (identifier)
+          value: (identifier))))))
 
 ==================
 pipeline
@@ -874,5 +877,5 @@ type Type<a, b> := a -> b
       parameter: (type_variable)
       parameter: (type_variable))
     type: (curried_type
-      parameter: (type_variable)
-      parameter: (type_variable))))
+      from: (type_variable)
+      to: (type_variable))))
