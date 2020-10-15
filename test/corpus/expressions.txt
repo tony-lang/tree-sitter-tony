@@ -50,7 +50,7 @@ fib :=
         type: (parametric_type
           name: (type)))
       parameter: (number)
-      parameter: (map_pattern
+      parameter: (struct_pattern
         element: (shorthand_pair_identifier_pattern
           name: (identifier_pattern_name)
           type: (parametric_type
@@ -748,13 +748,13 @@ interface Eq<a> => Ord<a>
     name: (type_declaration
       name: (type)
       parameter: (type_variable))
-    member: (interface_member
+    member: (member_type
       name: (identifier)
       type: (curried_type
         from: (type_variable)
         to: (parametric_type
           name: (type))))
-    member: (interface_member
+    member: (member_type
       name: (identifier)
       type: (curried_type
         from: (type_variable)
@@ -767,7 +767,7 @@ interface Eq<a> => Ord<a>
     name: (type_declaration
       name: (type)
       parameter: (type_variable))
-    member: (interface_member
+    member: (member_type
       name: (identifier)
       type: (curried_type
         from: (type_variable)
@@ -797,7 +797,30 @@ implement Ord<Number>
       value: (number))))
 
 ==================
-map
+struct declaration
+==================
+
+struct Type
+  a :: Number
+  b :: String
+
+---
+
+(program
+  expression: (struct_declaration
+    name: (type_declaration
+      name: (type))
+    member: (member_type
+      name: (identifier)
+      type: (parametric_type
+        name: (type)))
+    member: (member_type
+      name: (identifier)
+      type: (parametric_type
+        name: (type)))))
+
+==================
+struct
 ==================
 
 {}
@@ -807,17 +830,17 @@ map
 ---
 
 (program
-  expression: (map)
-  expression: (map
+  expression: (struct)
+  expression: (struct
     element: (shorthand_pair_identifier)
     element: (shorthand_pair_identifier))
-  expression: (map
-    element: (expression_pair
+  expression: (struct
+    element: (member
       key: (string)
       value: (number))
-    element: (spread_map
+    element: (spread_struct
       value: (identifier))
-    element: (expression_pair
+    element: (member
       key: (shorthand_access_identifier)
       value: (string))
     element: (shorthand_pair_identifier)

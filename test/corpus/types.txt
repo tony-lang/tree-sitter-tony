@@ -1,8 +1,8 @@
 ==================
-map type
+struct type
 ==================
 
-a :: { Type: Type } := 1
+a :: { a :: Type, b :: Type } := 1
 
 ---
 
@@ -10,11 +10,15 @@ a :: { Type: Type } := 1
   expression: (assignment
     pattern: (identifier_pattern
       name: (identifier_pattern_name)
-      type: (map_type
-        key: (parametric_type
-          name: (type))
-        value: (parametric_type
-          name: (type))))
+      type: (struct_type
+        member: (member_type
+          name: (identifier)
+          type: (parametric_type
+            name: (type)))
+        member: (member_type
+          name: (identifier)
+          type: (parametric_type
+            name: (type)))))
     value: (number)))
 
 ==================

@@ -1,5 +1,5 @@
 ============================================
-map pattern
+struct pattern
 ============================================
 
 { b: c :: Type } := a
@@ -9,7 +9,7 @@ map pattern
 
 (program
   expression: (assignment
-    pattern: (map_pattern
+    pattern: (struct_pattern
       element: (pattern_pair
         key: (shorthand_access_identifier)
         value: (identifier_pattern
@@ -18,7 +18,7 @@ map pattern
             name: (type)))))
     value: (identifier))
   expression: (assignment
-    pattern: (map_pattern
+    pattern: (struct_pattern
       element: (pattern_pair
         key: (shorthand_access_identifier)
         value: (identifier_pattern
@@ -35,12 +35,12 @@ map pattern
           name: (identifier_pattern_name)
           type: (parametric_type
             name: (type))))
-      element: (rest_map
+      element: (rest_struct
         name: (identifier_pattern
           name: (identifier_pattern_name)
           type: (parametric_type
             name: (type))
-          default: (map))))
+          default: (struct))))
     value: (identifier)))
 
 ============================================
