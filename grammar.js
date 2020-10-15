@@ -1,6 +1,8 @@
 const PREC = Object.freeze({
   CURRIED_TYPE: 1,
+  UNION_TYPE: 1,
   NAMED_INFIX: 1,
+  INTERSECTION_TYPE: 2,
   OPERATOR_INFIX: 2,
   BICONDITIONAL: 3,
   IMPLICATION: 4,
@@ -677,6 +679,8 @@ module.exports = grammar({
         $._type_group,
         $.parametric_type,
         $.curried_type,
+        $.intersection_type,
+        $.union_type,
         $.map_type,
         $.tuple_type,
         $.list_type,
@@ -699,6 +703,24 @@ module.exports = grammar({
           field('parameter', $._type_constructor),
           '->',
           field('parameter', $._type_constructor),
+        ),
+      ),
+    intersection_type: ($) =>
+      prec.right(
+        PREC.INTERSECTION_TYPE,
+        seq(
+          field('left', $._type_constructor),
+          '&',
+          field('right', $._type_constructor),
+        ),
+      ),
+    union_type: ($) =>
+      prec.right(
+        PREC.UNION_TYPE,
+        seq(
+          field('left', $._type_constructor),
+          '|',
+          field('right', $._type_constructor),
         ),
       ),
     map_type: ($) =>
