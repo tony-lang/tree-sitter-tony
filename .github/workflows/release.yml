@@ -35,6 +35,8 @@ jobs:
         registry-url: https://registry.npmjs.org/
     - name: Install Tree-sitter
       run: yarn global add tree-sitter-cli
+    - name: Install @asgerf/dts-tree-sitter
+      run: yarn add @asgerf/dts-tree-sitter
     - name: Generate parser
       run: yarn build
     - name: Publish
