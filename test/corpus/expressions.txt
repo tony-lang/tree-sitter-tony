@@ -80,21 +80,19 @@ fib :=
           expression: (infix_application
             left: (application
               value: (identifier)
-              arguments: (arguments
-                argument: (argument
-                  value: (infix_application
-                    left: (identifier)
-                    value: (identifier)
-                    right: (number)))))
+              argument: (argument
+                value: (infix_application
+                  left: (identifier)
+                  value: (identifier)
+                  right: (number))))
             value: (identifier)
             right: (application
               value: (identifier)
-              arguments: (arguments
-                argument: (argument
-                  value: (infix_application
-                    left: (identifier)
-                    value: (identifier)
-                    right: (number))))))))))
+              argument: (argument
+                value: (infix_application
+                  left: (identifier)
+                  value: (identifier)
+                  right: (number)))))))))
   expression: (abstraction
     branch: (abstraction_branch
       parameter: (rest_tuple
@@ -116,9 +114,8 @@ fib :=
                 expression: (identifier)))))
         expression: (application
           value: (identifier)
-          arguments: (arguments
-            argument: (argument
-              value: (number)))))))
+          argument: (argument
+            value: (number))))))
   expression: (abstraction
     branch: (abstraction_branch
       body: (block
@@ -139,7 +136,7 @@ fib :=
 application
 ==================
 
-a(1)(1)
+a(1)(1, 2)
 +(1)
 a(?, 1)
 + 1
@@ -152,21 +149,20 @@ a(...(a, b))
   expression: (application
     value: (application
       value: (identifier)
-    arguments: (arguments
       argument: (argument
-        value: (number))))
-  arguments: (arguments
-      argument: (argument
-        value: (number))))
+        value: (number)))
+    argument: (argument
+      value: (number))
+    argument: (argument
+      value: (number)))
   expression: (prefix_application
     value: (identifier)
     argument: (number))
   expression: (application
     value: (identifier)
-    arguments: (arguments
-      argument: (argument)
-      argument: (argument
-        value: (number))))
+    argument: (argument)
+    argument: (argument
+      value: (number)))
   expression: (prefix_application
     value: (identifier)
     argument: (number))
@@ -176,16 +172,14 @@ a(...(a, b))
     right: (prefix_application
       value: (identifier)
       argument: (application
-        value: (identifier)
-        arguments: (arguments))))
+        value: (identifier))))
   expression: (application
     value: (identifier)
-    arguments: (arguments
-      argument: (argument
-        value: (spread_tuple
-          value: (tuple
-            element: (identifier)
-            element: (identifier)))))))
+    argument: (argument
+      value: (spread_tuple
+        value: (tuple
+          element: (identifier)
+          element: (identifier))))))
 
 ==================
 prefix application
@@ -404,9 +398,8 @@ a.b.c(1)
         argument: (identifier)
         value: (identifier))
       value: (identifier))
-    arguments: (arguments
-      argument: (argument
-        value: (number)))))
+    argument: (argument
+      value: (number))))
 
 ==================
 access
@@ -427,9 +420,8 @@ a.b[c]
       value: (parametric_type
         name: (type))
       accessor: (shorthand_access_identifier))
-    arguments: (arguments
-      argument: (argument
-        value: (number))))
+    argument: (argument
+      value: (number)))
   expression: (pipeline
     argument: (identifier)
     value: (access
@@ -627,12 +619,11 @@ if true then 1 else 1
           expression: (number)))))
   expression: (application
     value: (identifier)
-    arguments: (arguments
-      argument: (argument
-        value: (if
-          condition: (boolean)
-          body: (block
-            expression: (number))))))
+    argument: (argument
+      value: (if
+        condition: (boolean)
+        body: (block
+          expression: (number)))))
   expression: (if
     condition: (boolean)
     body: (block
