@@ -90,6 +90,7 @@ module.exports = grammar({
         alias($.compound_if, $.if),
         $.case,
         $.module,
+        $.enum,
       ),
 
     _simple_declaration: ($) =>
@@ -591,6 +592,21 @@ module.exports = grammar({
         field('name', $.type_declaration),
         optional('where'),
         field('body', alias($._compound_block, $.block)),
+      ),
+
+    enum: ($) =>
+      seq(
+        'enum',
+        field('name', $.type_declaration),
+        $._newline,
+        $._indent,
+        repeat1(field('value', $.enum_value)),
+        $._dedent,
+      ),
+    enum_value: ($) =>
+      seq(
+        field('name', $.type_declaration),
+        optional(seq('=', field('value', $._type_literal))),
       ),
 
     map: ($) =>
