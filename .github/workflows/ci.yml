@@ -27,7 +27,7 @@ jobs:
       run: yarn generate
     - name: Install dependencies
       run: yarn install
-    - name: Generate type definitions
+    - name: Generate type declarations
       run: yarn types
     - name: Prettier
       run: yarn lint
