@@ -43,7 +43,7 @@ module.exports = grammar({
     [$._simple_expression, $.identifier_pattern],
     [$._literal, $._literal_pattern],
     [$.string, $.string_pattern],
-    [$.map, $.map_pattern],
+    [$.struct, $.struct_pattern],
     [$.list, $.list_pattern],
     [$._parameters, $.tuple_pattern],
     [$.type_declaration, $._type_constructor],
@@ -76,7 +76,7 @@ module.exports = grammar({
           alias($.simple_export, $.export),
           $.return,
           alias($.simple_if, $.if),
-          $.map,
+          $.struct,
           $.tuple,
           $.list,
           $.list_comprehension,
@@ -97,6 +97,7 @@ module.exports = grammar({
         $.enum,
         $.interface,
         $.implement,
+        $.struct_declaration,
       ),
 
     _simple_declaration: ($) =>
@@ -124,8 +125,8 @@ module.exports = grammar({
       ),
 
     _destructuring_pattern: ($) =>
-      choice($.map_pattern, $.tuple_pattern, $.list_pattern),
-    map_pattern: ($) =>
+      choice($.struct_pattern, $.tuple_pattern, $.list_pattern),
+    struct_pattern: ($) =>
       prec(
         PREC.PATTERN,
         seq(
@@ -142,7 +143,7 @@ module.exports = grammar({
               ),
             ),
           ),
-          optional(seq(',', field('element', alias($.rest, $.rest_map)))),
+          optional(seq(',', field('element', alias($.rest, $.rest_struct)))),
           '}',
         ),
       ),
@@ -622,14 +623,8 @@ module.exports = grammar({
         field('name', $.type_declaration),
         $._newline,
         $._indent,
-        repeat1(field('member', $.interface_member)),
+        repeat1(field('member', $.member_type)),
         $._dedent,
-      ),
-    interface_member: ($) =>
-      seq(
-        field('name', $.identifier),
-        '::',
-        field('type', $._type_constructor),
       ),
 
     implement: ($) =>
@@ -650,7 +645,17 @@ module.exports = grammar({
         $._dedent,
       ),
 
-    map: ($) =>
+    struct_declaration: ($) =>
+      seq(
+        'struct',
+        field('name', $.type_declaration),
+        $._newline,
+        $._indent,
+        repeat1(field('member', $.member_type)),
+        $._dedent,
+      ),
+
+    struct: ($) =>
       prec(
         PREC.EXPRESSION,
         seq(
@@ -659,9 +664,9 @@ module.exports = grammar({
             field(
               'element',
               choice(
-                $.expression_pair,
+                $.member,
                 alias($.identifier, $.shorthand_pair_identifier),
-                alias($.spread, $.spread_map),
+                alias($.spread, $.spread_struct),
               ),
             ),
           ),
@@ -696,7 +701,7 @@ module.exports = grammar({
           ']',
         ),
       ),
-    expression_pair: ($) =>
+    member: ($) =>
       seq(
         choice(
           seq('[', field('key', $._simple_expression), ']'),
@@ -749,7 +754,7 @@ module.exports = grammar({
         $.curried_type,
         $.intersection_type,
         $.union_type,
-        $.map_type,
+        $.struct_type,
         $.tuple_type,
         $.list_type,
         alias($.identifier, $.type_variable),
@@ -793,13 +798,13 @@ module.exports = grammar({
           field('right', $._type_constructor),
         ),
       ),
-    map_type: ($) =>
+    struct_type: ($) =>
+      seq('{', commaSep1(field('member', $.member_type)), '}'),
+    member_type: ($) =>
       seq(
-        '{',
-        field('key', $._type_constructor),
-        ':',
-        field('value', $._type_constructor),
-        '}',
+        field('name', $.identifier),
+        '::',
+        field('type', $._type_constructor),
       ),
     tuple_type: ($) =>
       seq('(', commaSep2(field('parameter', $._type_constructor)), ')'),
