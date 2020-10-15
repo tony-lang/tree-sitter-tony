@@ -219,6 +219,7 @@ module.exports = grammar({
           ),
         ),
       ),
+    _arguments: ($) => seq('(', commaSep(field('argument', $.argument)), ')'),
 
     _group: ($) => seq('(', $._simple_expression, ')'),
 
@@ -260,10 +261,7 @@ module.exports = grammar({
     application: ($) =>
       prec(
         PREC.APPLICATION,
-        seq(
-          field('value', $._simple_expression),
-          seq('(', commaSep(field('argument', $.argument)), ')'),
-        ),
+        seq(field('value', $._simple_expression), $._arguments),
       ),
     prefix_application: ($) =>
       prec.right(
