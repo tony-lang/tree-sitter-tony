@@ -100,6 +100,7 @@ identifier
 
 abs
 a5_ds_
+_private
 abs?
 +
 \
@@ -110,6 +111,7 @@ abs?
 ---
 
 (program
+  expression: (identifier)
   expression: (identifier)
   expression: (identifier)
   expression: (identifier)
