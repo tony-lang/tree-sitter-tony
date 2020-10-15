@@ -966,3 +966,17 @@ type Type<a, b> := a -> b
     type: (curried_type
       from: (type_variable)
       to: (type_variable))))
+
+==================
+type hint
+==================
+
+'string' as String
+
+---
+
+(program
+  expression: (type_hint
+    value: (string)
+    type: (parametric_type
+      name: (type))))
