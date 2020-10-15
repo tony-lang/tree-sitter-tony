@@ -1492,18 +1492,18 @@ tree-sitter-cli@^0.17.1:
   resolved "https://registry.yarnpkg.com/tree-sitter-cli/-/tree-sitter-cli-0.17.1.tgz#d4dcb6bbd5ee21e9fbdc3e91d2e0af4fceb5c732"
   integrity sha512-JFlP+7CebNyG3eqcd73vZmrNASlOi3jXPNfTWXFKCH+U9s5VH/YG6KxUZnqj7uKEGo9qKVfCQ+MC+loxtIw5VA==
 
-tree-sitter@^0.16.1:
-  version "0.16.2"
-  resolved "https://registry.yarnpkg.com/tree-sitter/-/tree-sitter-0.16.2.tgz#5a24015520237738bfe5bee7758667217786f3ad"
-  integrity sha512-1d9oNXVUWJGzpPyTwI7qBHoGZYLD4BU04bHSxj9PqRgR3URY8fXqk2LhFCu7AFBDQHifcinMxss5CqYXCTGcLQ==
+tree-sitter@0.17.0:
+  version "0.17.0"
+  resolved "https://registry.yarnpkg.com/tree-sitter/-/tree-sitter-0.17.0.tgz#c3bcfcafeb3d4a30ee717a6cf3ffb5c8c6257816"
+  integrity sha512-LAzch94k5tLIQFCWKnpW29+K5rbODM9nfxARame7sKOD2P0MRRIdGC/ps0FIu+odKKowWC8YOKZ63St+uxEw1A==
   dependencies:
     nan "^2.14.0"
     prebuild-install "^5.0.0"
 
-tree-sitter@^0.17.0:
-  version "0.17.1"
-  resolved "https://registry.yarnpkg.com/tree-sitter/-/tree-sitter-0.17.1.tgz#821c5a4ac1afdb623d63f5ffc7916663e732a95c"
-  integrity sha512-obIe804bwfAGFMhTjQz0NXF75GDupCVXo7Sv0NVVdA3s/Q4ZI4mdirIN8cpw6bVhz/K1qgUdEuI3SEoOE/q75A==
+tree-sitter@^0.16.1:
+  version "0.16.2"
+  resolved "https://registry.yarnpkg.com/tree-sitter/-/tree-sitter-0.16.2.tgz#5a24015520237738bfe5bee7758667217786f3ad"
+  integrity sha512-1d9oNXVUWJGzpPyTwI7qBHoGZYLD4BU04bHSxj9PqRgR3URY8fXqk2LhFCu7AFBDQHifcinMxss5CqYXCTGcLQ==
   dependencies:
     nan "^2.14.0"
     prebuild-install "^5.0.0"
