@@ -35,10 +35,12 @@ jobs:
         registry-url: https://registry.npmjs.org/
     - name: Install Tree-sitter
       run: yarn global add tree-sitter-cli
-    - name: Install @asgerf/dts-tree-sitter
-      run: yarn add @asgerf/dts-tree-sitter
     - name: Generate parser
       run: yarn build
+    - name: Install dependencies
+      run: yarn install
+    - name: Generate type definitions
+      run: yarn types
     - name: Publish
       run: npm publish
       env:
