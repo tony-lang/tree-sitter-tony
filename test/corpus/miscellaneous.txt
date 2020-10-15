@@ -30,23 +30,30 @@ n / ((n + 1) * (-2))
 ---
 
 (program
-  expression: (number)
-  expression: (identifier)
-  expression: (prefix_application
-    value: (identifier)
-    argument: (number))
-  expression: (prefix_application
-    value: (identifier)
-    argument: (identifier))
+  expression: (group
+    value: (number))
+  expression: (group
+    value: (identifier))
+  expression: (group
+    value: (prefix_application
+      value: (identifier)
+      argument: (number)))
+  expression: (group
+    value: (prefix_application
+      value: (identifier)
+      argument: (identifier)))
   expression: (infix_application
     left: (identifier)
     value: (identifier)
-    right: (infix_application
-      left: (infix_application
-        left: (identifier)
+    right: (group
+      value: (infix_application
+        left: (group
+          value: (infix_application
+            left: (identifier)
+            value: (identifier)
+            right: (number)))
         value: (identifier)
-        right: (number))
-      value: (identifier)
-      right: (prefix_application
-        value: (identifier)
-        argument: (number)))))
+        right: (group
+          value: (prefix_application
+            value: (identifier)
+            argument: (number)))))))

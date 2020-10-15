@@ -58,7 +58,7 @@ module.exports = grammar({
       prec.left(
         PREC.EXPRESSION,
         choice(
-          $._group,
+          $.group,
           alias($.simple_abstraction, $.abstraction),
           $.application,
           $.prefix_application,
@@ -221,7 +221,7 @@ module.exports = grammar({
       ),
     _arguments: ($) => seq('(', commaSep(field('argument', $.argument)), ')'),
 
-    _group: ($) => seq('(', $._simple_expression, ')'),
+    group: ($) => seq('(', field('value', $._simple_expression), ')'),
 
     simple_abstraction: ($) =>
       prec.left(
@@ -674,15 +674,18 @@ module.exports = grammar({
 
     _type_constructor: ($) =>
       choice(
-        $._type_group,
+        $.type_group,
+        $.typeof,
         $.parametric_type,
         $.curried_type,
         $.map_type,
         $.tuple_type,
         $.list_type,
         alias($.identifier, $.type_variable),
+        $._type_literal,
       ),
-    _type_group: ($) => seq('(', $._type_constructor, ')'),
+    type_group: ($) => seq('(', field('type', $._type_constructor), ')'),
+    typeof: ($) => seq('typeof', field('value', $.identifier)),
     parametric_type: ($) =>
       prec.right(
         seq(
@@ -696,9 +699,9 @@ module.exports = grammar({
       prec.right(
         PREC.CURRIED_TYPE,
         seq(
-          field('parameter', $._type_constructor),
+          field('from', $._type_constructor),
           '->',
-          field('parameter', $._type_constructor),
+          field('to', $._type_constructor),
         ),
       ),
     map_type: ($) =>
@@ -712,6 +715,7 @@ module.exports = grammar({
     tuple_type: ($) =>
       seq('(', commaSep2(field('parameter', $._type_constructor)), ')'),
     list_type: ($) => seq('[', field('parameter', $._type_constructor), ']'),
+    _type_literal: ($) => choice($.boolean, $.number, $.string, $.regex),
 
     type_declaration: ($) =>
       seq(
