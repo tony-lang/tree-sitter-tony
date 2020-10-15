@@ -799,16 +799,13 @@ module.exports = grammar({
         ),
       ),
     struct_type: ($) =>
+      seq('{', commaSep1(field('member', $.member_type)), '}'),
+    member_type: ($) =>
       seq(
-        '{',
-        commaSep1(field('member', $.member_type)),
-        '}',
+        field('name', $.identifier),
+        '::',
+        field('type', $._type_constructor),
       ),
-    member_type: ($) => seq(
-      field('name', $.identifier),
-      '::',
-      field('type', $._type_constructor),
-    ),
     tuple_type: ($) =>
       seq('(', commaSep2(field('parameter', $._type_constructor)), ')'),
     list_type: ($) => seq('[', field('parameter', $._type_constructor), ']'),
