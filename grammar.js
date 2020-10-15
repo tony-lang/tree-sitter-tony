@@ -603,7 +603,11 @@ module.exports = grammar({
         repeat1(field('value', $.enum_value)),
         $._dedent,
       ),
-    enum_value: ($) => seq(field('name', $.type_declaration), optional(seq('=', field('value', $._type_literal)))),
+    enum_value: ($) =>
+      seq(
+        field('name', $.type_declaration),
+        optional(seq('=', field('value', $._type_literal))),
+      ),
 
     map: ($) =>
       prec(
