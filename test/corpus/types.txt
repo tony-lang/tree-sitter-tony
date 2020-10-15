@@ -117,3 +117,28 @@ Type<Type, a, typeof b, 'string', 5>
       value: (identifier))
     parameter: (string)
     parameter: (number)))
+
+==================
+intersection/union type
+==================
+
+a :: Type | Type & Type | Type := 1
+
+---
+
+(program
+  expression: (assignment
+    pattern: (identifier_pattern
+      name: (identifier_pattern_name)
+      type: (union_type
+        left: (parametric_type
+          name: (type))
+        right: (union_type
+          left: (intersection_type
+            left: (parametric_type
+              name: (type))
+            right: (parametric_type
+              name: (type)))
+          right: (parametric_type
+            name: (type)))))
+    value: (number)))
