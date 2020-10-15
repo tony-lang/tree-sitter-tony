@@ -41,7 +41,7 @@ module.exports = grammar({
     [$.string, $.string_pattern],
     [$.map, $.map_pattern],
     [$.list, $.list_pattern],
-    [$.parameters, $.tuple_pattern],
+    [$._parameters, $.tuple_pattern],
   ],
 
   rules: {
@@ -192,7 +192,7 @@ module.exports = grammar({
         ),
       ),
 
-    parameters: ($) =>
+    _parameters: ($) =>
       seq(
         '(',
         optional(
@@ -235,7 +235,7 @@ module.exports = grammar({
     simple_abstraction_branch: ($) =>
       prec.left(
         seq(
-          field('parameters', $.parameters),
+          field('parameters', $._parameters),
           '=>',
           field('body', alias($._simple_block, $.block)),
         ),
@@ -252,7 +252,7 @@ module.exports = grammar({
     compound_abstraction_branch: ($) =>
       prec.left(
         seq(
-          field('parameters', $.parameters),
+          field('parameters', $._parameters),
           '=>',
           field('body', alias($._compound_block, $.block)),
         ),
