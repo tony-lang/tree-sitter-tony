@@ -971,7 +971,7 @@ type Type<a, b> := a -> b
 type hint
 ==================
 
-'string' :: String
+'string' as String
 
 ---
 

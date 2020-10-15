@@ -1,8 +1,9 @@
 const PREC = Object.freeze({
-  VALUE_LITERAL: 1,
+  TYPE_HINT: 1,
   CURRIED_TYPE: 1,
   UNION_TYPE: 1,
   NAMED_INFIX: 1,
+  VALUE_LITERAL: 1,
   INTERSECTION_TYPE: 2,
   OPERATOR_INFIX: 2,
   BICONDITIONAL: 3,
@@ -731,10 +732,13 @@ module.exports = grammar({
       ),
 
     type_hint: ($) =>
-      seq(
-        field('value', $._simple_expression),
-        '::',
-        field('type', $._type_constructor),
+      prec.left(
+        PREC.TYPE_HINT,
+        seq(
+          field('value', $._simple_expression),
+          'as',
+          field('type', $._type_constructor),
+        ),
       ),
 
     _type_constructor: ($) =>
