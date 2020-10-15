@@ -710,6 +710,28 @@ module Type<a> where a :: a := 1
         value: (number)))))
 
 ==================
+enum
+==================
+
+enum Type
+  A
+  B = 'string'
+
+---
+
+(program
+  expression: (enum
+    name: (type_declaration
+      name: (type))
+    value: (enum_value
+      name: (type_declaration
+        name: (type)))
+    value: (enum_value
+      name: (type_declaration
+        name: (type))
+      value: (string))))
+
+==================
 map
 ==================
 
