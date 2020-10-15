@@ -22,7 +22,7 @@ jobs:
     - name: Install Tree-sitter
       run: yarn global add tree-sitter-cli
     - name: Generate parser
-      run: yarn generate
+      run: yarn build
     - name: Install dependencies
       run: yarn install --dev
 
