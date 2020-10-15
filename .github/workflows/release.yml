@@ -36,7 +36,11 @@ jobs:
     - name: Install Tree-sitter
       run: yarn global add tree-sitter-cli
     - name: Generate parser
-      run: yarn generate
+      run: yarn build
+    - name: Install dependencies
+      run: yarn install
+    - name: Generate type definitions
+      run: yarn types
     - name: Publish
       run: npm publish
       env:
