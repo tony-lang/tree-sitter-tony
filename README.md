@@ -19,6 +19,10 @@ Run tests:
 
     $ yarn test
 
+Generate type declarations:
+
+    $ yarn types
+
 ---
 
 ## Release

@@ -1,4 +1,5 @@
 const PREC = Object.freeze({
+  VALUE_LITERAL: 1,
   CURRIED_TYPE: 1,
   UNION_TYPE: 1,
   NAMED_INFIX: 1,
@@ -44,6 +45,7 @@ module.exports = grammar({
     [$.map, $.map_pattern],
     [$.list, $.list_pattern],
     [$._parameters, $.tuple_pattern],
+    [$.type_declaration, $._type_constructor],
   ],
 
   rules: {
@@ -91,6 +93,8 @@ module.exports = grammar({
         $.case,
         $.module,
         $.enum,
+        $.interface,
+        $.implement,
       ),
 
     _simple_declaration: ($) =>
@@ -606,7 +610,42 @@ module.exports = grammar({
     enum_value: ($) =>
       seq(
         field('name', $.type_declaration),
-        optional(seq('=', field('value', $._type_literal))),
+        optional(seq('=', field('value', $._value_literal))),
+      ),
+
+    interface: ($) =>
+      seq(
+        'interface',
+        optional(seq(commaSep1(field('dependency', $.parametric_type)), '=>')),
+        field('name', $.type_declaration),
+        $._newline,
+        $._indent,
+        repeat1(field('member', $.interface_member)),
+        $._dedent,
+      ),
+    interface_member: ($) =>
+      seq(
+        field('name', $.identifier),
+        '::',
+        field('type', $._type_constructor),
+      ),
+
+    implement: ($) =>
+      seq(
+        'implement',
+        field('name', $.parametric_type),
+        $._newline,
+        $._indent,
+        repeat1(
+          choice(
+            seq(
+              field('assignment', alias($.simple_assignment, $.assignment)),
+              $._newline,
+            ),
+            field('assignment', alias($.compound_assignment, $.assignment)),
+          ),
+        ),
+        $._dedent,
       ),
 
     map: ($) =>
@@ -702,7 +741,7 @@ module.exports = grammar({
         $.tuple_type,
         $.list_type,
         alias($.identifier, $.type_variable),
-        $._type_literal,
+        $._value_literal,
       ),
     type_group: ($) => seq('(', field('type', $._type_constructor), ')'),
     typeof: ($) => seq('typeof', field('value', $.identifier)),
@@ -753,7 +792,6 @@ module.exports = grammar({
     tuple_type: ($) =>
       seq('(', commaSep2(field('parameter', $._type_constructor)), ')'),
     list_type: ($) => seq('[', field('parameter', $._type_constructor), ']'),
-    _type_literal: ($) => choice($.boolean, $.number, $.string, $.regex),
 
     type_declaration: ($) =>
       seq(
@@ -771,8 +809,9 @@ module.exports = grammar({
     _operator: ($) => /(==|[!@$%^&*|<>~*\\\-+/.])[!@$%^&*|<>~*\\\-+/.=?]*/,
     identifier: ($) => choice($._operator, $._identifier_without_operators),
 
-    _literal: ($) =>
-      choice($.parametric_type, $.boolean, $.number, $.string, $.regex),
+    _value_literal: ($) =>
+      prec(PREC.VALUE_LITERAL, choice($.boolean, $.number, $.string, $.regex)),
+    _literal: ($) => choice($.parametric_type, $._value_literal),
 
     type: ($) => /[A-Z][a-zA-Z0-9]*/,
 
