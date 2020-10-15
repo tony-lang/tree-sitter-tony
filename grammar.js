@@ -80,6 +80,7 @@ module.exports = grammar({
           $.list,
           $.list_comprehension,
           $.type_alias,
+          $.type_hint,
           $.identifier,
           $._literal,
         ),
@@ -726,6 +727,13 @@ module.exports = grammar({
         'type',
         field('name', $.type_declaration),
         ':=',
+        field('type', $._type_constructor),
+      ),
+
+    type_hint: ($) =>
+      seq(
+        field('value', $._simple_expression),
+        '::',
         field('type', $._type_constructor),
       ),
 
