@@ -13,6 +13,7 @@ jobs:
           - '11.x'
           - '12.x'
           - '13.x'
+          - '14.x'
 
     name: Node ${{ matrix.node }}
     steps:
