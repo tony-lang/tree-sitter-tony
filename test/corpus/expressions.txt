@@ -721,8 +721,7 @@ enum Type
 
 (program
   expression: (enum
-    name: (type_declaration
-      name: (type))
+    name: (type)
     value: (enum_value
       name: (type_declaration
         name: (type)))
