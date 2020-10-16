@@ -604,7 +604,7 @@ module.exports = grammar({
     enum: ($) =>
       seq(
         'enum',
-        field('name', $.type_declaration),
+        field('name', $.type),
         $._newline,
         $._indent,
         repeat1(field('value', $.enum_value)),
