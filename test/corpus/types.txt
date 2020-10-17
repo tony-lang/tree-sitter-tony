@@ -22,6 +22,30 @@ a :: { a :: Type, b :: Type } := 1
     value: (number)))
 
 ==================
+named struct type
+==================
+
+a :: Struct{ a :: Type, b :: Type } := 1
+
+---
+
+(program
+  expression: (assignment
+    pattern: (identifier_pattern
+      name: (identifier_pattern_name)
+      type: (named_struct_type
+        name: (type)
+        member: (member_type
+          name: (identifier)
+          type: (parametric_type
+            name: (type)))
+        member: (member_type
+          name: (identifier)
+          type: (parametric_type
+            name: (type)))))
+    value: (number)))
+
+==================
 tuple type
 ==================
 
@@ -41,6 +65,26 @@ a :: (Type, Type) := 1
     value: (number)))
 
 ==================
+named tuple type
+==================
+
+a :: Tuple(Type, Type) := 1
+
+---
+
+(program
+  expression: (assignment
+    pattern: (identifier_pattern
+      name: (identifier_pattern_name)
+      type: (named_tuple_type
+        name: (type)
+        value: (parametric_type
+          name: (type))
+        value: (parametric_type
+          name: (type))))
+    value: (number)))
+
+==================
 list type
 ==================
 
@@ -53,6 +97,24 @@ a :: [Type] := 1
     pattern: (identifier_pattern
       name: (identifier_pattern_name)
       type: (list_type
+        element: (parametric_type
+          name: (type))))
+    value: (number)))
+
+==================
+named list type
+==================
+
+a :: List[Type] := 1
+
+---
+
+(program
+  expression: (assignment
+    pattern: (identifier_pattern
+      name: (identifier_pattern_name)
+      type: (named_list_type
+        name: (type)
         element: (parametric_type
           name: (type))))
     value: (number)))

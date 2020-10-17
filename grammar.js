@@ -56,6 +56,9 @@ const dataStructure = ($, element, rest, commaSepImpl = commaSep1) =>
 const struct = ($, member, rest = false) =>
   seq('{', dataStructure($, field('member', member), rest), '}')
 
+const namedStruct = ($, member, rest = false) =>
+  seq(field('name', $.type), struct($, member, rest))
+
 const tuple = ($, element, rest = false, allowSingle = false) =>
   seq(
     '(',
@@ -73,6 +76,9 @@ const namedTuple = ($, name, element, rest = false) =>
 
 const list = ($, element, rest = false) =>
   seq('[', dataStructure($, field('element', element), rest), ']')
+
+const namedList = ($, element, rest = false) =>
+  seq(field('name', $.type), list($, element, rest))
 
 const member = ($, value) =>
   seq(
@@ -120,8 +126,11 @@ module.exports = grammar({
     [$._literal, $._literal_pattern],
     [$.string, $.string_pattern],
     [$.struct, $.struct_pattern],
+    [$.named_struct, $.named_struct_pattern],
     [$.tuple, $.tuple_pattern],
+    [$.named_tuple, $.named_tuple_pattern],
     [$.list, $.list_pattern],
+    [$.named_list, $.named_list_pattern],
     [$.type_declaration, $._type_constructor],
   ],
 
@@ -153,8 +162,11 @@ module.exports = grammar({
           $.return,
           alias($.simple_if, $.if),
           $.struct,
+          $.named_struct,
           $.tuple,
+          $.named_tuple,
           $.list,
+          $.named_list,
           $.list_comprehension,
           $.type_alias,
           $.type_hint,
@@ -196,7 +208,14 @@ module.exports = grammar({
       ),
 
     _destructuring_pattern: ($) =>
-      choice($.struct_pattern, $.tuple_pattern, $.list_pattern),
+      choice(
+        $.struct_pattern,
+        $.named_struct_pattern,
+        $.tuple_pattern,
+        $.named_tuple_pattern,
+        $.list_pattern,
+        $.named_list_pattern,
+      ),
     struct_pattern: ($) =>
       prec(
         PREC.PATTERN,
@@ -209,8 +228,24 @@ module.exports = grammar({
           true,
         ),
       ),
+    named_struct_pattern: ($) =>
+      prec(
+        PREC.PATTERN,
+        namedStruct(
+          $,
+          choice(
+            $.member_pattern,
+            alias($.identifier_pattern, $.shorthand_member_pattern),
+          ),
+          true,
+        ),
+      ),
     tuple_pattern: ($) => prec(PREC.PATTERN, tuple($, $._pattern, true, true)),
+    named_tuple_pattern: ($) =>
+      prec(PREC.PATTERN, namedTuple($, $.type, $._pattern, true, true)),
     list_pattern: ($) => prec(PREC.PATTERN, list($, $._pattern, true)),
+    named_list_pattern: ($) =>
+      prec(PREC.PATTERN, namedList($, $._pattern, true)),
     member_pattern: ($) => member($, $._pattern),
     rest: ($) => seq('...', field('name', $.identifier_pattern)),
 
@@ -637,9 +672,24 @@ module.exports = grammar({
           choice($.member, alias($.identifier, $.shorthand_member), $.spread),
         ),
       ),
+    named_struct: ($) =>
+      prec(
+        PREC.EXPRESSION,
+        namedStruct(
+          $,
+          choice($.member, alias($.identifier, $.shorthand_member), $.spread),
+        ),
+      ),
     tuple: ($) => prec(PREC.EXPRESSION, tuple($, $.tuple_element)),
+    named_tuple: ($) =>
+      prec(PREC.EXPRESSION, namedTuple($, $.type, $.tuple_element)),
     list: ($) =>
       prec(PREC.EXPRESSION, list($, choice($._simple_expression, $.spread))),
+    named_list: ($) =>
+      prec(
+        PREC.EXPRESSION,
+        namedList($, choice($._simple_expression, $.spread)),
+      ),
     member: ($) => member($, $._simple_expression),
     tuple_element: ($) =>
       prec.left(
@@ -693,8 +743,11 @@ module.exports = grammar({
         $.intersection_type,
         $.union_type,
         $.struct_type,
+        $.named_struct_type,
         $.tuple_type,
+        $.named_tuple_type,
         $.list_type,
+        $.named_list_type,
         alias($.identifier, $.type_variable),
       ),
     type_group: ($) => seq('(', field('type', $._type_constructor), ')'),
@@ -729,6 +782,7 @@ module.exports = grammar({
         ),
       ),
     struct_type: ($) => struct($, $.member_type),
+    named_struct_type: ($) => namedStruct($, $.member_type),
     member_type: ($) =>
       seq(
         field('name', $.identifier),
@@ -736,7 +790,15 @@ module.exports = grammar({
         field('type', $._type_constructor),
       ),
     tuple_type: ($) => tuple($, $._type_constructor),
+    named_tuple_type: ($) => namedTuple($, $.type, $._type_constructor),
     list_type: ($) => seq('[', field('element', $._type_constructor), ']'),
+    named_list_type: ($) =>
+      seq(
+        field('name', $.type),
+        '[',
+        field('element', $._type_constructor),
+        ']',
+      ),
 
     type_declaration: ($) =>
       seq(

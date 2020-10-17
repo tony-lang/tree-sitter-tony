@@ -861,15 +861,47 @@ struct
     member: (shorthand_member)))
 
 ==================
+named struct
+==================
+
+Struct{}
+Struct{ a, b }
+Struct{ ['a']: 1, ...b, c: 'str', d, e }
+
+---
+
+(program
+  expression: (named_struct
+    name: (type))
+  expression: (named_struct
+    name: (type)
+    member: (shorthand_member)
+    member: (shorthand_member))
+  expression: (named_struct
+    name: (type)
+    member: (member
+      key: (string)
+      value: (number))
+    member: (spread
+      value: (identifier))
+    member: (member
+      key: (shorthand_access_identifier)
+      value: (string))
+    member: (shorthand_member)
+    member: (shorthand_member)))
+
+==================
 tuple
 ==================
 
+()
 (a, 1, 'str', ...x)
 (1,1)
 
 ---
 
 (program
+  expression: (tuple)
   expression: (tuple
     value: (tuple_element
       value: (identifier))
@@ -883,6 +915,42 @@ tuple
   expression: (tuple
     value: (tuple_element
       value: (number))
+    value: (tuple_element
+      value: (number))))
+
+==================
+named tuple
+==================
+
+Tuple()
+Tuple(a, 1, 'str', ...x)
+Tuple(1,1)
+Tuple(1)
+
+---
+
+(program
+  expression: (named_tuple
+    name: (type))
+  expression: (named_tuple
+    name: (type)
+    value: (tuple_element
+      value: (identifier))
+    value: (tuple_element
+      value: (number))
+    value: (tuple_element
+      value: (string))
+    value: (tuple_element
+      value: (spread
+      value: (identifier))))
+  expression: (named_tuple
+    name: (type)
+    value: (tuple_element
+      value: (number))
+    value: (tuple_element
+      value: (number)))
+  expression: (named_tuple
+    name: (type)
     value: (tuple_element
       value: (number))))
 
@@ -905,6 +973,35 @@ list
       value: (identifier))
     element: (string))
   expression: (list
+    element: (number)
+    element: (infix_application
+      left: (number)
+      name: (identifier)
+      right: (number))
+    element: (number)))
+
+==================
+named list
+==================
+
+List[]
+List[a, 1, ...b, 'str']
+List[1,1..1,1]
+
+---
+
+(program
+  expression: (named_list
+    name: (type))
+  expression: (named_list
+    name: (type)
+    element: (identifier)
+    element: (number)
+    element: (spread
+      value: (identifier))
+    element: (string))
+  expression: (named_list
+    name: (type)
     element: (number)
     element: (infix_application
       left: (number)
