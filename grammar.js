@@ -31,21 +31,6 @@ const commaSep2 = (rule) => seq(rule, repeat1(seq(',', rule)))
 
 const commaSep1 = (rule) => seq(rule, repeat(seq(',', rule)))
 
-const commaSep0 = (rule) => optional(commaSep1(rule))
-
-const commaSep = (rule, minLength = 0) => {
-  switch (minLength) {
-    case 0:
-      return commaSep0(rule)
-    case 1:
-      return commaSep1(rule)
-    case 2:
-      return commaSep2(rule)
-    default:
-      throw new Error('commaSep is not implemented for minLength > 2')
-  }
-}
-
 const abstractionBranch = ($, blockType) =>
   seq(
     field('parameters', $.tuple_pattern),
@@ -53,34 +38,37 @@ const abstractionBranch = ($, blockType) =>
     field('body', alias(blockType, $.block)),
   )
 
-const dataStructure = ($, element, rest, minLength) =>
-  choice(
+const dataStructure = ($, element, rest, commaSepImpl = commaSep1) =>
+  optional(choice(
     ...notFalse(
       rest && field('rest', $.rest),
       seq(
         ...notFalse(
-          commaSep(element, minLength),
+          commaSepImpl(element),
           rest && optional(seq(',', field('rest', $.rest))),
         ),
       ),
     ),
-  )
+  ))
 
 const struct = ($, member, rest = false) =>
-  seq('{', dataStructure($, field('member', member), rest, 0), '}')
+  seq('{', dataStructure($, field('member', member), rest), '}')
 
-const tuple = ($, element, rest = false, minLength = 0) =>
-  seq('(', dataStructure($, field('value', element), rest, minLength), ')')
+const tuple = ($, element, rest = false, allowSingle = false) =>
+  seq('(', dataStructure($, field('value', element), rest, allowSingle ? commaSep1 : commaSep2), ')')
 
 const namedTuple = ($, name, element, rest = false) =>
-  seq(field('name', name), tuple($, element, rest, 0))
+  seq(field('name', name), tuple($, element, rest, true))
 
 const list = ($, element, rest = false) =>
-  seq('[', dataStructure($, field('element', element), rest, 0), ']')
+  seq('[', dataStructure($, field('element', element), rest), ']')
 
-const member = (key, shorthand, value) =>
+const member = ($, value) =>
   seq(
-    choice(seq('[', field('key', key), ']'), field('key', shorthand)),
+    choice(
+      seq('[', field('key', $._simple_expression), ']'),
+      field('key', alias($.identifier, $.shorthand_access_identifier)),
+    ),
     ':',
     field('value', value),
   )
@@ -91,6 +79,13 @@ const string = ($, ...content) =>
     repeat(choice(...content, $._string_content)),
     $._string_end,
   )
+
+const parametricType = ($, parameter) => seq(
+  field('name', $.type),
+  optional(
+    seq('<', commaSep1(field('parameter', parameter)), '>'),
+  ),
+)
 
 const simple = ($, line) => seq(line, $._newline)
 
@@ -204,14 +199,9 @@ module.exports = grammar({
           true,
         ),
       ),
-    tuple_pattern: ($) => prec(PREC.PATTERN, tuple($, $._pattern, true)),
+    tuple_pattern: ($) => prec(PREC.PATTERN, tuple($, $._pattern, true, true)),
     list_pattern: ($) => prec(PREC.PATTERN, list($, $._pattern, true)),
-    member_pattern: ($) =>
-      member(
-        $._simple_expression,
-        alias($.identifier, $.shorthand_access_identifier),
-        $._pattern,
-      ),
+    member_pattern: ($) => member($, $._pattern),
     rest: ($) => seq('...', field('name', $.identifier_pattern)),
 
     _literal_pattern: ($) =>
@@ -504,22 +494,22 @@ module.exports = grammar({
             'import',
             choice(
               $.identifier_pattern,
-              $.import_identifier_pair,
+              $.import_identifier_as,
               $.type,
-              $.import_type_pair,
+              $.import_type_as,
             ),
           ),
         ),
         'from',
         field('source', $.string_pattern),
       ),
-    import_identifier_pair: ($) =>
+    import_identifier_as: ($) =>
       seq(
         field('name', alias($.identifier, $.identifier_pattern_name)),
         'as',
         field('as', $.identifier_pattern),
       ),
-    import_type_pair: ($) =>
+    import_type_as: ($) =>
       seq(field('name', $.type), 'as', field('as', $.type)),
 
     simple_export: ($) =>
@@ -528,7 +518,7 @@ module.exports = grammar({
       seq('export', field('declaration', $._compound_declaration)),
 
     return: ($) =>
-      prec.right(seq('return', optional(field('value', $._simple_expression)))),
+      prec.right(seq('return', field('value', $._simple_expression))),
 
     simple_if: ($) =>
       prec.right(
@@ -566,7 +556,8 @@ module.exports = grammar({
         'case',
         field('value', $._simple_expression),
         repeat1(field('when', $.when)),
-        optional(seq('else', field('else', alias($._compound_block, $.block)))),
+        'else',
+        field('else', alias($._compound_block, $.block)),
       ),
     when: ($) =>
       seq(
@@ -588,10 +579,7 @@ module.exports = grammar({
       seq(
         'enum',
         field('name', $.type),
-        $._newline,
-        $._indent,
-        repeat1(field('value', $.enum_value)),
-        $._dedent,
+        compound($, repeat1(field('value', $.enum_value))),
       ),
     enum_value: ($) =>
       seq(
@@ -603,38 +591,32 @@ module.exports = grammar({
       seq(
         'interface',
         field('name', $.type_declaration),
-        $._newline,
-        $._indent,
-        repeat1(field('member', $.member_type)),
-        $._dedent,
+        compound($, repeat1(field('member', $.member_type))),
       ),
 
     implement: ($) =>
       seq(
         'implement',
         field('name', $.parametric_type),
-        $._newline,
-        $._indent,
-        repeat1(
-          choice(
-            seq(
-              field('assignment', alias($.simple_assignment, $.assignment)),
-              $._newline,
+        compound(
+          $,
+          repeat1(
+            choice(
+              simple(
+                $,
+                field('assignment', alias($.simple_assignment, $.assignment)),
+              ),
+              field('assignment', alias($.compound_assignment, $.assignment)),
             ),
-            field('assignment', alias($.compound_assignment, $.assignment)),
           ),
         ),
-        $._dedent,
       ),
 
     struct_declaration: ($) =>
       seq(
         'struct',
         field('name', $.type_declaration),
-        $._newline,
-        $._indent,
-        repeat1(field('member', $.member_type)),
-        $._dedent,
+        compound($, repeat1(field('member', $.member_type))),
       ),
 
     struct: ($) =>
@@ -644,45 +626,21 @@ module.exports = grammar({
           $,
           choice(
             $.member,
-            alias($.identifier, $.shorthand_pair_identifier),
-            alias($.spread, $.spread_struct),
+            alias($.identifier, $.shorthand_member),
+            $.spread,
           ),
         ),
       ),
-    tuple: ($) =>
-      prec(
-        PREC.EXPRESSION,
-        tuple($, $.tuple_element, false, 2),
-      ),
+    tuple: ($) => prec(PREC.EXPRESSION, tuple($, $.tuple_element)),
+    list: ($) =>
+      prec(PREC.EXPRESSION, list($, choice($._simple_expression, $.spread))),
+    member: ($) => member($, $._simple_expression),
     tuple_element: ($) =>
       prec.left(
         choice(
           field('placeholder', '?'),
           field('value', choice($._simple_expression, $.spread)),
         ),
-      ),
-    list: ($) =>
-      prec(
-        PREC.EXPRESSION,
-        seq(
-          '[',
-          commaSep(
-            field(
-              'element',
-              choice($._simple_expression, alias($.spread, $.spread_list)),
-            ),
-          ),
-          ']',
-        ),
-      ),
-    member: ($) =>
-      seq(
-        choice(
-          seq('[', field('key', $._simple_expression), ']'),
-          field('key', alias($.identifier, $.shorthand_access_identifier)),
-        ),
-        ':',
-        field('value', $._simple_expression),
       ),
     spread: ($) => seq('...', field('value', $._simple_expression)),
 
@@ -738,12 +696,7 @@ module.exports = grammar({
     typeof: ($) => seq('typeof', field('value', $.identifier)),
     parametric_type: ($) =>
       prec.right(
-        seq(
-          field('name', $.type),
-          optional(
-            seq('<', commaSep1(field('parameter', $._type_constructor)), '>'),
-          ),
-        ),
+        parametricType($, $._type_constructor)
       ),
     curried_type: ($) =>
       prec.right(
@@ -779,22 +732,10 @@ module.exports = grammar({
         '::',
         field('type', $._type_constructor),
       ),
-    tuple_type: ($) =>
-      seq('(', commaSep2(field('parameter', $._type_constructor)), ')'),
-    list_type: ($) => seq('[', field('parameter', $._type_constructor), ']'),
+    tuple_type: ($) => tuple($, $._type_constructor),
+    list_type: ($) => seq('[', field('element', $._type_constructor), ']'),
 
-    type_declaration: ($) =>
-      seq(
-        optional(seq(commaSep1(field('dependency', $.parametric_type)), '=>')),
-        field('name', $.type),
-        optional(
-          seq(
-            '<',
-            field('parameter', commaSep1(alias($.identifier, $.type_variable))),
-            '>',
-          ),
-        ),
-      ),
+    type_declaration: ($) => seq(optional(seq(commaSep1(field('dependency', $.parametric_type)), '=>')), parametricType($, alias($.identifier, $.type_variable))),
 
     _identifier_without_operators: ($) => /_?[a-z][a-z0-9_]*\??/,
     _operator: ($) => /(==|[!@$%^&*|<>~*\\\-+/.])[!@$%^&*|<>~*\\\-+/.=?]*/,
@@ -830,18 +771,8 @@ module.exports = grammar({
       ),
     number: ($) => choice($._decimal, $._integer),
 
-    string: ($) =>
-      seq(
-        $._string_start,
-        repeat(
-          choice(
-            field('interpolation', $.interpolation),
-            field('escape_sequence', $.escape_sequence),
-            $._string_content,
-          ),
-        ),
-        $._string_end,
-      ),
+    string: ($) => string($, field('interpolation', $.interpolation),
+    field('escape_sequence', $.escape_sequence)),
     interpolation: ($) => seq('{', field('value', $._simple_expression), '}'),
     escape_sequence: ($) =>
       token.immediate(

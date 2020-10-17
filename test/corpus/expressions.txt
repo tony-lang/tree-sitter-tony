@@ -491,13 +491,13 @@ import a, b from 'source'
 
 (program
   expression: (import
-    import: (import_identifier_pair
+    import: (import_identifier_as
       name: (identifier_pattern_name)
       as: (identifier_pattern
         name: (identifier_pattern_name)))
     import: (identifier_pattern
       name: (identifier_pattern_name))
-    import: (import_identifier_pair
+    import: (import_identifier_as
       name: (identifier_pattern_name)
       as: (identifier_pattern
         name: (identifier_pattern_name)
@@ -507,7 +507,7 @@ import a, b from 'source'
       name: (identifier_pattern_name)
       type: (parametric_type
         name: (type)))
-    import: (import_type_pair
+    import: (import_type_as
       name: (type)
       as: (type))
     import: (type)
@@ -655,6 +655,7 @@ case
 a := case a
      when 1
        1
+     else 1
 
 case a
 when [1, a :: Type]
@@ -673,7 +674,9 @@ else 1
       when: (when
         pattern: (number)
         body: (block
-          expression: (number)))))
+          expression: (number)))
+      else: (block
+        expression: (number))))
   expression: (case
     value: (identifier)
     when: (when
@@ -843,19 +846,19 @@ struct
 (program
   expression: (struct)
   expression: (struct
-    member: (shorthand_pair_identifier)
-    member: (shorthand_pair_identifier))
+    member: (shorthand_member)
+    member: (shorthand_member))
   expression: (struct
     member: (member
       key: (string)
       value: (number))
-    member: (spread_struct
+    member: (spread
       value: (identifier))
     member: (member
       key: (shorthand_access_identifier)
       value: (string))
-    member: (shorthand_pair_identifier)
-    member: (shorthand_pair_identifier)))
+    member: (shorthand_member)
+    member: (shorthand_member)))
 
 ==================
 tuple
@@ -898,7 +901,7 @@ list
   expression: (list
     element: (identifier)
     element: (number)
-    element: (spread_list
+    element: (spread
       value: (identifier))
     element: (string))
   expression: (list
