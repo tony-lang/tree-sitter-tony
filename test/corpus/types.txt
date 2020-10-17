@@ -102,7 +102,7 @@ parametric type
 
 Type
 Type<a>
-Type<Type, a, typeof b, 'string', 5>
+Type<Type, a, typeof b, typeof 'string', typeof 5>
 
 ---
 
@@ -119,8 +119,10 @@ Type<Type, a, typeof b, 'string', 5>
     parameter: (type_variable)
     parameter: (typeof
       value: (identifier))
-    parameter: (string)
-    parameter: (number)))
+    parameter: (typeof
+      value: (string))
+    parameter: (typeof
+      value: (number))))
 
 ==================
 intersection/union type

@@ -696,10 +696,10 @@ module.exports = grammar({
         $.tuple_type,
         $.list_type,
         alias($.identifier, $.type_variable),
-        $._value_literal,
       ),
     type_group: ($) => seq('(', field('type', $._type_constructor), ')'),
-    typeof: ($) => seq('typeof', field('value', $.identifier)),
+    typeof: ($) =>
+      seq('typeof', field('value', choice($.identifier, $._value_literal))),
     parametric_type: ($) => prec.right(parametricType($, $._type_constructor)),
     curried_type: ($) =>
       prec.right(
