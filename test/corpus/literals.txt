@@ -48,11 +48,11 @@ decimal
 
 (program
   expression: (prefix_application
-    value: (identifier)
-    argument: (number))
+    name: (identifier)
+    value: (number))
   expression: (prefix_application
-    value: (identifier)
-    argument: (number))
+    name: (identifier)
+    value: (number))
   expression: (number)
   expression: (number)
   expression: (number)
@@ -64,8 +64,8 @@ decimal
   expression: (number)
   expression: (number)
   expression: (prefix_application
-    value: (identifier)
-    argument: (number)))
+    name: (identifier)
+    value: (number)))
 
 ==================
 integer
@@ -84,8 +84,8 @@ integer
 
 (program
   expression: (prefix_application
-    value: (identifier)
-    argument: (number))
+    name: (identifier)
+    value: (number))
   expression: (number)
   expression: (number)
   expression: (number)
