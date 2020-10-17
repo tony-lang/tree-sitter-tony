@@ -723,11 +723,9 @@ enum Type
   expression: (enum
     name: (type)
     value: (enum_value
-      name: (type_declaration
-        name: (type)))
+      name: (type))
     value: (enum_value
-      name: (type_declaration
-        name: (type))
+      name: (type)
       value: (string))))
 
 ==================
@@ -760,10 +758,10 @@ interface Eq<a> => Ord<a>
         to: (parametric_type
           name: (type)))))
   expression: (interface
-    dependency: (parametric_type
-      name: (type)
-      parameter: (type_variable))
     name: (type_declaration
+      dependency: (parametric_type
+        name: (type)
+        parameter: (type_variable))
       name: (type)
       parameter: (type_variable))
     member: (member_type

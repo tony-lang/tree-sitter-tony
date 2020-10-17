@@ -612,14 +612,13 @@ module.exports = grammar({
       ),
     enum_value: ($) =>
       seq(
-        field('name', $.type_declaration),
+        field('name', $.type),
         optional(seq('=', field('value', $._value_literal))),
       ),
 
     interface: ($) =>
       seq(
         'interface',
-        optional(seq(commaSep1(field('dependency', $.parametric_type)), '=>')),
         field('name', $.type_declaration),
         $._newline,
         $._indent,
@@ -812,6 +811,7 @@ module.exports = grammar({
 
     type_declaration: ($) =>
       seq(
+        optional(seq(commaSep1(field('dependency', $.parametric_type)), '=>')),
         field('name', $.type),
         optional(
           seq(
