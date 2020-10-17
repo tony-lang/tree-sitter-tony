@@ -10,7 +10,7 @@ struct pattern
 (program
   expression: (assignment
     pattern: (struct_pattern
-      element: (pattern_pair
+      member: (member_pattern
         key: (shorthand_access_identifier)
         value: (identifier_pattern
           name: (identifier_pattern_name)
@@ -19,23 +19,23 @@ struct pattern
     value: (identifier))
   expression: (assignment
     pattern: (struct_pattern
-      element: (pattern_pair
+      member: (member_pattern
         key: (shorthand_access_identifier)
         value: (identifier_pattern
           name: (identifier_pattern_name)
           type: (parametric_type
             name: (type))))
-      element: (shorthand_pair_identifier_pattern
+      member: (shorthand_member_pattern
         name: (identifier_pattern_name)
         type: (parametric_type
           name: (type)))
-      element: (pattern_pair
+      member: (member_pattern
         key: (string)
         value: (identifier_pattern
           name: (identifier_pattern_name)
           type: (parametric_type
             name: (type))))
-      element: (rest_struct
+      rest: (rest
         name: (identifier_pattern
           name: (identifier_pattern_name)
           type: (parametric_type
@@ -54,13 +54,13 @@ tuple pattern
 (program
   expression: (assignment
     pattern: (tuple_pattern
-      element: (parametric_type
+      value: (parametric_type
         name: (type))
-      element: (identifier_pattern
+      value: (identifier_pattern
         name: (identifier_pattern_name)
         type: (parametric_type
           name: (type)))
-      element: (rest_tuple
+      rest: (rest
         name: (identifier_pattern
           name: (identifier_pattern_name))))
     value: (identifier)))
@@ -96,7 +96,7 @@ list pattern
         name: (identifier_pattern_name)
         type: (parametric_type
           name: (type)))
-      element: (rest_list
+      rest: (rest
         name: (identifier_pattern
           name: (identifier_pattern_name)
           type: (parametric_type

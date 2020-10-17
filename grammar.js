@@ -25,6 +25,82 @@ const PREC = Object.freeze({
   ACCESS: 18,
 })
 
+const notFalse = (...args) => args.filter((element) => element !== false)
+
+const commaSep2 = (rule) => seq(rule, repeat1(seq(',', rule)))
+
+const commaSep1 = (rule) => seq(rule, repeat(seq(',', rule)))
+
+const abstractionBranch = ($, blockType) =>
+  seq(
+    field('parameters', $.tuple_pattern),
+    '=>',
+    field('body', alias(blockType, $.block)),
+  )
+
+const dataStructure = ($, element, rest, commaSepImpl = commaSep1) =>
+  optional(
+    choice(
+      ...notFalse(
+        rest && field('rest', $.rest),
+        seq(
+          ...notFalse(
+            commaSepImpl(element),
+            rest && optional(seq(',', field('rest', $.rest))),
+          ),
+        ),
+      ),
+    ),
+  )
+
+const struct = ($, member, rest = false) =>
+  seq('{', dataStructure($, field('member', member), rest), '}')
+
+const tuple = ($, element, rest = false, allowSingle = false) =>
+  seq(
+    '(',
+    dataStructure(
+      $,
+      field('value', element),
+      rest,
+      allowSingle ? commaSep1 : commaSep2,
+    ),
+    ')',
+  )
+
+const namedTuple = ($, name, element, rest = false) =>
+  seq(field('name', name), tuple($, element, rest, true))
+
+const list = ($, element, rest = false) =>
+  seq('[', dataStructure($, field('element', element), rest), ']')
+
+const member = ($, value) =>
+  seq(
+    choice(
+      seq('[', field('key', $._simple_expression), ']'),
+      field('key', alias($.identifier, $.shorthand_access_identifier)),
+    ),
+    ':',
+    field('value', value),
+  )
+
+const string = ($, ...content) =>
+  seq(
+    $._string_start,
+    repeat(choice(...content, $._string_content)),
+    $._string_end,
+  )
+
+const parametricType = ($, parameter) =>
+  seq(
+    field('name', $.type),
+    optional(seq('<', commaSep1(field('parameter', parameter)), '>')),
+  )
+
+const simple = ($, line) => seq(line, $._newline)
+
+const compound = ($, body) => seq($._newline, $._indent, body, $._dedent)
+
 module.exports = grammar({
   name: 'tony',
 
@@ -44,8 +120,8 @@ module.exports = grammar({
     [$._literal, $._literal_pattern],
     [$.string, $.string_pattern],
     [$.struct, $.struct_pattern],
+    [$.tuple, $.tuple_pattern],
     [$.list, $.list_pattern],
-    [$._parameters, $.tuple_pattern],
     [$.type_declaration, $._type_constructor],
   ],
 
@@ -108,13 +184,8 @@ module.exports = grammar({
     _simple_block: ($) => field('expression', $._simple_expression),
     _compound_block: ($) =>
       choice(
-        seq(field('expression', $._simple_expression), $._newline),
-        seq(
-          $._newline,
-          $._indent,
-          repeat1(field('expression', $._expression)),
-          $._dedent,
-        ),
+        simple($, field('expression', $._simple_expression)),
+        compound($, repeat1(field('expression', $._expression))),
       ),
 
     _pattern: ($) =>
@@ -129,68 +200,24 @@ module.exports = grammar({
     struct_pattern: ($) =>
       prec(
         PREC.PATTERN,
-        seq(
-          '{',
-          commaSep(
-            field(
-              'element',
-              choice(
-                $.pattern_pair,
-                alias(
-                  $.identifier_pattern,
-                  $.shorthand_pair_identifier_pattern,
-                ),
-              ),
-            ),
+        struct(
+          $,
+          choice(
+            $.member_pattern,
+            alias($.identifier_pattern, $.shorthand_member_pattern),
           ),
-          optional(seq(',', field('element', alias($.rest, $.rest_struct)))),
-          '}',
+          true,
         ),
       ),
-    tuple_pattern: ($) =>
-      prec(
-        PREC.PATTERN,
-        seq(
-          '(',
-          commaSep1(field('element', $._pattern)),
-          optional(seq(',', field('element', alias($.rest, $.rest_tuple)))),
-          ')',
-        ),
-      ),
-    list_pattern: ($) =>
-      prec(
-        PREC.PATTERN,
-        seq(
-          '[',
-          commaSep(field('element', $._pattern)),
-          optional(seq(',', field('element', alias($.rest, $.rest_list)))),
-          ']',
-        ),
-      ),
-    pattern_pair: ($) =>
-      seq(
-        choice(
-          seq('[', field('key', $._simple_expression), ']'),
-          field('key', alias($.identifier, $.shorthand_access_identifier)),
-        ),
-        ':',
-        field('value', $._pattern),
-      ),
+    tuple_pattern: ($) => prec(PREC.PATTERN, tuple($, $._pattern, true, true)),
+    list_pattern: ($) => prec(PREC.PATTERN, list($, $._pattern, true)),
+    member_pattern: ($) => member($, $._pattern),
     rest: ($) => seq('...', field('name', $.identifier_pattern)),
 
     _literal_pattern: ($) =>
       choice($.parametric_type, $.boolean, $.number, $.string_pattern, $.regex),
     string_pattern: ($) =>
-      seq(
-        $._string_start,
-        repeat(
-          choice(
-            field('escape_sequence', $.escape_sequence),
-            $._string_content,
-          ),
-        ),
-        $._string_end,
-      ),
+      string($, field('escape_sequence', $.escape_sequence)),
 
     identifier_pattern: ($) =>
       prec.right(
@@ -201,35 +228,6 @@ module.exports = grammar({
           optional(seq('=', field('default', $._simple_expression))),
         ),
       ),
-
-    _parameters: ($) =>
-      seq(
-        '(',
-        optional(
-          choice(
-            field('parameter', alias($.rest, $.rest_tuple)),
-            seq(
-              commaSep1(field('parameter', $._pattern)),
-              optional(
-                seq(',', field('parameter', alias($.rest, $.rest_tuple))),
-              ),
-            ),
-          ),
-        ),
-        ')',
-      ),
-
-    argument: ($) =>
-      prec.left(
-        choice(
-          '?',
-          field(
-            'value',
-            choice($._simple_expression, alias($.spread, $.spread_tuple)),
-          ),
-        ),
-      ),
-    _arguments: ($) => seq('(', commaSep(field('argument', $.argument)), ')'),
 
     group: ($) => seq('(', field('value', $._simple_expression), ')'),
 
@@ -243,13 +241,7 @@ module.exports = grammar({
         ),
       ),
     simple_abstraction_branch: ($) =>
-      prec.left(
-        seq(
-          field('parameters', $._parameters),
-          '=>',
-          field('body', alias($._simple_block, $.block)),
-        ),
-      ),
+      prec.left(abstractionBranch($, $._simple_block)),
     compound_abstraction: ($) =>
       prec.left(
         repeat1(
@@ -260,25 +252,19 @@ module.exports = grammar({
         ),
       ),
     compound_abstraction_branch: ($) =>
-      prec.left(
-        seq(
-          field('parameters', $._parameters),
-          '=>',
-          field('body', alias($._compound_block, $.block)),
-        ),
-      ),
+      prec.left(abstractionBranch($, $._compound_block)),
 
     application: ($) =>
       prec(
         PREC.APPLICATION,
-        seq(field('value', $._simple_expression), $._arguments),
+        namedTuple($, $._simple_expression, $.tuple_element),
       ),
     prefix_application: ($) =>
       prec.right(
         PREC.PREFIX,
         seq(
-          field('value', alias($._operator, $.identifier)),
-          field('argument', $._simple_expression),
+          field('name', alias($._operator, $.identifier)),
+          field('value', $._simple_expression),
         ),
       ),
     infix_application: ($) =>
@@ -287,7 +273,7 @@ module.exports = grammar({
           PREC.NOT,
           seq(
             field('left', $._simple_expression),
-            field('value', alias('!', $.identifier)),
+            field('name', alias('!', $.identifier)),
             field('right', $._simple_expression),
           ),
         ),
@@ -295,7 +281,7 @@ module.exports = grammar({
           PREC.EXPONENTIATION,
           seq(
             field('left', $._simple_expression),
-            field('value', alias('^', $.identifier)),
+            field('name', alias('^', $.identifier)),
             field('right', $._simple_expression),
           ),
         ),
@@ -303,7 +289,7 @@ module.exports = grammar({
           PREC.PRODUCT,
           seq(
             field('left', $._simple_expression),
-            field('value', alias('*', $.identifier)),
+            field('name', alias('*', $.identifier)),
             field('right', $._simple_expression),
           ),
         ),
@@ -311,7 +297,7 @@ module.exports = grammar({
           PREC.PRODUCT,
           seq(
             field('left', $._simple_expression),
-            field('value', alias('/', $.identifier)),
+            field('name', alias('/', $.identifier)),
             field('right', $._simple_expression),
           ),
         ),
@@ -319,7 +305,7 @@ module.exports = grammar({
           PREC.SUM,
           seq(
             field('left', $._simple_expression),
-            field('value', alias('+', $.identifier)),
+            field('name', alias('+', $.identifier)),
             field('right', $._simple_expression),
           ),
         ),
@@ -327,7 +313,7 @@ module.exports = grammar({
           PREC.SUM,
           seq(
             field('left', $._simple_expression),
-            field('value', alias('-', $.identifier)),
+            field('name', alias('-', $.identifier)),
             field('right', $._simple_expression),
           ),
         ),
@@ -335,7 +321,7 @@ module.exports = grammar({
           PREC.MOD,
           seq(
             field('left', $._simple_expression),
-            field('value', alias('%', $.identifier)),
+            field('name', alias('%', $.identifier)),
             field('right', $._simple_expression),
           ),
         ),
@@ -343,7 +329,7 @@ module.exports = grammar({
           PREC.ORDER,
           seq(
             field('left', $._simple_expression),
-            field('value', alias('<', $.identifier)),
+            field('name', alias('<', $.identifier)),
             field('right', $._simple_expression),
           ),
         ),
@@ -351,7 +337,7 @@ module.exports = grammar({
           PREC.ORDER,
           seq(
             field('left', $._simple_expression),
-            field('value', alias('<=', $.identifier)),
+            field('name', alias('<=', $.identifier)),
             field('right', $._simple_expression),
           ),
         ),
@@ -359,7 +345,7 @@ module.exports = grammar({
           PREC.ORDER,
           seq(
             field('left', $._simple_expression),
-            field('value', alias('>', $.identifier)),
+            field('name', alias('>', $.identifier)),
             field('right', $._simple_expression),
           ),
         ),
@@ -367,7 +353,7 @@ module.exports = grammar({
           PREC.ORDER,
           seq(
             field('left', $._simple_expression),
-            field('value', alias('>=', $.identifier)),
+            field('name', alias('>=', $.identifier)),
             field('right', $._simple_expression),
           ),
         ),
@@ -375,7 +361,7 @@ module.exports = grammar({
           PREC.EQUALITY,
           seq(
             field('left', $._simple_expression),
-            field('value', alias('==', $.identifier)),
+            field('name', alias('==', $.identifier)),
             field('right', $._simple_expression),
           ),
         ),
@@ -383,7 +369,7 @@ module.exports = grammar({
           PREC.EQUALITY,
           seq(
             field('left', $._simple_expression),
-            field('value', alias('!=', $.identifier)),
+            field('name', alias('!=', $.identifier)),
             field('right', $._simple_expression),
           ),
         ),
@@ -391,7 +377,7 @@ module.exports = grammar({
           PREC.EQUALITY,
           seq(
             field('left', $._simple_expression),
-            field('value', alias('===', $.identifier)),
+            field('name', alias('===', $.identifier)),
             field('right', $._simple_expression),
           ),
         ),
@@ -399,7 +385,7 @@ module.exports = grammar({
           PREC.EQUALITY,
           seq(
             field('left', $._simple_expression),
-            field('value', alias('!==', $.identifier)),
+            field('name', alias('!==', $.identifier)),
             field('right', $._simple_expression),
           ),
         ),
@@ -407,7 +393,7 @@ module.exports = grammar({
           PREC.AND,
           seq(
             field('left', $._simple_expression),
-            field('value', alias('&&', $.identifier)),
+            field('name', alias('&&', $.identifier)),
             field('right', $._simple_expression),
           ),
         ),
@@ -415,7 +401,7 @@ module.exports = grammar({
           PREC.OR,
           seq(
             field('left', $._simple_expression),
-            field('value', alias('||', $.identifier)),
+            field('name', alias('||', $.identifier)),
             field('right', $._simple_expression),
           ),
         ),
@@ -423,7 +409,7 @@ module.exports = grammar({
           PREC.IMPLICATION,
           seq(
             field('left', $._simple_expression),
-            field('value', alias('==>', $.identifier)),
+            field('name', alias('==>', $.identifier)),
             field('right', $._simple_expression),
           ),
         ),
@@ -431,7 +417,7 @@ module.exports = grammar({
           PREC.BICONDITIONAL,
           seq(
             field('left', $._simple_expression),
-            field('value', alias('<=>', $.identifier)),
+            field('name', alias('<=>', $.identifier)),
             field('right', $._simple_expression),
           ),
         ),
@@ -439,7 +425,7 @@ module.exports = grammar({
           PREC.OPERATOR_INFIX,
           seq(
             field('left', $._simple_expression),
-            field('value', alias($._operator, $.identifier)),
+            field('name', alias($._operator, $.identifier)),
             field('right', $._simple_expression),
           ),
         ),
@@ -448,10 +434,7 @@ module.exports = grammar({
           seq(
             field('left', $._simple_expression),
             '`',
-            field(
-              'value',
-              alias($._identifier_without_operators, $.identifier),
-            ),
+            field('name', alias($._identifier_without_operators, $.identifier)),
             '`',
             field('right', $._simple_expression),
           ),
@@ -462,9 +445,9 @@ module.exports = grammar({
       prec.left(
         PREC.PIPELINE,
         seq(
-          field('argument', $._simple_expression),
-          '.',
           field('value', $._simple_expression),
+          '.',
+          field('name', $._simple_expression),
         ),
       ),
 
@@ -472,13 +455,13 @@ module.exports = grammar({
       prec.left(
         PREC.ACCESS,
         seq(
-          field('value', $._simple_expression),
+          field('name', $._simple_expression),
           choice(
-            seq('[', field('accessor', $._simple_expression), ']'),
+            seq('[', field('value', $._simple_expression), ']'),
             seq(
               '->',
               field(
-                'accessor',
+                'value',
                 alias($.identifier, $.shorthand_access_identifier),
               ),
             ),
@@ -521,22 +504,22 @@ module.exports = grammar({
             'import',
             choice(
               $.identifier_pattern,
-              $.import_identifier_pair,
+              $.import_identifier_as,
               $.type,
-              $.import_type_pair,
+              $.import_type_as,
             ),
           ),
         ),
         'from',
         field('source', $.string_pattern),
       ),
-    import_identifier_pair: ($) =>
+    import_identifier_as: ($) =>
       seq(
         field('name', alias($.identifier, $.identifier_pattern_name)),
         'as',
         field('as', $.identifier_pattern),
       ),
-    import_type_pair: ($) =>
+    import_type_as: ($) =>
       seq(field('name', $.type), 'as', field('as', $.type)),
 
     simple_export: ($) =>
@@ -545,7 +528,7 @@ module.exports = grammar({
       seq('export', field('declaration', $._compound_declaration)),
 
     return: ($) =>
-      prec.right(seq('return', optional(field('value', $._simple_expression)))),
+      prec.right(seq('return', field('value', $._simple_expression))),
 
     simple_if: ($) =>
       prec.right(
@@ -583,7 +566,8 @@ module.exports = grammar({
         'case',
         field('value', $._simple_expression),
         repeat1(field('when', $.when)),
-        optional(seq('else', field('else', alias($._compound_block, $.block)))),
+        'else',
+        field('else', alias($._compound_block, $.block)),
       ),
     when: ($) =>
       seq(
@@ -605,10 +589,7 @@ module.exports = grammar({
       seq(
         'enum',
         field('name', $.type),
-        $._newline,
-        $._indent,
-        repeat1(field('value', $.enum_value)),
-        $._dedent,
+        compound($, repeat1(field('value', $.enum_value))),
       ),
     enum_value: ($) =>
       seq(
@@ -620,94 +601,52 @@ module.exports = grammar({
       seq(
         'interface',
         field('name', $.type_declaration),
-        $._newline,
-        $._indent,
-        repeat1(field('member', $.member_type)),
-        $._dedent,
+        compound($, repeat1(field('member', $.member_type))),
       ),
 
     implement: ($) =>
       seq(
         'implement',
         field('name', $.parametric_type),
-        $._newline,
-        $._indent,
-        repeat1(
-          choice(
-            seq(
-              field('assignment', alias($.simple_assignment, $.assignment)),
-              $._newline,
+        compound(
+          $,
+          repeat1(
+            choice(
+              simple(
+                $,
+                field('assignment', alias($.simple_assignment, $.assignment)),
+              ),
+              field('assignment', alias($.compound_assignment, $.assignment)),
             ),
-            field('assignment', alias($.compound_assignment, $.assignment)),
           ),
         ),
-        $._dedent,
       ),
 
     struct_declaration: ($) =>
       seq(
         'struct',
         field('name', $.type_declaration),
-        $._newline,
-        $._indent,
-        repeat1(field('member', $.member_type)),
-        $._dedent,
+        compound($, repeat1(field('member', $.member_type))),
       ),
 
     struct: ($) =>
       prec(
         PREC.EXPRESSION,
-        seq(
-          '{',
-          commaSep(
-            field(
-              'element',
-              choice(
-                $.member,
-                alias($.identifier, $.shorthand_pair_identifier),
-                alias($.spread, $.spread_struct),
-              ),
-            ),
-          ),
-          '}',
+        struct(
+          $,
+          choice($.member, alias($.identifier, $.shorthand_member), $.spread),
         ),
       ),
-    tuple: ($) =>
-      prec(
-        PREC.EXPRESSION,
-        seq(
-          '(',
-          commaSep2(
-            field(
-              'element',
-              choice($._simple_expression, alias($.spread, $.spread_tuple)),
-            ),
-          ),
-          ')',
-        ),
-      ),
+    tuple: ($) => prec(PREC.EXPRESSION, tuple($, $.tuple_element)),
     list: ($) =>
-      prec(
-        PREC.EXPRESSION,
-        seq(
-          '[',
-          commaSep(
-            field(
-              'element',
-              choice($._simple_expression, alias($.spread, $.spread_list)),
-            ),
-          ),
-          ']',
-        ),
-      ),
-    member: ($) =>
-      seq(
+      prec(PREC.EXPRESSION, list($, choice($._simple_expression, $.spread))),
+    member: ($) => member($, $._simple_expression),
+    tuple_element: ($) =>
+      prec.left(
         choice(
-          seq('[', field('key', $._simple_expression), ']'),
-          field('key', alias($.identifier, $.shorthand_access_identifier)),
+          field('placeholder', '?'),
+          field('value', choice($._simple_expression, $.spread)),
         ),
-        ':',
-        field('value', $._simple_expression),
       ),
     spread: ($) => seq('...', field('value', $._simple_expression)),
 
@@ -761,15 +700,7 @@ module.exports = grammar({
       ),
     type_group: ($) => seq('(', field('type', $._type_constructor), ')'),
     typeof: ($) => seq('typeof', field('value', $.identifier)),
-    parametric_type: ($) =>
-      prec.right(
-        seq(
-          field('name', $.type),
-          optional(
-            seq('<', commaSep1(field('parameter', $._type_constructor)), '>'),
-          ),
-        ),
-      ),
+    parametric_type: ($) => prec.right(parametricType($, $._type_constructor)),
     curried_type: ($) =>
       prec.right(
         PREC.CURRIED_TYPE,
@@ -797,29 +728,20 @@ module.exports = grammar({
           field('right', $._type_constructor),
         ),
       ),
-    struct_type: ($) =>
-      seq('{', commaSep1(field('member', $.member_type)), '}'),
+    struct_type: ($) => struct($, $.member_type),
     member_type: ($) =>
       seq(
         field('name', $.identifier),
         '::',
         field('type', $._type_constructor),
       ),
-    tuple_type: ($) =>
-      seq('(', commaSep2(field('parameter', $._type_constructor)), ')'),
-    list_type: ($) => seq('[', field('parameter', $._type_constructor), ']'),
+    tuple_type: ($) => tuple($, $._type_constructor),
+    list_type: ($) => seq('[', field('element', $._type_constructor), ']'),
 
     type_declaration: ($) =>
       seq(
         optional(seq(commaSep1(field('dependency', $.parametric_type)), '=>')),
-        field('name', $.type),
-        optional(
-          seq(
-            '<',
-            field('parameter', commaSep1(alias($.identifier, $.type_variable))),
-            '>',
-          ),
-        ),
+        parametricType($, alias($.identifier, $.type_variable)),
       ),
 
     _identifier_without_operators: ($) => /_?[a-z][a-z0-9_]*\??/,
@@ -857,16 +779,10 @@ module.exports = grammar({
     number: ($) => choice($._decimal, $._integer),
 
     string: ($) =>
-      seq(
-        $._string_start,
-        repeat(
-          choice(
-            field('interpolation', $.interpolation),
-            field('escape_sequence', $.escape_sequence),
-            $._string_content,
-          ),
-        ),
-        $._string_end,
+      string(
+        $,
+        field('interpolation', $.interpolation),
+        field('escape_sequence', $.escape_sequence),
       ),
     interpolation: ($) => seq('{', field('value', $._simple_expression), '}'),
     escape_sequence: ($) =>
@@ -905,15 +821,3 @@ module.exports = grammar({
     comment: ($) => token(seq('#', /.*/)),
   },
 })
-
-function commaSep2(rule) {
-  return seq(rule, repeat1(seq(',', rule)))
-}
-
-function commaSep1(rule) {
-  return seq(rule, repeat(seq(',', rule)))
-}
-
-function commaSep(rule) {
-  return optional(commaSep1(rule))
-}

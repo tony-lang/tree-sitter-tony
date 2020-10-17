@@ -36,24 +36,24 @@ n / ((n + 1) * (-2))
     value: (identifier))
   expression: (group
     value: (prefix_application
-      value: (identifier)
-      argument: (number)))
+      name: (identifier)
+      value: (number)))
   expression: (group
     value: (prefix_application
-      value: (identifier)
-      argument: (identifier)))
+      name: (identifier)
+      value: (identifier)))
   expression: (infix_application
     left: (identifier)
-    value: (identifier)
+    name: (identifier)
     right: (group
       value: (infix_application
         left: (group
           value: (infix_application
             left: (identifier)
-            value: (identifier)
+            name: (identifier)
             right: (number)))
-        value: (identifier)
+        name: (identifier)
         right: (group
           value: (prefix_application
-            value: (identifier)
-            argument: (number)))))))
+            name: (identifier)
+            value: (number)))))))
