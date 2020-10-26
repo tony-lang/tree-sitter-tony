@@ -35,7 +35,7 @@
   "dependencies": {
     "@asgerf/dts-tree-sitter": "^0.1.0",
     "nan": "^2.14.1",
-    "prebuild-install": "^5.3.5"
+    "prebuild-install": "^6.0.0"
   },
   "devDependencies": {
     "prebuild": "^10.0.0",
