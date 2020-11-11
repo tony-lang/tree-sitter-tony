@@ -15,10 +15,8 @@ jobs:
         node-version: 14
         registry-url: https://npm.pkg.github.com/
         scope: '@jonhue'
-    - name: Install Tree-sitter
-      run: yarn global add tree-sitter-cli
-    - name: Generate parser
-      run: yarn generate
+    - name: Setup
+      run: yarn setup
     - name: Publish
       run: npm publish
       env:
@@ -33,12 +31,8 @@ jobs:
       with:
         node-version: 14
         registry-url: https://registry.npmjs.org/
-    - name: Install Tree-sitter
-      run: yarn global add tree-sitter-cli
-    - name: Generate parser
-      run: yarn generate
-    - name: Install dependencies
-      run: yarn install
+    - name: Setup
+      run: yarn setup
     - name: Generate type declarations
       run: yarn types
     - name: Publish

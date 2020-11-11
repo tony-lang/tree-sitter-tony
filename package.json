@@ -5,6 +5,7 @@
   "main": "index.js",
   "types": "tree-sitter-tony.d.ts",
   "scripts": {
+    "setup": "yarn global add tree-sitter-cli && yarn generate && yarn install --dev",
     "generate": "tree-sitter generate",
     "parse": "tree-sitter parse",
     "test": "tree-sitter test",
