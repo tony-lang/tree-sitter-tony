@@ -19,12 +19,8 @@ jobs:
     - uses: actions/setup-node@v2.1.2
       with:
         node-version: 14
-    - name: Install Tree-sitter
-      run: yarn global add tree-sitter-cli
-    - name: Generate parser
-      run: yarn generate
-    - name: Install dependencies
-      run: yarn install --dev
+    - name: Setup
+      run: yarn setup
 
     - name: Build binaries and upload to GitHub (Linux/macOS)
       if: runner.os == 'Linux' || runner.os == 'macOS'
