@@ -125,7 +125,7 @@ You can find all commands the CI workflow runs in `.github/workflows/ci.yml`.
 
 ## Releases
 
-[Here](https://github.com/tony-lang/tree-sitter-tony) you can find details on all past releases.
+[Here](https://github.com/tony-lang/tree-sitter-tony/releases/) you can find details on all past releases.
 Unreleased breaking changes that are on the current master can be found [here](CHANGELOG.md).
 
 Tony follows Semantic Versioning 2.0 as defined at http://semver.org.
