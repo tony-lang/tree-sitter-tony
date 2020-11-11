@@ -24,7 +24,7 @@ You should **not** open an issue if
 
 * you want to report a security vulnerability. In that case please reference the [security policy](SECURITY.md); or
 * you have a question. If you have a question use [Stack Overflow](https://stackoverflow.com) instead or send an email to the project team at jonas.huebotter@gmail.com.
-* you want to fix a syntax error or adjust a sentence in the documentation. You may immediately propose your changes in a pull request. If you want to make fundamental changes to the documentation, however, make sure
+* you want to fix a syntax error or adjust a sentence in the documentation. You may immediately propose your changes in a pull request.
 
 When you open an issue we urge you to use the provided templates.
 
