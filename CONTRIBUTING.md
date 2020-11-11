@@ -8,23 +8,25 @@ Thank you in showing interest in contributing to Tony! We greatly value every co
 * implementing a feature; to
 * suggesting a new feature.
 
-## Code of Conduct	
+## Code of Conduct
 
-This project and everyone participating in it is governed by the [Code of Conduct](CODE_OF_CONDUCT.md). By participating, you are expected to uphold this code.	
+This project and everyone participating in it is governed by the [Code of Conduct](CODE_OF_CONDUCT.md). By participating, you are expected to uphold this code.
 
 ## Contributing ideas and reporting bugs
 
 We use GitHub issues as a ticket system. You should open an issue if
 
-* you want to [report a bug](https://github.com/tony-lang/tree-sitter-tony/issues/new?assignees=&labels=bug&template=bug_report.md&title=); or	
-* you want to [suggest a feature](https://github.com/tony-lang/tree-sitter-tony/issues/new?assignees=&labels=discussion%2C+enhancement&template=feature_request.md&title=).
+* you want to [report a bug](https://github.com/tony-lang/tree-sitter-tony/issues/new?assignees=&labels=bug&template=bug_report.md&title=);
+* you want to [suggest a feature](https://github.com/tony-lang/tree-sitter-tony/issues/new?assignees=&labels=discussion%2C+enhancement&template=feature_request.md&title=); or
+* you want to [make changes to the documentation](https://github.com/tony-lang/tree-sitter-tony/issues/new?assignees=&labels=documentation&template=documentation.md&title=) (that go beyond fixing a syntax error here or adding a paragraph there).
 
 You should **not** open an issue if
 
 * you want to report a security vulnerability. In that case please reference the [security policy](SECURITY.md); or
-* you have a question. If you have a question use [Stack Overflow](https://stackoverflow.com) instead or send an email to the project team at jonas.huebotter@gmail.com.	
+* you have a question. If you have a question use [Stack Overflow](https://stackoverflow.com) instead or send an email to the project team at jonas.huebotter@gmail.com.
+* you want to fix a syntax error or adjust a sentence in the documentation. You may immediately propose your changes in a pull request. If you want to make fundamental changes to the documentation, however, make sure
 
-When you open an issue we urge you to use the provided templates.	
+When you open an issue we urge you to use the provided templates.
 
 ## Contributing code
 
@@ -45,9 +47,9 @@ Furthermore, we strongly encourage you to write tests for every change you propo
 
 ### Submitting a pull request
 
-Once your happy with your changes, you are ready to submit your pull request. 
+Once your happy with your changes, you are ready to submit your pull request.
 
-Please keep your description short and succinct, but explain what changes you made and - if applicable - why you made those changes. 
+Please keep your description short and succinct, but explain what changes you made and - if applicable - why you made those changes.
 The more descriptive your summary is, the more likely it is for your changes to be merged quickly.
 Don't forget to reference the issue this pull request addresses.
 
