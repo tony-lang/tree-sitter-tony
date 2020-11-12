@@ -67,7 +67,7 @@ where `file.tn` is the relative path to the file you want to parse.
 Import the parser with
 
 ```ts
-import TreeSitterTony, { Parser } from 'tree-sitter-tony
+import TreeSitterTony, { Parser } from 'tree-sitter-tony'
 ```
 
 Then you are able to create an instance of the parser as follows:
