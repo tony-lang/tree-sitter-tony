@@ -1,6 +1,6 @@
 # tree-sitter-tony
 
-This reporitory is home to the parser and [Tree-sitter](https://github.com/tree-sitter/tree-sitter) grammar of the Tony programming language. It comes with automatically generated [TypeScript](https://www.typescriptlang.org/) type declarations.
+This repository is home to the parser and [Tree-sitter](https://github.com/tree-sitter/tree-sitter) grammar of the Tony programming language. It comes with automatically generated [TypeScript](https://www.typescriptlang.org/) type declarations.
 
 Tony is a functional, strongly typed, high level, general purpose programming language. Tony employs refinement types, allowing its type checker to catch domain-specific bugs at compile time.
 
