@@ -47,7 +47,7 @@ Furthermore, we strongly encourage you to write tests for every change you propo
 
 ### Submitting a pull request
 
-Once your happy with your changes, you are ready to submit your pull request.
+Once you're happy with your changes, you are ready to submit your pull request.
 
 Please keep your description short and succinct, but explain what changes you made and - if applicable - why you made those changes.
 The more descriptive your summary is, the more likely it is for your changes to be merged quickly.
