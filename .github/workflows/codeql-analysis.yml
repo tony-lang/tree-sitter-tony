@@ -9,9 +9,6 @@ on:
   schedule:
     - cron: '30 5 * * 0'
 
-paths-ignore: 
-  - node_modules
-
 jobs:
   analyze:
     name: Analyze
