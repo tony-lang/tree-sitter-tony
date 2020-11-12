@@ -11,7 +11,7 @@ These versions are currently being supported with security updates.
 
 ## Reporting a Vulnerability
 
-If you found a security vulnerability either with this project or with a project this project depends on, don't hesitate to send an email to the project team jonas.huebotter@gmail.com.
+If you found a security vulnerability either with this project or with a project this project depends on, don't hesitate to send an email to the project team at jonas.huebotter@gmail.com.
 Your report should contain a summary of your findings and instructions to reproduce the vulnerability.
 
 Once you reported a security vulnerability we will attempt to get back to you as soon as possible. 
