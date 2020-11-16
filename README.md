@@ -54,13 +54,21 @@ You may install it
 
 The generated parser is in C. There exist [bindings](https://github.com/tree-sitter) to use this parser with a huge variety of programming languages. Below you can find a couple of options of using the parser.
 
-### CLI
+Some may require you to set up a [development](#development) environment.
+
+### CLI (development)
 
 To parse a file and emit a syntax tree run
 
     $ yarn parse file.tn
 
 where `file.tn` is the relative path to the file you want to parse.
+
+For a simple hello world use
+
+```tony
+IO->print('hello world')
+```
 
 ### TypeScript / JavaScript
 
@@ -123,12 +131,16 @@ We use [Prettier](https://prettier.io/) for automated code formatting:
 
 You can find all commands the CI workflow runs in `.github/workflows/ci.yml`.
 
+## Contributing
+
+We warmly welcome everyone who is intersted in contributing. Please reference our [contributing guidelines](CONTRIBUTING.md) and our [Code of Conduct](CODE_OF_CONDUCT.md).
+
 ## Releases
 
 [Here](https://github.com/tony-lang/tree-sitter-tony/releases/) you can find details on all past releases.
 Unreleased breaking changes that are on the current master can be found [here](CHANGELOG.md).
 
-Tony follows Semantic Versioning 2.0 as defined at http://semver.org.
+Tony follows Semantic Versioning 2.0 as defined at http://semver.org. Reference our [security policy](SECURITY.md).
 
 ### Publishing
 
