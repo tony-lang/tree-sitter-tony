@@ -144,9 +144,9 @@ Tony follows Semantic Versioning 2.0 as defined at http://semver.org. Reference 
 
 ### Publishing
 
-1. Review breaking changes and deprecations in `CHANGELOG.md`
+1. Review breaking changes and deprecations in `CHANGELOG.md`.
 1. Change the version in `package.json`.
-1. Reset `CHANGELOG.md`
+1. Reset `CHANGELOG.md`.
 1. Create a pull request to merge the changes into `master`.
 1. After the pull request was merged, create a new release listing the breaking changes, deprecations and commits on `master` since the last release.
 1. The release workflow will publish the package to NPM and GPR.
