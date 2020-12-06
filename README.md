@@ -129,7 +129,7 @@ We use [Prettier](https://prettier.io/) for automated code formatting:
 
     $ yarn prettier
 
-You can find all commands the CI workflow runs in `.github/workflows/ci.yml`.
+You can find all commands run by the CI workflow in `.github/workflows/ci.yml`.
 
 ## Contributing
 
