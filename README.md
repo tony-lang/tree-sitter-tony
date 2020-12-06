@@ -97,7 +97,7 @@ const tree = parser.parse(sourceCode)
 
 ## Development
 
-To start development you first have to fork this repository and the clone your fork locally.
+To start development you first have to fork this repository and locally clone your fork.
 
 Then setup the project locally by running:
 
