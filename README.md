@@ -75,7 +75,8 @@ IO->print('hello world')
 Import the parser with
 
 ```ts
-import TreeSitterTony, { Parser } from 'tree-sitter-tony'
+import Parser from 'tree-sitter'
+import TreeSitterTony, { Tree } from 'tree-sitter-tony'
 ```
 
 Then you are able to create an instance of the parser as follows:
@@ -90,7 +91,7 @@ Now you can parse any string into an abstract syntax tree:
 ```ts
 const sourceCode: string = await readFile(file)
 
-const tree = parser.parse(sourceCode)
+const tree = parser.parse(sourceCode) as Tree
 ```
 
 `tree` and every child node including their properties are strongly typed.
