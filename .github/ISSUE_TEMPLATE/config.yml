@@ -6,6 +6,10 @@ contact_links:
     name: Question
     url: "https://stackoverflow.com/questions/tagged/tony"
   -
+    about: "Please raise issues about the language spec on its own repo."
+    name: Language Specification
+    url: "https://github.com/tony-lang/spec/issues/new"
+  -
     about: "Please raise issues about the site on its own repo."
     name: Website
     url: "https://github.com/tony-lang/tony-lang.github.io/issues/new"
