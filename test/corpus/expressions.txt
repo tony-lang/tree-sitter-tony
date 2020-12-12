@@ -491,22 +491,24 @@ import a, b from 'source'
 
 (program
   expression: (import
-    import: (import_identifier_as
+    import: (import_identifier
       name: (identifier_pattern_name)
       as: (identifier_pattern
         name: (identifier_pattern_name)))
-    import: (identifier_pattern
-      name: (identifier_pattern_name))
-    import: (import_identifier_as
+    import: (import_identifier
+      as: (identifier_pattern
+        name: (identifier_pattern_name)))
+    import: (import_identifier
       name: (identifier_pattern_name)
       as: (identifier_pattern
         name: (identifier_pattern_name)
         type: (parametric_type
           name: (type))))
-    import: (identifier_pattern
-      name: (identifier_pattern_name)
-      type: (parametric_type
-        name: (type)))
+    import: (import_identifier
+      as: (identifier_pattern
+        name: (identifier_pattern_name)
+        type: (parametric_type
+          name: (type))))
     import: (import_type
       name: (type)
       as: (type))
@@ -514,10 +516,12 @@ import a, b from 'source'
       name: (type))
     source: (string_pattern))
   expression: (import
-    import: (identifier_pattern
-      name: (identifier_pattern_name))
-    import: (identifier_pattern
-      name: (identifier_pattern_name))
+    import: (import_identifier
+      as: (identifier_pattern
+        name: (identifier_pattern_name)))
+    import: (import_identifier
+      as: (identifier_pattern
+        name: (identifier_pattern_name)))
     source: (string_pattern)))
 
 ==================
@@ -530,10 +534,12 @@ export a, b from 'source'
 
 (program
   expression: (external_import
-    import: (identifier_pattern
-      name: (identifier_pattern_name))
-    import: (identifier_pattern
-      name: (identifier_pattern_name))
+    import: (import_identifier
+      as: (identifier_pattern
+        name: (identifier_pattern_name)))
+    import: (import_identifier
+      as: (identifier_pattern
+        name: (identifier_pattern_name)))
     source: (string_pattern)))
 
 ==================

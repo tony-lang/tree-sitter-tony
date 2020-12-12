@@ -534,19 +534,18 @@ module.exports = grammar({
     external_import: ($) => seq('export', $._import_body),
     _import_body: ($) =>
       seq(
-        commaSep1(
-          field(
-            'import',
-            choice($.identifier_pattern, $.import_identifier_as, $.import_type),
-          ),
-        ),
+        commaSep1(field('import', choice($.import_identifier, $.import_type))),
         'from',
         field('source', $.string_pattern),
       ),
-    import_identifier_as: ($) =>
+    import_identifier: ($) =>
       seq(
-        field('name', alias($.identifier, $.identifier_pattern_name)),
-        'as',
+        optional(
+          seq(
+            field('name', alias($.identifier, $.identifier_pattern_name)),
+            'as',
+          ),
+        ),
         field('as', $.identifier_pattern),
       ),
     import_type: ($) =>
