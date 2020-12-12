@@ -2,7 +2,7 @@
 struct type
 ==================
 
-a :: { a :: Type, [Type] :: Type } := 1
+a :: { a: Type, [Type]: Type } := 1
 
 ---
 
@@ -26,7 +26,7 @@ a :: { a :: Type, [Type] :: Type } := 1
 named struct type
 ==================
 
-a :: Struct { a :: Type, [Type] :: Type } := 1
+a :: Struct { a: Type, [Type]: Type } := 1
 
 ---
 

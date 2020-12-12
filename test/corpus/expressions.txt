@@ -759,10 +759,10 @@ interface
 ==================
 
 interface Type<a>
-  a :: a -> Number
-  b :: a -> Number
+  a: a -> Number
+  b: a -> Number
 interface Eq<a> => Ord<a>
-  compare :: a -> a -> Number
+  compare: a -> a -> Number
 
 ---
 
@@ -818,29 +818,6 @@ implement Ord<Number>
       pattern: (identifier_pattern
         name: (identifier_pattern_name))
       value: (number))))
-
-==================
-struct declaration
-==================
-
-struct Type
-  a :: Number
-  b :: String
-
----
-
-(program
-  expression: (struct_declaration
-    name: (type_declaration
-      name: (type))
-    member: (member_type
-      key: (shorthand_member_identifier)
-      value: (parametric_type
-        name: (type)))
-    member: (member_type
-      key: (shorthand_member_identifier)
-      value: (parametric_type
-        name: (type)))))
 
 ==================
 struct

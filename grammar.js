@@ -76,13 +76,13 @@ const tuple = ($, element, rest = false, allowSingle = false) =>
 const list = ($, element, rest = false) =>
   seq('[', dataStructure($, field('element', element), rest), ']')
 
-const member = ($, key, value, sep = ':') =>
+const member = ($, key, value) =>
   seq(
     choice(
       seq('[', field('key', key), ']'),
       field('key', alias($.identifier, $.shorthand_member_identifier)),
     ),
-    sep,
+    ':',
     field('value', value),
   )
 
@@ -176,7 +176,6 @@ module.exports = grammar({
         $.enum,
         $.interface,
         $.implement,
-        $.struct_declaration,
       ),
 
     _simple_declaration: ($) =>
@@ -642,13 +641,6 @@ module.exports = grammar({
         ),
       ),
 
-    struct_declaration: ($) =>
-      seq(
-        'struct',
-        field('name', $.type_declaration),
-        compound($, repeat1(field('member', $.member_type))),
-      ),
-
     struct: ($) =>
       prec(
         PREC.EXPRESSION,
@@ -755,8 +747,7 @@ module.exports = grammar({
         ),
       ),
     struct_type: ($) => struct($, $.member_type),
-    member_type: ($) =>
-      member($, $._type_constructor, $._type_constructor, '::'),
+    member_type: ($) => member($, $._type_constructor, $._type_constructor),
     tuple_type: ($) => tuple($, $._type_constructor),
     list_type: ($) => seq('[', field('element', $._type_constructor), ']'),
 
