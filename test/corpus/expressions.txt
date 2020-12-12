@@ -759,10 +759,10 @@ interface
 ==================
 
 interface Type<a>
-  a: a -> Number
-  b: a -> Number
+  a :: a -> Number
+  b :: a -> Number
 interface Eq<a> => Ord<a>
-  compare: a -> a -> Number
+  compare :: a -> a -> Number
 
 ---
 
@@ -771,15 +771,15 @@ interface Eq<a> => Ord<a>
     name: (type_declaration
       name: (type)
       parameter: (type_variable))
-    member: (member_type
-      key: (shorthand_member_identifier)
-      value: (curried_type
+    member: (identifier_pattern
+      name: (identifier_pattern_name)
+      type: (curried_type
         from: (type_variable)
         to: (parametric_type
           name: (type))))
-    member: (member_type
-      key: (shorthand_member_identifier)
-      value: (curried_type
+    member: (identifier_pattern
+      name: (identifier_pattern_name)
+      type: (curried_type
         from: (type_variable)
         to: (parametric_type
           name: (type)))))
@@ -790,9 +790,9 @@ interface Eq<a> => Ord<a>
         parameter: (type_variable))
       name: (type)
       parameter: (type_variable))
-    member: (member_type
-      key: (shorthand_member_identifier)
-      value: (curried_type
+    member: (identifier_pattern
+      name: (identifier_pattern_name)
+      type: (curried_type
         from: (type_variable)
         to: (curried_type
           from: (type_variable)
