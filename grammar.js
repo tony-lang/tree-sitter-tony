@@ -755,7 +755,8 @@ module.exports = grammar({
         ),
       ),
     struct_type: ($) => struct($, $.member_type),
-    member_type: ($) => member($, $._type_constructor, $._type_constructor, '::'),
+    member_type: ($) =>
+      member($, $._type_constructor, $._type_constructor, '::'),
     tuple_type: ($) => tuple($, $._type_constructor),
     list_type: ($) => seq('[', field('element', $._type_constructor), ']'),
 
