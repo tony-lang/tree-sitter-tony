@@ -29,7 +29,7 @@ struct pattern
     pattern: (destructuring_pattern
       pattern: (struct_pattern
         member: (member_pattern
-          key: (shorthand_access_identifier)
+          key: (shorthand_member_identifier)
           value: (identifier_pattern
             name: (identifier_pattern_name)
             type: (parametric_type
@@ -39,7 +39,7 @@ struct pattern
     pattern: (destructuring_pattern
       pattern: (struct_pattern
         member: (member_pattern
-          key: (shorthand_access_identifier)
+          key: (shorthand_member_identifier)
           value: (identifier_pattern
             name: (identifier_pattern_name)
             type: (parametric_type
@@ -79,7 +79,7 @@ named struct pattern
         pattern: (destructuring_pattern
           pattern: (struct_pattern
             member: (member_pattern
-              key: (shorthand_access_identifier)
+              key: (shorthand_member_identifier)
               value: (identifier_pattern
                 name: (identifier_pattern_name)
                 type: (parametric_type
@@ -92,7 +92,7 @@ named struct pattern
         pattern: (destructuring_pattern
           pattern: (struct_pattern
             member: (member_pattern
-              key: (shorthand_access_identifier)
+              key: (shorthand_member_identifier)
               value: (identifier_pattern
                 name: (identifier_pattern_name)
                 type: (parametric_type
