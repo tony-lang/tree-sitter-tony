@@ -537,11 +537,7 @@ module.exports = grammar({
         commaSep1(
           field(
             'import',
-            choice(
-              $.identifier_pattern,
-              $.import_identifier_as,
-              $.import_type,
-            ),
+            choice($.identifier_pattern, $.import_identifier_as, $.import_type),
           ),
         ),
         'from',
