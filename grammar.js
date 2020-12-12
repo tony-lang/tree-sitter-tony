@@ -540,8 +540,7 @@ module.exports = grammar({
             choice(
               $.identifier_pattern,
               $.import_identifier_as,
-              $.type,
-              $.import_type_as,
+              $.import_type,
             ),
           ),
         ),
@@ -554,8 +553,8 @@ module.exports = grammar({
         'as',
         field('as', $.identifier_pattern),
       ),
-    import_type_as: ($) =>
-      seq(field('name', $.type), 'as', field('as', $.type)),
+    import_type: ($) =>
+      seq(field('name', $.type), optional(seq('as', field('as', $.type)))),
 
     simple_export: ($) =>
       seq('export', field('declaration', $._simple_declaration)),
