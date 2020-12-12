@@ -53,12 +53,13 @@ fib :=
           type: (parametric_type
             name: (type)))
         value: (number)
-        value: (struct_pattern
-          member: (shorthand_member_pattern
-            name: (identifier_pattern_name)
-            type: (parametric_type
-              name: (type))
-            default: (number))))
+        value: (destructuring_pattern
+          pattern: (struct_pattern
+            member: (shorthand_member_pattern
+              name: (identifier_pattern_name)
+              type: (parametric_type
+                name: (type))
+              default: (number)))))
       body: (block
         expression: (identifier))))
   expression: (assignment
@@ -687,12 +688,13 @@ else 1
   expression: (case
     value: (identifier)
     when: (when
-      pattern: (list_pattern
-        element: (number)
-        element: (identifier_pattern
-          name: (identifier_pattern_name)
-          type: (parametric_type
-            name: (type))))
+      pattern: (destructuring_pattern
+        pattern: (list_pattern
+          element: (number)
+          element: (identifier_pattern
+            name: (identifier_pattern_name)
+            type: (parametric_type
+              name: (type)))))
       body: (block
         expression: (identifier)))
     when: (when

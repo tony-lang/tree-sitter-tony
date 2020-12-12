@@ -201,20 +201,27 @@ module.exports = grammar({
       ),
 
     _pattern: ($) =>
-      choice(
-        $.identifier_pattern,
-        $._destructuring_pattern,
-        $._literal_pattern,
-      ),
+      choice($.identifier_pattern, $.destructuring_pattern, $._literal_pattern),
 
-    _destructuring_pattern: ($) =>
-      choice(
-        $.struct_pattern,
-        $.named_struct_pattern,
-        $.tuple_pattern,
-        $.named_tuple_pattern,
-        $.list_pattern,
-        $.named_list_pattern,
+    destructuring_pattern: ($) =>
+      seq(
+        optional(
+          seq(
+            field('alias', alias($.identifier, $.identifier_pattern_name)),
+            '@',
+          ),
+        ),
+        field(
+          'pattern',
+          choice(
+            $.struct_pattern,
+            $.named_struct_pattern,
+            $.tuple_pattern,
+            $.named_tuple_pattern,
+            $.list_pattern,
+            $.named_list_pattern,
+          ),
+        ),
       ),
     struct_pattern: ($) =>
       prec(
@@ -509,7 +516,7 @@ module.exports = grammar({
         seq(
           field(
             'pattern',
-            choice($.identifier_pattern, $._destructuring_pattern),
+            choice($.identifier_pattern, $.destructuring_pattern),
           ),
           ':=',
           field('value', $._simple_expression),
@@ -520,7 +527,7 @@ module.exports = grammar({
         seq(
           field(
             'pattern',
-            choice($.identifier_pattern, $._destructuring_pattern),
+            choice($.identifier_pattern, $.destructuring_pattern),
           ),
           ':=',
           choice(
