@@ -772,14 +772,14 @@ interface Eq<a> => Ord<a>
       name: (type)
       parameter: (type_variable))
     member: (member_type
-      name: (identifier)
-      type: (curried_type
+      key: (shorthand_member_identifier)
+      value: (curried_type
         from: (type_variable)
         to: (parametric_type
           name: (type))))
     member: (member_type
-      name: (identifier)
-      type: (curried_type
+      key: (shorthand_member_identifier)
+      value: (curried_type
         from: (type_variable)
         to: (parametric_type
           name: (type)))))
@@ -791,8 +791,8 @@ interface Eq<a> => Ord<a>
       name: (type)
       parameter: (type_variable))
     member: (member_type
-      name: (identifier)
-      type: (curried_type
+      key: (shorthand_member_identifier)
+      value: (curried_type
         from: (type_variable)
         to: (curried_type
           from: (type_variable)
@@ -834,12 +834,12 @@ struct Type
     name: (type_declaration
       name: (type))
     member: (member_type
-      name: (identifier)
-      type: (parametric_type
+      key: (shorthand_member_identifier)
+      value: (parametric_type
         name: (type)))
     member: (member_type
-      name: (identifier)
-      type: (parametric_type
+      key: (shorthand_member_identifier)
+      value: (parametric_type
         name: (type)))))
 
 ==================
@@ -864,7 +864,7 @@ struct
     member: (spread
       value: (identifier))
     member: (member
-      key: (shorthand_access_identifier)
+      key: (shorthand_member_identifier)
       value: (string))
     member: (shorthand_member)
     member: (shorthand_member)))
@@ -897,7 +897,7 @@ Struct { ['a']: 1, ...b, c: 'str', d, e }
       member: (spread
         value: (identifier))
       member: (member
-        key: (shorthand_access_identifier)
+        key: (shorthand_member_identifier)
         value: (string))
       member: (shorthand_member)
       member: (shorthand_member))))

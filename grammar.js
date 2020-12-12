@@ -76,13 +76,13 @@ const tuple = ($, element, rest = false, allowSingle = false) =>
 const list = ($, element, rest = false) =>
   seq('[', dataStructure($, field('element', element), rest), ']')
 
-const member = ($, value) =>
+const member = ($, key, value, sep = ':') =>
   seq(
     choice(
-      seq('[', field('key', $._simple_expression), ']'),
-      field('key', alias($.identifier, $.shorthand_access_identifier)),
+      seq('[', field('key', key), ']'),
+      field('key', alias($.identifier, $.shorthand_member_identifier)),
     ),
-    ':',
+    sep,
     field('value', value),
   )
 
@@ -232,7 +232,7 @@ module.exports = grammar({
     tuple_pattern: ($) => prec(PREC.PATTERN, tuple($, $._pattern, true)),
     parameters: ($) => tuple($, $._pattern, true, true),
     list_pattern: ($) => prec(PREC.PATTERN, list($, $._pattern, true)),
-    member_pattern: ($) => member($, $._pattern),
+    member_pattern: ($) => member($, $._simple_expression, $._pattern),
     rest: ($) => seq('...', field('name', $.identifier_pattern)),
 
     _literal_pattern: ($) =>
@@ -660,7 +660,7 @@ module.exports = grammar({
     tuple: ($) => prec(PREC.EXPRESSION, tuple($, $.tuple_element)),
     list: ($) =>
       prec(PREC.EXPRESSION, list($, choice($._simple_expression, $.spread))),
-    member: ($) => member($, $._simple_expression),
+    member: ($) => member($, $._simple_expression, $._simple_expression),
     tuple_element: ($) =>
       prec.left(
         choice(
@@ -756,11 +756,7 @@ module.exports = grammar({
       ),
     struct_type: ($) => struct($, $.member_type),
     member_type: ($) =>
-      seq(
-        field('name', $.identifier),
-        '::',
-        field('type', $._type_constructor),
-      ),
+      member($, $._type_constructor, $._type_constructor, '::'),
     tuple_type: ($) => tuple($, $._type_constructor),
     list_type: ($) => seq('[', field('element', $._type_constructor), ']'),
 

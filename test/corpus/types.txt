@@ -2,7 +2,7 @@
 struct type
 ==================
 
-a :: { a :: Type, b :: Type } := 1
+a :: { a :: Type, [Type] :: Type } := 1
 
 ---
 
@@ -12,12 +12,13 @@ a :: { a :: Type, b :: Type } := 1
       name: (identifier_pattern_name)
       type: (struct_type
         member: (member_type
-          name: (identifier)
-          type: (parametric_type
+          key: (shorthand_member_identifier)
+          value: (parametric_type
             name: (type)))
         member: (member_type
-          name: (identifier)
-          type: (parametric_type
+          key: (parametric_type
+            name: (type))
+          value: (parametric_type
             name: (type)))))
     value: (number)))
 
@@ -25,7 +26,7 @@ a :: { a :: Type, b :: Type } := 1
 named struct type
 ==================
 
-a :: Struct { a :: Type, b :: Type } := 1
+a :: Struct { a :: Type, [Type] :: Type } := 1
 
 ---
 
@@ -37,12 +38,13 @@ a :: Struct { a :: Type, b :: Type } := 1
         name: (type)
         type: (struct_type
           member: (member_type
-            name: (identifier)
-            type: (parametric_type
+            key: (shorthand_member_identifier)
+            value: (parametric_type
               name: (type)))
           member: (member_type
-            name: (identifier)
-            type: (parametric_type
+            key: (parametric_type
+              name: (type))
+            value: (parametric_type
               name: (type))))))
     value: (number)))
 
