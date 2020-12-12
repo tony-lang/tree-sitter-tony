@@ -1,4 +1,6 @@
 const PREC = Object.freeze({
+  NAMED_TYPE: -1,
+  ASSIGNMENT: 1,
   TYPE_HINT: 1,
   CURRIED_TYPE: 1,
   UNION_TYPE: 1,
@@ -33,7 +35,7 @@ const commaSep1 = (rule) => seq(rule, repeat(seq(',', rule)))
 
 const abstractionBranch = ($, blockType) =>
   seq(
-    field('parameters', $.tuple_pattern),
+    field('parameters', $.parameters),
     '=>',
     field('body', alias(blockType, $.block)),
   )
@@ -56,29 +58,23 @@ const dataStructure = ($, element, rest, commaSepImpl = commaSep1) =>
 const struct = ($, member, rest = false) =>
   seq('{', dataStructure($, field('member', member), rest), '}')
 
-const namedStruct = ($, member, rest = false) =>
-  seq(field('name', $.type), struct($, member, rest))
-
 const tuple = ($, element, rest = false, allowSingle = false) =>
-  seq(
-    '(',
-    dataStructure(
-      $,
-      field('value', element),
-      rest,
-      allowSingle ? commaSep1 : commaSep2,
+  choice(
+    '()',
+    seq(
+      '(',
+      dataStructure(
+        $,
+        field('value', element),
+        rest,
+        allowSingle ? commaSep1 : commaSep2,
+      ),
+      ')',
     ),
-    ')',
   )
-
-const namedTuple = ($, name, element, rest = false) =>
-  seq(field('name', name), tuple($, element, rest, true))
 
 const list = ($, element, rest = false) =>
   seq('[', dataStructure($, field('element', element), rest), ']')
-
-const namedList = ($, element, rest = false) =>
-  seq(field('name', $.type), list($, element, rest))
 
 const member = ($, value) =>
   seq(
@@ -126,11 +122,8 @@ module.exports = grammar({
     [$._literal, $._literal_pattern],
     [$.string, $.string_pattern],
     [$.struct, $.struct_pattern],
-    [$.named_struct, $.named_struct_pattern],
     [$.tuple, $.tuple_pattern],
-    [$.named_tuple, $.named_tuple_pattern],
     [$.list, $.list_pattern],
-    [$.named_list, $.named_list_pattern],
     [$.type_declaration, $._type_constructor],
   ],
 
@@ -162,12 +155,10 @@ module.exports = grammar({
           $.return,
           alias($.simple_if, $.if),
           $.struct,
-          $.named_struct,
           $.tuple,
-          $.named_tuple,
           $.list,
-          $.named_list,
           $.list_comprehension,
+          $.named_value,
           $.type_alias,
           $.type_hint,
           $.identifier,
@@ -200,8 +191,18 @@ module.exports = grammar({
         compound($, repeat1(field('expression', $._expression))),
       ),
 
-    _pattern: ($) =>
-      choice($.identifier_pattern, $.destructuring_pattern, $._literal_pattern),
+    _pattern: ($) => choice($._assignable_pattern, $._literal_pattern),
+
+    _assignable_pattern: ($) =>
+      choice(
+        $.pattern_group,
+        $.identifier_pattern,
+        $.destructuring_pattern,
+        $.named_pattern,
+      ),
+
+    pattern_group: ($) =>
+      prec(PREC.PATTERN, seq('(', field('pattern', $._pattern), ')')),
 
     destructuring_pattern: ($) =>
       seq(
@@ -213,14 +214,7 @@ module.exports = grammar({
         ),
         field(
           'pattern',
-          choice(
-            $.struct_pattern,
-            $.named_struct_pattern,
-            $.tuple_pattern,
-            $.named_tuple_pattern,
-            $.list_pattern,
-            $.named_list_pattern,
-          ),
+          choice($.struct_pattern, $.tuple_pattern, $.list_pattern),
         ),
       ),
     struct_pattern: ($) =>
@@ -235,24 +229,9 @@ module.exports = grammar({
           true,
         ),
       ),
-    named_struct_pattern: ($) =>
-      prec(
-        PREC.PATTERN,
-        namedStruct(
-          $,
-          choice(
-            $.member_pattern,
-            alias($.identifier_pattern, $.shorthand_member_pattern),
-          ),
-          true,
-        ),
-      ),
-    tuple_pattern: ($) => prec(PREC.PATTERN, tuple($, $._pattern, true, true)),
-    named_tuple_pattern: ($) =>
-      prec(PREC.PATTERN, namedTuple($, $.type, $._pattern, true, true)),
+    tuple_pattern: ($) => prec(PREC.PATTERN, tuple($, $._pattern, true)),
+    parameters: ($) => tuple($, $._pattern, true, true),
     list_pattern: ($) => prec(PREC.PATTERN, list($, $._pattern, true)),
-    named_list_pattern: ($) =>
-      prec(PREC.PATTERN, namedList($, $._pattern, true)),
     member_pattern: ($) => member($, $._pattern),
     rest: ($) => seq('...', field('name', $.identifier_pattern)),
 
@@ -260,6 +239,12 @@ module.exports = grammar({
       choice($.parametric_type, $.boolean, $.number, $.string_pattern, $.regex),
     string_pattern: ($) =>
       string($, field('escape_sequence', $.escape_sequence)),
+
+    named_pattern: ($) =>
+      prec(
+        PREC.PATTERN,
+        seq(field('name', $.type), field('pattern', $._pattern)),
+      ),
 
     identifier_pattern: ($) =>
       prec.right(
@@ -299,7 +284,10 @@ module.exports = grammar({
     application: ($) =>
       prec(
         PREC.APPLICATION,
-        namedTuple($, $._simple_expression, $.tuple_element),
+        seq(
+          field('value', $._simple_expression),
+          field('arguments', tuple($, $.tuple_element, true, true)),
+        ),
       ),
     prefix_application: ($) =>
       prec.right(
@@ -513,22 +501,18 @@ module.exports = grammar({
 
     simple_assignment: ($) =>
       prec.right(
+        PREC.ASSIGNMENT,
         seq(
-          field(
-            'pattern',
-            choice($.identifier_pattern, $.destructuring_pattern),
-          ),
+          field('pattern', $._assignable_pattern),
           ':=',
           field('value', $._simple_expression),
         ),
       ),
     compound_assignment: ($) =>
       prec.right(
+        PREC.ASSIGNMENT,
         seq(
-          field(
-            'pattern',
-            choice($.identifier_pattern, $.destructuring_pattern),
-          ),
+          field('pattern', $._assignable_pattern),
           ':=',
           choice(
             field('value', $._compound_expression),
@@ -673,24 +657,9 @@ module.exports = grammar({
           choice($.member, alias($.identifier, $.shorthand_member), $.spread),
         ),
       ),
-    named_struct: ($) =>
-      prec(
-        PREC.EXPRESSION,
-        namedStruct(
-          $,
-          choice($.member, alias($.identifier, $.shorthand_member), $.spread),
-        ),
-      ),
     tuple: ($) => prec(PREC.EXPRESSION, tuple($, $.tuple_element)),
-    named_tuple: ($) =>
-      prec(PREC.EXPRESSION, namedTuple($, $.type, $.tuple_element)),
     list: ($) =>
       prec(PREC.EXPRESSION, list($, choice($._simple_expression, $.spread))),
-    named_list: ($) =>
-      prec(
-        PREC.EXPRESSION,
-        namedList($, choice($._simple_expression, $.spread)),
-      ),
     member: ($) => member($, $._simple_expression),
     tuple_element: ($) =>
       prec.left(
@@ -715,6 +684,11 @@ module.exports = grammar({
         'in',
         field('value', $._simple_expression),
         optional(seq('if', field('condition', $._simple_expression))),
+      ),
+
+    named_value: ($) =>
+      prec.right(
+        seq(field('name', $.type), field('value', $._simple_expression)),
       ),
 
     type_alias: ($) =>
@@ -744,11 +718,9 @@ module.exports = grammar({
         $.intersection_type,
         $.union_type,
         $.struct_type,
-        $.named_struct_type,
         $.tuple_type,
-        $.named_tuple_type,
         $.list_type,
-        $.named_list_type,
+        $.named_type,
         alias($.identifier, $.type_variable),
       ),
     type_group: ($) => seq('(', field('type', $._type_constructor), ')'),
@@ -783,7 +755,6 @@ module.exports = grammar({
         ),
       ),
     struct_type: ($) => struct($, $.member_type),
-    named_struct_type: ($) => namedStruct($, $.member_type),
     member_type: ($) =>
       seq(
         field('name', $.identifier),
@@ -791,14 +762,12 @@ module.exports = grammar({
         field('type', $._type_constructor),
       ),
     tuple_type: ($) => tuple($, $._type_constructor),
-    named_tuple_type: ($) => namedTuple($, $.type, $._type_constructor),
     list_type: ($) => seq('[', field('element', $._type_constructor), ']'),
-    named_list_type: ($) =>
-      seq(
-        field('name', $.type),
-        '[',
-        field('element', $._type_constructor),
-        ']',
+
+    named_type: ($) =>
+      prec(
+        PREC.NAMED_TYPE,
+        seq(field('name', $.type), field('type', $._type_constructor)),
       ),
 
     type_declaration: ($) =>

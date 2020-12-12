@@ -25,7 +25,7 @@ a :: { a :: Type, b :: Type } := 1
 named struct type
 ==================
 
-a :: Struct{ a :: Type, b :: Type } := 1
+a :: Struct { a :: Type, b :: Type } := 1
 
 ---
 
@@ -33,16 +33,17 @@ a :: Struct{ a :: Type, b :: Type } := 1
   expression: (assignment
     pattern: (identifier_pattern
       name: (identifier_pattern_name)
-      type: (named_struct_type
+      type: (named_type
         name: (type)
-        member: (member_type
-          name: (identifier)
-          type: (parametric_type
-            name: (type)))
-        member: (member_type
-          name: (identifier)
-          type: (parametric_type
-            name: (type)))))
+        type: (struct_type
+          member: (member_type
+            name: (identifier)
+            type: (parametric_type
+              name: (type)))
+          member: (member_type
+            name: (identifier)
+            type: (parametric_type
+              name: (type))))))
     value: (number)))
 
 ==================
@@ -68,7 +69,7 @@ a :: (Type, Type) := 1
 named tuple type
 ==================
 
-a :: Tuple(Type, Type) := 1
+a :: Tuple (Type, Type) := 1
 
 ---
 
@@ -76,12 +77,13 @@ a :: Tuple(Type, Type) := 1
   expression: (assignment
     pattern: (identifier_pattern
       name: (identifier_pattern_name)
-      type: (named_tuple_type
+      type: (named_type
         name: (type)
-        value: (parametric_type
-          name: (type))
-        value: (parametric_type
-          name: (type))))
+        type: (tuple_type
+          value: (parametric_type
+            name: (type))
+          value: (parametric_type
+            name: (type)))))
     value: (number)))
 
 ==================
@@ -105,7 +107,7 @@ a :: [Type] := 1
 named list type
 ==================
 
-a :: List[Type] := 1
+a :: List [Type] := 1
 
 ---
 
@@ -113,10 +115,11 @@ a :: List[Type] := 1
   expression: (assignment
     pattern: (identifier_pattern
       name: (identifier_pattern_name)
-      type: (named_list_type
+      type: (named_type
         name: (type)
-        element: (parametric_type
-          name: (type))))
+        type: (list_type
+          element: (parametric_type
+            name: (type)))))
     value: (number)))
 
 ==================
@@ -185,6 +188,46 @@ Type<Type, a, typeof b, typeof 'string', typeof 5>
       value: (string))
     parameter: (typeof
       value: (number))))
+
+==================
+named parametric type
+==================
+
+a as Name Type
+a as Name Type<a>
+a as Name Type<Type, a, typeof b, typeof 'string', typeof 5>
+
+---
+
+(program
+  expression: (type_hint
+    value: (identifier)
+    type: (named_type
+      name: (type)
+      type: (parametric_type
+        name: (type))))
+  expression: (type_hint
+    value: (identifier)
+    type: (named_type
+      name: (type)
+      type: (parametric_type
+        name: (type)
+        parameter: (type_variable))))
+  expression: (type_hint
+    value: (identifier)
+    type: (named_type
+      name: (type)
+      type: (parametric_type
+        name: (type)
+        parameter: (parametric_type
+          name: (type))
+        parameter: (type_variable)
+        parameter: (typeof
+          value: (identifier))
+        parameter: (typeof
+          value: (string))
+        parameter: (typeof
+          value: (number))))))
 
 ==================
 intersection/union type
