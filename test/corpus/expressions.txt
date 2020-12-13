@@ -11,10 +11,10 @@ fib :=
   (0) =>
     0
   (1) => 1
-  (n :: Type = 2) =>
+  <a>(n :: a = 2) =>
     fib(n - 1) + fib(n - 2)
 
-(...a :: Type) =>
+<a ~ Type>(...a :: a) =>
   b := (c :: Type) =>
     c
   b(1)
@@ -27,39 +27,36 @@ fib :=
 (program
   expression: (abstraction
     branch: (abstraction_branch
-      parameters: (parameters
-        value: (identifier_pattern
-          name: (identifier_pattern_name)))
+      value: (identifier_pattern
+        name: (identifier_pattern_name))
       body: (block
         expression: (identifier))))
   expression: (abstraction
     branch: (abstraction_branch
-      parameters: (parameters
-        value: (identifier_pattern
-          name: (identifier_pattern_name))
-        value: (identifier_pattern
-          name: (identifier_pattern_name)))
+      value: (identifier_pattern
+        name: (identifier_pattern_name))
+      value: (identifier_pattern
+        name: (identifier_pattern_name))
       body: (block
         expression: (identifier))))
   expression: (abstraction
     branch: (abstraction_branch
-      parameters: (parameters
-        value: (identifier_pattern
-          name: (identifier_pattern_name)
-          type: (parametric_type
-            name: (type)))
-        value: (identifier_pattern
-          name: (identifier_pattern_name)
-          type: (parametric_type
-            name: (type)))
-        value: (number)
-        value: (destructuring_pattern
-          pattern: (struct_pattern
-            member: (shorthand_member_pattern
-              name: (identifier_pattern_name)
-              type: (parametric_type
-                name: (type))
-              default: (number)))))
+      value: (identifier_pattern
+        name: (identifier_pattern_name)
+        type: (parametric_type
+          name: (type)))
+      value: (identifier_pattern
+        name: (identifier_pattern_name)
+        type: (parametric_type
+          name: (type)))
+      value: (number)
+      value: (destructuring_pattern
+        pattern: (struct_pattern
+          member: (shorthand_member_pattern
+            name: (identifier_pattern_name)
+            type: (parametric_type
+              name: (type))
+            default: (number))))
       body: (block
         expression: (identifier))))
   expression: (assignment
@@ -67,26 +64,24 @@ fib :=
       name: (identifier_pattern_name))
     value: (abstraction
       branch: (abstraction_branch
-        parameters: (parameters
-          value: (number))
+        value: (number)
         body: (block
           expression: (number)))
       branch: (abstraction_branch
-        parameters: (parameters
-          value: (number))
+        value: (number)
         body: (block
           expression: (number)))
       branch: (abstraction_branch
-        parameters: (parameters
-          value: (identifier_pattern
-            name: (identifier_pattern_name)
-            type: (parametric_type
-              name: (type))
-            default: (number)))
+        parameter: (type_variable_declaration
+          name: (type_variable_declaration_name))
+        value: (identifier_pattern
+          name: (identifier_pattern_name)
+          type: (type_variable)
+          default: (number))
         body: (block
           expression: (infix_application
             left: (application
-              value: (identifier)
+              name: (identifier)
               value: (tuple_element
                 value: (infix_application
                   left: (identifier)
@@ -94,7 +89,7 @@ fib :=
                   right: (number))))
             name: (identifier)
             right: (application
-              value: (identifier)
+              name: (identifier)
               value: (tuple_element
                 value: (infix_application
                   left: (identifier)
@@ -102,32 +97,32 @@ fib :=
                   right: (number)))))))))
   expression: (abstraction
     branch: (abstraction_branch
-      parameters: (parameters
-        rest: (rest
-          name: (identifier_pattern
-            name: (identifier_pattern_name)
-            type: (parametric_type
-              name: (type)))))
+      parameter: (type_variable_declaration
+        name: (type_variable_declaration_name)
+        constraint: (type_constraint
+          type: (type)))
+      rest: (rest
+        name: (identifier_pattern
+          name: (identifier_pattern_name)
+          type: (type_variable)))
       body: (block
         expression: (assignment
           pattern: (identifier_pattern
             name: (identifier_pattern_name))
           value: (abstraction
             branch: (abstraction_branch
-              parameters: (parameters
-                value: (identifier_pattern
-                  name: (identifier_pattern_name)
-                  type: (parametric_type
-                    name: (type))))
+              value: (identifier_pattern
+                name: (identifier_pattern_name)
+                type: (parametric_type
+                  name: (type)))
               body: (block
                 expression: (identifier)))))
         expression: (application
-          value: (identifier)
+          name: (identifier)
           value: (tuple_element
             value: (number))))))
   expression: (abstraction
     branch: (abstraction_branch
-      parameters: (parameters)
       body: (block
         expression: (number))))
   expression: (assignment
@@ -135,11 +130,10 @@ fib :=
       name: (identifier_pattern_name))
     value: (abstraction
       branch: (abstraction_branch
-        parameters: (parameters
-          value: (identifier_pattern
-            name: (identifier_pattern_name))
-          value: (identifier_pattern
-            name: (identifier_pattern_name)))
+        value: (identifier_pattern
+          name: (identifier_pattern_name))
+        value: (identifier_pattern
+          name: (identifier_pattern_name))
         body: (block
           expression: (identifier))))))
 
@@ -149,7 +143,7 @@ application
 
 a(1)(1, 2)
 +(1)
-a(?, 1)
+a<Type<Type, Type>, Type>(?, 1)
 + 1
 1 `a` -b()
 a(...(a, b))
@@ -158,8 +152,8 @@ a(...(a, b))
 
 (program
   expression: (application
-    value: (application
-      value: (identifier)
+    name: (application
+      name: (identifier)
       value: (tuple_element
         value: (number)))
     value: (tuple_element
@@ -171,7 +165,15 @@ a(...(a, b))
     value: (group
       value: (number)))
   expression: (application
-    value: (identifier)
+    name: (identifier)
+    parameter: (parametric_type
+      name: (type)
+      parameter: (parametric_type
+        name: (type))
+      parameter: (parametric_type
+        name: (type)))
+    parameter: (parametric_type
+      name: (type))
     value: (tuple_element)
     value: (tuple_element
       value: (number)))
@@ -184,9 +186,9 @@ a(...(a, b))
     right: (prefix_application
       name: (identifier)
       value: (application
-        value: (identifier))))
+        name: (identifier))))
   expression: (application
-    value: (identifier)
+    name: (identifier)
     value: (tuple_element
       value: (spread
         value: (tuple
@@ -409,7 +411,7 @@ a.b.c(1)
 
 (program
   expression: (application
-    value: (pipeline
+    name: (pipeline
       value: (pipeline
         value: (identifier)
         name: (identifier))
@@ -432,7 +434,7 @@ a.b[c]
       name: (identifier)
       value: (number))
   expression: (application
-    value: (access
+    name: (access
       name: (parametric_type
         name: (type))
       value: (shorthand_access_identifier))
@@ -466,11 +468,10 @@ a := (a :: Type) =>
       name: (identifier_pattern_name))
     value: (abstraction
       branch: (abstraction_branch
-        parameters: (parameters
-          value: (identifier_pattern
-            name: (identifier_pattern_name)
-            type: (parametric_type
-              name: (type))))
+        value: (identifier_pattern
+          name: (identifier_pattern_name)
+          type: (parametric_type
+            name: (type)))
         body: (block
           expression: (number))))))
 
@@ -548,7 +549,7 @@ export
 ==================
 
 export a := 1
-export module A
+export module A where
   export a := 1
 
 ---
@@ -586,11 +587,10 @@ return (a :: Type) =>
   expression: (return
     value: (abstraction
       branch: (abstraction_branch
-        parameters: (parameters
-          value: (identifier_pattern
-            name: (identifier_pattern_name)
-            type: (parametric_type
-              name: (type))))
+        value: (identifier_pattern
+          name: (identifier_pattern_name)
+          type: (parametric_type
+            name: (type)))
         body: (block
           expression: (number))))))
 
@@ -598,17 +598,17 @@ return (a :: Type) =>
 if
 ==================
 
-if false
+if false then
   1
-if true
+if true then
   1
 else
   1
 a :=
-  if true
+  if true then
     1
   else if false then 1
-  else if true
+  else if true then
     1
 
 fn(if false then 1)
@@ -643,7 +643,7 @@ if true then 1 else 1
         body: (block
           expression: (number)))))
   expression: (application
-    value: (identifier)
+    name: (identifier)
     value: (tuple_element
       value: (if
         condition: (boolean)
@@ -661,12 +661,12 @@ case
 ==================
 
 a := case a
-     when 1
+     when 1 then
        1
      else 1
 
 case a
-when [1, a :: Type]
+when [1, a :: Type] then
   a
 when 1, 1 then 1
 else 1
@@ -709,9 +709,9 @@ else 1
 module
 ==================
 
-module Type
+module Type where
   a := 1
-module Type<a> where a :: a := 1
+module Type<a ~ Num, b ~ (Num, Eq, Ord)> where a :: a := 1
 
 ---
 
@@ -727,7 +727,16 @@ module Type<a> where a :: a := 1
   expression: (module
     name: (type_declaration
       name: (type)
-      parameter: (type_variable_declaration))
+      parameter: (type_variable_declaration
+        name: (type_variable_declaration_name)
+        constraint: (type_constraint
+          type: (type)))
+      parameter: (type_variable_declaration
+        name: (type_variable_declaration_name)
+        constraint: (type_constraint
+          type: (type)
+          type: (type)
+          type: (type))))
     body: (block
       expression: (assignment
         pattern: (identifier_pattern
@@ -761,7 +770,7 @@ interface
 interface Type<a>
   a :: a -> Number
   b :: a -> Number
-interface Eq<a> => Ord<a>
+interface Ord<a ~ Eq>
   compare :: a -> a -> Number
 
 ---
@@ -770,7 +779,8 @@ interface Eq<a> => Ord<a>
   expression: (interface
     name: (type_declaration
       name: (type)
-      parameter: (type_variable_declaration))
+      parameter: (type_variable_declaration
+        name: (type_variable_declaration_name)))
     member: (identifier_pattern
       name: (identifier_pattern_name)
       type: (curried_type
@@ -785,11 +795,11 @@ interface Eq<a> => Ord<a>
           name: (type)))))
   expression: (interface
     name: (type_declaration
-      dependency: (parametric_type
-        name: (type)
-        parameter: (type_variable))
       name: (type)
-      parameter: (type_variable_declaration))
+      parameter: (type_variable_declaration
+        name: (type_variable_declaration_name)
+        constraint: (type_constraint
+          type: (type))))
     member: (identifier_pattern
       name: (identifier_pattern_name)
       type: (curried_type
@@ -1095,7 +1105,7 @@ type alias
 ==================
 
 type Type := Type
-type Type<a, b> := a -> b
+type Type<a, b ~ Num> := a -> b
 
 ---
 
@@ -1108,8 +1118,12 @@ type Type<a, b> := a -> b
   expression: (type_alias
     name: (type_declaration
       name: (type)
-      parameter: (type_variable_declaration)
-      parameter: (type_variable_declaration))
+      parameter: (type_variable_declaration
+        name: (type_variable_declaration_name))
+      parameter: (type_variable_declaration
+        name: (type_variable_declaration_name)
+        constraint: (type_constraint
+          type: (type))))
     type: (curried_type
       from: (type_variable)
       to: (type_variable))))

@@ -20,11 +20,11 @@ const PREC = Object.freeze({
   EXPONENTIATION: 12,
   NOT: 13,
   PREFIX: 14,
-  EXPRESSION: 15,
-  PATTERN: 15,
   APPLICATION: 16,
-  PIPELINE: 17,
-  ACCESS: 18,
+  EXPRESSION: 17,
+  PATTERN: 17,
+  PIPELINE: 18,
+  ACCESS: 19,
 })
 
 const notFalse = (...args) => args.filter((element) => element !== false)
@@ -35,7 +35,8 @@ const commaSep1 = (rule) => seq(rule, repeat(seq(',', rule)))
 
 const abstractionBranch = ($, blockType) =>
   seq(
-    field('parameters', $.parameters),
+    optional(typeParameters($.type_variable_declaration)),
+    tuple($, $._pattern, true, true),
     '=>',
     field('body', alias(blockType, $.block)),
   )
@@ -93,11 +94,11 @@ const string = ($, ...content) =>
     $._string_end,
   )
 
+const typeParameters = (parameter) =>
+  seq('<', commaSep1(field('parameter', parameter)), '>')
+
 const parametricType = ($, parameter) =>
-  seq(
-    field('name', $.type),
-    optional(seq('<', commaSep1(field('parameter', parameter)), '>')),
-  )
+  seq(field('name', $.type), optional(typeParameters(parameter)))
 
 const simple = ($, line) => seq(line, $._newline)
 
@@ -124,7 +125,10 @@ module.exports = grammar({
     [$.struct, $.struct_pattern],
     [$.tuple, $.tuple_pattern],
     [$.list, $.list_pattern],
-    [$.type_declaration, $._type_constructor],
+    [$.type_variable_declaration, $._type_constructor],
+    [$.application, $.type_variable_declaration],
+    [$.application, $.prefix_application, $.infix_application],
+    [$.application, $.infix_application],
   ],
 
   rules: {
@@ -229,7 +233,6 @@ module.exports = grammar({
         ),
       ),
     tuple_pattern: ($) => prec(PREC.PATTERN, tuple($, $._pattern, true)),
-    parameters: ($) => tuple($, $._pattern, true, true),
     list_pattern: ($) => prec(PREC.PATTERN, list($, $._pattern, true)),
     member_pattern: ($) => member($, $._simple_expression, $._pattern),
     rest: ($) => seq('...', field('name', $.identifier_pattern)),
@@ -284,8 +287,9 @@ module.exports = grammar({
       prec(
         PREC.APPLICATION,
         seq(
-          field('value', $._simple_expression),
-          field('arguments', tuple($, $.tuple_element, true, true)),
+          field('name', $._simple_expression),
+          optional(typeParameters($.parametric_type)),
+          tuple($, $.tuple_element, true, true),
         ),
       ),
     prefix_application: ($) =>
@@ -564,7 +568,7 @@ module.exports = grammar({
         seq(
           'if',
           field('condition', $._simple_expression),
-          optional('then'),
+          'then',
           field('body', alias($._compound_block, $.block)),
           repeat(field('else_if', $.else_if)),
           optional(
@@ -576,7 +580,7 @@ module.exports = grammar({
       seq(
         'else if',
         field('condition', $._simple_expression),
-        optional('then'),
+        'then',
         field('body', alias($._compound_block, $.block)),
       ),
 
@@ -592,7 +596,7 @@ module.exports = grammar({
       seq(
         'when',
         commaSep1(field('pattern', $._pattern)),
-        optional('then'),
+        'then',
         field('body', alias($._compound_block, $.block)),
       ),
 
@@ -600,7 +604,7 @@ module.exports = grammar({
       seq(
         'module',
         field('name', $.type_declaration),
-        optional('where'),
+        'where',
         field('body', alias($._compound_block, $.block)),
       ),
 
@@ -757,11 +761,23 @@ module.exports = grammar({
         seq(field('name', $.type), field('type', $._type_constructor)),
       ),
 
-    type_declaration: ($) =>
+    type_constraint: ($) =>
       seq(
-        optional(seq(commaSep1(field('dependency', $.parametric_type)), '=>')),
-        parametricType($, alias($.identifier, $.type_variable_declaration)),
+        '~',
+        choice(
+          field('type', $.type),
+          seq('(', commaSep1(field('type', $.type)), ')'),
+        ),
       ),
+    type_variable_declaration: ($) =>
+      prec.left(
+        seq(
+          field('name', alias($.identifier, $.type_variable_declaration_name)),
+          optional(field('constraint', $.type_constraint)),
+        ),
+      ),
+    type_declaration: ($) =>
+      prec.left(parametricType($, $.type_variable_declaration)),
 
     _identifier_without_operators: ($) => /_?[a-z][a-z0-9_]*\??/,
     _operator: ($) => /(==|[!@$%^&*|<>~*\\\-+/.])[!@$%^&*|<>~*\\\-+/.=?]*/,
