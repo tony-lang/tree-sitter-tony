@@ -620,7 +620,7 @@ module.exports = grammar({
       seq(
         'interface',
         field('name', $.type_declaration),
-        compound($, repeat1(field('member', $.member_type))),
+        compound($, repeat1(field('member', $.identifier_pattern))),
       ),
 
     implement: ($) =>
