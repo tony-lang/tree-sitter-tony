@@ -94,13 +94,11 @@ const string = ($, ...content) =>
     $._string_end,
   )
 
-const typeParameters = (parameter) => seq('<', commaSep1(field('parameter', parameter)), '>')
+const typeParameters = (parameter) =>
+  seq('<', commaSep1(field('parameter', parameter)), '>')
 
 const parametricType = ($, parameter) =>
-  seq(
-    field('name', $.type),
-    optional(typeParameters(parameter)),
-  )
+  seq(field('name', $.type), optional(typeParameters(parameter)))
 
 const simple = ($, line) => seq(line, $._newline)
 
@@ -763,12 +761,23 @@ module.exports = grammar({
         seq(field('name', $.type), field('type', $._type_constructor)),
       ),
 
-    type_constraint: ($) => seq('~', choice(
-      field('type', $.type),
-      seq('(', commaSep1(field('type', $.type)), ')')
-    )),
-    type_variable_declaration: ($) => prec.left(seq(field('name', alias($.identifier, $.type_variable_declaration_name)), optional(field('constraint', $.type_constraint)))),
-    type_declaration: ($) => prec.left(parametricType($, $.type_variable_declaration)),
+    type_constraint: ($) =>
+      seq(
+        '~',
+        choice(
+          field('type', $.type),
+          seq('(', commaSep1(field('type', $.type)), ')'),
+        ),
+      ),
+    type_variable_declaration: ($) =>
+      prec.left(
+        seq(
+          field('name', alias($.identifier, $.type_variable_declaration_name)),
+          optional(field('constraint', $.type_constraint)),
+        ),
+      ),
+    type_declaration: ($) =>
+      prec.left(parametricType($, $.type_variable_declaration)),
 
     _identifier_without_operators: ($) => /_?[a-z][a-z0-9_]*\??/,
     _operator: ($) => /(==|[!@$%^&*|<>~*\\\-+/.])[!@$%^&*|<>~*\\\-+/.=?]*/,
