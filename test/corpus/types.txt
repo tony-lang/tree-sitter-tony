@@ -2,7 +2,10 @@
 struct type
 ==================
 
-a :: { a: Type, [Type]: Type } := 1
+a :: {
+  a: Type,
+  [Type]: Type
+} := 1
 
 ---
 
