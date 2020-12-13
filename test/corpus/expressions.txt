@@ -727,7 +727,7 @@ module Type<a> where a :: a := 1
   expression: (module
     name: (type_declaration
       name: (type)
-      parameter: (type_variable))
+      parameter: (type_variable_declaration))
     body: (block
       expression: (assignment
         pattern: (identifier_pattern
@@ -770,7 +770,7 @@ interface Eq<a> => Ord<a>
   expression: (interface
     name: (type_declaration
       name: (type)
-      parameter: (type_variable))
+      parameter: (type_variable_declaration))
     member: (identifier_pattern
       name: (identifier_pattern_name)
       type: (curried_type
@@ -789,7 +789,7 @@ interface Eq<a> => Ord<a>
         name: (type)
         parameter: (type_variable))
       name: (type)
-      parameter: (type_variable))
+      parameter: (type_variable_declaration))
     member: (identifier_pattern
       name: (identifier_pattern_name)
       type: (curried_type
@@ -1108,8 +1108,8 @@ type Type<a, b> := a -> b
   expression: (type_alias
     name: (type_declaration
       name: (type)
-      parameter: (type_variable)
-      parameter: (type_variable))
+      parameter: (type_variable_declaration)
+      parameter: (type_variable_declaration))
     type: (curried_type
       from: (type_variable)
       to: (type_variable))))

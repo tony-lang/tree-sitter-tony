@@ -760,7 +760,7 @@ module.exports = grammar({
     type_declaration: ($) =>
       seq(
         optional(seq(commaSep1(field('dependency', $.parametric_type)), '=>')),
-        parametricType($, alias($.identifier, $.type_variable)),
+        parametricType($, alias($.identifier, $.type_variable_declaration)),
       ),
 
     _identifier_without_operators: ($) => /_?[a-z][a-z0-9_]*\??/,
