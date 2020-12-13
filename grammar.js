@@ -35,8 +35,8 @@ const commaSep1 = (rule) => seq(rule, repeat(seq(',', rule)))
 
 const abstractionBranch = ($, blockType) =>
   seq(
-    optional(typeParameters($.type_variable_declaration)),
-    tuple($, $._pattern, true, true),
+    optional(field('type_parameters', $.type_parameters)),
+    field('parameters', $.parameters),
     '=>',
     field('body', alias(blockType, $.block)),
   )
@@ -265,6 +265,9 @@ module.exports = grammar({
 
     group: ($) => seq('(', field('value', $._simple_expression), ')'),
 
+    type_parameters: ($) => typeParameters($.type_variable_declaration),
+    parameters: ($) => tuple($, $._pattern, true, true),
+
     simple_abstraction: ($) =>
       prec.left(
         commaSep1(
@@ -288,13 +291,16 @@ module.exports = grammar({
     compound_abstraction_branch: ($) =>
       prec.left(abstractionBranch($, $._compound_block)),
 
+    type_arguments: ($) => typeParameters($.parametric_type),
+    arguments: ($) => tuple($, $.tuple_element, true, true),
+
     application: ($) =>
       prec(
         PREC.APPLICATION,
         seq(
           field('name', $._simple_expression),
-          optional(typeParameters($.parametric_type)),
-          tuple($, $.tuple_element, true, true),
+          optional(field('type_arguments', $.type_arguments)),
+          field('arguments', $.arguments),
         ),
       ),
     prefix_application: ($) =>
