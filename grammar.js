@@ -5,7 +5,7 @@ const PREC = Object.freeze({
   CURRIED_TYPE: 1,
   UNION_TYPE: 1,
   NAMED_INFIX: 1,
-  VALUE_LITERAL: 1,
+  LITERAL: 1,
   INTERSECTION_TYPE: 2,
   OPERATOR_INFIX: 2,
   BICONDITIONAL: 3,
@@ -118,15 +118,13 @@ module.exports = grammar({
   extras: ($) => [$.comment, /\s+/],
   word: ($) => $._identifier_without_operators,
   conflicts: ($) => [
-    [$._simple_block, $._compound_block],
+    [$._simple_expression, $._pattern],
     [$._simple_expression, $.identifier_pattern],
-    [$._literal, $._literal_pattern],
     [$.string, $.string_pattern],
     [$.struct, $.struct_pattern],
     [$.tuple, $.tuple_pattern],
     [$.list, $.list_pattern],
     [$.type_variable_declaration, $._type_constructor],
-    [$.application, $.type_variable_declaration],
     [$.application, $.prefix_application, $.infix_application],
     [$.application, $.infix_application],
   ],
@@ -166,6 +164,7 @@ module.exports = grammar({
           $.type_alias,
           $.type_hint,
           $.identifier,
+          $.parametric_type,
           $._literal,
         ),
       ),
@@ -187,14 +186,20 @@ module.exports = grammar({
     _compound_declaration: ($) =>
       choice(alias($.compound_assignment, $.assignment), $.module),
 
-    _simple_block: ($) => field('expression', $._simple_expression),
+    _simple_block: ($) => prec.left(field('expression', $._simple_expression)),
     _compound_block: ($) =>
-      choice(
-        simple($, field('expression', $._simple_expression)),
-        compound($, repeat1(field('expression', $._expression))),
+      prec.left(
+        choice(
+          simple($, field('expression', $._simple_expression)),
+          compound($, repeat1(field('expression', $._expression))),
+        ),
       ),
 
-    _pattern: ($) => choice($._assignable_pattern, $._literal_pattern),
+    _pattern: ($) =>
+      prec(
+        PREC.PATTERN,
+        choice($._assignable_pattern, $.parametric_type, $._literal_pattern),
+      ),
 
     _assignable_pattern: ($) =>
       choice(
@@ -238,7 +243,7 @@ module.exports = grammar({
     rest: ($) => seq('...', field('name', $.identifier_pattern)),
 
     _literal_pattern: ($) =>
-      choice($.parametric_type, $.boolean, $.number, $.string_pattern, $.regex),
+      choice($.boolean, $.number, $.string_pattern, $.regex),
     string_pattern: ($) =>
       string($, field('escape_sequence', $.escape_sequence)),
 
@@ -617,7 +622,7 @@ module.exports = grammar({
     enum_value: ($) =>
       seq(
         field('name', $.type),
-        optional(seq('=', field('value', $._value_literal))),
+        optional(seq('=', field('value', $._literal))),
       ),
 
     interface: ($) =>
@@ -721,7 +726,7 @@ module.exports = grammar({
       ),
     type_group: ($) => seq('(', field('type', $._type_constructor), ')'),
     typeof: ($) =>
-      seq('typeof', field('value', choice($.identifier, $._value_literal))),
+      seq('typeof', field('value', choice($.identifier, $._literal))),
     parametric_type: ($) => prec.right(parametricType($, $._type_constructor)),
     curried_type: ($) =>
       prec.right(
@@ -783,9 +788,8 @@ module.exports = grammar({
     _operator: ($) => /(==|[!@$%^&*|<>~*\\\-+/.])[!@$%^&*|<>~*\\\-+/.=?]*/,
     identifier: ($) => choice($._operator, $._identifier_without_operators),
 
-    _value_literal: ($) =>
-      prec(PREC.VALUE_LITERAL, choice($.boolean, $.number, $.string, $.regex)),
-    _literal: ($) => choice($.parametric_type, $._value_literal),
+    _literal: ($) =>
+      prec(PREC.LITERAL, choice($.boolean, $.number, $.string, $.regex)),
 
     type: ($) => /[A-Z][a-zA-Z0-9]*/,
 
