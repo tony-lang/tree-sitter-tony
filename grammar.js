@@ -66,7 +66,7 @@ const tuple = ($, element, rest = false, allowSingle = false) =>
       '(',
       dataStructure(
         $,
-        field('value', element),
+        field('element', element),
         rest,
         allowSingle ? commaSep1 : commaSep2,
       ),
@@ -127,6 +127,7 @@ module.exports = grammar({
     [$.type_variable_declaration, $._type_constructor],
     [$.application, $.prefix_application, $.infix_application],
     [$.application, $.infix_application],
+    [$.type_variable_declaration, $.refinement_type_declaration],
   ],
 
   rules: {
@@ -664,16 +665,14 @@ module.exports = grammar({
           choice($.member, alias($.identifier, $.shorthand_member), $.spread),
         ),
       ),
-    tuple: ($) => prec(PREC.EXPRESSION, tuple($, $.tuple_element)),
+    tuple: ($) => prec(PREC.EXPRESSION, tuple($, $._tuple_value)),
     list: ($) =>
       prec(PREC.EXPRESSION, list($, choice($._simple_expression, $.spread))),
     member: ($) => member($, $._simple_expression, $._simple_expression),
+    _tuple_value: ($) => choice($._simple_expression, $.spread),
     tuple_element: ($) =>
       prec.left(
-        choice(
-          field('placeholder', '?'),
-          field('value', choice($._simple_expression, $.spread)),
-        ),
+        choice(field('placeholder', '?'), field('value', $._tuple_value)),
       ),
     spread: ($) => seq('...', field('value', $._simple_expression)),
 
@@ -728,6 +727,8 @@ module.exports = grammar({
         $.tuple_type,
         $.list_type,
         $.named_type,
+        $.refinement_type,
+        $.refinement_type_declaration,
         alias($.identifier, $.type_variable),
       ),
     type_group: ($) => seq('(', field('type', $._type_constructor), ')'),
@@ -770,6 +771,25 @@ module.exports = grammar({
       prec(
         PREC.NAMED_TYPE,
         seq(field('name', $.type), field('type', $._type_constructor)),
+      ),
+
+    refinement_type_declaration: ($) =>
+      prec.left(
+        seq(
+          field(
+            'name',
+            alias($.identifier, $.refinement_type_declaration_name),
+          ),
+          field('constraint', $.type_constraint),
+        ),
+      ),
+    refinement_type: ($) =>
+      seq(
+        '[',
+        field('generator', $._type_constructor),
+        ':',
+        commaSep1(field('predicate', $._simple_expression)),
+        ']',
       ),
 
     type_constraint: ($) =>

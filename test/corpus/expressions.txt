@@ -28,32 +28,32 @@ fib :=
   expression: (abstraction
     branch: (abstraction_branch
       parameters: (parameters
-        value: (identifier_pattern
+        element: (identifier_pattern
           name: (identifier_pattern_name)))
       body: (block
         expression: (identifier))))
   expression: (abstraction
     branch: (abstraction_branch
       parameters: (parameters
-        value: (identifier_pattern
+        element: (identifier_pattern
           name: (identifier_pattern_name))
-        value: (identifier_pattern
+        element: (identifier_pattern
           name: (identifier_pattern_name)))
       body: (block
         expression: (identifier))))
   expression: (abstraction
     branch: (abstraction_branch
       parameters: (parameters
-        value: (identifier_pattern
+        element: (identifier_pattern
           name: (identifier_pattern_name)
           type: (parametric_type
             name: (type)))
-        value: (identifier_pattern
+        element: (identifier_pattern
           name: (identifier_pattern_name)
           type: (parametric_type
             name: (type)))
-        value: (number)
-        value: (destructuring_pattern
+        element: (number)
+        element: (destructuring_pattern
           pattern: (struct_pattern
             member: (shorthand_member_pattern
               name: (identifier_pattern_name)
@@ -68,12 +68,12 @@ fib :=
     value: (abstraction
       branch: (abstraction_branch
         parameters: (parameters
-          value: (number))
+          element: (number))
         body: (block
           expression: (number)))
       branch: (abstraction_branch
         parameters: (parameters
-          value: (number))
+          element: (number))
         body: (block
           expression: (number)))
       branch: (abstraction_branch
@@ -81,7 +81,7 @@ fib :=
           parameter: (type_variable_declaration
             name: (type_variable_declaration_name)))
         parameters: (parameters
-          value: (identifier_pattern
+          element: (identifier_pattern
             name: (identifier_pattern_name)
             type: (type_variable)
             default: (number)))
@@ -90,7 +90,7 @@ fib :=
             left: (application
               name: (identifier)
               arguments: (arguments
-                value: (tuple_element
+                element: (tuple_element
                   value: (infix_application
                     left: (identifier)
                     name: (identifier)
@@ -99,7 +99,7 @@ fib :=
             right: (application
               name: (identifier)
               arguments: (arguments
-                value: (tuple_element
+                element: (tuple_element
                   value: (infix_application
                     left: (identifier)
                     name: (identifier)
@@ -123,7 +123,7 @@ fib :=
           value: (abstraction
             branch: (abstraction_branch
               parameters: (parameters
-                value: (identifier_pattern
+                element: (identifier_pattern
                   name: (identifier_pattern_name)
                   type: (parametric_type
                     name: (type))))
@@ -132,7 +132,7 @@ fib :=
         expression: (application
           name: (identifier)
           arguments: (arguments
-            value: (tuple_element
+            element: (tuple_element
               value: (number)))))))
   expression: (abstraction
     branch: (abstraction_branch
@@ -145,9 +145,9 @@ fib :=
     value: (abstraction
       branch: (abstraction_branch
         parameters: (parameters
-          value: (identifier_pattern
+          element: (identifier_pattern
             name: (identifier_pattern_name))
-          value: (identifier_pattern
+          element: (identifier_pattern
             name: (identifier_pattern_name)))
         body: (block
           expression: (identifier))))))
@@ -170,12 +170,12 @@ a(...(a, b))
     name: (application
       name: (identifier)
       arguments: (arguments
-        value: (tuple_element
+        element: (tuple_element
           value: (number))))
     arguments: (arguments
-      value: (tuple_element
+      element: (tuple_element
         value: (number))
-      value: (tuple_element
+      element: (tuple_element
         value: (number))))
   expression: (prefix_application
     name: (identifier)
@@ -193,8 +193,8 @@ a(...(a, b))
       parameter: (parametric_type
         name: (type)))
     arguments: (arguments
-      value: (tuple_element)
-      value: (tuple_element
+      element: (tuple_element)
+      element: (tuple_element
         value: (number))))
   expression: (prefix_application
     name: (identifier)
@@ -210,13 +210,11 @@ a(...(a, b))
   expression: (application
     name: (identifier)
     arguments: (arguments
-      value: (tuple_element
+      element: (tuple_element
         value: (spread
           value: (tuple
-            value: (tuple_element
-              value: (identifier))
-            value: (tuple_element
-              value: (identifier))))))))
+            element: (identifier)
+            element: (identifier)))))))
 
 ==================
 prefix application
@@ -438,7 +436,7 @@ a.b.c(1)
         name: (identifier))
       name: (identifier))
     arguments: (arguments
-      value: (tuple_element
+      element: (tuple_element
         value: (number)))))
 
 ==================
@@ -461,7 +459,7 @@ a.b[c]
         name: (type))
       value: (shorthand_access_identifier))
     arguments: (arguments
-      value: (tuple_element
+      element: (tuple_element
         value: (number))))
   expression: (pipeline
     value: (identifier)
@@ -492,7 +490,7 @@ a := (a :: Type) =>
     value: (abstraction
       branch: (abstraction_branch
         parameters: (parameters
-          value: (identifier_pattern
+          element: (identifier_pattern
             name: (identifier_pattern_name)
             type: (parametric_type
               name: (type))))
@@ -612,7 +610,7 @@ return (a :: Type) =>
     value: (abstraction
       branch: (abstraction_branch
         parameters: (parameters
-          value: (identifier_pattern
+          element: (identifier_pattern
             name: (identifier_pattern_name)
             type: (parametric_type
               name: (type))))
@@ -670,7 +668,7 @@ if true then 1 else 1
   expression: (application
     name: (identifier)
     arguments: (arguments
-      value: (tuple_element
+      element: (tuple_element
         value: (if
           condition: (boolean)
           body: (block
@@ -928,20 +926,14 @@ tuple
 (program
   expression: (tuple)
   expression: (tuple
-    value: (tuple_element
-      value: (identifier))
-    value: (tuple_element
-      value: (number))
-    value: (tuple_element
-      value: (string))
-    value: (tuple_element
-      value: (spread
-      value: (identifier))))
+    element: (identifier)
+    element: (number)
+    element: (string)
+    element: (spread
+      value: (identifier)))
   expression: (tuple
-    value: (tuple_element
-      value: (number))
-    value: (tuple_element
-      value: (number))))
+    element: (number)
+    element: (number)))
 
 ==================
 named tuple
@@ -960,22 +952,16 @@ Tuple (1,1)
   expression: (named_value
     name: (type)
     value: (tuple
-      value: (tuple_element
-        value: (identifier))
-      value: (tuple_element
-        value: (number))
-      value: (tuple_element
-        value: (string))
-      value: (tuple_element
-        value: (spread
-        value: (identifier)))))
+      element: (identifier)
+      element: (number)
+      element: (string)
+      element: (spread
+        value: (identifier))))
   expression: (named_value
     name: (type)
     value: (tuple
-      value: (tuple_element
-        value: (number))
-      value: (tuple_element
-        value: (number)))))
+      element: (number)
+      element: (number))))
 
 ==================
 list
