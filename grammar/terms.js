@@ -135,7 +135,7 @@ module.exports = {
   enum_value: ($) =>
     seq(field('name', $.type), optional(seq('=', field('value', $._literal)))),
 
-  interface: ($) =>
+  interface_: ($) =>
     seq(
       'interface',
       field('name', $.type_declaration),

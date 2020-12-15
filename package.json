@@ -11,12 +11,15 @@
     "test": "tree-sitter test",
     "types": "node ./node_modules/@asgerf/dts-tree-sitter/build/src . > tree-sitter-tony.d.ts",
     "build": "yarn generate && yarn types",
-    "lint": "prettier --check **/*.js",
+    "prettierlint": "prettier --check **/*.js",
+    "eslint": "eslint . --ext .js",
+    "lint": "yarn prettierlint && yarn eslint",
     "prettier": "prettier --write **/*.js",
+    "fix": "yarn prettier && yarn eslint --fix",
     "install": "prebuild-install || node-gyp rebuild"
   },
   "engines": {
-    "node": ">=10"
+    "node": ">=12"
   },
   "repository": {
     "type": "git",
@@ -39,6 +42,9 @@
   },
   "devDependencies": {
     "@asgerf/dts-tree-sitter": "^0.1.0",
+    "eslint": "^7.15.0",
+    "eslint-config-prettier": "^7.0.0",
+    "eslint-plugin-prettier": "^3.1.4",
     "prebuild": "^10.0.0",
     "prettier": "^2.0.5",
     "tree-sitter": "^0.17.0",

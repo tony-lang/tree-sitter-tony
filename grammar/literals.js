@@ -64,7 +64,7 @@ module.exports = {
         choice(
           seq('[', repeat(choice(seq('\\', /./), /[^\]\n\\]/)), ']'),
           seq('\\', /./),
-          /[^/\\\[\n]/,
+          /[^/\\\[\n]/, // eslint-disable-line no-useless-escape
         ),
       ),
     ),
