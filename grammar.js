@@ -1,4 +1,4 @@
-const { program, hashBangLine, comment } = require('./grammar/program')
+const { program, hash_bang_line, comment } = require('./grammar/program')
 const {
   _term,
   _simple_term,
@@ -21,8 +21,6 @@ const {
   enum_value,
   interface,
   implement,
-  parameters,
-  arguments,
   argument,
   simple_abstraction,
   simple_abstraction_branch,
@@ -129,7 +127,7 @@ module.exports = grammar({
 
   rules: {
     program,
-    hashBangLine,
+    hash_bang_line,
     comment,
 
     _term,
@@ -153,8 +151,6 @@ module.exports = grammar({
     enum_value,
     interface,
     implement,
-    parameters,
-    arguments,
     argument,
     simple_abstraction,
     simple_abstraction_branch,

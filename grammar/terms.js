@@ -121,9 +121,7 @@ module.exports = {
     seq(
       'module',
       field('name', alias($.identifier, $.identifier_pattern_name)),
-      optional(
-        field('parameters', buildGenericType($.type_variable_declaration)),
-      ),
+      optional(buildGenericType('parameter', $.type_variable_declaration)),
       'where',
       field('body', alias($._compound_block, $.block)),
     ),
@@ -162,8 +160,6 @@ module.exports = {
       ),
     ),
 
-  parameters: ($) => buildTuple($, $._pattern, true, true),
-  arguments: ($) => buildTuple($, $.argument, true, true),
   argument: ($) =>
     prec.left(choice(field('placeholder', '?'), field('value', $._element))),
 
@@ -195,8 +191,8 @@ module.exports = {
       Prec.Application,
       seq(
         field('name', $._simple_term),
-        optional(buildGenericType($.parametric_type)),
-        field('arguments', $.arguments),
+        optional(buildGenericType('typeArgument', $.parametric_type)),
+        buildTuple($, $.argument, true, true),
       ),
     ),
   prefix_application: ($) =>

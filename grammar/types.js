@@ -48,7 +48,7 @@ module.exports = {
     prec.right(
       seq(
         field('name', $.type),
-        optional(field('arguments', buildGenericType($._type))),
+        optional(buildGenericType('argument', $._type)),
       ),
     ),
 
@@ -107,9 +107,7 @@ module.exports = {
     prec.left(
       seq(
         field('name', $.type),
-        optional(
-          field('parameters', buildGenericType($.type_variable_declaration)),
-        ),
+        optional(buildGenericType('parameter', $.type_variable_declaration)),
       ),
     ),
 

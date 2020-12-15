@@ -15,4 +15,4 @@ hash bang line
 ---
 
 (program
-  hashBangLine: (hashBangLine))
+  hashBangLine: (hash_bang_line))
