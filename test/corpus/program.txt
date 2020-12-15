@@ -1,0 +1,18 @@
+==================
+empty program
+==================
+
+---
+
+(program)
+
+==================
+hash bang line
+==================
+
+#!/usr/bin/env tony
+
+---
+
+(program
+  hashBangLine: (hashBangLine))

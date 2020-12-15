@@ -25,14 +25,14 @@ fib :=
 ---
 
 (program
-  expression: (abstraction
+  term: (abstraction
     branch: (abstraction_branch
       parameters: (parameters
         element: (identifier_pattern
           name: (identifier_pattern_name)))
       body: (block
-        expression: (identifier))))
-  expression: (abstraction
+        term: (identifier))))
+  term: (abstraction
     branch: (abstraction_branch
       parameters: (parameters
         element: (identifier_pattern
@@ -40,8 +40,8 @@ fib :=
         element: (identifier_pattern
           name: (identifier_pattern_name)))
       body: (block
-        expression: (identifier))))
-  expression: (abstraction
+        term: (identifier))))
+  term: (abstraction
     branch: (abstraction_branch
       parameters: (parameters
         element: (identifier_pattern
@@ -61,8 +61,8 @@ fib :=
                 name: (type))
               default: (number)))))
       body: (block
-        expression: (identifier))))
-  expression: (assignment
+        term: (identifier))))
+  term: (assignment
     pattern: (identifier_pattern
       name: (identifier_pattern_name))
     value: (abstraction
@@ -70,27 +70,26 @@ fib :=
         parameters: (parameters
           element: (number))
         body: (block
-          expression: (number)))
+          term: (number)))
       branch: (abstraction_branch
         parameters: (parameters
           element: (number))
         body: (block
-          expression: (number)))
+          term: (number)))
       branch: (abstraction_branch
-        typeParameters: (type_parameters
-          parameter: (type_variable_declaration
-            name: (type_variable_declaration_name)))
+        parameter: (type_variable_declaration
+          name: (type_variable_declaration_name))
         parameters: (parameters
           element: (identifier_pattern
             name: (identifier_pattern_name)
             type: (type_variable)
             default: (number)))
         body: (block
-          expression: (infix_application
+          term: (infix_application
             left: (application
               name: (identifier)
               arguments: (arguments
-                element: (tuple_element
+                element: (argument
                   value: (infix_application
                     left: (identifier)
                     name: (identifier)
@@ -99,25 +98,24 @@ fib :=
             right: (application
               name: (identifier)
               arguments: (arguments
-                element: (tuple_element
+                element: (argument
                   value: (infix_application
                     left: (identifier)
                     name: (identifier)
                     right: (number))))))))))
-  expression: (abstraction
+  term: (abstraction
     branch: (abstraction_branch
-      typeParameters: (type_parameters
-        parameter: (type_variable_declaration
-          name: (type_variable_declaration_name)
-          constraint: (type_constraint
-            type: (type))))
+      parameter: (type_variable_declaration
+        name: (type_variable_declaration_name)
+        constraint: (type_constraint
+          type: (type)))
       parameters: (parameters
         rest: (rest
           name: (identifier_pattern
             name: (identifier_pattern_name)
             type: (type_variable))))
       body: (block
-        expression: (assignment
+        term: (assignment
           pattern: (identifier_pattern
             name: (identifier_pattern_name))
           value: (abstraction
@@ -128,18 +126,18 @@ fib :=
                   type: (parametric_type
                     name: (type))))
               body: (block
-                expression: (identifier)))))
-        expression: (application
+                term: (identifier)))))
+        term: (application
           name: (identifier)
           arguments: (arguments
-            element: (tuple_element
+            element: (argument
               value: (number)))))))
-  expression: (abstraction
+  term: (abstraction
     branch: (abstraction_branch
       parameters: (parameters)
       body: (block
-        expression: (number))))
-  expression: (assignment
+        term: (number))))
+  term: (assignment
     pattern: (identifier_pattern
       name: (identifier_pattern_name))
     value: (abstraction
@@ -150,7 +148,7 @@ fib :=
           element: (identifier_pattern
             name: (identifier_pattern_name)))
         body: (block
-          expression: (identifier))))))
+          term: (identifier))))))
 
 ==================
 application
@@ -166,40 +164,39 @@ a(...(a, b))
 ---
 
 (program
-  expression: (application
+  term: (application
     name: (application
       name: (identifier)
       arguments: (arguments
-        element: (tuple_element
+        element: (argument
           value: (number))))
     arguments: (arguments
-      element: (tuple_element
+      element: (argument
         value: (number))
-      element: (tuple_element
+      element: (argument
         value: (number))))
-  expression: (prefix_application
+  term: (prefix_application
     name: (identifier)
     value: (group
-      value: (number)))
-  expression: (application
+      term: (number)))
+  term: (application
     name: (identifier)
-    typeArguments: (type_arguments
+    parameter: (parametric_type
+      name: (type)
       parameter: (parametric_type
-        name: (type)
-        parameter: (parametric_type
-          name: (type))
-        parameter: (parametric_type
-          name: (type)))
+        name: (type))
       parameter: (parametric_type
         name: (type)))
+    parameter: (parametric_type
+      name: (type))
     arguments: (arguments
-      element: (tuple_element)
-      element: (tuple_element
+      element: (argument)
+      element: (argument
         value: (number))))
-  expression: (prefix_application
+  term: (prefix_application
     name: (identifier)
     value: (number))
-  expression: (infix_application
+  term: (infix_application
     left: (number)
     name: (identifier)
     right: (prefix_application
@@ -207,10 +204,10 @@ a(...(a, b))
       value: (application
         name: (identifier)
         arguments: (arguments))))
-  expression: (application
+  term: (application
     name: (identifier)
     arguments: (arguments
-      element: (tuple_element
+      element: (argument
         value: (spread
           value: (tuple
             element: (identifier)
@@ -228,16 +225,16 @@ prefix application
 ---
 
 (program
-  expression: (prefix_application
+  term: (prefix_application
     name: (identifier)
     value: (boolean))
-  expression: (prefix_application
+  term: (prefix_application
     name: (identifier)
     value: (number))
-  expression: (prefix_application
+  term: (prefix_application
     name: (identifier)
     value: (number))
-  expression: (prefix_application
+  term: (prefix_application
     name: (identifier)
     value: (number)))
 
@@ -276,120 +273,120 @@ false || !false
 ---
 
 (program
-  expression: (infix_application
+  term: (infix_application
     left: (number)
     name: (identifier)
     right: (number))
-  expression: (infix_application
+  term: (infix_application
     left: (number)
     name: (identifier)
     right: (number))
-  expression: (infix_application
+  term: (infix_application
     left: (number)
     name: (identifier)
     right: (number))
-  expression: (infix_application
+  term: (infix_application
     left: (number)
     name: (identifier)
     right: (number))
-  expression: (infix_application
+  term: (infix_application
     left: (number)
     name: (identifier)
     right: (number))
-  expression: (infix_application
+  term: (infix_application
     left: (number)
     name: (identifier)
     right: (number))
-  expression: (infix_application
+  term: (infix_application
     left: (number)
     name: (identifier)
     right: (number))
-  expression: (infix_application
+  term: (infix_application
     left: (number)
     name: (identifier)
     right: (number))
-  expression: (infix_application
+  term: (infix_application
     left: (number)
     name: (identifier)
     right: (number))
-  expression: (infix_application
+  term: (infix_application
     left: (number)
     name: (identifier)
     right: (number))
-  expression: (infix_application
+  term: (infix_application
     left: (number)
     name: (identifier)
     right: (number))
-  expression: (infix_application
+  term: (infix_application
     left: (number)
     name: (identifier)
     right: (number))
-  expression: (infix_application
+  term: (infix_application
     left: (number)
     name: (identifier)
     right: (number))
-  expression: (infix_application
+  term: (infix_application
     left: (identifier)
     name: (identifier)
     right: (number))
-  expression: (infix_application
+  term: (infix_application
     left: (number)
     name: (identifier)
     right: (identifier))
-  expression: (infix_application
+  term: (infix_application
     left: (identifier)
     name: (identifier)
     right: (identifier))
-  expression: (infix_application
+  term: (infix_application
     left: (boolean)
     name: (identifier)
     right: (boolean))
-  expression: (infix_application
+  term: (infix_application
     left: (boolean)
     name: (identifier)
     right: (boolean))
-  expression: (infix_application
+  term: (infix_application
     left: (infix_application
       left: (boolean)
       name: (identifier)
       right: (boolean))
     name: (identifier)
     right: (boolean))
-  expression: (infix_application
+  term: (infix_application
     left: (infix_application
       left: (boolean)
       name: (identifier)
       right: (boolean))
     name: (identifier)
     right: (boolean))
-  expression: (infix_application
+  term: (infix_application
     left: (boolean)
     name: (identifier)
     right: (infix_application
       left: (boolean)
       name: (identifier)
       right: (boolean)))
-  expression: (infix_application
+  term: (infix_application
     left: (infix_application
       left: (number)
       name: (identifier)
       right: (number))
     name: (identifier)
     right: (number))
-  expression: (infix_application
+  term: (infix_application
     left: (infix_application
       left: (number)
       name: (identifier)
       right: (number))
     name: (identifier)
     right: (number))
-  expression: (infix_application
+  term: (infix_application
     left: (number)
     name: (identifier)
     right: (prefix_application
       name: (identifier)
       value: (number)))
-  expression: (infix_application
+  term: (infix_application
     left: (infix_application
       left: (infix_application
         left: (number)
@@ -399,16 +396,16 @@ false || !false
       right: (number))
     name: (identifier)
     right: (number))
-  expression: (infix_application
+  term: (infix_application
     left: (boolean)
     name: (identifier)
     right: (prefix_application
       name: (identifier)
       value: (boolean)))
-  expression: (infix_application
+  term: (infix_application
     left: (pipeline
       value: (group
-        value: (pipeline
+        term: (pipeline
           value: (identifier)
           name: (identifier)))
       name: (identifier))
@@ -416,7 +413,7 @@ false || !false
     right: (pipeline
       value: (number)
       name: (group
-        value: (pipeline
+        term: (pipeline
           value: (identifier)
           name: (identifier))))))
 
@@ -429,14 +426,14 @@ a.b.c(1)
 ---
 
 (program
-  expression: (application
+  term: (application
     name: (pipeline
       value: (pipeline
         value: (identifier)
         name: (identifier))
       name: (identifier))
     arguments: (arguments
-      element: (tuple_element
+      element: (argument
         value: (number)))))
 
 ==================
@@ -450,17 +447,17 @@ a.b[c]
 ---
 
 (program
-  expression: (access
+  term: (access
       name: (identifier)
       value: (number))
-  expression: (application
+  term: (application
     name: (access
       name: (identifier)
       value: (shorthand_access_identifier))
     arguments: (arguments
-      element: (tuple_element
+      element: (argument
         value: (number))))
-  expression: (pipeline
+  term: (pipeline
     value: (identifier)
     name: (access
       name: (identifier)
@@ -477,13 +474,13 @@ a := (a :: Type) =>
 ---
 
 (program
-  expression: (assignment
+  term: (assignment
     pattern: (identifier_pattern
       name: (identifier_pattern_name)
       type: (parametric_type
         name: (type)))
     value: (number))
-  expression: (assignment
+  term: (assignment
     pattern: (identifier_pattern
       name: (identifier_pattern_name))
     value: (abstraction
@@ -494,7 +491,7 @@ a := (a :: Type) =>
             type: (parametric_type
               name: (type))))
         body: (block
-          expression: (number))))))
+          term: (number))))))
 
 ==================
 import
@@ -513,7 +510,7 @@ import a, b from 'source'
 ---
 
 (program
-  expression: (import
+  term: (import
     import: (import_identifier
       name: (identifier_pattern_name)
       as: (identifier_pattern
@@ -538,7 +535,7 @@ import a, b from 'source'
     import: (import_type
       name: (type))
     source: (raw_string))
-  expression: (import
+  term: (import
     import: (import_identifier
       as: (identifier_pattern
         name: (identifier_pattern_name)))
@@ -556,7 +553,7 @@ export a, b from 'source'
 ---
 
 (program
-  expression: (exported_import
+  term: (exported_import
     import: (import_identifier
       as: (identifier_pattern
         name: (identifier_pattern_name)))
@@ -576,16 +573,16 @@ export module a where
 ---
 
 (program
-  expression: (export
+  term: (export
     declaration: (assignment
       pattern: (identifier_pattern
         name: (identifier_pattern_name))
       value: (number)))
-  expression: (export
+  term: (export
     declaration: (module
       name: (identifier_pattern_name)
       body: (block
-        expression: (export
+        term: (export
           declaration: (assignment
             pattern: (identifier_pattern
               name: (identifier_pattern_name))
@@ -602,9 +599,9 @@ return (a :: Type) =>
 ---
 
 (program
-  expression: (return
+  term: (return
     value: (number))
-  expression: (return
+  term: (return
     value: (abstraction
       branch: (abstraction_branch
         parameters: (parameters
@@ -613,7 +610,7 @@ return (a :: Type) =>
             type: (parametric_type
               name: (type))))
         body: (block
-          expression: (number))))))
+          term: (number))))))
 
 ==================
 if
@@ -638,45 +635,45 @@ if true then 1 else 1
 ---
 
 (program
-  expression: (if
+  term: (if
     condition: (boolean)
     body: (block
-      expression: (number)))
-  expression: (if
+      term: (number)))
+  term: (if
     condition: (boolean)
     body: (block
-      expression: (number))
+      term: (number))
     else: (block
-      expression: (number)))
-  expression: (assignment
+      term: (number)))
+  term: (assignment
     pattern: (identifier_pattern
       name: (identifier_pattern_name))
     value: (if
       condition: (boolean)
       body: (block
-        expression: (number))
+        term: (number))
       else_if: (else_if
         condition: (boolean)
         body: (block
-          expression: (number)))
+          term: (number)))
       else_if: (else_if
         condition: (boolean)
         body: (block
-          expression: (number)))))
-  expression: (application
+          term: (number)))))
+  term: (application
     name: (identifier)
     arguments: (arguments
-      element: (tuple_element
+      element: (argument
         value: (if
           condition: (boolean)
           body: (block
-            expression: (number))))))
-  expression: (if
+            term: (number))))))
+  term: (if
     condition: (boolean)
     body: (block
-      expression: (number))
+      term: (number))
     else: (block
-      expression: (number))))
+      term: (number))))
 
 ==================
 case
@@ -696,7 +693,7 @@ else 1
 ---
 
 (program
-  expression: (assignment
+  term: (assignment
     pattern: (identifier_pattern
       name: (identifier_pattern_name))
     value: (case
@@ -704,10 +701,10 @@ else 1
       when: (when
         pattern: (number)
         body: (block
-          expression: (number)))
+          term: (number)))
       else: (block
-        expression: (number))))
-  expression: (case
+        term: (number))))
+  term: (case
     value: (identifier)
     when: (when
       pattern: (destructuring_pattern
@@ -718,14 +715,14 @@ else 1
             type: (parametric_type
               name: (type)))))
       body: (block
-        expression: (identifier)))
+        term: (identifier)))
     when: (when
       pattern: (number)
       pattern: (number)
       body: (block
-        expression: (number)))
+        term: (number)))
     else: (block
-      expression: (number))))
+      term: (number))))
 
 ==================
 module
@@ -738,14 +735,14 @@ module a<a ~ Num, b ~ (Num, Eq, Ord)> where a :: a := 1
 ---
 
 (program
-  expression: (module
+  term: (module
     name: (identifier_pattern_name)
     body: (block
-      expression: (assignment
+      term: (assignment
         pattern: (identifier_pattern
           name: (identifier_pattern_name))
         value: (number))))
-  expression: (module
+  term: (module
     name: (identifier_pattern_name)
     parameter: (type_variable_declaration
       name: (type_variable_declaration_name)
@@ -758,7 +755,7 @@ module a<a ~ Num, b ~ (Num, Eq, Ord)> where a :: a := 1
         type: (type)
         type: (type)))
     body: (block
-      expression: (assignment
+      term: (assignment
         pattern: (identifier_pattern
           name: (identifier_pattern_name)
           type: (type_variable))
@@ -775,7 +772,7 @@ enum Type
 ---
 
 (program
-  expression: (enum
+  term: (enum
     name: (type)
     value: (enum_value
       name: (type))
@@ -796,7 +793,7 @@ interface Ord<a ~ Eq>
 ---
 
 (program
-  expression: (interface
+  term: (interface
     name: (type_declaration
       name: (type)
       parameter: (type_variable_declaration
@@ -813,7 +810,7 @@ interface Ord<a ~ Eq>
         from: (type_variable)
         to: (parametric_type
           name: (type)))))
-  expression: (interface
+  term: (interface
     name: (type_declaration
       name: (type)
       parameter: (type_variable_declaration
@@ -839,7 +836,7 @@ implement Ord<Number>
 ---
 
 (program
-  expression: (implement
+  term: (implement
     name: (parametric_type
       name: (type)
       parameter: (parametric_type
@@ -860,11 +857,11 @@ struct
 ---
 
 (program
-  expression: (struct)
-  expression: (struct
+  term: (struct)
+  term: (struct
     member: (shorthand_member)
     member: (shorthand_member))
-  expression: (struct
+  term: (struct
     member: (member
       key: (string)
       value: (number))
@@ -887,15 +884,15 @@ constructor:{ ['a']: 1, ...b, c: 'str', d, e }
 ---
 
 (program
-  expression: (named_value
+  term: (named_value
     name: (constructor)
     value: (struct))
-  expression: (named_value
+  term: (named_value
     name: (constructor)
     value: (struct
       member: (shorthand_member)
       member: (shorthand_member)))
-  expression: (named_value
+  term: (named_value
     name: (constructor)
     value: (struct
       member: (member
@@ -920,14 +917,14 @@ tuple
 ---
 
 (program
-  expression: (tuple)
-  expression: (tuple
+  term: (tuple)
+  term: (tuple
     element: (identifier)
     element: (number)
     element: (string)
     element: (spread
       value: (identifier)))
-  expression: (tuple
+  term: (tuple
     element: (number)
     element: (number)))
 
@@ -942,10 +939,10 @@ constructor:(1,1)
 ---
 
 (program
-  expression: (named_value
+  term: (named_value
     name: (constructor)
     value: (tuple))
-  expression: (named_value
+  term: (named_value
     name: (constructor)
     value: (tuple
       element: (identifier)
@@ -953,7 +950,7 @@ constructor:(1,1)
       element: (string)
       element: (spread
         value: (identifier))))
-  expression: (named_value
+  term: (named_value
     name: (constructor)
     value: (tuple
       element: (number)
@@ -970,14 +967,14 @@ list
 ---
 
 (program
-  expression: (list)
-  expression: (list
+  term: (list)
+  term: (list
     element: (identifier)
     element: (number)
     element: (spread
       value: (identifier))
     element: (string))
-  expression: (list
+  term: (list
     element: (number)
     element: (infix_application
       left: (number)
@@ -996,10 +993,10 @@ constructor:[1,1..1,1]
 ---
 
 (program
-  expression: (named_value
+  term: (named_value
     name: (constructor)
     value: (list))
-  expression: (named_value
+  term: (named_value
     name: (constructor)
     value: (list
       element: (identifier)
@@ -1007,7 +1004,7 @@ constructor:[1,1..1,1]
       element: (spread
         value: (identifier))
       element: (string)))
-  expression: (named_value
+  term: (named_value
     name: (constructor)
     value: (list
       element: (number)
@@ -1028,9 +1025,9 @@ list comprehension
 ---
 
 (program
-  expression: (list_comprehension
+  term: (list_comprehension
     body: (block
-      expression: (infix_application
+      term: (infix_application
         left: (identifier)
         name: (identifier)
         right: (number)))
@@ -1040,9 +1037,9 @@ list comprehension
         left: (number)
         name: (identifier)
         right: (number))))
-  expression: (list_comprehension
+  term: (list_comprehension
     body: (block
-      expression: (infix_application
+      term: (infix_application
         left: (identifier)
         name: (identifier)
         right: (number)))
@@ -1059,9 +1056,9 @@ list comprehension
           right: (number))
         name: (identifier)
         right: (number))))
-  expression: (list_comprehension
+  term: (list_comprehension
     body: (block
-      expression: (list
+      term: (list
         element: (identifier)
         element: (identifier)))
     generator: (generator
@@ -1101,10 +1098,10 @@ constructor: 1
 ---
 
 (program
-  expression: (named_value
+  term: (named_value
     name: (constructor)
     value: (string))
-  expression: (named_value
+  term: (named_value
     name: (constructor)
     value: (number)))
 
@@ -1118,12 +1115,12 @@ type Type<a, b ~ Num> := a -> b
 ---
 
 (program
-  expression: (type_alias
+  term: (type_alias
     name: (type_declaration
       name: (type))
     type: (parametric_type
       name: (type)))
-  expression: (type_alias
+  term: (type_alias
     name: (type_declaration
       name: (type)
       parameter: (type_variable_declaration
@@ -1145,7 +1142,48 @@ type hint
 ---
 
 (program
-  expression: (type_hint
+  term: (type_hint
     value: (string)
     type: (parametric_type
       name: (type))))
+
+==================
+group
+==================
+
+(1)
+(n)
+(-1)
+(-n)
+n / ((n + 1) * (-2))
+
+---
+
+(program
+  term: (group
+    term: (number))
+  term: (group
+    term: (identifier))
+  term: (group
+    term: (prefix_application
+      name: (identifier)
+      value: (number)))
+  term: (group
+    term: (prefix_application
+      name: (identifier)
+      value: (identifier)))
+  term: (infix_application
+    left: (identifier)
+    name: (identifier)
+    right: (group
+      term: (infix_application
+        left: (group
+          term: (infix_application
+            left: (identifier)
+            name: (identifier)
+            right: (number)))
+        name: (identifier)
+        right: (group
+          term: (prefix_application
+            name: (identifier)
+            value: (number)))))))

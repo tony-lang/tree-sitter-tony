@@ -7,7 +7,7 @@ x@[y] := z
 ---
 
 (program
-  expression: (assignment
+  term: (assignment
     pattern: (destructuring_pattern
       alias: (identifier_pattern_name)
       pattern: (list_pattern
@@ -25,7 +25,7 @@ struct pattern
 ---
 
 (program
-  expression: (assignment
+  term: (assignment
     pattern: (destructuring_pattern
       pattern: (struct_pattern
         member: (member_pattern
@@ -35,7 +35,7 @@ struct pattern
             type: (parametric_type
               name: (type))))))
     value: (identifier))
-  expression: (assignment
+  term: (assignment
     pattern: (destructuring_pattern
       pattern: (struct_pattern
         member: (member_pattern
@@ -72,7 +72,7 @@ named struct pattern
 ---
 
 (program
-  expression: (assignment
+  term: (assignment
     pattern: (pattern_group
       pattern: (named_pattern
         name: (constructor)
@@ -85,7 +85,7 @@ named struct pattern
                 type: (parametric_type
                   name: (type))))))))
     value: (identifier))
-  expression: (assignment
+  term: (assignment
     pattern: (pattern_group
       pattern: (named_pattern
         name: (constructor)
@@ -124,7 +124,7 @@ tuple pattern
 ---
 
 (program
-  expression: (assignment
+  term: (assignment
     pattern: (destructuring_pattern
       pattern: (tuple_pattern
         element: (identifier_pattern
@@ -147,7 +147,7 @@ named tuple pattern
 ---
 
 (program
-  expression: (assignment
+  term: (assignment
     pattern: (pattern_group
       pattern: (named_pattern
         name: (constructor)
@@ -174,7 +174,7 @@ list pattern
 ---
 
 (program
-  expression: (assignment
+  term: (assignment
     pattern: (destructuring_pattern
       pattern: (list_pattern
         element: (identifier_pattern
@@ -186,7 +186,7 @@ list pattern
           type: (parametric_type
             name: (type)))))
     value: (identifier))
-  expression: (assignment
+  term: (assignment
     pattern: (destructuring_pattern
       pattern: (list_pattern
         element: (identifier_pattern
@@ -216,7 +216,7 @@ named list pattern
 ---
 
 (program
-  expression: (assignment
+  term: (assignment
     pattern: (pattern_group
       pattern: (named_pattern
         name: (constructor)
@@ -231,7 +231,7 @@ named list pattern
               type: (parametric_type
                 name: (type)))))))
     value: (identifier))
-  expression: (assignment
+  term: (assignment
     pattern: (pattern_group
       pattern: (named_pattern
         name: (constructor)
