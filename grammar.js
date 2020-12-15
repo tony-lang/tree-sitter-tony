@@ -1,8 +1,8 @@
 const { program, hashBangLine, comment } = require('./grammar/program')
 const {
-  _expression,
-  _simple_expression,
-  _compound_expression,
+  _term,
+  _simple_term,
+  _compound_term,
   type_parameters,
   type_arguments,
   _simple_block,
@@ -52,12 +52,12 @@ const {
   named_value,
   type_alias,
   type_hint,
-  group,
-} = require('./grammar/terms')
-const {
   _identifier_without_operators,
   _operator,
   identifier,
+  group,
+} = require('./grammar/terms')
+const {
   _literal,
   boolean,
   _decimal,
@@ -120,7 +120,7 @@ module.exports = grammar({
   extras: ($) => [$.comment, /\s+/],
   word: ($) => $._identifier_without_operators,
   conflicts: ($) => [
-    [$._simple_expression, $.identifier_pattern],
+    [$._simple_term, $.identifier_pattern],
     [$.string, $.raw_string],
     [$.struct, $.struct_pattern],
     [$.tuple, $.tuple_pattern],
@@ -134,9 +134,9 @@ module.exports = grammar({
     hashBangLine,
     comment,
 
-    _expression,
-    _simple_expression,
-    _compound_expression,
+    _term,
+    _simple_term,
+    _compound_term,
     type_parameters,
     type_arguments,
     _simple_block,
@@ -186,6 +186,9 @@ module.exports = grammar({
     named_value,
     type_alias,
     type_hint,
+    _identifier_without_operators,
+    _operator,
+    identifier,
     group,
 
     _pattern,
@@ -220,9 +223,6 @@ module.exports = grammar({
     type_group,
     type,
 
-    _identifier_without_operators,
-    _operator,
-    identifier,
     _literal,
     boolean,
     _decimal,

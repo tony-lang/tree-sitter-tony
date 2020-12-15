@@ -10,7 +10,7 @@ a :: {
 ---
 
 (program
-  expression: (assignment
+  term: (assignment
     pattern: (identifier_pattern
       name: (identifier_pattern_name)
       type: (struct_type
@@ -34,7 +34,7 @@ a :: constructor: { a: Type, [Type]: Type } := 1
 ---
 
 (program
-  expression: (assignment
+  term: (assignment
     pattern: (identifier_pattern
       name: (identifier_pattern_name)
       type: (named_type
@@ -60,7 +60,7 @@ a :: (Type, Type) := 1
 ---
 
 (program
-  expression: (assignment
+  term: (assignment
     pattern: (identifier_pattern
       name: (identifier_pattern_name)
       type: (tuple_type
@@ -79,7 +79,7 @@ a :: constructor: (Type, Type) := 1
 ---
 
 (program
-  expression: (assignment
+  term: (assignment
     pattern: (identifier_pattern
       name: (identifier_pattern_name)
       type: (named_type
@@ -100,7 +100,7 @@ a :: [Type] := 1
 ---
 
 (program
-  expression: (assignment
+  term: (assignment
     pattern: (identifier_pattern
       name: (identifier_pattern_name)
       type: (list_type
@@ -117,7 +117,7 @@ a :: constructor: [Type] := 1
 ---
 
 (program
-  expression: (assignment
+  term: (assignment
     pattern: (identifier_pattern
       name: (identifier_pattern_name)
       type: (named_type
@@ -137,7 +137,7 @@ a :: Type -> (Type -> Type) -> a := 1
 ---
 
 (program
-  expression: (assignment
+  term: (assignment
     pattern: (identifier_pattern
       name: (identifier_pattern_name)
       type: (curried_type
@@ -150,7 +150,7 @@ a :: Type -> (Type -> Type) -> a := 1
           to: (parametric_type
             name: (type)))))
     value: (number))
-  expression: (assignment
+  term: (assignment
     pattern: (identifier_pattern
       name: (identifier_pattern_name)
       type: (curried_type
@@ -177,16 +177,16 @@ a as Type<Type, a, typeof b, typeof 'string', typeof 5>
 ---
 
 (program
-  expression: (type_hint
+  term: (type_hint
     value: (identifier)
     type: (parametric_type
       name: (type)))
-  expression: (type_hint
+  term: (type_hint
     value: (identifier)
     type: (parametric_type
       name: (type)
       parameter: (type_variable)))
-  expression: (type_hint
+  term: (type_hint
     value: (identifier)
     type: (parametric_type
       name: (type)
@@ -211,20 +211,20 @@ a as constructor: Type<Type, a, typeof b, typeof 'string', typeof 5>
 ---
 
 (program
-  expression: (type_hint
+  term: (type_hint
     value: (identifier)
     type: (named_type
       name: (constructor_declaration)
       type: (parametric_type
         name: (type))))
-  expression: (type_hint
+  term: (type_hint
     value: (identifier)
     type: (named_type
       name: (constructor_declaration)
       type: (parametric_type
         name: (type)
         parameter: (type_variable))))
-  expression: (type_hint
+  term: (type_hint
     value: (identifier)
     type: (named_type
       name: (constructor_declaration)
@@ -249,7 +249,7 @@ a :: Type | Type & Type | Type := 1
 ---
 
 (program
-  expression: (assignment
+  term: (assignment
     pattern: (identifier_pattern
       name: (identifier_pattern_name)
       type: (union_type
@@ -274,7 +274,7 @@ a :: Type<[(a ~ Type, Type) : a > 0, a < 10]> := 1
 ---
 
 (program
-  expression: (assignment
+  term: (assignment
     pattern: (identifier_pattern
       name: (identifier_pattern_name)
       type: (parametric_type
@@ -307,11 +307,11 @@ a as AaA0Z
 ---
 
 (program
-  expression: (type_hint
+  term: (type_hint
     value: (identifier)
     type: (parametric_type
       name: (type)))
-  expression: (type_hint
+  term: (type_hint
     value: (identifier)
     type: (parametric_type
       name: (type))))

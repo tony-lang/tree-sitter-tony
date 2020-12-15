@@ -29,6 +29,7 @@ module.exports = {
         ),
       ),
     ),
+
   struct_pattern: ($) =>
     prec(
       Prec.Pattern,
@@ -41,9 +42,12 @@ module.exports = {
         true,
       ),
     ),
+  member_pattern: ($) => buildMember($, $._simple_term, $._pattern),
+
   tuple_pattern: ($) => prec(Prec.Pattern, buildTuple($, $._pattern, true)),
+
   list_pattern: ($) => prec(Prec.Pattern, buildList($, $._pattern, true)),
-  member_pattern: ($) => buildMember($, $._simple_expression, $._pattern),
+
   rest: ($) => seq('...', field('name', $.identifier_pattern)),
 
   identifier_pattern: ($) =>
@@ -52,7 +56,7 @@ module.exports = {
       seq(
         field('name', alias($.identifier, $.identifier_pattern_name)),
         optional(seq('::', field('type', $._type))),
-        optional(seq('=', field('default', $._simple_expression))),
+        optional(seq('=', field('default', $._simple_term))),
       ),
     ),
 

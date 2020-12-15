@@ -99,7 +99,7 @@ module.exports = {
       '[',
       field('generator', $._type),
       ':',
-      commaSep1(field('predicate', $._simple_expression)),
+      commaSep1(field('predicate', $._simple_term)),
       ']',
     ),
 

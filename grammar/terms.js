@@ -12,9 +12,9 @@ const {
 } = require('./util')
 
 module.exports = {
-  _expression: ($) =>
-    choice(seq($._simple_expression, $._newline), $._compound_expression),
-  _simple_expression: ($) =>
+  _term: ($) =>
+    choice(seq($._simple_term, $._newline), $._compound_term),
+  _simple_term: ($) =>
     prec.left(
       Prec.Term,
       choice(
@@ -42,7 +42,7 @@ module.exports = {
         $._literal,
       ),
     ),
-  _compound_expression: ($) =>
+  _compound_term: ($) =>
     prec.left(
       Prec.Term,
       choice(
@@ -61,12 +61,12 @@ module.exports = {
   type_parameters: ($) => buildTypeParameters($.type_variable_declaration),
   type_arguments: ($) => buildTypeParameters($.parametric_type),
 
-  _simple_block: ($) => prec.left(field('expression', $._simple_expression)),
+  _simple_block: ($) => prec.left(field('term', $._simple_term)),
   _compound_block: ($) =>
     prec.left(
       choice(
-        buildSimpleBlock($, field('expression', $._simple_expression)),
-        buildCompoundBlock($, repeat1(field('expression', $._expression))),
+        buildSimpleBlock($, field('term', $._simple_term)),
+        buildCompoundBlock($, repeat1(field('term', $._term))),
       ),
     ),
 
@@ -105,7 +105,7 @@ module.exports = {
       seq(
         field('pattern', $._assignable_pattern),
         ':=',
-        field('value', $._simple_expression),
+        field('value', $._simple_term),
       ),
     ),
   compound_assignment: ($) =>
@@ -115,8 +115,8 @@ module.exports = {
         field('pattern', $._assignable_pattern),
         ':=',
         choice(
-          field('value', $._compound_expression),
-          seq($._indent, field('value', $._compound_expression), $._dedent),
+          field('value', $._compound_term),
+          seq($._indent, field('value', $._compound_term), $._dedent),
         ),
       ),
     ),
@@ -198,7 +198,7 @@ module.exports = {
     prec(
       Prec.Application,
       seq(
-        field('name', $._simple_expression),
+        field('name', $._simple_term),
         optional(field('typeArguments', $.type_arguments)),
         field('arguments', $.arguments),
       ),
@@ -208,7 +208,7 @@ module.exports = {
       Prec.PrefixApplication,
       seq(
         field('name', alias($._operator, $.identifier)),
-        field('value', $._simple_expression),
+        field('value', $._simple_term),
       ),
     ),
   infix_application: ($) =>
@@ -216,155 +216,155 @@ module.exports = {
       prec.left(
         Prec.Not,
         seq(
-          field('left', $._simple_expression),
+          field('left', $._simple_term),
           field('name', alias('!', $.identifier)),
-          field('right', $._simple_expression),
+          field('right', $._simple_term),
         ),
       ),
       prec.left(
         Prec.Exponentiation,
         seq(
-          field('left', $._simple_expression),
+          field('left', $._simple_term),
           field('name', alias('^', $.identifier)),
-          field('right', $._simple_expression),
+          field('right', $._simple_term),
         ),
       ),
       prec.left(
         Prec.Product,
         seq(
-          field('left', $._simple_expression),
+          field('left', $._simple_term),
           field('name', alias('*', $.identifier)),
-          field('right', $._simple_expression),
+          field('right', $._simple_term),
         ),
       ),
       prec.left(
         Prec.Product,
         seq(
-          field('left', $._simple_expression),
+          field('left', $._simple_term),
           field('name', alias('/', $.identifier)),
-          field('right', $._simple_expression),
+          field('right', $._simple_term),
         ),
       ),
       prec.left(
         Prec.Sum,
         seq(
-          field('left', $._simple_expression),
+          field('left', $._simple_term),
           field('name', alias('+', $.identifier)),
-          field('right', $._simple_expression),
+          field('right', $._simple_term),
         ),
       ),
       prec.left(
         Prec.Sum,
         seq(
-          field('left', $._simple_expression),
+          field('left', $._simple_term),
           field('name', alias('-', $.identifier)),
-          field('right', $._simple_expression),
+          field('right', $._simple_term),
         ),
       ),
       prec.left(
         Prec.Mod,
         seq(
-          field('left', $._simple_expression),
+          field('left', $._simple_term),
           field('name', alias('%', $.identifier)),
-          field('right', $._simple_expression),
+          field('right', $._simple_term),
         ),
       ),
       prec.left(
         Prec.Order,
         seq(
-          field('left', $._simple_expression),
+          field('left', $._simple_term),
           field('name', alias('<', $.identifier)),
-          field('right', $._simple_expression),
+          field('right', $._simple_term),
         ),
       ),
       prec.left(
         Prec.Order,
         seq(
-          field('left', $._simple_expression),
+          field('left', $._simple_term),
           field('name', alias('<=', $.identifier)),
-          field('right', $._simple_expression),
+          field('right', $._simple_term),
         ),
       ),
       prec.left(
         Prec.Order,
         seq(
-          field('left', $._simple_expression),
+          field('left', $._simple_term),
           field('name', alias('>', $.identifier)),
-          field('right', $._simple_expression),
+          field('right', $._simple_term),
         ),
       ),
       prec.left(
         Prec.Order,
         seq(
-          field('left', $._simple_expression),
+          field('left', $._simple_term),
           field('name', alias('>=', $.identifier)),
-          field('right', $._simple_expression),
+          field('right', $._simple_term),
         ),
       ),
       prec.left(
         Prec.Equality,
         seq(
-          field('left', $._simple_expression),
+          field('left', $._simple_term),
           field('name', alias('==', $.identifier)),
-          field('right', $._simple_expression),
+          field('right', $._simple_term),
         ),
       ),
       prec.left(
         Prec.Equality,
         seq(
-          field('left', $._simple_expression),
+          field('left', $._simple_term),
           field('name', alias('!=', $.identifier)),
-          field('right', $._simple_expression),
+          field('right', $._simple_term),
         ),
       ),
       prec.left(
         Prec.And,
         seq(
-          field('left', $._simple_expression),
+          field('left', $._simple_term),
           field('name', alias('&&', $.identifier)),
-          field('right', $._simple_expression),
+          field('right', $._simple_term),
         ),
       ),
       prec.left(
         Prec.Or,
         seq(
-          field('left', $._simple_expression),
+          field('left', $._simple_term),
           field('name', alias('||', $.identifier)),
-          field('right', $._simple_expression),
+          field('right', $._simple_term),
         ),
       ),
       prec.left(
         Prec.Implication,
         seq(
-          field('left', $._simple_expression),
+          field('left', $._simple_term),
           field('name', alias('==>', $.identifier)),
-          field('right', $._simple_expression),
+          field('right', $._simple_term),
         ),
       ),
       prec.left(
         Prec.Biconditional,
         seq(
-          field('left', $._simple_expression),
+          field('left', $._simple_term),
           field('name', alias('<=>', $.identifier)),
-          field('right', $._simple_expression),
+          field('right', $._simple_term),
         ),
       ),
       prec.left(
         Prec.OperatorInfixApplication,
         seq(
-          field('left', $._simple_expression),
+          field('left', $._simple_term),
           field('name', alias($._operator, $.identifier)),
-          field('right', $._simple_expression),
+          field('right', $._simple_term),
         ),
       ),
       prec.left(
         Prec.NamedInfixApplication,
         seq(
-          field('left', $._simple_expression),
+          field('left', $._simple_term),
           '`',
           field('name', alias($._identifier_without_operators, $.identifier)),
           '`',
-          field('right', $._simple_expression),
+          field('right', $._simple_term),
         ),
       ),
     ),
@@ -381,17 +381,17 @@ module.exports = {
     seq(
       field('name', alias($.identifier, $.identifier_pattern_name)),
       'in',
-      field('value', $._simple_expression),
-      optional(seq('if', field('condition', $._simple_expression))),
+      field('value', $._simple_term),
+      optional(seq('if', field('condition', $._simple_term))),
     ),
 
   pipeline: ($) =>
     prec.left(
       Prec.Pipeline,
       seq(
-        field('value', $._simple_expression),
+        field('value', $._simple_term),
         '.',
-        field('name', $._simple_expression),
+        field('name', $._simple_term),
       ),
     ),
 
@@ -399,9 +399,9 @@ module.exports = {
     prec.left(
       Prec.Access,
       seq(
-        field('name', $._simple_expression),
+        field('name', $._simple_term),
         choice(
-          seq('[', field('value', $._simple_expression), ']'),
+          seq('[', field('value', $._simple_term), ']'),
           seq(
             '->',
             field('value', alias($.identifier, $.shorthand_access_identifier)),
@@ -411,13 +411,13 @@ module.exports = {
     ),
 
   return_: ($) =>
-    prec.right(seq('return', field('value', $._simple_expression))),
+    prec.right(seq('return', field('value', $._simple_term))),
 
   simple_if: ($) =>
     prec.right(
       seq(
         'if',
-        field('condition', $._simple_expression),
+        field('condition', $._simple_term),
         'then',
         field('body', alias($._simple_block, $.block)),
         optional(seq('else', field('else', alias($._simple_block, $.block)))),
@@ -427,7 +427,7 @@ module.exports = {
     prec.right(
       seq(
         'if',
-        field('condition', $._simple_expression),
+        field('condition', $._simple_term),
         'then',
         field('body', alias($._compound_block, $.block)),
         repeat(field('else_if', $.else_if)),
@@ -437,7 +437,7 @@ module.exports = {
   else_if: ($) =>
     seq(
       'else if',
-      field('condition', $._simple_expression),
+      field('condition', $._simple_term),
       'then',
       field('body', alias($._compound_block, $.block)),
     ),
@@ -445,7 +445,7 @@ module.exports = {
   case_: ($) =>
     seq(
       'case',
-      field('value', $._simple_expression),
+      field('value', $._simple_term),
       repeat1(field('when', $.when)),
       'else',
       field('else', alias($._compound_block, $.block)),
@@ -466,21 +466,21 @@ module.exports = {
         choice($.member, alias($.identifier, $.shorthand_member), $.spread),
       ),
     ),
-  member: ($) => buildMember($, $._simple_expression, $._simple_expression),
+  member: ($) => buildMember($, $._simple_term, $._simple_term),
 
   tuple: ($) => prec(Prec.Term, buildTuple($, $._element)),
 
   list: ($) => prec(Prec.Term, buildList($, $._element)),
 
-  _element: ($) => choice($._simple_expression, $.spread),
-  spread: ($) => seq('...', field('value', $._simple_expression)),
+  _element: ($) => choice($._simple_term, $.spread),
+  spread: ($) => seq('...', field('value', $._simple_term)),
 
   named_value: ($) =>
     prec.right(
       seq(
         field('name', alias($.identifier, $.constructor)),
         ':',
-        field('value', $._simple_expression),
+        field('value', $._simple_term),
       ),
     ),
 
@@ -495,8 +495,12 @@ module.exports = {
   type_hint: ($) =>
     prec.left(
       Prec.TypeHint,
-      seq(field('value', $._simple_expression), 'as', field('type', $._type)),
+      seq(field('value', $._simple_term), 'as', field('type', $._type)),
     ),
 
-  group: ($) => seq('(', field('expression', $._simple_expression), ')'),
+  _identifier_without_operators: () => /_?[a-z][a-z0-9_]*\??/,
+  _operator: () => /(==|[!@$%^&*|<>~*\\\-+/.])[!@$%^&*|<>~*\\\-+/.=?]*/,
+  identifier: ($) => choice($._operator, $._identifier_without_operators),
+
+  group: ($) => seq('(', field('term', $._simple_term), ')'),
 }

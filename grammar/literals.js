@@ -2,10 +2,6 @@ const Prec = require('./precedence')
 const { buildString } = require('./util')
 
 module.exports = {
-  _identifier_without_operators: ($) => /_?[a-z][a-z0-9_]*\??/,
-  _operator: ($) => /(==|[!@$%^&*|<>~*\\\-+/.])[!@$%^&*|<>~*\\\-+/.=?]*/,
-  identifier: ($) => choice($._operator, $._identifier_without_operators),
-
   _literal: ($) =>
     prec(Prec.Literal, choice($.boolean, $.number, $.string, $.regex)),
 
@@ -40,8 +36,8 @@ module.exports = {
       field('interpolation', $.interpolation),
       field('escape_sequence', $.escape_sequence),
     ),
-  interpolation: ($) => seq('{', field('value', $._simple_expression), '}'),
-  escape_sequence: ($) =>
+  interpolation: ($) => seq('{', field('term', $._simple_term), '}'),
+  escape_sequence: () =>
     token.immediate(
       seq(
         '\\',
