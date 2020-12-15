@@ -90,7 +90,7 @@ fib :=
             left: (application
               name: (identifier)
               arguments: (arguments
-                element: (tuple_element
+                element: (argument
                   value: (infix_application
                     left: (identifier)
                     name: (identifier)
@@ -99,7 +99,7 @@ fib :=
             right: (application
               name: (identifier)
               arguments: (arguments
-                element: (tuple_element
+                element: (argument
                   value: (infix_application
                     left: (identifier)
                     name: (identifier)
@@ -132,7 +132,7 @@ fib :=
         expression: (application
           name: (identifier)
           arguments: (arguments
-            element: (tuple_element
+            element: (argument
               value: (number)))))))
   expression: (abstraction
     branch: (abstraction_branch
@@ -170,17 +170,17 @@ a(...(a, b))
     name: (application
       name: (identifier)
       arguments: (arguments
-        element: (tuple_element
+        element: (argument
           value: (number))))
     arguments: (arguments
-      element: (tuple_element
+      element: (argument
         value: (number))
-      element: (tuple_element
+      element: (argument
         value: (number))))
   expression: (prefix_application
     name: (identifier)
     value: (group
-      value: (number)))
+      expression: (number)))
   expression: (application
     name: (identifier)
     typeArguments: (type_arguments
@@ -193,8 +193,8 @@ a(...(a, b))
       parameter: (parametric_type
         name: (type)))
     arguments: (arguments
-      element: (tuple_element)
-      element: (tuple_element
+      element: (argument)
+      element: (argument
         value: (number))))
   expression: (prefix_application
     name: (identifier)
@@ -210,7 +210,7 @@ a(...(a, b))
   expression: (application
     name: (identifier)
     arguments: (arguments
-      element: (tuple_element
+      element: (argument
         value: (spread
           value: (tuple
             element: (identifier)
@@ -408,7 +408,7 @@ false || !false
   expression: (infix_application
     left: (pipeline
       value: (group
-        value: (pipeline
+        expression: (pipeline
           value: (identifier)
           name: (identifier)))
       name: (identifier))
@@ -416,7 +416,7 @@ false || !false
     right: (pipeline
       value: (number)
       name: (group
-        value: (pipeline
+        expression: (pipeline
           value: (identifier)
           name: (identifier))))))
 
@@ -436,7 +436,7 @@ a.b.c(1)
         name: (identifier))
       name: (identifier))
     arguments: (arguments
-      element: (tuple_element
+      element: (argument
         value: (number)))))
 
 ==================
@@ -458,7 +458,7 @@ a.b[c]
       name: (identifier)
       value: (shorthand_access_identifier))
     arguments: (arguments
-      element: (tuple_element
+      element: (argument
         value: (number))))
   expression: (pipeline
     value: (identifier)
@@ -666,7 +666,7 @@ if true then 1 else 1
   expression: (application
     name: (identifier)
     arguments: (arguments
-      element: (tuple_element
+      element: (argument
         value: (if
           condition: (boolean)
           body: (block
@@ -1149,3 +1149,44 @@ type hint
     value: (string)
     type: (parametric_type
       name: (type))))
+
+==================
+group
+==================
+
+(1)
+(n)
+(-1)
+(-n)
+n / ((n + 1) * (-2))
+
+---
+
+(program
+  expression: (group
+    expression: (number))
+  expression: (group
+    expression: (identifier))
+  expression: (group
+    expression: (prefix_application
+      name: (identifier)
+      value: (number)))
+  expression: (group
+    expression: (prefix_application
+      name: (identifier)
+      value: (identifier)))
+  expression: (infix_application
+    left: (identifier)
+    name: (identifier)
+    right: (group
+      expression: (infix_application
+        left: (group
+          expression: (infix_application
+            left: (identifier)
+            name: (identifier)
+            right: (number)))
+        name: (identifier)
+        right: (group
+          expression: (prefix_application
+            name: (identifier)
+            value: (number)))))))

@@ -11,8 +11,8 @@
     "test": "tree-sitter test",
     "types": "node ./node_modules/@asgerf/dts-tree-sitter/build/src . > tree-sitter-tony.d.ts",
     "build": "yarn generate && yarn types",
-    "lint": "prettier --check *.js",
-    "prettier": "prettier --write *.js",
+    "lint": "prettier --check **/*.js",
+    "prettier": "prettier --write **/*.js",
     "install": "prebuild-install || node-gyp rebuild"
   },
   "engines": {
