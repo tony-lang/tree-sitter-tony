@@ -12,8 +12,7 @@ const {
 } = require('./util')
 
 module.exports = {
-  _term: ($) =>
-    choice(seq($._simple_term, $._newline), $._compound_term),
+  _term: ($) => choice(seq($._simple_term, $._newline), $._compound_term),
   _simple_term: ($) =>
     prec.left(
       Prec.Term,
@@ -385,11 +384,7 @@ module.exports = {
   pipeline: ($) =>
     prec.left(
       Prec.Pipeline,
-      seq(
-        field('value', $._simple_term),
-        '.',
-        field('name', $._simple_term),
-      ),
+      seq(field('value', $._simple_term), '.', field('name', $._simple_term)),
     ),
 
   access: ($) =>
@@ -407,8 +402,7 @@ module.exports = {
       ),
     ),
 
-  return_: ($) =>
-    prec.right(seq('return', field('value', $._simple_term))),
+  return_: ($) => prec.right(seq('return', field('value', $._simple_term))),
 
   simple_if: ($) =>
     prec.right(
