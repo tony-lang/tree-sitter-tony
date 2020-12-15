@@ -35,7 +35,7 @@ const commaSep1 = (rule) => seq(rule, repeat(seq(',', rule)))
 
 const abstractionBranch = ($, blockType) =>
   seq(
-    optional(field('type_parameters', $.type_parameters)),
+    optional(field('typeParameters', $.type_parameters)),
     field('parameters', $.parameters),
     '=>',
     field('body', alias(blockType, $.block)),
@@ -300,7 +300,7 @@ module.exports = grammar({
         PREC.APPLICATION,
         seq(
           field('name', $._simple_expression),
-          optional(field('type_arguments', $.type_arguments)),
+          optional(field('typeArguments', $.type_arguments)),
           field('arguments', $.arguments),
         ),
       ),
