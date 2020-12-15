@@ -672,10 +672,7 @@ module.exports = grammar({
     _tuple_value: ($) => choice($._simple_expression, $.spread),
     tuple_element: ($) =>
       prec.left(
-        choice(
-          field('placeholder', '?'),
-          field('value', $._tuple_value),
-        ),
+        choice(field('placeholder', '?'), field('value', $._tuple_value)),
       ),
     spread: ($) => seq('...', field('value', $._simple_expression)),
 
@@ -779,11 +776,21 @@ module.exports = grammar({
     refinement_type_declaration: ($) =>
       prec.left(
         seq(
-          field('name', alias($.identifier, $.refinement_type_declaration_name)),
+          field(
+            'name',
+            alias($.identifier, $.refinement_type_declaration_name),
+          ),
           field('constraint', $.type_constraint),
         ),
       ),
-    refinement_type: ($) => seq('[', field('generator', $._type_constructor), ':', commaSep1(field('predicate', $._simple_expression)), ']'),
+    refinement_type: ($) =>
+      seq(
+        '[',
+        field('generator', $._type_constructor),
+        ':',
+        commaSep1(field('predicate', $._simple_expression)),
+        ']',
+      ),
 
     type_constraint: ($) =>
       seq(
