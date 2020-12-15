@@ -67,7 +67,7 @@ where `file.tn` is the relative path to the file you want to parse.
 For a simple hello world use
 
 ```tony
-IO->print('hello world')
+io->print('hello world')
 ```
 
 ### TypeScript / JavaScript
