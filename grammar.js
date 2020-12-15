@@ -193,10 +193,7 @@ module.exports = grammar({
       ),
 
     _pattern: ($) =>
-      prec(
-        PREC.PATTERN,
-        choice($._assignable_pattern, $._literal_pattern),
-      ),
+      prec(PREC.PATTERN, choice($._assignable_pattern, $._literal_pattern)),
 
     _assignable_pattern: ($) =>
       choice(
@@ -244,7 +241,11 @@ module.exports = grammar({
     named_pattern: ($) =>
       prec(
         PREC.PATTERN,
-        seq(field('name', alias($.identifier, $.constructor)), ':', field('pattern', $._pattern)),
+        seq(
+          field('name', alias($.identifier, $.constructor)),
+          ':',
+          field('pattern', $._pattern),
+        ),
       ),
 
     identifier_pattern: ($) =>
@@ -688,7 +689,11 @@ module.exports = grammar({
 
     named_value: ($) =>
       prec.right(
-        seq(field('name', alias($.identifier, $.constructor)), ':', field('value', $._simple_expression)),
+        seq(
+          field('name', alias($.identifier, $.constructor)),
+          ':',
+          field('value', $._simple_expression),
+        ),
       ),
 
     type_alias: ($) =>
@@ -764,7 +769,11 @@ module.exports = grammar({
     named_type: ($) =>
       prec(
         PREC.NAMED_TYPE,
-        seq(field('name', alias($.identifier, $.constructor_declaration)), ':', field('type', $._type_constructor)),
+        seq(
+          field('name', alias($.identifier, $.constructor_declaration)),
+          ':',
+          field('type', $._type_constructor),
+        ),
       ),
 
     refinement_type_declaration: ($) =>
