@@ -29,7 +29,7 @@ a :: {
 named struct type
 ==================
 
-a :: Struct { a: Type, [Type]: Type } := 1
+a :: constructor: { a: Type, [Type]: Type } := 1
 
 ---
 
@@ -38,7 +38,7 @@ a :: Struct { a: Type, [Type]: Type } := 1
     pattern: (identifier_pattern
       name: (identifier_pattern_name)
       type: (named_type
-        name: (type)
+        name: (constructor_declaration)
         type: (struct_type
           member: (member_type
             key: (shorthand_member_identifier)
@@ -74,7 +74,7 @@ a :: (Type, Type) := 1
 named tuple type
 ==================
 
-a :: Tuple (Type, Type) := 1
+a :: constructor: (Type, Type) := 1
 
 ---
 
@@ -83,7 +83,7 @@ a :: Tuple (Type, Type) := 1
     pattern: (identifier_pattern
       name: (identifier_pattern_name)
       type: (named_type
-        name: (type)
+        name: (constructor_declaration)
         type: (tuple_type
           element: (parametric_type
             name: (type))
@@ -112,7 +112,7 @@ a :: [Type] := 1
 named list type
 ==================
 
-a :: List [Type] := 1
+a :: constructor: [Type] := 1
 
 ---
 
@@ -121,7 +121,7 @@ a :: List [Type] := 1
     pattern: (identifier_pattern
       name: (identifier_pattern_name)
       type: (named_type
-        name: (type)
+        name: (constructor_declaration)
         type: (list_type
           element: (parametric_type
             name: (type)))))
@@ -170,37 +170,43 @@ a :: Type -> (Type -> Type) -> a := 1
 parametric type
 ==================
 
-Type
-Type<a>
-Type<Type, a, typeof b, typeof 'string', typeof 5>
+a as Type
+a as Type<a>
+a as Type<Type, a, typeof b, typeof 'string', typeof 5>
 
 ---
 
 (program
-  expression: (parametric_type
-    name: (type))
-  expression: (parametric_type
-    name: (type)
-    parameter: (type_variable))
-  expression: (parametric_type
-    name: (type)
-    parameter: (parametric_type
-      name: (type))
-    parameter: (type_variable)
-    parameter: (typeof
-      value: (identifier))
-    parameter: (typeof
-      value: (string))
-    parameter: (typeof
-      value: (number))))
+  expression: (type_hint
+    value: (identifier)
+    type: (parametric_type
+      name: (type)))
+  expression: (type_hint
+    value: (identifier)
+    type: (parametric_type
+      name: (type)
+      parameter: (type_variable)))
+  expression: (type_hint
+    value: (identifier)
+    type: (parametric_type
+      name: (type)
+      parameter: (parametric_type
+        name: (type))
+      parameter: (type_variable)
+      parameter: (typeof
+        value: (identifier))
+      parameter: (typeof
+        value: (string))
+      parameter: (typeof
+        value: (number)))))
 
 ==================
 named parametric type
 ==================
 
-a as Name Type
-a as Name Type<a>
-a as Name Type<Type, a, typeof b, typeof 'string', typeof 5>
+a as constructor: Type
+a as constructor: Type<a>
+a as constructor: Type<Type, a, typeof b, typeof 'string', typeof 5>
 
 ---
 
@@ -208,20 +214,20 @@ a as Name Type<Type, a, typeof b, typeof 'string', typeof 5>
   expression: (type_hint
     value: (identifier)
     type: (named_type
-      name: (type)
+      name: (constructor_declaration)
       type: (parametric_type
         name: (type))))
   expression: (type_hint
     value: (identifier)
     type: (named_type
-      name: (type)
+      name: (constructor_declaration)
       type: (parametric_type
         name: (type)
         parameter: (type_variable))))
   expression: (type_hint
     value: (identifier)
     type: (named_type
-      name: (type)
+      name: (constructor_declaration)
       type: (parametric_type
         name: (type)
         parameter: (parametric_type
@@ -290,3 +296,22 @@ a :: Type<[(a ~ Type, Type) : a > 0, a < 10]> := 1
             name: (identifier)
             right: (number)))))
     value: (number)))
+
+==================
+type
+==================
+
+a as Type
+a as AaA0Z
+
+---
+
+(program
+  expression: (type_hint
+    value: (identifier)
+    type: (parametric_type
+      name: (type)))
+  expression: (type_hint
+    value: (identifier)
+    type: (parametric_type
+      name: (type))))

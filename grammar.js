@@ -118,16 +118,13 @@ module.exports = grammar({
   extras: ($) => [$.comment, /\s+/],
   word: ($) => $._identifier_without_operators,
   conflicts: ($) => [
-    [$._simple_expression, $._pattern],
     [$._simple_expression, $.identifier_pattern],
     [$.string, $.raw_string],
     [$.struct, $.struct_pattern],
     [$.tuple, $.tuple_pattern],
     [$.list, $.list_pattern],
-    [$.type_variable_declaration, $._type_constructor],
     [$.application, $.prefix_application, $.infix_application],
     [$.application, $.infix_application],
-    [$.type_variable_declaration, $.refinement_type_declaration],
   ],
 
   rules: {
@@ -165,7 +162,6 @@ module.exports = grammar({
           $.type_alias,
           $.type_hint,
           $.identifier,
-          $.parametric_type,
           $._literal,
         ),
       ),
@@ -199,7 +195,7 @@ module.exports = grammar({
     _pattern: ($) =>
       prec(
         PREC.PATTERN,
-        choice($._assignable_pattern, $.parametric_type, $._literal_pattern),
+        choice($._assignable_pattern, $._literal_pattern),
       ),
 
     _assignable_pattern: ($) =>
@@ -248,7 +244,7 @@ module.exports = grammar({
     named_pattern: ($) =>
       prec(
         PREC.PATTERN,
-        seq(field('name', $.type), field('pattern', $._pattern)),
+        seq(field('name', alias($.identifier, $.constructor)), ':', field('pattern', $._pattern)),
       ),
 
     identifier_pattern: ($) =>
@@ -612,7 +608,8 @@ module.exports = grammar({
     module: ($) =>
       seq(
         'module',
-        field('name', $.type_declaration),
+        field('name', alias($.identifier, $.identifier_pattern_name)),
+        optional(typeParameters($.type_variable_declaration)),
         'where',
         field('body', alias($._compound_block, $.block)),
       ),
@@ -691,7 +688,7 @@ module.exports = grammar({
 
     named_value: ($) =>
       prec.right(
-        seq(field('name', $.type), field('value', $._simple_expression)),
+        seq(field('name', alias($.identifier, $.constructor)), ':', field('value', $._simple_expression)),
       ),
 
     type_alias: ($) =>
@@ -767,7 +764,7 @@ module.exports = grammar({
     named_type: ($) =>
       prec(
         PREC.NAMED_TYPE,
-        seq(field('name', $.type), field('type', $._type_constructor)),
+        seq(field('name', alias($.identifier, $.constructor_declaration)), ':', field('type', $._type_constructor)),
       ),
 
     refinement_type_declaration: ($) =>

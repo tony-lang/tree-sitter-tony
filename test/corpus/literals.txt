@@ -1,19 +1,4 @@
 ==================
-type
-==================
-
-Type
-AaA0Z
-
----
-
-(program
-  expression: (parametric_type
-    name: (type))
-  expression: (parametric_type
-    name: (type)))
-
-==================
 boolean
 ==================
 
