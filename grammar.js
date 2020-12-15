@@ -52,6 +52,9 @@ const {
   named_value,
   type_alias,
   type_hint,
+  group,
+} = require('./grammar/terms')
+const {
   _identifier_without_operators,
   _operator,
   identifier,
@@ -67,8 +70,7 @@ const {
   regex,
   regex_pattern,
   regex_flags,
-  group,
-} = require('./grammar/terms')
+} = require('./grammar/literals')
 const {
   _pattern,
   _assignable_pattern,
@@ -184,21 +186,6 @@ module.exports = grammar({
     named_value,
     type_alias,
     type_hint,
-    _identifier_without_operators,
-    _operator,
-    identifier,
-    _literal,
-    boolean,
-    _decimal,
-    _integer,
-    number,
-    raw_string,
-    string,
-    interpolation,
-    escape_sequence,
-    regex,
-    regex_pattern,
-    regex_flags,
     group,
 
     _pattern,
@@ -232,5 +219,21 @@ module.exports = grammar({
     type_declaration,
     type_group,
     type,
+
+    _identifier_without_operators,
+    _operator,
+    identifier,
+    _literal,
+    boolean,
+    _decimal,
+    _integer,
+    number,
+    raw_string,
+    string,
+    interpolation,
+    escape_sequence,
+    regex,
+    regex_pattern,
+    regex_flags,
   },
 })

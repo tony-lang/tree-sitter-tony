@@ -5,7 +5,6 @@ const {
   buildStruct,
   buildTuple,
   buildMember,
-  buildTypeArguments,
 } = require('./util')
 
 module.exports = {
