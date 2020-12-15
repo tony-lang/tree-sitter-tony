@@ -11,8 +11,8 @@
     "test": "tree-sitter test",
     "types": "node ./node_modules/@asgerf/dts-tree-sitter/build/src . > tree-sitter-tony.d.ts",
     "build": "yarn generate && yarn types",
-    "lint": "prettier --check *.js",
-    "prettier": "prettier --write *.js",
+    "lint": "prettier --check **/*.js",
+    "prettier": "prettier --write **/*.js",
     "install": "prebuild-install || node-gyp rebuild"
   },
   "engines": {
@@ -34,15 +34,14 @@
   },
   "homepage": "https://github.com/tony-lang/tree-sitter-tony",
   "dependencies": {
-    "@asgerf/dts-tree-sitter": "^0.1.0",
     "nan": "^2.14.1",
     "prebuild-install": "^6.0.0"
   },
   "devDependencies": {
+    "@asgerf/dts-tree-sitter": "^0.1.0",
     "prebuild": "^10.0.0",
     "prettier": "^2.0.5",
     "tree-sitter": "^0.17.0",
-    "tree-sitter-cli": "^0.17.1",
-    "typescript": "^4.0.2"
+    "tree-sitter-cli": "^0.17.1"
   }
 }

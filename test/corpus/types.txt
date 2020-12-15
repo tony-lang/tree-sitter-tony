@@ -10,7 +10,7 @@ a :: {
 ---
 
 (program
-  expression: (assignment
+  term: (assignment
     pattern: (identifier_pattern
       name: (identifier_pattern_name)
       type: (struct_type
@@ -29,16 +29,16 @@ a :: {
 named struct type
 ==================
 
-a :: Struct { a: Type, [Type]: Type } := 1
+a :: constructor { a: Type, [Type]: Type } := 1
 
 ---
 
 (program
-  expression: (assignment
+  term: (assignment
     pattern: (identifier_pattern
       name: (identifier_pattern_name)
       type: (named_type
-        name: (type)
+        name: (constructor_declaration)
         type: (struct_type
           member: (member_type
             key: (shorthand_member_identifier)
@@ -60,7 +60,7 @@ a :: (Type, Type) := 1
 ---
 
 (program
-  expression: (assignment
+  term: (assignment
     pattern: (identifier_pattern
       name: (identifier_pattern_name)
       type: (tuple_type
@@ -74,16 +74,16 @@ a :: (Type, Type) := 1
 named tuple type
 ==================
 
-a :: Tuple (Type, Type) := 1
+a :: constructor (Type, Type) := 1
 
 ---
 
 (program
-  expression: (assignment
+  term: (assignment
     pattern: (identifier_pattern
       name: (identifier_pattern_name)
       type: (named_type
-        name: (type)
+        name: (constructor_declaration)
         type: (tuple_type
           element: (parametric_type
             name: (type))
@@ -100,7 +100,7 @@ a :: [Type] := 1
 ---
 
 (program
-  expression: (assignment
+  term: (assignment
     pattern: (identifier_pattern
       name: (identifier_pattern_name)
       type: (list_type
@@ -112,16 +112,16 @@ a :: [Type] := 1
 named list type
 ==================
 
-a :: List [Type] := 1
+a :: constructor [Type] := 1
 
 ---
 
 (program
-  expression: (assignment
+  term: (assignment
     pattern: (identifier_pattern
       name: (identifier_pattern_name)
       type: (named_type
-        name: (type)
+        name: (constructor_declaration)
         type: (list_type
           element: (parametric_type
             name: (type)))))
@@ -137,7 +137,7 @@ a :: Type -> (Type -> Type) -> a := 1
 ---
 
 (program
-  expression: (assignment
+  term: (assignment
     pattern: (identifier_pattern
       name: (identifier_pattern_name)
       type: (curried_type
@@ -150,7 +150,7 @@ a :: Type -> (Type -> Type) -> a := 1
           to: (parametric_type
             name: (type)))))
     value: (number))
-  expression: (assignment
+  term: (assignment
     pattern: (identifier_pattern
       name: (identifier_pattern_name)
       type: (curried_type
@@ -170,60 +170,28 @@ a :: Type -> (Type -> Type) -> a := 1
 parametric type
 ==================
 
-Type
-Type<a>
-Type<Type, a, typeof b, typeof 'string', typeof 5>
+a as Type
+a as Type<a>
+a as Type<Type, a, typeof b, typeof 'string', typeof 5>
 
 ---
 
 (program
-  expression: (parametric_type
-    name: (type))
-  expression: (parametric_type
-    name: (type)
-    parameter: (type_variable))
-  expression: (parametric_type
-    name: (type)
-    parameter: (parametric_type
-      name: (type))
-    parameter: (type_variable)
-    parameter: (typeof
-      value: (identifier))
-    parameter: (typeof
-      value: (string))
-    parameter: (typeof
-      value: (number))))
-
-==================
-named parametric type
-==================
-
-a as Name Type
-a as Name Type<a>
-a as Name Type<Type, a, typeof b, typeof 'string', typeof 5>
-
----
-
-(program
-  expression: (type_hint
+  term: (type_hint
     value: (identifier)
-    type: (named_type
-      name: (type)
-      type: (parametric_type
-        name: (type))))
-  expression: (type_hint
+    type: (parametric_type
+      name: (type)))
+  term: (type_hint
     value: (identifier)
-    type: (named_type
+    type: (parametric_type
       name: (type)
-      type: (parametric_type
-        name: (type)
+      arguments: (type_arguments
         parameter: (type_variable))))
-  expression: (type_hint
+  term: (type_hint
     value: (identifier)
-    type: (named_type
+    type: (parametric_type
       name: (type)
-      type: (parametric_type
-        name: (type)
+      arguments: (type_arguments
         parameter: (parametric_type
           name: (type))
         parameter: (type_variable)
@@ -235,6 +203,48 @@ a as Name Type<Type, a, typeof b, typeof 'string', typeof 5>
           value: (number))))))
 
 ==================
+named parametric type
+==================
+
+a as constructor Type
+a as constructor Type<a>
+a as constructor Type<Type, a, typeof b, typeof 'string', typeof 5>
+
+---
+
+(program
+  term: (type_hint
+    value: (identifier)
+    type: (named_type
+      name: (constructor_declaration)
+      type: (parametric_type
+        name: (type))))
+  term: (type_hint
+    value: (identifier)
+    type: (named_type
+      name: (constructor_declaration)
+      type: (parametric_type
+        name: (type)
+        arguments: (type_arguments
+          parameter: (type_variable)))))
+  term: (type_hint
+    value: (identifier)
+    type: (named_type
+      name: (constructor_declaration)
+      type: (parametric_type
+        name: (type)
+        arguments: (type_arguments
+          parameter: (parametric_type
+            name: (type))
+          parameter: (type_variable)
+          parameter: (typeof
+            value: (identifier))
+          parameter: (typeof
+            value: (string))
+          parameter: (typeof
+            value: (number)))))))
+
+==================
 intersection/union type
 ==================
 
@@ -243,7 +253,7 @@ a :: Type | Type & Type | Type := 1
 ---
 
 (program
-  expression: (assignment
+  term: (assignment
     pattern: (identifier_pattern
       name: (identifier_pattern_name)
       type: (union_type
@@ -268,25 +278,49 @@ a :: Type<[(a ~ Type, Type) : a > 0, a < 10]> := 1
 ---
 
 (program
-  expression: (assignment
+  term: (assignment
     pattern: (identifier_pattern
       name: (identifier_pattern_name)
       type: (parametric_type
         name: (type)
-        parameter: (refinement_type
-          generator: (tuple_type
-            element: (refinement_type_declaration
-              name: (refinement_type_declaration_name)
-              constraint: (type_constraint
-                type: (type)))
-            element: (parametric_type
-              name: (type)))
-          predicate: (infix_application
-            left: (identifier)
-            name: (identifier)
-            right: (number))
-          predicate: (infix_application
-            left: (identifier)
-            name: (identifier)
-            right: (number)))))
+        arguments: (type_arguments
+          parameter: (refinement_type
+            generator: (tuple_type
+              element: (refinement_type_declaration
+                name: (refinement_type_declaration_name)
+                constraint: (type_constraint
+                  type: (type)))
+              element: (parametric_type
+                name: (type)))
+            predicate: (infix_application
+              left: (identifier)
+              name: (identifier)
+              right: (number))
+            predicate: (infix_application
+              left: (identifier)
+              name: (identifier)
+              right: (number))))))
+    value: (number)))
+
+==================
+type
+==================
+
+a :: Type := 1
+a :: AaA0Z := 1
+
+---
+
+(program
+  term: (assignment
+    pattern: (identifier_pattern
+      name: (identifier_pattern_name)
+      type: (parametric_type
+        name: (type)))
+    value: (number))
+  term: (assignment
+    pattern: (identifier_pattern
+      name: (identifier_pattern_name)
+      type: (parametric_type
+        name: (type)))
     value: (number)))

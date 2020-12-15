@@ -7,7 +7,7 @@ x@[y] := z
 ---
 
 (program
-  expression: (assignment
+  term: (assignment
     pattern: (destructuring_pattern
       alias: (identifier_pattern_name)
       pattern: (list_pattern
@@ -25,7 +25,7 @@ struct pattern
 ---
 
 (program
-  expression: (assignment
+  term: (assignment
     pattern: (destructuring_pattern
       pattern: (struct_pattern
         member: (member_pattern
@@ -35,7 +35,7 @@ struct pattern
             type: (parametric_type
               name: (type))))))
     value: (identifier))
-  expression: (assignment
+  term: (assignment
     pattern: (destructuring_pattern
       pattern: (struct_pattern
         member: (member_pattern
@@ -66,16 +66,16 @@ struct pattern
 named struct pattern
 ============================================
 
-(Struct { b: c :: Type }) := a
-(Struct { b: c :: Type, d :: Type, ['e']: e :: Type, ...f :: Type = {} }) := a
+(constructor { b: c :: Type }) := a
+(constructor { b: c :: Type, d :: Type, ['e']: e :: Type, ...f :: Type = {} }) := a
 
 ---
 
 (program
-  expression: (assignment
+  term: (assignment
     pattern: (pattern_group
       pattern: (named_pattern
-        name: (type)
+        name: (constructor)
         pattern: (destructuring_pattern
           pattern: (struct_pattern
             member: (member_pattern
@@ -85,10 +85,10 @@ named struct pattern
                 type: (parametric_type
                   name: (type))))))))
     value: (identifier))
-  expression: (assignment
+  term: (assignment
     pattern: (pattern_group
       pattern: (named_pattern
-        name: (type)
+        name: (constructor)
         pattern: (destructuring_pattern
           pattern: (struct_pattern
             member: (member_pattern
@@ -124,7 +124,7 @@ tuple pattern
 ---
 
 (program
-  expression: (assignment
+  term: (assignment
     pattern: (destructuring_pattern
       pattern: (tuple_pattern
         element: (parametric_type
@@ -136,18 +136,18 @@ tuple pattern
         rest: (rest
           name: (identifier_pattern
             name: (identifier_pattern_name)))))
-    value: (identifier)))
+    term: (identifier)))
 
 ============================================
 named tuple pattern
 ============================================
 
-(Tuple (A, b :: Type, ...c)) := a
+(constructor (A, b :: Type, ...c)) := a
 
 ---
 
 (program
-  expression: (assignment
+  term: (assignment
     pattern: (pattern_group
       pattern: (named_pattern
         name: (type)
@@ -162,7 +162,7 @@ named tuple pattern
             rest: (rest
               name: (identifier_pattern
                 name: (identifier_pattern_name)))))))
-    value: (identifier)))
+    term: (identifier)))
 
 ============================================
 list pattern
@@ -174,7 +174,7 @@ list pattern
 ---
 
 (program
-  expression: (assignment
+  term: (assignment
     pattern: (destructuring_pattern
       pattern: (list_pattern
         element: (identifier_pattern
@@ -186,7 +186,7 @@ list pattern
           type: (parametric_type
             name: (type)))))
     value: (identifier))
-  expression: (assignment
+  term: (assignment
     pattern: (destructuring_pattern
       pattern: (list_pattern
         element: (identifier_pattern
@@ -210,16 +210,16 @@ list pattern
 named list pattern
 ============================================
 
-(List [b :: Type, c :: Type]) := a
-(List [b :: Type, c :: Type, ...d :: Type = [1]]) := a
+(constructor [b :: Type, c :: Type]) := a
+(constructor [b :: Type, c :: Type, ...d :: Type = [1]]) := a
 
 ---
 
 (program
-  expression: (assignment
+  term: (assignment
     pattern: (pattern_group
       pattern: (named_pattern
-        name: (type)
+        name: (constructor)
         pattern: (destructuring_pattern
           pattern: (list_pattern
             element: (identifier_pattern
@@ -231,10 +231,10 @@ named list pattern
               type: (parametric_type
                 name: (type)))))))
     value: (identifier))
-  expression: (assignment
+  term: (assignment
     pattern: (pattern_group
       pattern: (named_pattern
-        name: (type)
+        name: (constructor)
         pattern: (destructuring_pattern
           pattern: (list_pattern
             element: (identifier_pattern
@@ -252,4 +252,21 @@ named list pattern
                   name: (type))
                 default: (list
                   element: (number))))))))
+    value: (identifier)))
+
+============================================
+named pattern
+============================================
+
+(constructor x) := a
+
+---
+
+(program
+  term: (assignment
+    pattern: (pattern_group
+      pattern: (named_pattern
+        name: (constructor)
+        pattern: (identifier_pattern
+          name: (identifier_pattern_name))))
     value: (identifier)))

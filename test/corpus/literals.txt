@@ -1,19 +1,4 @@
 ==================
-type
-==================
-
-Type
-AaA0Z
-
----
-
-(program
-  expression: (parametric_type
-    name: (type))
-  expression: (parametric_type
-    name: (type)))
-
-==================
 boolean
 ==================
 
@@ -23,8 +8,8 @@ true
 ---
 
 (program
-  expression: (boolean)
-  expression: (boolean))
+  term: (boolean)
+  term: (boolean))
 
 ==================
 decimal
@@ -47,23 +32,23 @@ decimal
 ---
 
 (program
-  expression: (prefix_application
+  term: (prefix_application
     name: (identifier)
     value: (number))
-  expression: (prefix_application
+  term: (prefix_application
     name: (identifier)
     value: (number))
-  expression: (number)
-  expression: (number)
-  expression: (number)
-  expression: (number)
-  expression: (number)
-  expression: (number)
-  expression: (number)
-  expression: (number)
-  expression: (number)
-  expression: (number)
-  expression: (prefix_application
+  term: (number)
+  term: (number)
+  term: (number)
+  term: (number)
+  term: (number)
+  term: (number)
+  term: (number)
+  term: (number)
+  term: (number)
+  term: (number)
+  term: (prefix_application
     name: (identifier)
     value: (number)))
 
@@ -83,16 +68,16 @@ integer
 ---
 
 (program
-  expression: (prefix_application
+  term: (prefix_application
     name: (identifier)
     value: (number))
-  expression: (number)
-  expression: (number)
-  expression: (number)
-  expression: (number)
-  expression: (number)
-  expression: (number)
-  expression: (number))
+  term: (number)
+  term: (number)
+  term: (number)
+  term: (number)
+  term: (number)
+  term: (number)
+  term: (number))
 
 =====================================
 identifier
@@ -111,15 +96,15 @@ abs?
 ---
 
 (program
-  expression: (identifier)
-  expression: (identifier)
-  expression: (identifier)
-  expression: (identifier)
-  expression: (identifier)
-  expression: (identifier)
-  expression: (identifier)
-  expression: (identifier)
-  expression: (identifier))
+  term: (identifier)
+  term: (identifier)
+  term: (identifier)
+  term: (identifier)
+  term: (identifier)
+  term: (identifier)
+  term: (identifier)
+  term: (identifier)
+  term: (identifier))
 
 =====================================
 string
@@ -136,14 +121,14 @@ string"
 ---
 
 (program
-  expression: (string)
-  expression: (string)
-  expression: (string
+  term: (string)
+  term: (string)
+  term: (string
     escape_sequence: (escape_sequence))
-  expression: (string)
-  expression: (string
+  term: (string)
+  term: (string
     escape_sequence: (escape_sequence))
-  expression: (string
+  term: (string
     interpolation: (interpolation
       value: (identifier))))
 
@@ -162,22 +147,22 @@ r/[\]/]/
 ---
 
 (program
-  expression: (regex
+  term: (regex
     pattern: (regex_pattern))
-  expression: (regex
+  term: (regex
     pattern: (regex_pattern)
     flags: (regex_flags))
-  expression: (regex
+  term: (regex
     pattern: (regex_pattern)
     flags: (regex_flags))
-  expression: (regex
+  term: (regex
     pattern: (regex_pattern)
     flags: (regex_flags))
-  expression: (regex
+  term: (regex
     pattern: (regex_pattern)
     flags: (regex_flags))
-  expression: (regex
+  term: (regex
     pattern: (regex_pattern)
     flags: (regex_flags))
-  expression: (regex
+  term: (regex
     pattern: (regex_pattern)))
