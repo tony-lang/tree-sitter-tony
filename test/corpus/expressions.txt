@@ -444,7 +444,7 @@ access
 ==================
 
 a[0]
-A->b(1)
+a->b(1)
 a.b[c]
 
 ---
@@ -455,8 +455,7 @@ a.b[c]
       value: (number))
   expression: (application
     name: (access
-      name: (parametric_type
-        name: (type))
+      name: (identifier)
       value: (shorthand_access_identifier))
     arguments: (arguments
       element: (tuple_element
@@ -571,7 +570,7 @@ export
 ==================
 
 export a := 1
-export module A where
+export module a where
   export a := 1
 
 ---
@@ -584,8 +583,7 @@ export module A where
       value: (number)))
   expression: (export
     declaration: (module
-      name: (type_declaration
-        name: (type))
+      name: (identifier_pattern_name)
       body: (block
         expression: (export
           declaration: (assignment
@@ -733,34 +731,32 @@ else 1
 module
 ==================
 
-module Type where
+module a where
   a := 1
-module Type<a ~ Num, b ~ (Num, Eq, Ord)> where a :: a := 1
+module a<a ~ Num, b ~ (Num, Eq, Ord)> where a :: a := 1
 
 ---
 
 (program
   expression: (module
-    name: (type_declaration
-      name: (type))
+    name: (identifier_pattern_name)
     body: (block
       expression: (assignment
         pattern: (identifier_pattern
           name: (identifier_pattern_name))
         value: (number))))
   expression: (module
-    name: (type_declaration
-      name: (type)
-      parameter: (type_variable_declaration
-        name: (type_variable_declaration_name)
-        constraint: (type_constraint
-          type: (type)))
-      parameter: (type_variable_declaration
-        name: (type_variable_declaration_name)
-        constraint: (type_constraint
-          type: (type)
-          type: (type)
-          type: (type))))
+    name: (identifier_pattern_name)
+    parameter: (type_variable_declaration
+      name: (type_variable_declaration_name)
+      constraint: (type_constraint
+        type: (type)))
+    parameter: (type_variable_declaration
+      name: (type_variable_declaration_name)
+      constraint: (type_constraint
+        type: (type)
+        type: (type)
+        type: (type)))
     body: (block
       expression: (assignment
         pattern: (identifier_pattern
@@ -884,23 +880,23 @@ struct
 named struct
 ==================
 
-Struct {}
-Struct { a, b }
-Struct { ['a']: 1, ...b, c: 'str', d, e }
+constructor:{}
+constructor:{ a, b }
+constructor:{ ['a']: 1, ...b, c: 'str', d, e }
 
 ---
 
 (program
   expression: (named_value
-    name: (type)
+    name: (constructor)
     value: (struct))
   expression: (named_value
-    name: (type)
+    name: (constructor)
     value: (struct
       member: (shorthand_member)
       member: (shorthand_member)))
   expression: (named_value
-    name: (type)
+    name: (constructor)
     value: (struct
       member: (member
         key: (string)
@@ -939,18 +935,18 @@ tuple
 named tuple
 ==================
 
-Tuple ()
-Tuple (a, 1, 'str', ...x)
-Tuple (1,1)
+constructor:()
+constructor:(a, 1, 'str', ...x)
+constructor:(1,1)
 
 ---
 
 (program
   expression: (named_value
-    name: (type)
+    name: (constructor)
     value: (tuple))
   expression: (named_value
-    name: (type)
+    name: (constructor)
     value: (tuple
       element: (identifier)
       element: (number)
@@ -958,7 +954,7 @@ Tuple (1,1)
       element: (spread
         value: (identifier))))
   expression: (named_value
-    name: (type)
+    name: (constructor)
     value: (tuple
       element: (number)
       element: (number))))
@@ -993,18 +989,18 @@ list
 named list
 ==================
 
-List []
-List [a, 1, ...b, 'str']
-List [1,1..1,1]
+constructor:[]
+constructor:[a, 1, ...b, 'str']
+constructor:[1,1..1,1]
 
 ---
 
 (program
   expression: (named_value
-    name: (type)
+    name: (constructor)
     value: (list))
   expression: (named_value
-    name: (type)
+    name: (constructor)
     value: (list
       element: (identifier)
       element: (number)
@@ -1012,7 +1008,7 @@ List [1,1..1,1]
         value: (identifier))
       element: (string)))
   expression: (named_value
-    name: (type)
+    name: (constructor)
     value: (list
       element: (number)
       element: (infix_application
@@ -1099,17 +1095,17 @@ list comprehension
 named value
 ==================
 
-Constructor 'String'
-Constructor 1
+constructor: 'String'
+constructor: 1
 
 ---
 
 (program
   expression: (named_value
-    name: (type)
+    name: (constructor)
     value: (string))
   expression: (named_value
-    name: (type)
+    name: (constructor)
     value: (number)))
 
 ==================
