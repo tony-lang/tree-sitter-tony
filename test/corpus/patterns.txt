@@ -127,9 +127,9 @@ tuple pattern
   expression: (assignment
     pattern: (destructuring_pattern
       pattern: (tuple_pattern
-        value: (parametric_type
+        element: (parametric_type
           name: (type))
-        value: (identifier_pattern
+        element: (identifier_pattern
           name: (identifier_pattern_name)
           type: (parametric_type
             name: (type)))
@@ -153,9 +153,9 @@ named tuple pattern
         name: (type)
         pattern: (destructuring_pattern
           pattern: (tuple_pattern
-            value: (parametric_type
+            element: (parametric_type
               name: (type))
-            value: (identifier_pattern
+            element: (identifier_pattern
               name: (identifier_pattern_name)
               type: (parametric_type
                 name: (type)))

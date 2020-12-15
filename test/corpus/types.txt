@@ -64,9 +64,9 @@ a :: (Type, Type) := 1
     pattern: (identifier_pattern
       name: (identifier_pattern_name)
       type: (tuple_type
-        value: (parametric_type
+        element: (parametric_type
           name: (type))
-        value: (parametric_type
+        element: (parametric_type
           name: (type))))
     value: (number)))
 
@@ -85,9 +85,9 @@ a :: Tuple (Type, Type) := 1
       type: (named_type
         name: (type)
         type: (tuple_type
-          value: (parametric_type
+          element: (parametric_type
             name: (type))
-          value: (parametric_type
+          element: (parametric_type
             name: (type)))))
     value: (number)))
 
@@ -257,4 +257,36 @@ a :: Type | Type & Type | Type := 1
               name: (type)))
           right: (parametric_type
             name: (type)))))
+    value: (number)))
+
+==================
+refinement type
+==================
+
+a :: Type<[(a ~ Type, Type) : a > 0, a < 10]> := 1
+
+---
+
+(program
+  expression: (assignment
+    pattern: (identifier_pattern
+      name: (identifier_pattern_name)
+      type: (parametric_type
+        name: (type)
+        parameter: (refinement_type
+          generator: (tuple_type
+            element: (refinement_type_declaration
+              name: (refinement_type_declaration_name)
+              constraint: (type_constraint
+                type: (type)))
+            element: (parametric_type
+              name: (type)))
+          predicate: (infix_application
+            left: (identifier)
+            name: (identifier)
+            right: (number))
+          predicate: (infix_application
+            left: (identifier)
+            name: (identifier)
+            right: (number)))))
     value: (number)))
