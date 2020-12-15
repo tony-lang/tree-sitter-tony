@@ -243,8 +243,7 @@ module.exports = grammar({
     member_pattern: ($) => member($, $._simple_expression, $._pattern),
     rest: ($) => seq('...', field('name', $.identifier_pattern)),
 
-    _literal_pattern: ($) =>
-      choice($.boolean, $.number, $.raw_string, $.regex),
+    _literal_pattern: ($) => choice($.boolean, $.number, $.raw_string, $.regex),
 
     named_pattern: ($) =>
       prec(
