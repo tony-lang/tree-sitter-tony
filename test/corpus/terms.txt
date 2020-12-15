@@ -100,7 +100,8 @@ fib :=
       typeParameter: (type_variable_declaration
         name: (type_variable_declaration_name)
         constraint: (type_constraint
-          type: (type)))
+          type: (parametric_type
+            name: (type))))
       rest: (rest
         name: (identifier_pattern
           name: (identifier_pattern_name)
@@ -707,7 +708,7 @@ module
 
 module a where
   a := 1
-module a<a ~ Num, b ~ (Num, Eq, Ord)> where a :: a := 1
+module a<a ~ Num, b ~ Num ~ Eq ~ Ord> where a :: a := 1
 
 ---
 
@@ -724,13 +725,17 @@ module a<a ~ Num, b ~ (Num, Eq, Ord)> where a :: a := 1
     parameter: (type_variable_declaration
       name: (type_variable_declaration_name)
       constraint: (type_constraint
-        type: (type)))
+        type: (parametric_type
+          name: (type))))
     parameter: (type_variable_declaration
       name: (type_variable_declaration_name)
       constraint: (type_constraint
-        type: (type)
-        type: (type)
-        type: (type)))
+        type: (parametric_type
+          name: (type))
+        type: (parametric_type
+          name: (type))
+        type: (parametric_type
+          name: (type))))
     body: (block
       term: (assignment
         pattern: (identifier_pattern
@@ -764,8 +769,8 @@ interface
 interface Type<a>
   a :: a -> Number
   b :: a -> Number
-interface Ord<a ~ Eq>
-  compare :: a -> a -> Number
+interface Ord<a ~ Eq, b ~ Num ~ Eq ~ Ord>
+  compare :: a -> b -> Number
 
 ---
 
@@ -793,7 +798,17 @@ interface Ord<a ~ Eq>
       parameter: (type_variable_declaration
         name: (type_variable_declaration_name)
         constraint: (type_constraint
-          type: (type))))
+          type: (parametric_type
+            name: (type))))
+      parameter: (type_variable_declaration
+        name: (type_variable_declaration_name)
+        constraint: (type_constraint
+          type: (parametric_type
+            name: (type))
+          type: (parametric_type
+            name: (type))
+          type: (parametric_type
+            name: (type)))))
     member: (identifier_pattern
       name: (identifier_pattern_name)
       type: (curried_type
@@ -1088,6 +1103,7 @@ type alias
 
 type Type := Type
 type Type<a, b ~ Num> := a -> b
+type GreaterThan<a>(x :: a) := [y ~ a : y > x]
 
 ---
 
@@ -1105,10 +1121,28 @@ type Type<a, b ~ Num> := a -> b
       parameter: (type_variable_declaration
         name: (type_variable_declaration_name)
         constraint: (type_constraint
-          type: (type))))
+          type: (parametric_type
+            name: (type)))))
     type: (curried_type
       from: (type_variable)
-      to: (type_variable))))
+      to: (type_variable)))
+  term: (type_alias
+    name: (type_declaration
+      name: (type)
+      parameter: (type_variable_declaration
+        name: (type_variable_declaration_name))
+      element: (identifier_pattern
+        name: (identifier_pattern_name)
+        type: (type_variable)))
+    type: (refinement_type
+      generator: (refinement_type_declaration
+        name: (refinement_type_declaration_name)
+        constraint: (type_constraint
+          type: (type_variable)))
+      predicate: (infix_application
+        left: (identifier)
+        name: (identifier)
+        right: (identifier)))))
 
 ==================
 type hint

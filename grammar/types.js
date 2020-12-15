@@ -2,6 +2,7 @@ const Prec = require('./precedence')
 const {
   buildGenericType,
   commaSep1,
+  sep1,
   buildStruct,
   buildTuple,
   buildMember,
@@ -16,29 +17,28 @@ module.exports = {
       ),
     ),
   type_constraint: ($) =>
-    seq(
-      '~',
-      choice(
-        field('type', $.type),
-        seq('(', commaSep1(field('type', $.type)), ')'),
-      ),
+    prec.right(
+      Prec.TypeConstraint,
+      seq('~', sep1('~', field('type', $._type))),
     ),
 
   _type: ($) =>
-    choice(
-      $.typeof,
-      $.parametric_type,
-      $.curried_type,
-      $.intersection_type,
-      $.union_type,
-      $.struct_type,
-      $.tuple_type,
-      $.list_type,
-      $.named_type,
-      $.refinement_type,
-      $.refinement_type_declaration,
-      alias($.identifier, $.type_variable),
-      $.type_group,
+    prec.left(
+      choice(
+        $.typeof,
+        $.parametric_type,
+        $.curried_type,
+        $.intersection_type,
+        $.union_type,
+        $.struct_type,
+        $.tuple_type,
+        $.list_type,
+        $.named_type,
+        $.refinement_type,
+        $.refinement_type_declaration,
+        alias($.identifier, $.type_variable),
+        $.type_group,
+      ),
     ),
 
   typeof_: ($) =>
@@ -49,6 +49,7 @@ module.exports = {
       seq(
         field('name', $.type),
         optional(buildGenericType('argument', $._type)),
+        optional(buildTuple($, $._literal, false, true)),
       ),
     ),
 
@@ -108,6 +109,7 @@ module.exports = {
       seq(
         field('name', $.type),
         optional(buildGenericType('parameter', $.type_variable_declaration)),
+        optional(buildTuple($, $.identifier_pattern, false, true)),
       ),
     ),
 

@@ -171,7 +171,9 @@ parametric type
 ==================
 
 a as Type
+a as Type(5)
 a as Type<a>
+a as Type<a>(5, 'string')
 a as Type<Type, a, typeof b, typeof 'string', typeof 5>
 
 ---
@@ -185,7 +187,19 @@ a as Type<Type, a, typeof b, typeof 'string', typeof 5>
     value: (identifier)
     type: (parametric_type
       name: (type)
+      element: (number)))
+  term: (type_hint
+    value: (identifier)
+    type: (parametric_type
+      name: (type)
       argument: (type_variable)))
+  term: (type_hint
+    value: (identifier)
+    type: (parametric_type
+      name: (type)
+      argument: (type_variable)
+      element: (number)
+      element: (string)))
   term: (type_hint
     value: (identifier)
     type: (parametric_type
@@ -284,7 +298,8 @@ a :: Type<[(a ~ Type, Type) : a > 0, a < 10]> := 1
             element: (refinement_type_declaration
               name: (refinement_type_declaration_name)
               constraint: (type_constraint
-                type: (type)))
+                type: (parametric_type
+                  name: (type))))
             element: (parametric_type
               name: (type)))
           predicate: (infix_application

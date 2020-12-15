@@ -4,6 +4,8 @@ const commaSep2 = (rule) => seq(rule, repeat1(seq(',', rule)))
 
 const commaSep1 = (rule) => seq(rule, repeat(seq(',', rule)))
 
+const sep1 = (sep, rule) => seq(rule, repeat(seq(sep, rule)))
+
 const buildAbstractionBranch = ($, blockType) =>
   seq(
     optional(buildGenericType('typeParameter', $.type_variable_declaration)),
@@ -83,5 +85,6 @@ module.exports = {
   buildString,
   buildGenericType,
   commaSep1,
+  sep1,
   buildAbstractionBranch,
 }
