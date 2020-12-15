@@ -50,7 +50,6 @@ module.exports = {
         alias($.compound_export, $.export),
         alias($.compound_if, $.if),
         $.case,
-        $.module,
         $.enum,
         $.interface,
         $.implement,
@@ -88,12 +87,15 @@ module.exports = {
     seq(field('name', $.type), optional(seq('as', field('as', $.type)))),
 
   simple_export: ($) =>
-    seq('export', field('declaration', $._simple_declaration)),
+    seq(
+      'export',
+      field('declaration', alias($.simple_assignment, $.assignment)),
+    ),
   compound_export: ($) =>
-    seq('export', field('declaration', $._compound_declaration)),
-  _simple_declaration: ($) => choice(alias($.simple_assignment, $.assignment)),
-  _compound_declaration: ($) =>
-    choice(alias($.compound_assignment, $.assignment), $.module),
+    seq(
+      'export',
+      field('declaration', alias($.compound_assignment, $.assignment)),
+    ),
 
   simple_assignment: ($) =>
     prec.right(
@@ -115,15 +117,6 @@ module.exports = {
           seq($._indent, field('value', $._compound_term), $._dedent),
         ),
       ),
-    ),
-
-  module_: ($) =>
-    seq(
-      'module',
-      field('name', alias($.identifier, $.identifier_pattern_name)),
-      optional(buildGenericType('parameter', $.type_variable_declaration)),
-      'where',
-      field('body', alias($._compound_block, $.block)),
     ),
 
   enum_: ($) =>

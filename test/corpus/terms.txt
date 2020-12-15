@@ -547,8 +547,8 @@ export
 ==================
 
 export a := 1
-export module a where
-  export a := 1
+export a := (x :: a) =>
+  1
 
 ---
 
@@ -559,14 +559,16 @@ export module a where
         name: (identifier_pattern_name))
       value: (number)))
   term: (export
-    declaration: (module
-      name: (identifier_pattern_name)
-      body: (block
-        term: (export
-          declaration: (assignment
-            pattern: (identifier_pattern
-              name: (identifier_pattern_name))
-            value: (number)))))))
+    declaration: (assignment
+      pattern: (identifier_pattern
+        name: (identifier_pattern_name))
+      value: (abstraction
+        branch: (abstraction_branch
+          element: (identifier_pattern
+            name: (identifier_pattern_name)
+            type: (type_variable))
+          body: (block
+            term: (number)))))))
 
 ==================
 return
@@ -701,47 +703,6 @@ else 1
         term: (number)))
     else: (block
       term: (number))))
-
-==================
-module
-==================
-
-module a where
-  a := 1
-module a<a ~ Num, b ~ Num ~ Eq ~ Ord> where a :: a := 1
-
----
-
-(program
-  term: (module
-    name: (identifier_pattern_name)
-    body: (block
-      term: (assignment
-        pattern: (identifier_pattern
-          name: (identifier_pattern_name))
-        value: (number))))
-  term: (module
-    name: (identifier_pattern_name)
-    parameter: (type_variable_declaration
-      name: (type_variable_declaration_name)
-      constraint: (type_constraint
-        type: (parametric_type
-          name: (type))))
-    parameter: (type_variable_declaration
-      name: (type_variable_declaration_name)
-      constraint: (type_constraint
-        type: (parametric_type
-          name: (type))
-        type: (parametric_type
-          name: (type))
-        type: (parametric_type
-          name: (type))))
-    body: (block
-      term: (assignment
-        pattern: (identifier_pattern
-          name: (identifier_pattern_name)
-          type: (type_variable))
-        value: (number)))))
 
 ==================
 enum
