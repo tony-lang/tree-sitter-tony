@@ -27,6 +27,8 @@ jobs:
     - name: Generate type declarations
       run: yarn types
     - name: Prettier
-      run: yarn lint
+      run: yarn prettierlint
+    - name: ESLint
+      run: yarn eslint
     - name: Test parser
       run: yarn test
