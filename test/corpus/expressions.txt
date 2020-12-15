@@ -557,7 +557,7 @@ export a, b from 'source'
 ---
 
 (program
-  expression: (external_import
+  expression: (exported_import
     import: (import_identifier
       as: (identifier_pattern
         name: (identifier_pattern_name)))

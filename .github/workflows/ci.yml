@@ -28,7 +28,5 @@ jobs:
       run: yarn types
     - name: Prettier
       run: yarn lint
-    - name: TypeScript
-      run: yarn tsc
     - name: Test parser
       run: yarn test
