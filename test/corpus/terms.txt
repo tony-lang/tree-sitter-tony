@@ -77,9 +77,8 @@ fib :=
         body: (block
           term: (number)))
       branch: (abstraction_branch
-        typeParameters: (type_parameters
-          parameter: (type_variable_declaration
-            name: (type_variable_declaration_name)))
+        parameter: (type_variable_declaration
+          name: (type_variable_declaration_name))
         parameters: (parameters
           element: (identifier_pattern
             name: (identifier_pattern_name)
@@ -106,11 +105,10 @@ fib :=
                     right: (number))))))))))
   term: (abstraction
     branch: (abstraction_branch
-      typeParameters: (type_parameters
-        parameter: (type_variable_declaration
-          name: (type_variable_declaration_name)
-          constraint: (type_constraint
-            type: (type))))
+      parameter: (type_variable_declaration
+        name: (type_variable_declaration_name)
+        constraint: (type_constraint
+          type: (type)))
       parameters: (parameters
         rest: (rest
           name: (identifier_pattern
@@ -183,15 +181,14 @@ a(...(a, b))
       term: (number)))
   term: (application
     name: (identifier)
-    typeArguments: (type_arguments
+    parameter: (parametric_type
+      name: (type)
       parameter: (parametric_type
-        name: (type)
-        parameter: (parametric_type
-          name: (type))
-        parameter: (parametric_type
-          name: (type)))
+        name: (type))
       parameter: (parametric_type
         name: (type)))
+    parameter: (parametric_type
+      name: (type))
     arguments: (arguments
       element: (argument)
       element: (argument

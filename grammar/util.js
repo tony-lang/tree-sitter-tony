@@ -6,7 +6,7 @@ const commaSep1 = (rule) => seq(rule, repeat(seq(',', rule)))
 
 const buildAbstractionBranch = ($, blockType) =>
   seq(
-    optional(field('typeParameters', $.type_parameters)),
+    optional(buildGenericType($.type_variable_declaration)),
     field('parameters', $.parameters),
     '=>',
     field('body', alias(blockType, $.block)),
@@ -65,11 +65,11 @@ const buildString = ($, ...content) =>
     $._string_end,
   )
 
-const buildTypeParameters = (parameter) =>
+const buildGenericType = (parameter) =>
   seq('<', commaSep1(field('parameter', parameter)), '>')
 
 const buildParametricType = ($, parameter) =>
-  seq(field('name', $.type), optional(buildTypeParameters(parameter)))
+  seq(field('name', $.type), optional(buildGenericType(parameter)))
 
 const buildSimpleBlock = ($, line) => seq(line, $._newline)
 
@@ -85,7 +85,7 @@ module.exports = {
   buildMember,
   buildString,
   // buildTypeArguments,
-  buildTypeParameters,
+  buildGenericType,
   commaSep1,
   buildAbstractionBranch,
   buildParametricType,

@@ -1,6 +1,6 @@
 const Prec = require('./precedence')
 const {
-  buildTypeParameters,
+  buildGenericType,
   commaSep1,
   buildStruct,
   buildTuple,
@@ -48,7 +48,7 @@ module.exports = {
     prec.right(
       seq(
         field('name', $.type),
-        optional(field('arguments', buildTypeParameters($._type))),
+        optional(field('arguments', buildGenericType($._type))),
       ),
     ),
 
@@ -108,7 +108,7 @@ module.exports = {
       seq(
         field('name', $.type),
         optional(
-          field('parameters', buildTypeParameters($.type_variable_declaration)),
+          field('parameters', buildGenericType($.type_variable_declaration)),
         ),
       ),
     ),

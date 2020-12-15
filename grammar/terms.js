@@ -8,7 +8,7 @@ const {
   buildList,
   buildMember,
   buildAbstractionBranch,
-  buildTypeParameters,
+  buildGenericType,
 } = require('./util')
 
 module.exports = {
@@ -57,9 +57,6 @@ module.exports = {
         $.implement,
       ),
     ),
-
-  type_parameters: ($) => buildTypeParameters($.type_variable_declaration),
-  type_arguments: ($) => buildTypeParameters($.parametric_type),
 
   _simple_block: ($) => prec.left(field('term', $._simple_term)),
   _compound_block: ($) =>
@@ -126,7 +123,7 @@ module.exports = {
       'module',
       field('name', alias($.identifier, $.identifier_pattern_name)),
       optional(
-        field('parameters', buildTypeParameters($.type_variable_declaration)),
+        field('parameters', buildGenericType($.type_variable_declaration)),
       ),
       'where',
       field('body', alias($._compound_block, $.block)),
@@ -199,7 +196,7 @@ module.exports = {
       Prec.Application,
       seq(
         field('name', $._simple_term),
-        optional(field('typeArguments', $.type_arguments)),
+        optional(buildGenericType($.parametric_type)),
         field('arguments', $.arguments),
       ),
     ),
