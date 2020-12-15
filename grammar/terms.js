@@ -17,7 +17,6 @@ module.exports = {
     prec.left(
       Prec.Term,
       choice(
-        $.group,
         alias($.simple_abstraction, $.abstraction),
         $.application,
         $.prefix_application,
@@ -39,6 +38,7 @@ module.exports = {
         $.type_hint,
         $.identifier,
         $._literal,
+        $.group,
       ),
     ),
   _compound_term: ($) =>

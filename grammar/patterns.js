@@ -7,10 +7,10 @@ module.exports = {
 
   _assignable_pattern: ($) =>
     choice(
-      $.pattern_group,
       $.identifier_pattern,
       $.destructuring_pattern,
       $.named_pattern,
+      $.pattern_group,
     ),
 
   destructuring_pattern: ($) =>
