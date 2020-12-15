@@ -12,4 +12,5 @@ module.exports = {
     'sort-imports': 'error',
     'no-undef': 'off',
   },
+  ignorePatterns: ['index.js'],
 }
