@@ -538,7 +538,7 @@ import a, b from 'source'
       as: (type))
     import: (import_type
       name: (type))
-    source: (string_pattern))
+    source: (raw_string))
   expression: (import
     import: (import_identifier
       as: (identifier_pattern
@@ -546,7 +546,7 @@ import a, b from 'source'
     import: (import_identifier
       as: (identifier_pattern
         name: (identifier_pattern_name)))
-    source: (string_pattern)))
+    source: (raw_string)))
 
 ==================
 external import
@@ -564,7 +564,7 @@ export a, b from 'source'
     import: (import_identifier
       as: (identifier_pattern
         name: (identifier_pattern_name)))
-    source: (string_pattern)))
+    source: (raw_string)))
 
 ==================
 export

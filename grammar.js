@@ -120,7 +120,7 @@ module.exports = grammar({
   conflicts: ($) => [
     [$._simple_expression, $._pattern],
     [$._simple_expression, $.identifier_pattern],
-    [$.string, $.string_pattern],
+    [$.string, $.raw_string],
     [$.struct, $.struct_pattern],
     [$.tuple, $.tuple_pattern],
     [$.list, $.list_pattern],
@@ -244,9 +244,7 @@ module.exports = grammar({
     rest: ($) => seq('...', field('name', $.identifier_pattern)),
 
     _literal_pattern: ($) =>
-      choice($.boolean, $.number, $.string_pattern, $.regex),
-    string_pattern: ($) =>
-      string($, field('escape_sequence', $.escape_sequence)),
+      choice($.boolean, $.number, $.raw_string, $.regex),
 
     named_pattern: ($) =>
       prec(
@@ -542,7 +540,7 @@ module.exports = grammar({
       seq(
         commaSep1(field('import', choice($.import_identifier, $.import_type))),
         'from',
-        field('source', $.string_pattern),
+        field('source', $.raw_string),
       ),
     import_identifier: ($) =>
       seq(
@@ -843,6 +841,7 @@ module.exports = grammar({
       ),
     number: ($) => choice($._decimal, $._integer),
 
+    raw_string: ($) => string($),
     string: ($) =>
       string(
         $,
