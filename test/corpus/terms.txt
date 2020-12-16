@@ -477,15 +477,16 @@ a := (a :: Type) =>
 import
 ==================
 
-import
+import {
   a as b,
   c,
   a as b :: Type,
   c :: Type,
   Type as Type,
   Type
-from 'source'
-import a, b from 'source'
+} from 'source'
+import x, { a, b } from 'source'
+import x from 'source'
 
 ---
 
@@ -516,24 +517,29 @@ import a, b from 'source'
       name: (type))
     source: (raw_string))
   term: (import
+    default: (identifier_pattern_name)
     import: (import_identifier
       as: (identifier_pattern
         name: (identifier_pattern_name)))
     import: (import_identifier
       as: (identifier_pattern
         name: (identifier_pattern_name)))
+    source: (raw_string))
+  term: (import
+    default: (identifier_pattern_name)
     source: (raw_string)))
 
 ==================
 exported import
 ==================
 
-export a, b from 'source'
+export x, { a, b } from 'source'
 
 ---
 
 (program
   term: (exported_import
+    default: (identifier_pattern_name)
     import: (import_identifier
       as: (identifier_pattern
         name: (identifier_pattern_name)))

@@ -68,10 +68,18 @@ module.exports = {
   import_: ($) => seq('import', $._import_body),
   exported_import: ($) => seq('export', $._import_body),
   _import_body: ($) =>
-    prec(
+    prec.left(
       Prec.Pattern,
       seq(
-        commaSep1(field('import', choice($.import_identifier, $.import_type))),
+        choice(
+          field('default', alias($.identifier, $.identifier_pattern_name)),
+          seq(
+            optional(seq(field('default', alias($.identifier, $.identifier_pattern_name)), ',')),
+            '{',
+            commaSep1(field('import', choice($.import_identifier, $.import_type))),
+            '}'
+          ),
+        ),
         'from',
         field('source', $.raw_string),
       ),
