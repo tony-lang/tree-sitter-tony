@@ -525,7 +525,7 @@ import a, b from 'source'
     source: (raw_string)))
 
 ==================
-external import
+exported import
 ==================
 
 export a, b from 'source'
@@ -1064,7 +1064,7 @@ type alias
 
 type Type := Type
 type Type<a, b ~ Num> := a -> b
-type GreaterThan<a>(x :: a) := [y ~ a : y > x]
+type GreaterThan<a>(x :: a) := [y ~ a | y > x]
 
 ---
 

@@ -114,9 +114,12 @@ module.exports = grammar({
   word: ($) => $._identifier_without_operators,
   conflicts: ($) => [
     [$._simple_term, $.identifier_pattern],
+    [$._simple_term, $.identifier_pattern, $._type],
     [$.string, $.raw_string],
     [$.struct, $.struct_pattern],
+    [$.struct, $.struct_pattern, $.struct_type],
     [$.tuple, $.tuple_pattern],
+    [$.tuple, $.tuple_pattern, $.tuple_type],
     [$.list, $.list_pattern],
     [$.application, $.prefix_application, $.infix_application],
     [$.application, $.infix_application],
