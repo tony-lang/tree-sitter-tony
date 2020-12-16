@@ -99,7 +99,7 @@ module.exports = {
     seq(
       '[',
       field('generator', $._type),
-      ':',
+      '|',
       commaSep1(field('predicate', $._simple_term)),
       ']',
     ),

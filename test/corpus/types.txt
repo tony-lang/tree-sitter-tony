@@ -283,7 +283,7 @@ a :: Type | Type & Type | Type := 1
 refinement type
 ==================
 
-a :: Type<[(a ~ Type, Type) : a > 0, a < 10]> := 1
+a :: Type<[(a ~ Type, Type) | a > 0, a < 10]> := 1
 
 ---
 
