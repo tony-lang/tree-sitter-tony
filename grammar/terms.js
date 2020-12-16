@@ -74,10 +74,20 @@ module.exports = {
         choice(
           field('default', alias($.identifier, $.identifier_pattern_name)),
           seq(
-            optional(seq(field('default', alias($.identifier, $.identifier_pattern_name)), ',')),
+            optional(
+              seq(
+                field(
+                  'default',
+                  alias($.identifier, $.identifier_pattern_name),
+                ),
+                ',',
+              ),
+            ),
             '{',
-            commaSep1(field('import', choice($.import_identifier, $.import_type))),
-            '}'
+            commaSep1(
+              field('import', choice($.import_identifier, $.import_type)),
+            ),
+            '}',
           ),
         ),
         'from',
