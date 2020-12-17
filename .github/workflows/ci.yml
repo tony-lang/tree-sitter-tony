@@ -27,6 +27,7 @@ jobs:
     - name: Type declaration are up-to-date
       run: |
         files=$(git update-index --refresh)
+        echo "Files: "
         echo $files
         if [[ -n $files ]]; then
           exit 1
