@@ -27,12 +27,8 @@ jobs:
     - name: Type declaration are up-to-date
       run: |
         files=$(git update-index --refresh)
-        echo "Files: "
-        echo $files
-        echo $(git update-index --refresh)
-        echo $(git status)
-        echo $(git update-index --refresh)
         if [[ -n $files ]]; then
+          echo "Files that are out of sync: $files"
           exit 1
         fi
     - name: Prettier
