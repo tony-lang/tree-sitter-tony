@@ -541,6 +541,7 @@ export interface ExportNode extends NamedNodeBase {
 
 export interface ExportedImportNode extends NamedNodeBase {
   type: SyntaxType.ExportedImport;
+  defaultNode?: IdentifierPatternNameNode;
   importNodes: (ImportIdentifierNode | ImportTypeNode)[];
   sourceNode: RawStringNode;
 }
@@ -588,6 +589,7 @@ export interface ImplementNode extends NamedNodeBase {
 
 export interface ImportNode extends NamedNodeBase {
   type: SyntaxType.Import;
+  defaultNode?: IdentifierPatternNameNode;
   importNodes: (ImportIdentifierNode | ImportTypeNode)[];
   sourceNode: RawStringNode;
 }
