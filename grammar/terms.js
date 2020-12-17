@@ -72,14 +72,14 @@ module.exports = {
       Prec.Pattern,
       seq(
         choice(
-          field('default', alias($.identifier, $.identifier_pattern_name)),
+          // field('default', alias($.identifier, $.identifier_pattern_name)),
           seq(
             optional(
               seq(
-                field(
-                  'default',
-                  alias($.identifier, $.identifier_pattern_name),
-                ),
+                // field(
+                //   'default',
+                //   alias($.identifier, $.identifier_pattern_name),
+                // ),
                 ',',
               ),
             ),

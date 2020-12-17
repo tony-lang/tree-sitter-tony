@@ -24,6 +24,12 @@ jobs:
       run: yarn setup
     - name: Generate type declarations
       run: yarn types
+    - name: Type declaration are up-to-date
+      run: |
+        files=$(git update-index --refresh)
+        if [[ -n $files ]]; then
+          exit 1
+        fi
     - name: Prettier
       run: yarn prettierlint
     - name: ESLint
