@@ -29,6 +29,9 @@ jobs:
         files=$(git update-index --refresh)
         echo "Files: "
         echo $files
+        echo $(git update-index --refresh)
+        echo $(git status)
+        echo $(git update-index --refresh)
         if [[ -n $files ]]; then
           exit 1
         fi
