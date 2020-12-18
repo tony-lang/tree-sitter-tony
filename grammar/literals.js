@@ -34,7 +34,7 @@ module.exports = {
     buildString(
       $,
       field('interpolation', $.interpolation),
-      field('escape_sequence', $.escape_sequence),
+      field('escapeSequence', $.escape_sequence),
     ),
   interpolation: ($) => seq('{', field('term', $._simple_term), '}'),
   escape_sequence: () =>
