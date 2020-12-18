@@ -431,7 +431,7 @@ module.exports = {
         field('condition', $._simple_term),
         'then',
         field('body', alias($._compound_block, $.block)),
-        repeat(field('else_if', $.else_if)),
+        repeat(field('elseIf', $.else_if)),
         optional(seq('else', field('else', alias($._compound_block, $.block)))),
       ),
     ),

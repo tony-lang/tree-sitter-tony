@@ -124,10 +124,10 @@ string"
   term: (string)
   term: (string)
   term: (string
-    escape_sequence: (escape_sequence))
+    escapeSequence: (escape_sequence))
   term: (string)
   term: (string
-    escape_sequence: (escape_sequence))
+    escapeSequence: (escape_sequence))
   term: (string
     interpolation: (interpolation
       term: (identifier))))
