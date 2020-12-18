@@ -578,7 +578,7 @@ export interface IfNode extends NamedNodeBase {
   bodyNode: BlockNode;
   conditionNode: AbstractionNode | AccessNode | ApplicationNode | AssignmentNode | BooleanNode | ExportNode | ExportedImportNode | GroupNode | IdentifierNode | IfNode | ImportNode | InfixApplicationNode | ListNode | ListComprehensionNode | NamedValueNode | NumberNode | PipelineNode | PrefixApplicationNode | RegexNode | ReturnNode | StringNode | StructNode | TupleNode | TypeAliasNode | TypeHintNode;
   elseNode?: BlockNode;
-  else_ifNodes: ElseIfNode[];
+  elseIfNodes: ElseIfNode[];
 }
 
 export interface ImplementNode extends NamedNodeBase {
@@ -784,7 +784,7 @@ export interface SpreadNode extends NamedNodeBase {
 
 export interface StringNode extends NamedNodeBase {
   type: SyntaxType.String;
-  escape_sequenceNodes: EscapeSequenceNode[];
+  escapeSequenceNodes: EscapeSequenceNode[];
   interpolationNodes: InterpolationNode[];
 }
 
