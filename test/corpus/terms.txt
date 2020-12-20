@@ -1103,7 +1103,7 @@ type GreaterThan<a>(x :: a) := [y ~ a | y > x]
         type: (type_variable)))
     type: (refinement_type
       generator: (refinement_type_declaration
-        name: (refinement_type_declaration_name)
+        name: (identifier_pattern_name)
         constraint: (type_constraint
           type: (type_variable)))
       predicate: (infix_application

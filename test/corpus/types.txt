@@ -296,7 +296,7 @@ a :: Type<[(a ~ Type, Type) | a > 0, a < 10]> := 1
         argument: (refinement_type
           generator: (tuple_type
             element: (refinement_type_declaration
-              name: (refinement_type_declaration_name)
+              name: (identifier_pattern_name)
               constraint: (type_constraint
                 type: (parametric_type
                   name: (type))))
