@@ -88,17 +88,18 @@ module.exports = {
     prec.left(
       seq(
         field('name', alias($.identifier, $.identifier_pattern_name)),
-        '~', sep1('~', field('constraint', $._type)),
+        '~',
+        sep1('~', field('constraint', $._type)),
       ),
     ),
   refinement_type: ($) =>
-  seq(
-    '[',
-    field('generator', $._type),
-    '|=',
-    commaSep1(field('predicate', $._simple_term)),
-    ']',
-  ),
+    seq(
+      '[',
+      field('generator', $._type),
+      '|=',
+      commaSep1(field('predicate', $._simple_term)),
+      ']',
+    ),
 
   type_declaration: ($) =>
     prec.left(
