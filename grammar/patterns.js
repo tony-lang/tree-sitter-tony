@@ -63,11 +63,7 @@ module.exports = {
   named_pattern: ($) =>
     prec(
       Prec.Pattern,
-      seq(
-        field('name', $.identifier),
-        ':',
-        field('pattern', $._pattern),
-      ),
+      seq(field('name', $.identifier), ':', field('pattern', $._pattern)),
     ),
 
   _literal_pattern: ($) => choice($.boolean, $.number, $.raw_string, $.regex),
