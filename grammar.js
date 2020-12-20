@@ -80,7 +80,6 @@ const {
 } = require('./grammar/patterns')
 const {
   type_variable_declaration,
-  type_constraint,
   _type,
   typeof_,
   parametric_type,
@@ -194,7 +193,6 @@ module.exports = grammar({
     pattern_group,
 
     type_variable_declaration,
-    type_constraint,
     _type,
     typeof: typeof_,
     parametric_type,

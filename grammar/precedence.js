@@ -8,7 +8,6 @@ module.exports = {
   Literal: 1,
   IntersectionType: 2,
   OperatorInfixApplication: 2,
-  TypeConstraint: 3,
   Biconditional: 3,
   Implication: 4,
   Or: 5,

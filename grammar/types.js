@@ -6,6 +6,7 @@ const {
   buildStruct,
   buildTuple,
   buildMember,
+  typeConstraint,
 } = require('./util')
 
 module.exports = {
@@ -13,13 +14,8 @@ module.exports = {
     prec.left(
       seq(
         field('name', alias($.identifier, $.type_variable_declaration_name)),
-        optional(field('constraint', $.type_constraint)),
+        optional(typeConstraint($)),
       ),
-    ),
-  type_constraint: ($) =>
-    prec.right(
-      Prec.TypeConstraint,
-      seq('~', sep1('~', field('type', $._type))),
     ),
 
   _type: ($) =>
@@ -92,17 +88,17 @@ module.exports = {
     prec.left(
       seq(
         field('name', alias($.identifier, $.identifier_pattern_name)),
-        field('constraint', $.type_constraint),
+        '~', sep1('~', field('constraint', $._type)),
       ),
     ),
   refinement_type: ($) =>
-    seq(
-      '[',
-      field('generator', $._type),
-      '|',
-      commaSep1(field('predicate', $._simple_term)),
-      ']',
-    ),
+  seq(
+    '[',
+    field('generator', $._type),
+    '|=',
+    commaSep1(field('predicate', $._simple_term)),
+    ']',
+  ),
 
   type_declaration: ($) =>
     prec.left(
