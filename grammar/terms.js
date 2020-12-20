@@ -147,7 +147,10 @@ module.exports = {
       buildCompoundBlock($, repeat1(field('value', $.enum_value))),
     ),
   enum_value: ($) =>
-    seq(field('name', $.type), optional(seq('=', field('value', $._literal)))),
+    seq(
+      field('name', alias($.identifier, $.identifier_pattern_name)),
+      optional(seq('=', field('value', $._literal))),
+    ),
 
   interface_: ($) =>
     seq(

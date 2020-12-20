@@ -530,7 +530,7 @@ export interface EnumNode extends NamedNodeBase {
 
 export interface EnumValueNode extends NamedNodeBase {
   type: SyntaxType.EnumValue;
-  nameNode: TypeNode;
+  nameNode: IdentifierPatternNameNode;
   valueNode?: BooleanNode | NumberNode | RegexNode | StringNode;
 }
 
