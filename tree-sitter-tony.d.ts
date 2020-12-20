@@ -458,7 +458,6 @@ export interface ApplicationNode extends NamedNodeBase {
   type: SyntaxType.Application;
   elementNodes: ArgumentNode[];
   nameNode: AbstractionNode | AccessNode | ApplicationNode | AssignmentNode | BooleanNode | ExportNode | ExportedImportNode | GroupNode | IdentifierNode | IfNode | ImportNode | InfixApplicationNode | ListNode | ListComprehensionNode | NamedValueNode | NumberNode | PipelineNode | PrefixApplicationNode | RegexNode | ReturnNode | StringNode | StructNode | TupleNode | TypeAliasNode | TypeHintNode;
-  restNode?: RestNode;
   typeArgumentNodes: ParametricTypeNode[];
 }
 

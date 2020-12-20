@@ -209,7 +209,7 @@ module.exports = {
       seq(
         field('name', $._simple_term),
         optional(buildGenericType('typeArgument', $.parametric_type)),
-        buildTuple($, $.argument, true, true),
+        buildTuple($, $.argument, false, true),
       ),
     ),
   prefix_application: ($) =>
