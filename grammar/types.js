@@ -91,7 +91,7 @@ module.exports = {
   refinement_type_declaration: ($) =>
     prec.left(
       seq(
-        field('name', alias($.identifier, $.refinement_type_declaration_name)),
+        field('name', alias($.identifier, $.identifier_pattern_name)),
         field('constraint', $.type_constraint),
       ),
     ),

@@ -221,7 +221,6 @@ export const enum SyntaxType {
   RawString = "raw_string",
   RefinementType = "refinement_type",
   RefinementTypeDeclaration = "refinement_type_declaration",
-  RefinementTypeDeclarationName = "refinement_type_declaration_name",
   Regex = "regex",
   Rest = "rest",
   Return = "return",
@@ -356,7 +355,6 @@ export type SyntaxNode =
   | RawStringNode
   | RefinementTypeNode
   | RefinementTypeDeclarationNode
-  | RefinementTypeDeclarationNameNode
   | RegexNode
   | RestNode
   | ReturnNode
@@ -426,8 +424,8 @@ export type SyntaxNode =
   | UnnamedNode<SyntaxType.Return>
   | UnnamedNode<"then">
   | UnnamedNode<"true">
-  | TypeNode
   | UnnamedNode<SyntaxType.Type>
+  | TypeNode
   | UnnamedNode<SyntaxType.Typeof>
   | UnnamedNode<SyntaxType.When>
   | UnnamedNode<"{">
@@ -723,11 +721,7 @@ export interface RefinementTypeNode extends NamedNodeBase {
 export interface RefinementTypeDeclarationNode extends NamedNodeBase {
   type: SyntaxType.RefinementTypeDeclaration;
   constraintNode: TypeConstraintNode;
-  nameNode: RefinementTypeDeclarationNameNode;
-}
-
-export interface RefinementTypeDeclarationNameNode extends NamedNodeBase {
-  type: SyntaxType.RefinementTypeDeclarationName;
+  nameNode: IdentifierPatternNameNode;
 }
 
 export interface RegexNode extends NamedNodeBase {
