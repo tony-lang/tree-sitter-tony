@@ -38,7 +38,7 @@ a :: constructor: { a: Type, [Type]: Type } := 1
     pattern: (identifier_pattern
       name: (identifier_pattern_name)
       type: (named_type
-        name: (constructor_declaration)
+        name: (identifier_pattern_name)
         type: (struct_type
           member: (member_type
             key: (shorthand_member_identifier)
@@ -83,7 +83,7 @@ a :: constructor: (Type, Type) := 1
     pattern: (identifier_pattern
       name: (identifier_pattern_name)
       type: (named_type
-        name: (constructor_declaration)
+        name: (identifier_pattern_name)
         type: (tuple_type
           element: (parametric_type
             name: (type))
@@ -121,7 +121,7 @@ a :: constructor: [Type] := 1
     pattern: (identifier_pattern
       name: (identifier_pattern_name)
       type: (named_type
-        name: (constructor_declaration)
+        name: (identifier_pattern_name)
         type: (list_type
           element: (parametric_type
             name: (type)))))
@@ -228,20 +228,20 @@ a as constructor: Type<Type, a, typeof b, typeof 'string', typeof 5>
   term: (type_hint
     value: (identifier)
     type: (named_type
-      name: (constructor_declaration)
+      name: (identifier_pattern_name)
       type: (parametric_type
         name: (type))))
   term: (type_hint
     value: (identifier)
     type: (named_type
-      name: (constructor_declaration)
+      name: (identifier_pattern_name)
       type: (parametric_type
         name: (type)
         argument: (type_variable))))
   term: (type_hint
     value: (identifier)
     type: (named_type
-      name: (constructor_declaration)
+      name: (identifier_pattern_name)
       type: (parametric_type
         name: (type)
         argument: (parametric_type

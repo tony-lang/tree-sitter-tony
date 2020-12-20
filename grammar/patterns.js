@@ -64,7 +64,7 @@ module.exports = {
     prec(
       Prec.Pattern,
       seq(
-        field('name', alias($.identifier, $.constructor)),
+        field('name', $.identifier),
         ':',
         field('pattern', $._pattern),
       ),

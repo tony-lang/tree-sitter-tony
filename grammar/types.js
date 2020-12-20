@@ -82,7 +82,7 @@ module.exports = {
     prec(
       Prec.NamedType,
       seq(
-        field('name', alias($.identifier, $.constructor_declaration)),
+        field('name', alias($.identifier, $.identifier_pattern_name)),
         ':',
         field('type', $._type),
       ),

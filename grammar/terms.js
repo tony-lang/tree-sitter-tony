@@ -479,7 +479,7 @@ module.exports = {
   named_value: ($) =>
     prec.right(
       seq(
-        field('name', alias($.identifier, $.constructor)),
+        field('name', $.identifier),
         ':',
         field('value', $._simple_term),
       ),
