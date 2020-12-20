@@ -181,8 +181,6 @@ export const enum SyntaxType {
   Block = "block",
   Boolean = "boolean",
   Case = "case",
-  Constructor = "constructor",
-  ConstructorDeclaration = "constructor_declaration",
   CurriedType = "curried_type",
   DestructuringPattern = "destructuring_pattern",
   ElseIf = "else_if",
@@ -318,8 +316,6 @@ export type SyntaxNode =
   | BlockNode
   | BooleanNode
   | CaseNode
-  | ConstructorNode
-  | ConstructorDeclarationNode
   | CurriedTypeNode
   | DestructuringPatternNode
   | ElseIfNode
@@ -496,14 +492,6 @@ export interface CaseNode extends NamedNodeBase {
   whenNodes: WhenNode[];
 }
 
-export interface ConstructorNode extends NamedNodeBase {
-  type: SyntaxType.Constructor;
-}
-
-export interface ConstructorDeclarationNode extends NamedNodeBase {
-  type: SyntaxType.ConstructorDeclaration;
-}
-
 export interface CurriedTypeNode extends NamedNodeBase {
   type: SyntaxType.CurriedType;
   fromNode: CurriedTypeNode | IntersectionTypeNode | ListTypeNode | NamedTypeNode | ParametricTypeNode | RefinementTypeNode | RefinementTypeDeclarationNode | StructTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | TypeofNode | UnionTypeNode;
@@ -672,19 +660,19 @@ export interface MemberTypeNode extends NamedNodeBase {
 
 export interface NamedPatternNode extends NamedNodeBase {
   type: SyntaxType.NamedPattern;
-  nameNode: ConstructorNode;
+  nameNode: IdentifierNode;
   patternNode: BooleanNode | DestructuringPatternNode | IdentifierPatternNode | NamedPatternNode | NumberNode | PatternGroupNode | RawStringNode | RegexNode;
 }
 
 export interface NamedTypeNode extends NamedNodeBase {
   type: SyntaxType.NamedType;
-  nameNode: ConstructorDeclarationNode;
+  nameNode: IdentifierPatternNameNode;
   typeNode: CurriedTypeNode | IntersectionTypeNode | ListTypeNode | NamedTypeNode | ParametricTypeNode | RefinementTypeNode | RefinementTypeDeclarationNode | StructTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | TypeofNode | UnionTypeNode;
 }
 
 export interface NamedValueNode extends NamedNodeBase {
   type: SyntaxType.NamedValue;
-  nameNode: ConstructorNode;
+  nameNode: IdentifierNode;
   valueNode: AbstractionNode | AccessNode | ApplicationNode | AssignmentNode | BooleanNode | ExportNode | ExportedImportNode | GroupNode | IdentifierNode | IfNode | ImportNode | InfixApplicationNode | ListNode | ListComprehensionNode | NamedValueNode | NumberNode | PipelineNode | PrefixApplicationNode | RegexNode | ReturnNode | StringNode | StructNode | TupleNode | TypeAliasNode | TypeHintNode;
 }
 
