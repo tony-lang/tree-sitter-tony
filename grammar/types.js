@@ -2,7 +2,6 @@ const Prec = require('./precedence')
 const {
   buildGenericType,
   commaSep1,
-  sep1,
   buildStruct,
   buildTuple,
   buildMember,
