@@ -237,7 +237,6 @@ export const enum SyntaxType {
   TuplePattern = "tuple_pattern",
   TupleType = "tuple_type",
   TypeAlias = "type_alias",
-  TypeConstraint = "type_constraint",
   TypeDeclaration = "type_declaration",
   TypeGroup = "type_group",
   TypeHint = "type_hint",
@@ -299,6 +298,7 @@ export type UnnamedType =
   | SyntaxType.When // both named and unnamed
   | "{"
   | "|"
+  | "|="
   | "}"
   | "~"
   ;
@@ -371,7 +371,6 @@ export type SyntaxNode =
   | TuplePatternNode
   | TupleTypeNode
   | TypeAliasNode
-  | TypeConstraintNode
   | TypeDeclarationNode
   | TypeGroupNode
   | TypeHintNode
@@ -424,12 +423,13 @@ export type SyntaxNode =
   | UnnamedNode<SyntaxType.Return>
   | UnnamedNode<"then">
   | UnnamedNode<"true">
-  | UnnamedNode<SyntaxType.Type>
   | TypeNode
+  | UnnamedNode<SyntaxType.Type>
   | UnnamedNode<SyntaxType.Typeof>
   | UnnamedNode<SyntaxType.When>
   | UnnamedNode<"{">
   | UnnamedNode<"|">
+  | UnnamedNode<"|=">
   | UnnamedNode<"}">
   | UnnamedNode<"~">
   | ErrorNode
@@ -719,7 +719,7 @@ export interface RefinementTypeNode extends NamedNodeBase {
 
 export interface RefinementTypeDeclarationNode extends NamedNodeBase {
   type: SyntaxType.RefinementTypeDeclaration;
-  constraintNode: TypeConstraintNode;
+  constraintNodes: (CurriedTypeNode | IntersectionTypeNode | ListTypeNode | NamedTypeNode | ParametricTypeNode | RefinementTypeNode | RefinementTypeDeclarationNode | StructTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | TypeofNode | UnionTypeNode)[];
   nameNode: IdentifierPatternNameNode;
 }
 
@@ -807,11 +807,6 @@ export interface TypeAliasNode extends NamedNodeBase {
   typeNode: CurriedTypeNode | IntersectionTypeNode | ListTypeNode | NamedTypeNode | ParametricTypeNode | RefinementTypeNode | RefinementTypeDeclarationNode | StructTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | TypeofNode | UnionTypeNode;
 }
 
-export interface TypeConstraintNode extends NamedNodeBase {
-  type: SyntaxType.TypeConstraint;
-  typeNodes: (CurriedTypeNode | IntersectionTypeNode | ListTypeNode | NamedTypeNode | ParametricTypeNode | RefinementTypeNode | RefinementTypeDeclarationNode | StructTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | TypeofNode | UnionTypeNode)[];
-}
-
 export interface TypeDeclarationNode extends NamedNodeBase {
   type: SyntaxType.TypeDeclaration;
   elementNodes: IdentifierPatternNode[];
@@ -836,7 +831,7 @@ export interface TypeVariableNode extends NamedNodeBase {
 
 export interface TypeVariableDeclarationNode extends NamedNodeBase {
   type: SyntaxType.TypeVariableDeclaration;
-  constraintNode?: TypeConstraintNode;
+  constraintNodes: (CurriedTypeNode | IntersectionTypeNode | ListTypeNode | NamedTypeNode | ParametricTypeNode | RefinementTypeNode | RefinementTypeDeclarationNode | StructTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | TypeofNode | UnionTypeNode)[];
   nameNode: TypeVariableDeclarationNameNode;
 }
 

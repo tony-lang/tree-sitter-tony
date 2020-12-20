@@ -283,7 +283,7 @@ a :: Type | Type & Type | Type := 1
 refinement type
 ==================
 
-a :: Type<[(a ~ Type, Type) | a > 0, a < 10]> := 1
+a :: Type<[(a ~ Type, Type) |= a > 0, a < 10]> := 1
 
 ---
 
@@ -297,9 +297,8 @@ a :: Type<[(a ~ Type, Type) | a > 0, a < 10]> := 1
           generator: (tuple_type
             element: (refinement_type_declaration
               name: (identifier_pattern_name)
-              constraint: (type_constraint
-                type: (parametric_type
-                  name: (type))))
+              constraint: (parametric_type
+                name: (type)))
             element: (parametric_type
               name: (type)))
           predicate: (infix_application
