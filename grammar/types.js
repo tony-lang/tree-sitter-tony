@@ -88,8 +88,7 @@ module.exports = {
     prec.left(
       seq(
         field('name', alias($.identifier, $.identifier_pattern_name)),
-        '~',
-        sep1('~', field('constraint', $._type)),
+        typeConstraint($),
       ),
     ),
   refinement_type: ($) =>
