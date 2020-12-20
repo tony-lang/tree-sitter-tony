@@ -715,8 +715,8 @@ enum
 ==================
 
 enum Type
-  A
-  B = 'string'
+  a
+  b = 'string'
 
 ---
 
@@ -724,9 +724,9 @@ enum Type
   term: (enum
     name: (type)
     value: (enum_value
-      name: (type))
+      name: (identifier_pattern_name))
     value: (enum_value
-      name: (type)
+      name: (identifier_pattern_name)
       value: (string))))
 
 ==================
