@@ -4,7 +4,7 @@ struct type
 
 a :: {
   a: Type,
-  [Type]: Type
+  b: Type
 } := 1
 
 ---
@@ -19,8 +19,7 @@ a :: {
           value: (parametric_type
             name: (type)))
         member: (member_type
-          key: (parametric_type
-            name: (type))
+          key: (shorthand_member_identifier)
           value: (parametric_type
             name: (type)))))
     value: (number)))
@@ -29,7 +28,7 @@ a :: {
 tagged struct type
 ==================
 
-a :: constructor: { a: Type, [Type]: Type } := 1
+a :: constructor: { a: Type, b: Type } := 1
 
 ---
 
@@ -45,10 +44,28 @@ a :: constructor: { a: Type, [Type]: Type } := 1
             value: (parametric_type
               name: (type)))
           member: (member_type
-            key: (parametric_type
-              name: (type))
+            key: (shorthand_member_identifier)
             value: (parametric_type
               name: (type))))))
+    value: (number)))
+
+==================
+map type
+==================
+
+a :: { [Type]: Type } := 1
+
+---
+
+(program
+  term: (assignment
+    pattern: (identifier_pattern
+      name: (identifier_pattern_name)
+      type: (map_type
+        key: (parametric_type
+          name: (type))
+        value: (parametric_type
+          name: (type))))
     value: (number)))
 
 ==================

@@ -4,7 +4,6 @@ const {
   commaSep1,
   buildStruct,
   buildTuple,
-  buildMember,
   typeConstraint,
 } = require('./util')
 
@@ -26,6 +25,7 @@ module.exports = {
         $.intersection_type,
         $.union_type,
         $.struct_type,
+        $.map_type,
         $.tuple_type,
         $.list_type,
         $.tagged_type,
@@ -67,7 +67,23 @@ module.exports = {
     ),
 
   struct_type: ($) => buildStruct($, $.member_type),
-  member_type: ($) => buildMember($, $._type, $._type),
+  member_type: ($) =>
+    seq(
+      field('key', alias($.identifier, $.shorthand_member_identifier)),
+      ':',
+      field('value', $._type),
+    ),
+
+  map_type: ($) =>
+    seq(
+      '{',
+      '[',
+      field('key', $._type),
+      ']',
+      ':',
+      field('value', $._type),
+      '}',
+    ),
 
   tuple_type: ($) => buildTuple($, $._type),
 

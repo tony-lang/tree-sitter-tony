@@ -206,6 +206,7 @@ export const enum SyntaxType {
   ListComprehension = "list_comprehension",
   ListPattern = "list_pattern",
   ListType = "list_type",
+  MapType = "map_type",
   Member = "member",
   MemberPattern = "member_pattern",
   MemberType = "member_type",
@@ -340,6 +341,7 @@ export type SyntaxNode =
   | ListComprehensionNode
   | ListPatternNode
   | ListTypeNode
+  | MapTypeNode
   | MemberNode
   | MemberPatternNode
   | MemberTypeNode
@@ -423,8 +425,8 @@ export type SyntaxNode =
   | UnnamedNode<SyntaxType.Return>
   | UnnamedNode<"then">
   | UnnamedNode<"true">
-  | TypeNode
   | UnnamedNode<SyntaxType.Type>
+  | TypeNode
   | UnnamedNode<SyntaxType.Typeof>
   | UnnamedNode<SyntaxType.When>
   | UnnamedNode<"{">
@@ -491,8 +493,8 @@ export interface CaseNode extends NamedNodeBase {
 
 export interface CurriedTypeNode extends NamedNodeBase {
   type: SyntaxType.CurriedType;
-  fromNode: CurriedTypeNode | IntersectionTypeNode | ListTypeNode | ParametricTypeNode | RefinementTypeNode | RefinementTypeDeclarationNode | StructTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | TypeofNode | UnionTypeNode;
-  toNode: CurriedTypeNode | IntersectionTypeNode | ListTypeNode | ParametricTypeNode | RefinementTypeNode | RefinementTypeDeclarationNode | StructTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | TypeofNode | UnionTypeNode;
+  fromNode: CurriedTypeNode | IntersectionTypeNode | ListTypeNode | MapTypeNode | ParametricTypeNode | RefinementTypeNode | RefinementTypeDeclarationNode | StructTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | TypeofNode | UnionTypeNode;
+  toNode: CurriedTypeNode | IntersectionTypeNode | ListTypeNode | MapTypeNode | ParametricTypeNode | RefinementTypeNode | RefinementTypeDeclarationNode | StructTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | TypeofNode | UnionTypeNode;
 }
 
 export interface DestructuringPatternNode extends NamedNodeBase {
@@ -551,7 +553,7 @@ export interface IdentifierPatternNode extends NamedNodeBase {
   type: SyntaxType.IdentifierPattern;
   defaultNode?: AbstractionNode | AccessNode | ApplicationNode | AssignmentNode | BooleanNode | ExportNode | ExportedImportNode | GroupNode | IdentifierNode | IfNode | ImportNode | InfixApplicationNode | ListNode | ListComprehensionNode | NumberNode | PipelineNode | PrefixApplicationNode | RegexNode | ReturnNode | StringNode | StructNode | TaggedValueNode | TupleNode | TypeAliasNode | TypeHintNode;
   nameNode: IdentifierPatternNameNode;
-  typeNode?: CurriedTypeNode | IntersectionTypeNode | ListTypeNode | ParametricTypeNode | RefinementTypeNode | RefinementTypeDeclarationNode | StructTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | TypeofNode | UnionTypeNode;
+  typeNode?: CurriedTypeNode | IntersectionTypeNode | ListTypeNode | MapTypeNode | ParametricTypeNode | RefinementTypeNode | RefinementTypeDeclarationNode | StructTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | TypeofNode | UnionTypeNode;
 }
 
 export interface IdentifierPatternNameNode extends NamedNodeBase {
@@ -611,8 +613,8 @@ export interface InterpolationNode extends NamedNodeBase {
 
 export interface IntersectionTypeNode extends NamedNodeBase {
   type: SyntaxType.IntersectionType;
-  leftNode: CurriedTypeNode | IntersectionTypeNode | ListTypeNode | ParametricTypeNode | RefinementTypeNode | RefinementTypeDeclarationNode | StructTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | TypeofNode | UnionTypeNode;
-  rightNode: CurriedTypeNode | IntersectionTypeNode | ListTypeNode | ParametricTypeNode | RefinementTypeNode | RefinementTypeDeclarationNode | StructTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | TypeofNode | UnionTypeNode;
+  leftNode: CurriedTypeNode | IntersectionTypeNode | ListTypeNode | MapTypeNode | ParametricTypeNode | RefinementTypeNode | RefinementTypeDeclarationNode | StructTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | TypeofNode | UnionTypeNode;
+  rightNode: CurriedTypeNode | IntersectionTypeNode | ListTypeNode | MapTypeNode | ParametricTypeNode | RefinementTypeNode | RefinementTypeDeclarationNode | StructTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | TypeofNode | UnionTypeNode;
 }
 
 export interface ListNode extends NamedNodeBase {
@@ -634,7 +636,13 @@ export interface ListPatternNode extends NamedNodeBase {
 
 export interface ListTypeNode extends NamedNodeBase {
   type: SyntaxType.ListType;
-  elementNode: CurriedTypeNode | IntersectionTypeNode | ListTypeNode | ParametricTypeNode | RefinementTypeNode | RefinementTypeDeclarationNode | StructTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | TypeofNode | UnionTypeNode;
+  elementNode: CurriedTypeNode | IntersectionTypeNode | ListTypeNode | MapTypeNode | ParametricTypeNode | RefinementTypeNode | RefinementTypeDeclarationNode | StructTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | TypeofNode | UnionTypeNode;
+}
+
+export interface MapTypeNode extends NamedNodeBase {
+  type: SyntaxType.MapType;
+  keyNode: CurriedTypeNode | IntersectionTypeNode | ListTypeNode | MapTypeNode | ParametricTypeNode | RefinementTypeNode | RefinementTypeDeclarationNode | StructTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | TypeofNode | UnionTypeNode;
+  valueNode: CurriedTypeNode | IntersectionTypeNode | ListTypeNode | MapTypeNode | ParametricTypeNode | RefinementTypeNode | RefinementTypeDeclarationNode | StructTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | TypeofNode | UnionTypeNode;
 }
 
 export interface MemberNode extends NamedNodeBase {
@@ -651,8 +659,8 @@ export interface MemberPatternNode extends NamedNodeBase {
 
 export interface MemberTypeNode extends NamedNodeBase {
   type: SyntaxType.MemberType;
-  keyNode: CurriedTypeNode | IntersectionTypeNode | ListTypeNode | ParametricTypeNode | RefinementTypeNode | RefinementTypeDeclarationNode | ShorthandMemberIdentifierNode | StructTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | TypeofNode | UnionTypeNode;
-  valueNode: CurriedTypeNode | IntersectionTypeNode | ListTypeNode | ParametricTypeNode | RefinementTypeNode | RefinementTypeDeclarationNode | StructTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | TypeofNode | UnionTypeNode;
+  keyNode: ShorthandMemberIdentifierNode;
+  valueNode: CurriedTypeNode | IntersectionTypeNode | ListTypeNode | MapTypeNode | ParametricTypeNode | RefinementTypeNode | RefinementTypeDeclarationNode | StructTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | TypeofNode | UnionTypeNode;
 }
 
 export interface NumberNode extends NamedNodeBase {
@@ -661,7 +669,7 @@ export interface NumberNode extends NamedNodeBase {
 
 export interface ParametricTypeNode extends NamedNodeBase {
   type: SyntaxType.ParametricType;
-  argumentNodes: (CurriedTypeNode | IntersectionTypeNode | ListTypeNode | ParametricTypeNode | RefinementTypeNode | RefinementTypeDeclarationNode | StructTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | TypeofNode | UnionTypeNode)[];
+  argumentNodes: (CurriedTypeNode | IntersectionTypeNode | ListTypeNode | MapTypeNode | ParametricTypeNode | RefinementTypeNode | RefinementTypeDeclarationNode | StructTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | TypeofNode | UnionTypeNode)[];
   elementNodes: (BooleanNode | NumberNode | RegexNode | StringNode)[];
   nameNode: TypeNode;
 }
@@ -695,13 +703,13 @@ export interface RawStringNode extends NamedNodeBase {
 
 export interface RefinementTypeNode extends NamedNodeBase {
   type: SyntaxType.RefinementType;
-  generatorNode: CurriedTypeNode | IntersectionTypeNode | ListTypeNode | ParametricTypeNode | RefinementTypeNode | RefinementTypeDeclarationNode | StructTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | TypeofNode | UnionTypeNode;
+  generatorNode: CurriedTypeNode | IntersectionTypeNode | ListTypeNode | MapTypeNode | ParametricTypeNode | RefinementTypeNode | RefinementTypeDeclarationNode | StructTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | TypeofNode | UnionTypeNode;
   predicateNodes: (AbstractionNode | AccessNode | ApplicationNode | AssignmentNode | BooleanNode | ExportNode | ExportedImportNode | GroupNode | IdentifierNode | IfNode | ImportNode | InfixApplicationNode | ListNode | ListComprehensionNode | NumberNode | PipelineNode | PrefixApplicationNode | RegexNode | ReturnNode | StringNode | StructNode | TaggedValueNode | TupleNode | TypeAliasNode | TypeHintNode)[];
 }
 
 export interface RefinementTypeDeclarationNode extends NamedNodeBase {
   type: SyntaxType.RefinementTypeDeclaration;
-  constraintNodes: (CurriedTypeNode | IntersectionTypeNode | ListTypeNode | ParametricTypeNode | RefinementTypeNode | RefinementTypeDeclarationNode | StructTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | TypeofNode | UnionTypeNode)[];
+  constraintNodes: (CurriedTypeNode | IntersectionTypeNode | ListTypeNode | MapTypeNode | ParametricTypeNode | RefinementTypeNode | RefinementTypeDeclarationNode | StructTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | TypeofNode | UnionTypeNode)[];
   nameNode: IdentifierPatternNameNode;
 }
 
@@ -737,7 +745,7 @@ export interface ShorthandMemberPatternNode extends NamedNodeBase {
   type: SyntaxType.ShorthandMemberPattern;
   defaultNode?: AbstractionNode | AccessNode | ApplicationNode | AssignmentNode | BooleanNode | ExportNode | ExportedImportNode | GroupNode | IdentifierNode | IfNode | ImportNode | InfixApplicationNode | ListNode | ListComprehensionNode | NumberNode | PipelineNode | PrefixApplicationNode | RegexNode | ReturnNode | StringNode | StructNode | TaggedValueNode | TupleNode | TypeAliasNode | TypeHintNode;
   nameNode: IdentifierPatternNameNode;
-  typeNode?: CurriedTypeNode | IntersectionTypeNode | ListTypeNode | ParametricTypeNode | RefinementTypeNode | RefinementTypeDeclarationNode | StructTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | TypeofNode | UnionTypeNode;
+  typeNode?: CurriedTypeNode | IntersectionTypeNode | ListTypeNode | MapTypeNode | ParametricTypeNode | RefinementTypeNode | RefinementTypeDeclarationNode | StructTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | TypeofNode | UnionTypeNode;
 }
 
 export interface SpreadNode extends NamedNodeBase {
@@ -776,7 +784,7 @@ export interface TaggedPatternNode extends NamedNodeBase {
 export interface TaggedTypeNode extends NamedNodeBase {
   type: SyntaxType.TaggedType;
   nameNode: IdentifierPatternNameNode;
-  typeNode: CurriedTypeNode | IntersectionTypeNode | ListTypeNode | ParametricTypeNode | RefinementTypeNode | RefinementTypeDeclarationNode | StructTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | TypeofNode | UnionTypeNode;
+  typeNode: CurriedTypeNode | IntersectionTypeNode | ListTypeNode | MapTypeNode | ParametricTypeNode | RefinementTypeNode | RefinementTypeDeclarationNode | StructTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | TypeofNode | UnionTypeNode;
 }
 
 export interface TaggedValueNode extends NamedNodeBase {
@@ -798,13 +806,13 @@ export interface TuplePatternNode extends NamedNodeBase {
 
 export interface TupleTypeNode extends NamedNodeBase {
   type: SyntaxType.TupleType;
-  elementNodes: (CurriedTypeNode | IntersectionTypeNode | ListTypeNode | ParametricTypeNode | RefinementTypeNode | RefinementTypeDeclarationNode | StructTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | TypeofNode | UnionTypeNode)[];
+  elementNodes: (CurriedTypeNode | IntersectionTypeNode | ListTypeNode | MapTypeNode | ParametricTypeNode | RefinementTypeNode | RefinementTypeDeclarationNode | StructTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | TypeofNode | UnionTypeNode)[];
 }
 
 export interface TypeAliasNode extends NamedNodeBase {
   type: SyntaxType.TypeAlias;
   nameNode: TypeDeclarationNode;
-  typeNode: CurriedTypeNode | IntersectionTypeNode | ListTypeNode | ParametricTypeNode | RefinementTypeNode | RefinementTypeDeclarationNode | StructTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | TypeofNode | UnionTypeNode;
+  typeNode: CurriedTypeNode | IntersectionTypeNode | ListTypeNode | MapTypeNode | ParametricTypeNode | RefinementTypeNode | RefinementTypeDeclarationNode | StructTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | TypeofNode | UnionTypeNode;
 }
 
 export interface TypeDeclarationNode extends NamedNodeBase {
@@ -816,12 +824,12 @@ export interface TypeDeclarationNode extends NamedNodeBase {
 
 export interface TypeGroupNode extends NamedNodeBase {
   type: SyntaxType.TypeGroup;
-  typeNode: CurriedTypeNode | IntersectionTypeNode | ListTypeNode | ParametricTypeNode | RefinementTypeNode | RefinementTypeDeclarationNode | StructTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | TypeofNode | UnionTypeNode;
+  typeNode: CurriedTypeNode | IntersectionTypeNode | ListTypeNode | MapTypeNode | ParametricTypeNode | RefinementTypeNode | RefinementTypeDeclarationNode | StructTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | TypeofNode | UnionTypeNode;
 }
 
 export interface TypeHintNode extends NamedNodeBase {
   type: SyntaxType.TypeHint;
-  typeNode: CurriedTypeNode | IntersectionTypeNode | ListTypeNode | ParametricTypeNode | RefinementTypeNode | RefinementTypeDeclarationNode | StructTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | TypeofNode | UnionTypeNode;
+  typeNode: CurriedTypeNode | IntersectionTypeNode | ListTypeNode | MapTypeNode | ParametricTypeNode | RefinementTypeNode | RefinementTypeDeclarationNode | StructTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | TypeofNode | UnionTypeNode;
   valueNode: AbstractionNode | AccessNode | ApplicationNode | AssignmentNode | BooleanNode | ExportNode | ExportedImportNode | GroupNode | IdentifierNode | IfNode | ImportNode | InfixApplicationNode | ListNode | ListComprehensionNode | NumberNode | PipelineNode | PrefixApplicationNode | RegexNode | ReturnNode | StringNode | StructNode | TaggedValueNode | TupleNode | TypeAliasNode | TypeHintNode;
 }
 
@@ -831,7 +839,7 @@ export interface TypeVariableNode extends NamedNodeBase {
 
 export interface TypeVariableDeclarationNode extends NamedNodeBase {
   type: SyntaxType.TypeVariableDeclaration;
-  constraintNodes: (CurriedTypeNode | IntersectionTypeNode | ListTypeNode | ParametricTypeNode | RefinementTypeNode | RefinementTypeDeclarationNode | StructTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | TypeofNode | UnionTypeNode)[];
+  constraintNodes: (CurriedTypeNode | IntersectionTypeNode | ListTypeNode | MapTypeNode | ParametricTypeNode | RefinementTypeNode | RefinementTypeDeclarationNode | StructTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | TypeofNode | UnionTypeNode)[];
   nameNode: TypeVariableDeclarationNameNode;
 }
 
@@ -846,8 +854,8 @@ export interface TypeofNode extends NamedNodeBase {
 
 export interface UnionTypeNode extends NamedNodeBase {
   type: SyntaxType.UnionType;
-  leftNode: CurriedTypeNode | IntersectionTypeNode | ListTypeNode | ParametricTypeNode | RefinementTypeNode | RefinementTypeDeclarationNode | StructTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | TypeofNode | UnionTypeNode;
-  rightNode: CurriedTypeNode | IntersectionTypeNode | ListTypeNode | ParametricTypeNode | RefinementTypeNode | RefinementTypeDeclarationNode | StructTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | TypeofNode | UnionTypeNode;
+  leftNode: CurriedTypeNode | IntersectionTypeNode | ListTypeNode | MapTypeNode | ParametricTypeNode | RefinementTypeNode | RefinementTypeDeclarationNode | StructTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | TypeofNode | UnionTypeNode;
+  rightNode: CurriedTypeNode | IntersectionTypeNode | ListTypeNode | MapTypeNode | ParametricTypeNode | RefinementTypeNode | RefinementTypeDeclarationNode | StructTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | TypeofNode | UnionTypeNode;
 }
 
 export interface WhenNode extends NamedNodeBase {
