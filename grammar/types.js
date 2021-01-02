@@ -28,7 +28,7 @@ module.exports = {
         $.struct_type,
         $.tuple_type,
         $.list_type,
-        $.named_type,
+        $.tagged_type,
         $.refinement_type,
         $.refinement_type_declaration,
         alias($.identifier, $.type_variable),
@@ -73,9 +73,9 @@ module.exports = {
 
   list_type: ($) => seq('[', field('element', $._type), ']'),
 
-  named_type: ($) =>
+  tagged_type: ($) =>
     prec(
-      Prec.NamedType,
+      Prec.TaggedType,
       seq(
         field('name', alias($.identifier, $.identifier_pattern_name)),
         ':',

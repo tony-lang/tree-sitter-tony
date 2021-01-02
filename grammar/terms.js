@@ -33,7 +33,7 @@ module.exports = {
         $.tuple,
         $.list,
         $.list_comprehension,
-        $.named_value,
+        $.tagged_value,
         $.type_alias,
         $.type_hint,
         $.identifier,
@@ -479,7 +479,7 @@ module.exports = {
   _element: ($) => choice($._simple_term, $.spread),
   spread: ($) => seq('...', field('value', $._simple_term)),
 
-  named_value: ($) =>
+  tagged_value: ($) =>
     prec.right(
       seq(field('name', $.identifier), ':', field('value', $._simple_term)),
     ),
