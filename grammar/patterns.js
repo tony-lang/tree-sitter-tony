@@ -9,7 +9,7 @@ module.exports = {
     choice(
       $.identifier_pattern,
       $.destructuring_pattern,
-      $.named_pattern,
+      $.tagged_pattern,
       $.pattern_group,
     ),
 
@@ -60,7 +60,7 @@ module.exports = {
       ),
     ),
 
-  named_pattern: ($) =>
+  tagged_pattern: ($) =>
     prec(
       Prec.Pattern,
       seq(field('name', $.identifier), ':', field('pattern', $._pattern)),

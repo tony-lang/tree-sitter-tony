@@ -1,5 +1,5 @@
 module.exports = {
-  NamedType: -1,
+  TaggedType: -1,
   Assignment: 1,
   TypeHint: 1,
   CurriedType: 1,

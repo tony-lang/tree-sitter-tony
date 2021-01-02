@@ -830,7 +830,7 @@ struct
     member: (shorthand_member)))
 
 ==================
-named struct
+tagged struct
 ==================
 
 constructor:{}
@@ -840,15 +840,15 @@ constructor:{ ['a']: 1, ...b, c: 'str', d, e }
 ---
 
 (program
-  term: (named_value
+  term: (tagged_value
     name: (identifier)
     value: (struct))
-  term: (named_value
+  term: (tagged_value
     name: (identifier)
     value: (struct
       member: (shorthand_member)
       member: (shorthand_member)))
-  term: (named_value
+  term: (tagged_value
     name: (identifier)
     value: (struct
       member: (member
@@ -885,7 +885,7 @@ tuple
     element: (number)))
 
 ==================
-named tuple
+tagged tuple
 ==================
 
 constructor:()
@@ -895,10 +895,10 @@ constructor:(1,1)
 ---
 
 (program
-  term: (named_value
+  term: (tagged_value
     name: (identifier)
     value: (tuple))
-  term: (named_value
+  term: (tagged_value
     name: (identifier)
     value: (tuple
       element: (identifier)
@@ -906,7 +906,7 @@ constructor:(1,1)
       element: (string)
       element: (spread
         value: (identifier))))
-  term: (named_value
+  term: (tagged_value
     name: (identifier)
     value: (tuple
       element: (number)
@@ -939,7 +939,7 @@ list
     element: (number)))
 
 ==================
-named list
+tagged list
 ==================
 
 constructor:[]
@@ -949,10 +949,10 @@ constructor:[1,1..1,1]
 ---
 
 (program
-  term: (named_value
+  term: (tagged_value
     name: (identifier)
     value: (list))
-  term: (named_value
+  term: (tagged_value
     name: (identifier)
     value: (list
       element: (identifier)
@@ -960,7 +960,7 @@ constructor:[1,1..1,1]
       element: (spread
         value: (identifier))
       element: (string)))
-  term: (named_value
+  term: (tagged_value
     name: (identifier)
     value: (list
       element: (number)
@@ -1045,7 +1045,7 @@ list comprehension
         right: (number)))))
 
 ==================
-named value
+tagged value
 ==================
 
 constructor: 'String'
@@ -1054,10 +1054,10 @@ constructor: 1
 ---
 
 (program
-  term: (named_value
+  term: (tagged_value
     name: (identifier)
     value: (string))
-  term: (named_value
+  term: (tagged_value
     name: (identifier)
     value: (number)))
 

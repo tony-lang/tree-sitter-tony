@@ -63,7 +63,7 @@ struct pattern
     value: (identifier)))
 
 ============================================
-named struct pattern
+tagged struct pattern
 ============================================
 
 (constructor: { b: c :: Type }) := a
@@ -74,7 +74,7 @@ named struct pattern
 (program
   term: (assignment
     pattern: (pattern_group
-      pattern: (named_pattern
+      pattern: (tagged_pattern
         name: (identifier)
         pattern: (destructuring_pattern
           pattern: (struct_pattern
@@ -87,7 +87,7 @@ named struct pattern
     value: (identifier))
   term: (assignment
     pattern: (pattern_group
-      pattern: (named_pattern
+      pattern: (tagged_pattern
         name: (identifier)
         pattern: (destructuring_pattern
           pattern: (struct_pattern
@@ -139,7 +139,7 @@ tuple pattern
     value: (identifier)))
 
 ============================================
-named tuple pattern
+tagged tuple pattern
 ============================================
 
 (constructor: (a, b :: Type, ...c)) := a
@@ -149,7 +149,7 @@ named tuple pattern
 (program
   term: (assignment
     pattern: (pattern_group
-      pattern: (named_pattern
+      pattern: (tagged_pattern
         name: (identifier)
         pattern: (destructuring_pattern
           pattern: (tuple_pattern
@@ -207,7 +207,7 @@ list pattern
     value: (identifier)))
 
 ============================================
-named list pattern
+tagged list pattern
 ============================================
 
 (constructor: [b :: Type, c :: Type]) := a
@@ -218,7 +218,7 @@ named list pattern
 (program
   term: (assignment
     pattern: (pattern_group
-      pattern: (named_pattern
+      pattern: (tagged_pattern
         name: (identifier)
         pattern: (destructuring_pattern
           pattern: (list_pattern
@@ -233,7 +233,7 @@ named list pattern
     value: (identifier))
   term: (assignment
     pattern: (pattern_group
-      pattern: (named_pattern
+      pattern: (tagged_pattern
         name: (identifier)
         pattern: (destructuring_pattern
           pattern: (list_pattern
