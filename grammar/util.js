@@ -72,10 +72,14 @@ const buildString = ($, ...content) =>
 const buildGenericType = (name, rule) =>
   seq('<', commaSep1(field(name, rule)), '>')
 
-const typeConstraint = ($) => seq('<:', choice(
-  field('constraint', $._type),
-  seq('(', sep2(';')(field('constraint', $._type)), ')'),
-))
+const typeConstraint = ($) =>
+  seq(
+    '<:',
+    choice(
+      field('constraint', $._type),
+      seq('(', sep2(';')(field('constraint', $._type)), ')'),
+    ),
+  )
 
 const buildSimpleBlock = ($, line) => seq(line, $._newline)
 
