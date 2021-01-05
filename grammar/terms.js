@@ -498,7 +498,7 @@ module.exports = {
       seq(field('value', $._simple_term), 'as', field('type', $._type)),
     ),
 
-  _identifier_without_operators: () => /_?[a-z][a-z0-9_]*\??/,
+  _identifier_without_operators: () => /_?[a-z][a-z0-9_]*(\?|\!)?/,
   _operator: () => /(==|[!@$%^&*|<>~*\\\-+/.])[!@$%^&*|<>~*\\\-+/.=?]*/,
   identifier: ($) => choice($._operator, $._identifier_without_operators),
 

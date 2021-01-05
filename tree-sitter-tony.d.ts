@@ -268,7 +268,9 @@ export type UnnamedType =
   | ":"
   | "::"
   | ":="
+  | ";"
   | "<"
+  | "<:"
   | "="
   | "=>"
   | ">"
@@ -301,7 +303,6 @@ export type UnnamedType =
   | "|"
   | "|="
   | "}"
-  | "~"
   ;
 
 export type TypeString = SyntaxType | UnnamedType;
@@ -394,7 +395,9 @@ export type SyntaxNode =
   | UnnamedNode<":">
   | UnnamedNode<"::">
   | UnnamedNode<":=">
+  | UnnamedNode<";">
   | UnnamedNode<"<">
+  | UnnamedNode<"<:">
   | UnnamedNode<"=">
   | UnnamedNode<"=>">
   | UnnamedNode<">">
@@ -433,7 +436,6 @@ export type SyntaxNode =
   | UnnamedNode<"|">
   | UnnamedNode<"|=">
   | UnnamedNode<"}">
-  | UnnamedNode<"~">
   | ErrorNode
   ;
 
