@@ -120,8 +120,15 @@ module.exports = {
       '[',
       field('generator', $._type),
       '|',
-      commaSep1(field('predicate', $._simple_term)),
+      commaSep1(field('predicate', $._predicate)),
       ']',
+    ),
+  _predicate: ($) =>
+    choice(
+      $.application,
+      $.infix_application,
+      $.prefix_application,
+      $.pipeline,
     ),
 
   type_declaration: ($) =>
