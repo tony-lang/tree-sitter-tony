@@ -1067,7 +1067,7 @@ type alias
 
 type Type := Type
 type Type<a, b <: Num> := a -> b
-type GreaterThan<a>(x :: a) := [y <: a |= y > x]
+type GreaterThan<a>(x :: a) := [y :: a | y > x]
 
 ---
 
@@ -1100,7 +1100,7 @@ type GreaterThan<a>(x :: a) := [y <: a |= y > x]
     type: (refinement_type
       generator: (refinement_type_declaration
         name: (identifier_pattern_name)
-        constraint: (type_variable))
+        type: (type_variable))
       predicate: (infix_application
         left: (identifier)
         name: (identifier)
