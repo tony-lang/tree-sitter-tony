@@ -485,11 +485,13 @@ module.exports = {
     ),
 
   type_alias: ($) =>
-    seq(
-      'type',
-      field('name', $.type_declaration),
-      ':=',
-      field('type', $._type),
+    prec.right(
+      seq(
+        'type',
+        field('name', $.type_declaration),
+        ':=',
+        field('type', $._type),
+      ),
     ),
 
   type_hint: ($) =>

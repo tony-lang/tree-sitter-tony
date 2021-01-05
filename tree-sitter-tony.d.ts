@@ -301,7 +301,6 @@ export type UnnamedType =
   | SyntaxType.When // both named and unnamed
   | "{"
   | "|"
-  | "|="
   | "}"
   ;
 
@@ -434,7 +433,6 @@ export type SyntaxNode =
   | UnnamedNode<SyntaxType.When>
   | UnnamedNode<"{">
   | UnnamedNode<"|">
-  | UnnamedNode<"|=">
   | UnnamedNode<"}">
   | ErrorNode
   ;
@@ -711,8 +709,8 @@ export interface RefinementTypeNode extends NamedNodeBase {
 
 export interface RefinementTypeDeclarationNode extends NamedNodeBase {
   type: SyntaxType.RefinementTypeDeclaration;
-  constraintNodes: (CurriedTypeNode | IntersectionTypeNode | ListTypeNode | MapTypeNode | ParametricTypeNode | RefinementTypeNode | RefinementTypeDeclarationNode | StructTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | TypeofNode | UnionTypeNode)[];
   nameNode: IdentifierPatternNameNode;
+  typeNode: CurriedTypeNode | IntersectionTypeNode | ListTypeNode | MapTypeNode | ParametricTypeNode | RefinementTypeNode | RefinementTypeDeclarationNode | StructTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | TypeofNode | UnionTypeNode;
 }
 
 export interface RegexNode extends NamedNodeBase {
