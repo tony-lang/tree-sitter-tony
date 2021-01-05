@@ -14,7 +14,7 @@ fib :=
   <a>(n :: a = 2) =>
     fib(n - 1) + fib(n - 2)
 
-<a ~ Type>(...a :: a) =>
+<a <: Type>(...a :: a) =>
   b := (c :: Type) =>
     c
   b(1)
@@ -735,7 +735,7 @@ interface
 interface Type<a>
   a :: a -> Number
   b :: a -> Number
-interface Ord<a ~ Eq, b ~ Num ~ Eq ~ Ord>
+interface Ord<a <: Eq, b <: (Num; Eq; Ord)>
   compare :: a -> b -> Number
 
 ---
@@ -1066,8 +1066,8 @@ type alias
 ==================
 
 type Type := Type
-type Type<a, b ~ Num> := a -> b
-type GreaterThan<a>(x :: a) := [y ~ a |= y > x]
+type Type<a, b <: Num> := a -> b
+type GreaterThan<a>(x :: a) := [y <: a |= y > x]
 
 ---
 

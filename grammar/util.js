@@ -1,10 +1,12 @@
 const notFalse = (...args) => args.filter((element) => element !== false)
 
-const commaSep2 = (rule) => seq(rule, repeat1(seq(',', rule)))
+const sep1 = (sep) => (rule) => seq(rule, repeat(seq(sep, rule)))
 
-const commaSep1 = (rule) => seq(rule, repeat(seq(',', rule)))
+const sep2 = (sep) => (rule) => seq(rule, repeat1(seq(sep, rule)))
 
-const sep1 = (sep, rule) => seq(rule, repeat(seq(sep, rule)))
+const commaSep1 = sep1(',')
+
+const commaSep2 = sep2(',')
 
 const buildAbstractionBranch = ($, blockType) =>
   seq(
@@ -70,7 +72,14 @@ const buildString = ($, ...content) =>
 const buildGenericType = (name, rule) =>
   seq('<', commaSep1(field(name, rule)), '>')
 
-const typeConstraint = ($) => seq('~', sep1('~', field('constraint', $._type)))
+const typeConstraint = ($) =>
+  seq(
+    '<:',
+    choice(
+      field('constraint', $._type),
+      seq('(', sep2(';')(field('constraint', $._type)), ')'),
+    ),
+  )
 
 const buildSimpleBlock = ($, line) => seq(line, $._newline)
 
