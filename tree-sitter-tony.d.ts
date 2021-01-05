@@ -704,7 +704,7 @@ export interface RawStringNode extends NamedNodeBase {
 export interface RefinementTypeNode extends NamedNodeBase {
   type: SyntaxType.RefinementType;
   generatorNode: CurriedTypeNode | IntersectionTypeNode | ListTypeNode | MapTypeNode | ParametricTypeNode | RefinementTypeNode | RefinementTypeDeclarationNode | StructTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | TypeofNode | UnionTypeNode;
-  predicateNodes: (AbstractionNode | AccessNode | ApplicationNode | AssignmentNode | BooleanNode | ExportNode | ExportedImportNode | GroupNode | IdentifierNode | IfNode | ImportNode | InfixApplicationNode | ListNode | ListComprehensionNode | NumberNode | PipelineNode | PrefixApplicationNode | RegexNode | ReturnNode | StringNode | StructNode | TaggedValueNode | TupleNode | TypeAliasNode | TypeHintNode)[];
+  predicateNodes: (ApplicationNode | InfixApplicationNode | PipelineNode | PrefixApplicationNode)[];
 }
 
 export interface RefinementTypeDeclarationNode extends NamedNodeBase {
