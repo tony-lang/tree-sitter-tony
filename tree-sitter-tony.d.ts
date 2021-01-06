@@ -623,7 +623,7 @@ export interface IntersectionTypeNode extends NamedNodeBase {
 
 export interface LeftSectionNode extends NamedNodeBase {
   type: SyntaxType.LeftSection;
-  nameNodes: (UnnamedNode<"("> | UnnamedNode<")"> | UnnamedNode<"`"> | IdentifierNode)[];
+  nameNode: IdentifierNode;
   valueNode: AbstractionNode | AccessNode | ApplicationNode | AssignmentNode | BooleanNode | ExportNode | ExportedImportNode | GroupNode | IdentifierNode | IfNode | ImportNode | InfixApplicationNode | LeftSectionNode | ListNode | ListComprehensionNode | NumberNode | PipelineNode | PrefixApplicationNode | RegexNode | ReturnNode | RightSectionNode | StringNode | StructNode | TaggedValueNode | TupleNode | TypeAliasNode | TypeHintNode;
 }
 
@@ -741,7 +741,7 @@ export interface ReturnNode extends NamedNodeBase {
 
 export interface RightSectionNode extends NamedNodeBase {
   type: SyntaxType.RightSection;
-  nameNodes: (UnnamedNode<"("> | UnnamedNode<")"> | UnnamedNode<"`"> | IdentifierNode)[];
+  nameNode: IdentifierNode;
   valueNode: AbstractionNode | AccessNode | ApplicationNode | AssignmentNode | BooleanNode | ExportNode | ExportedImportNode | GroupNode | IdentifierNode | IfNode | ImportNode | InfixApplicationNode | LeftSectionNode | ListNode | ListComprehensionNode | NumberNode | PipelineNode | PrefixApplicationNode | RegexNode | ReturnNode | RightSectionNode | StringNode | StructNode | TaggedValueNode | TupleNode | TypeAliasNode | TypeHintNode;
 }
 
