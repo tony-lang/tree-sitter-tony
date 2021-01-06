@@ -26,6 +26,9 @@ const {
   application,
   prefix_application,
   infix_application,
+  _section,
+  left_section,
+  right_section,
   list_comprehension,
   generator,
   pipeline,
@@ -48,6 +51,7 @@ const {
   _identifier_without_operators,
   _operator,
   identifier,
+  section_identifier,
   group,
 } = require('./grammar/terms')
 const {
@@ -157,6 +161,9 @@ module.exports = grammar({
     application,
     prefix_application,
     infix_application,
+    _section,
+    left_section,
+    right_section,
     list_comprehension,
     generator,
     pipeline,
@@ -179,6 +186,7 @@ module.exports = grammar({
     _identifier_without_operators,
     _operator,
     identifier,
+    section_identifier,
     group,
 
     _pattern,

@@ -418,6 +418,35 @@ a.b.c(1)
       value: (number))))
 
 ==================
+sections
+==================
+
+((+) 1)
+(1 (+))
+(`mod` 1)
+(1 `mod`)
+
+---
+
+(program
+  term: (right_section
+    name: (section_identifier
+      name: (identifier))
+    value: (number))
+  term: (left_section
+    value: (number)
+    name: (section_identifier
+      name: (identifier)))
+  term: (right_section
+    name: (section_identifier
+      name: (identifier))
+    value: (number))
+  term: (left_section
+    value: (number)
+    name: (section_identifier
+      name: (identifier))))
+
+==================
 access
 ==================
 
