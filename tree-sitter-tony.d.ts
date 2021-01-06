@@ -224,7 +224,6 @@ export const enum SyntaxType {
   Rest = "rest",
   Return = "return",
   RightSection = "right_section",
-  SectionIdentifier = "section_identifier",
   ShorthandAccessIdentifier = "shorthand_access_identifier",
   ShorthandMember = "shorthand_member",
   ShorthandMemberIdentifier = "shorthand_member_identifier",
@@ -362,7 +361,6 @@ export type SyntaxNode =
   | RestNode
   | ReturnNode
   | RightSectionNode
-  | SectionIdentifierNode
   | ShorthandAccessIdentifierNode
   | ShorthandMemberNode
   | ShorthandMemberIdentifierNode
@@ -625,7 +623,7 @@ export interface IntersectionTypeNode extends NamedNodeBase {
 
 export interface LeftSectionNode extends NamedNodeBase {
   type: SyntaxType.LeftSection;
-  nameNode: SectionIdentifierNode;
+  nameNodes: (UnnamedNode<"("> | UnnamedNode<")"> | UnnamedNode<"`"> | IdentifierNode)[];
   valueNode: AbstractionNode | AccessNode | ApplicationNode | AssignmentNode | BooleanNode | ExportNode | ExportedImportNode | GroupNode | IdentifierNode | IfNode | ImportNode | InfixApplicationNode | LeftSectionNode | ListNode | ListComprehensionNode | NumberNode | PipelineNode | PrefixApplicationNode | RegexNode | ReturnNode | RightSectionNode | StringNode | StructNode | TaggedValueNode | TupleNode | TypeAliasNode | TypeHintNode;
 }
 
@@ -743,13 +741,8 @@ export interface ReturnNode extends NamedNodeBase {
 
 export interface RightSectionNode extends NamedNodeBase {
   type: SyntaxType.RightSection;
-  nameNode: SectionIdentifierNode;
+  nameNodes: (UnnamedNode<"("> | UnnamedNode<")"> | UnnamedNode<"`"> | IdentifierNode)[];
   valueNode: AbstractionNode | AccessNode | ApplicationNode | AssignmentNode | BooleanNode | ExportNode | ExportedImportNode | GroupNode | IdentifierNode | IfNode | ImportNode | InfixApplicationNode | LeftSectionNode | ListNode | ListComprehensionNode | NumberNode | PipelineNode | PrefixApplicationNode | RegexNode | ReturnNode | RightSectionNode | StringNode | StructNode | TaggedValueNode | TupleNode | TypeAliasNode | TypeHintNode;
-}
-
-export interface SectionIdentifierNode extends NamedNodeBase {
-  type: SyntaxType.SectionIdentifier;
-  nameNode: IdentifierNode;
 }
 
 export interface ShorthandAccessIdentifierNode extends NamedNodeBase {

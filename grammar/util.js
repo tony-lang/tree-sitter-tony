@@ -16,13 +16,6 @@ const buildAbstractionBranch = ($, blockType) =>
     field('body', alias(blockType, $.block)),
   )
 
-const buildInfixIdentifierWithoutOperators = ($) =>
-  seq(
-    '`',
-    field('name', alias($._identifier_without_operators, $.identifier)),
-    '`',
-  )
-
 const buildDataStructure = ($, element, rest, commaSepImpl = commaSep1) =>
   optional(
     choice(
@@ -97,5 +90,4 @@ module.exports = {
   sep1,
   sep2,
   buildAbstractionBranch,
-  buildInfixIdentifierWithoutOperators,
 }

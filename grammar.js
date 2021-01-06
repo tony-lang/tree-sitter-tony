@@ -51,7 +51,7 @@ const {
   _identifier_without_operators,
   _operator,
   identifier,
-  section_identifier,
+  _section_identifier,
   group,
 } = require('./grammar/terms')
 const {
@@ -186,7 +186,7 @@ module.exports = grammar({
     _identifier_without_operators,
     _operator,
     identifier,
-    section_identifier,
+    _section_identifier,
     group,
 
     _pattern,
