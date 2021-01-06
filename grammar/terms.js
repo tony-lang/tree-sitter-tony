@@ -9,7 +9,6 @@ const {
   buildMember,
   buildAbstractionBranch,
   buildGenericType,
-  buildInfixIdentifierWithoutOperators,
 } = require('./util')
 
 module.exports = {
@@ -372,7 +371,9 @@ module.exports = {
         Prec.NamedInfixApplication,
         seq(
           field('left', $._simple_term),
-          buildInfixIdentifierWithoutOperators($),
+          '`',
+          field('name', alias($._identifier_without_operators, $.identifier)),
+          '`',
           field('right', $._simple_term),
         ),
       ),
@@ -380,18 +381,20 @@ module.exports = {
 
   _section: ($) => choice($.left_section, $.right_section),
   left_section: ($) =>
-    seq(
-      '(',
-      field('value', $._simple_term),
-      field('name', $.section_identifier),
-      ')',
-    ),
+    seq('(', field('value', $._simple_term), $._section_identifier, ')'),
   right_section: ($) =>
-    seq(
-      '(',
-      field('name', $.section_identifier),
-      field('value', $._simple_term),
-      ')',
+    seq('(', $._section_identifier, field('value', $._simple_term), ')'),
+  _section_identifier: ($) =>
+    prec(
+      Prec.SectionIdentifier,
+      choice(
+        seq('(', field('name', alias($._operator, $.identifier)), ')'),
+        seq(
+          '`',
+          field('name', alias($._identifier_without_operators, $.identifier)),
+          '`',
+        ),
+      ),
     ),
 
   list_comprehension: ($) =>
@@ -519,15 +522,6 @@ module.exports = {
   _identifier_without_operators: () => /_?[a-z][a-z0-9_]*(\?|!)?/,
   _operator: () => /(==|[!@$%^&*|<>~*\\\-+/.])[!@$%^&*|<>~*\\\-+/.=?]*/,
   identifier: ($) => choice($._operator, $._identifier_without_operators),
-
-  section_identifier: ($) =>
-    prec(
-      Prec.SectionIdentifier,
-      choice(
-        seq('(', field('name', alias($._operator, $.identifier)), ')'),
-        buildInfixIdentifierWithoutOperators($),
-      ),
-    ),
 
   group: ($) => seq('(', field('term', $._simple_term), ')'),
 }

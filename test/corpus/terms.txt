@@ -430,21 +430,17 @@ sections
 
 (program
   term: (right_section
-    name: (section_identifier
-      name: (identifier))
+    name: (identifier)
     value: (number))
   term: (left_section
     value: (number)
-    name: (section_identifier
-      name: (identifier)))
+    name: (identifier))
   term: (right_section
-    name: (section_identifier
-      name: (identifier))
+    name: (identifier)
     value: (number))
   term: (left_section
     value: (number)
-    name: (section_identifier
-      name: (identifier))))
+    name: (identifier)))
 
 ==================
 access
