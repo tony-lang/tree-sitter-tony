@@ -5,6 +5,7 @@ module.exports = {
   TypeHint: 1,
   CurriedType: 1,
   NamedInfixApplication: 1,
+  SectionIdentifier: 1,
   Literal: 1,
   IntersectionType: 1,
   OperatorInfixApplication: 2,
