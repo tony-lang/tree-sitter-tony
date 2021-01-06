@@ -323,20 +323,10 @@ module.exports = {
         ),
       ),
       prec.left(
-        Prec.OperatorInfixApplication,
+        Prec.InfixApplication,
         seq(
           field('left', $._simple_term),
-          field('name', alias($._operator, $.identifier)),
-          field('right', $._simple_term),
-        ),
-      ),
-      prec.left(
-        Prec.NamedInfixApplication,
-        seq(
-          field('left', $._simple_term),
-          '`',
-          field('name', alias($._identifier_without_operators, $.identifier)),
-          '`',
+          $._infix_identifier,
           field('right', $._simple_term),
         ),
       ),
@@ -344,19 +334,16 @@ module.exports = {
 
   _section: ($) => choice($.left_section, $.right_section),
   left_section: ($) =>
-    seq('(', field('value', $._simple_term), $._section_identifier, ')'),
+    seq('(', field('value', $._simple_term), $._infix_identifier, ')'),
   right_section: ($) =>
-    seq('(', $._section_identifier, field('value', $._simple_term), ')'),
-  _section_identifier: ($) =>
-    prec(
-      Prec.SectionIdentifier,
-      choice(
-        seq('(', field('name', alias($._operator, $.identifier)), ')'),
-        seq(
-          '`',
-          field('name', alias($._identifier_without_operators, $.identifier)),
-          '`',
-        ),
+    seq('(', $._infix_identifier, field('value', $._simple_term), ')'),
+  _infix_identifier: ($) =>
+    choice(
+      field('name', alias($._operator, $.identifier)),
+      seq(
+        '`',
+        field('name', alias($._identifier_without_operators, $.identifier)),
+        '`',
       ),
     ),
 
