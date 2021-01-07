@@ -36,6 +36,7 @@ module.exports = {
         $.map_type,
         $.tuple_type,
         $.list_type,
+        $.access_type,
         $.tagged_type,
         $.refinement_type,
         $.refinement_type_declaration,
@@ -96,6 +97,12 @@ module.exports = {
   tuple_type: ($) => buildTuple($, $._type),
 
   list_type: ($) => seq('[', field('element', $._type), ']'),
+
+  access_type: ($) =>
+    prec(
+      Prec.Access,
+      seq(field('type', $._type), '[', field('value', $._simple_term), ']'),
+    ),
 
   tagged_type: ($) =>
     prec(
