@@ -145,6 +145,28 @@ a :: constructor: [Type] := 1
     value: (number)))
 
 ==================
+access type
+==================
+
+a as Type[b]
+a as a[0]
+
+---
+
+(program
+  term: (type_hint
+    value: (identifier)
+    type: (access_type
+      type: (parametric_type
+        name: (type))
+      value: (identifier)))
+  term: (type_hint
+    value: (identifier)
+    type: (access_type
+      type: (type_variable)
+      value: (number))))
+
+==================
 curried type
 ==================
 
