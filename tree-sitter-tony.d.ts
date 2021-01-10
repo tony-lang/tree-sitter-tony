@@ -825,7 +825,7 @@ export interface TaggedPatternNode extends NamedNodeBase {
 
 export interface TaggedTypeNode extends NamedNodeBase {
   type: SyntaxType.TaggedType;
-  nameNode: IdentifierPatternNameNode;
+  nameNode: IdentifierNode;
   typeNode?: AccessTypeNode | ConditionalTypeNode | CurriedTypeNode | IntersectionTypeNode | ListTypeNode | MapTypeNode | ParametricTypeNode | RefinementTypeNode | RefinementTypeDeclarationNode | StructTypeNode | SubtractionTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | TypeofNode | UnionTypeNode;
 }
 
@@ -862,6 +862,7 @@ export interface TypeDeclarationNode extends NamedNodeBase {
   elementNodes: IdentifierPatternNode[];
   nameNode: TypeNode;
   parameterNodes: TypeVariableDeclarationNode[];
+  tagNode?: IdentifierPatternNameNode;
 }
 
 export interface TypeGroupNode extends NamedNodeBase {
