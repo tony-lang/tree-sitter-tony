@@ -25,6 +25,7 @@ module.exports = {
   Application: 16,
   Term: 17,
   Pattern: 17,
+  Tagged: 17,
   Pipeline: 18,
   Access: 19,
 }

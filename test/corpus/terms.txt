@@ -5,17 +5,17 @@ abstraction
 (a) =>
   a
 (a, b) => a
-(a :: Type, b :: Type, 1, { c :: Type = 1 }) => a
+(a: Type, b: Type, 1, { c: Type = 1 }) => a
 
 fib :=
   (0) =>
     0
   (1) => 1
-  <a>(n :: a = 2) =>
+  <a>(n: a = 2) =>
     fib(n - 1) + fib(n - 2)
 
-<a <: Type>(...a :: a) =>
-  b := (c :: Type) =>
+<a <: Type>(...a: a) =>
+  b := (c: Type) =>
     c
   b(1)
 
@@ -472,8 +472,8 @@ a.b[c]
 assignment
 ==================
 
-a :: Type := 1
-a := (a :: Type) =>
+a: Type := 1
+a := (a: Type) =>
   1
 
 ---
@@ -504,8 +504,8 @@ import
 import {
   a as b,
   c,
-  a as b :: Type,
-  c :: Type,
+  a as b: Type,
+  c: Type,
   Type as Type,
   Type
 } from 'source'
@@ -577,7 +577,7 @@ export
 ==================
 
 export a := 1
-export a := (x :: a) =>
+export a := (x: a) =>
   1
 
 ---
@@ -605,7 +605,7 @@ return
 ==================
 
 return 1
-return (a :: Type) =>
+return (a: Type) =>
   1
 
 ---
@@ -695,7 +695,7 @@ a := case a
      else 1
 
 case a
-when [1, a :: Type] then
+when [1, a: Type] then
   a
 when 1, 1 then 1
 else 1
@@ -758,10 +758,10 @@ interface
 ==================
 
 interface Type<a>
-  a :: a -> Number
-  b :: a -> Number
+  a: a -> Number
+  b: a -> Number
 interface Ord<a <: Eq, b <: (Num; Eq; Ord)>
-  compare :: a -> b -> Number
+  compare: a -> b -> Number
 
 ---
 
@@ -858,9 +858,9 @@ struct
 tagged struct
 ==================
 
-constructor:{}
-constructor:{ a, b }
-constructor:{ ['a']: 1, ...b, c: 'str', d, e }
+<constructor>{}
+<constructor>{ a, b }
+<constructor>{ ['a']: 1, ...b, c: 'str', d, e }
 
 ---
 
@@ -913,9 +913,9 @@ tuple
 tagged tuple
 ==================
 
-constructor:()
-constructor:(a, 1, 'str', ...x)
-constructor:(1,1)
+<constructor>()
+<constructor>(a, 1, 'str', ...x)
+<constructor>(1,1)
 
 ---
 
@@ -967,9 +967,9 @@ list
 tagged list
 ==================
 
-constructor:[]
-constructor:[a, 1, ...b, 'str']
-constructor:[1,1..1,1]
+<constructor>[]
+<constructor>[a, 1, ...b, 'str']
+<constructor>[1,1..1,1]
 
 ---
 
@@ -1073,8 +1073,9 @@ list comprehension
 tagged value
 ==================
 
-constructor: 'String'
-constructor: 1
+<constructor>'String'
+<constructor>1
+<constructor>
 
 ---
 
@@ -1084,7 +1085,9 @@ constructor: 1
     value: (string))
   term: (tagged_value
     name: (identifier)
-    value: (number)))
+    value: (number))
+  term: (tagged_value
+    name: (identifier)))
 
 ==================
 type alias
@@ -1092,7 +1095,7 @@ type alias
 
 type Type := Type
 type Type<a, b <: Num> := a -> b
-type GreaterThan<a>(x :: a) := [y :: a | y > x]
+type GreaterThan<a>(x: a) := [y: a | y > x]
 
 ---
 

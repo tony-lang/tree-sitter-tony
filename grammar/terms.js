@@ -500,7 +500,13 @@ module.exports = {
 
   tagged_value: ($) =>
     prec.right(
-      seq(field('name', $.identifier), ':', field('value', $._simple_term)),
+      Prec.Tagged,
+      seq(
+        '<',
+        field('name', $.identifier),
+        '>',
+        optional(field('value', $._simple_term)),
+      ),
     ),
 
   type_alias: ($) =>

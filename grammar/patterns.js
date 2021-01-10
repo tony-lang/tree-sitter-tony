@@ -55,15 +55,20 @@ module.exports = {
       Prec.Pattern,
       seq(
         field('name', alias($.identifier, $.identifier_pattern_name)),
-        optional(seq('::', field('type', $._type))),
+        optional(seq(':', field('type', $._type))),
         optional(seq('=', field('default', $._simple_term))),
       ),
     ),
 
   tagged_pattern: ($) =>
-    prec(
-      Prec.Pattern,
-      seq(field('name', $.identifier), ':', field('pattern', $._pattern)),
+    prec.right(
+      Prec.Tagged,
+      seq(
+        '<',
+        field('name', $.identifier),
+        '>',
+        optional(field('pattern', $._pattern)),
+      ),
     ),
 
   _literal_pattern: ($) => choice($.boolean, $.number, $.raw_string, $.regex),

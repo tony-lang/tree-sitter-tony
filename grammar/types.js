@@ -135,12 +135,13 @@ module.exports = {
     ),
 
   tagged_type: ($) =>
-    prec(
-      Prec.TaggedType,
+    prec.right(
+      Prec.Tagged,
       seq(
+        '<',
         field('name', alias($.identifier, $.identifier_pattern_name)),
-        ':',
-        field('type', $._type),
+        '>',
+        optional(field('type', $._type)),
       ),
     ),
 
@@ -148,7 +149,7 @@ module.exports = {
     prec.left(
       seq(
         field('name', alias($.identifier, $.identifier_pattern_name)),
-        '::',
+        ':',
         field('type', $._type),
       ),
     ),
