@@ -319,6 +319,28 @@ a :: Type | Type & Type | Type := 1
     value: (number)))
 
 ==================
+subtraction type
+==================
+
+a :: Type | Type \ Type := 1
+
+---
+
+(program
+  term: (assignment
+    pattern: (identifier_pattern
+      name: (identifier_pattern_name)
+      type: (subtraction_type
+        left: (union_type
+          left: (parametric_type
+              name: (type))
+          right: (parametric_type
+            name: (type)))
+        right: (parametric_type
+          name: (type))))
+    value: (number)))
+
+==================
 refinement type
 ==================
 

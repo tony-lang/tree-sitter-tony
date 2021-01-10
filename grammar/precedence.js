@@ -1,5 +1,6 @@
 module.exports = {
   TaggedType: -1,
+  SubtractionType: -1,
   UnionType: 0,
   Assignment: 1,
   TypeHint: 1,

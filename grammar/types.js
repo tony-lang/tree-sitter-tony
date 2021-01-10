@@ -32,6 +32,7 @@ module.exports = {
         $.curried_type,
         $.intersection_type,
         $.union_type,
+        $.subtraction_type,
         $.struct_type,
         $.map_type,
         $.tuple_type,
@@ -73,6 +74,30 @@ module.exports = {
     prec.right(
       Prec.UnionType,
       seq(field('left', $._type), '|', field('right', $._type)),
+    ),
+
+  subtraction_type: ($) =>
+    prec.right(
+      Prec.SubtractionType,
+      seq(
+        field(
+          'left',
+          choice(
+            $.parametric_type,
+            alias($.identifier, $.type_variable),
+            $.union_type,
+          ),
+        ),
+        '\\',
+        field(
+          'right',
+          choice(
+            $.parametric_type,
+            alias($.identifier, $.type_variable),
+            $.union_type,
+          ),
+        ),
+      ),
     ),
 
   struct_type: ($) => buildStruct($, $.member_type),
