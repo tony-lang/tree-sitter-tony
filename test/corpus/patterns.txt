@@ -19,8 +19,8 @@ x@[y] := z
 struct pattern
 ============================================
 
-{ b: c :: Type } := a
-{ b: c :: Type, d :: Type, ['e']: e :: Type, ...f :: Type = {} } := a
+{ b: c: Type } := a
+{ b: c: Type, d: Type, ['e']: e: Type, ...f: Type = {} } := a
 
 ---
 
@@ -66,14 +66,13 @@ struct pattern
 tagged struct pattern
 ============================================
 
-(constructor: { b: c :: Type }) := a
-(constructor: { b: c :: Type, d :: Type, ['e']: e :: Type, ...f :: Type = {} }) := a
+<constructor>{ b: c: Type } := a
+<constructor>{ b: c: Type, d: Type, ['e']: e: Type, ...f: Type = {} } := a
 
 ---
 
 (program
   term: (assignment
-    pattern: (pattern_group
       pattern: (tagged_pattern
         name: (identifier)
         pattern: (destructuring_pattern
@@ -83,10 +82,9 @@ tagged struct pattern
               value: (identifier_pattern
                 name: (identifier_pattern_name)
                 type: (parametric_type
-                  name: (type))))))))
+                  name: (type)))))))
     value: (identifier))
   term: (assignment
-    pattern: (pattern_group
       pattern: (tagged_pattern
         name: (identifier)
         pattern: (destructuring_pattern
@@ -112,14 +110,14 @@ tagged struct pattern
                 name: (identifier_pattern_name)
                 type: (parametric_type
                   name: (type))
-                default: (struct)))))))
+                default: (struct))))))
     value: (identifier)))
 
 ============================================
 tuple pattern
 ============================================
 
-(a, b :: Type, ...c) := a
+(a, b: Type, ...c) := a
 
 ---
 
@@ -142,13 +140,12 @@ tuple pattern
 tagged tuple pattern
 ============================================
 
-(constructor: (a, b :: Type, ...c)) := a
+<constructor>(a, b: Type, ...c) := a
 
 ---
 
 (program
   term: (assignment
-    pattern: (pattern_group
       pattern: (tagged_pattern
         name: (identifier)
         pattern: (destructuring_pattern
@@ -161,15 +158,15 @@ tagged tuple pattern
                 name: (type)))
             rest: (rest
               name: (identifier_pattern
-                name: (identifier_pattern_name)))))))
+                name: (identifier_pattern_name))))))
     value: (identifier)))
 
 ============================================
 list pattern
 ============================================
 
-[b :: Type, c :: Type] := a
-[b :: Type, c :: Type, ...d :: Type = [1]] := a
+[b: Type, c: Type] := a
+[b: Type, c: Type, ...d: Type = [1]] := a
 
 ---
 
@@ -210,14 +207,13 @@ list pattern
 tagged list pattern
 ============================================
 
-(constructor: [b :: Type, c :: Type]) := a
-(constructor: [b :: Type, c :: Type, ...d :: Type = [1]]) := a
+<constructor>[b: Type, c: Type] := a
+<constructor>[b: Type, c: Type, ...d: Type = [1]] := a
 
 ---
 
 (program
   term: (assignment
-    pattern: (pattern_group
       pattern: (tagged_pattern
         name: (identifier)
         pattern: (destructuring_pattern
@@ -229,10 +225,9 @@ tagged list pattern
             element: (identifier_pattern
               name: (identifier_pattern_name)
               type: (parametric_type
-                name: (type)))))))
+                name: (type))))))
     value: (identifier))
   term: (assignment
-    pattern: (pattern_group
       pattern: (tagged_pattern
         name: (identifier)
         pattern: (destructuring_pattern
@@ -251,5 +246,19 @@ tagged list pattern
                 type: (parametric_type
                   name: (type))
                 default: (list
-                  element: (number))))))))
+                  element: (number)))))))
+    value: (identifier)))
+
+============================================
+tagged pattern
+============================================
+
+<constructor> := a
+
+---
+
+(program
+  term: (assignment
+    pattern: (tagged_pattern
+      name: (identifier))
     value: (identifier)))
