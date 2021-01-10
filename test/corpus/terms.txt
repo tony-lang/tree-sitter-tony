@@ -1094,6 +1094,7 @@ type alias
 ==================
 
 type Type := Type
+type <constructor> Type := Type
 type Type<a, b <: Num> := a -> b
 type GreaterThan<a>(x: a) := [y: a | y > x]
 
@@ -1102,6 +1103,12 @@ type GreaterThan<a>(x: a) := [y: a | y > x]
 (program
   term: (type_alias
     name: (type_declaration
+      name: (type))
+    type: (parametric_type
+      name: (type)))
+  term: (type_alias
+    name: (type_declaration
+      tag: (identifier_pattern_name)
       name: (type))
     type: (parametric_type
       name: (type)))

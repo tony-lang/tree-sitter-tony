@@ -37,7 +37,7 @@ a: <constructor>{ a: Type, b: Type } := 1
     pattern: (identifier_pattern
       name: (identifier_pattern_name)
       type: (tagged_type
-        name: (identifier_pattern_name)
+        name: (identifier)
         type: (struct_type
           member: (member_type
             key: (shorthand_member_identifier)
@@ -100,7 +100,7 @@ a: <constructor>(Type, Type) := 1
     pattern: (identifier_pattern
       name: (identifier_pattern_name)
       type: (tagged_type
-        name: (identifier_pattern_name)
+        name: (identifier)
         type: (tuple_type
           element: (parametric_type
             name: (type))
@@ -138,7 +138,7 @@ a: <constructor>[Type] := 1
     pattern: (identifier_pattern
       name: (identifier_pattern_name)
       type: (tagged_type
-        name: (identifier_pattern_name)
+        name: (identifier)
         type: (list_type
           element: (parametric_type
             name: (type)))))
@@ -267,20 +267,20 @@ a as <constructor>Type<Type, a, typeof b, typeof 'string', typeof 5>
   term: (type_hint
     value: (identifier)
     type: (tagged_type
-      name: (identifier_pattern_name)
+      name: (identifier)
       type: (parametric_type
         name: (type))))
   term: (type_hint
     value: (identifier)
     type: (tagged_type
-      name: (identifier_pattern_name)
+      name: (identifier)
       type: (parametric_type
         name: (type)
         argument: (type_variable))))
   term: (type_hint
     value: (identifier)
     type: (tagged_type
-      name: (identifier_pattern_name)
+      name: (identifier)
       type: (parametric_type
         name: (type)
         argument: (parametric_type
@@ -377,6 +377,22 @@ a: Type <: (Type; Type) ? Type <: Type ? Type : Type : Type <: Type ? Type : Typ
             name: (type))
           alternative: (parametric_type
             name: (type)))))
+    value: (number)))
+
+==================
+tagged type
+==================
+
+a: <constructor> := 1
+
+---
+
+(program
+  term: (assignment
+    pattern: (identifier_pattern
+      name: (identifier_pattern_name)
+      type: (tagged_type
+        name: (identifier)))
     value: (number)))
 
 ==================

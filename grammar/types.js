@@ -139,7 +139,7 @@ module.exports = {
       Prec.Tagged,
       seq(
         '<',
-        field('name', alias($.identifier, $.identifier_pattern_name)),
+        field('name', $.identifier),
         '>',
         optional(field('type', $._type)),
       ),
@@ -172,6 +172,9 @@ module.exports = {
   type_declaration: ($) =>
     prec.left(
       seq(
+        optional(seq('<',
+        field('tag', alias($.identifier, $.identifier_pattern_name)),
+        '>',)),
         field('name', $.type),
         optional(buildGenericType('parameter', $.type_variable_declaration)),
         optional(buildTuple($, $.identifier_pattern, false, true)),
