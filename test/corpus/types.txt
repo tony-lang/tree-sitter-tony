@@ -2,7 +2,7 @@
 struct type
 ==================
 
-a: {
+a :: {
   a: Type,
   b: Type
 } := 1
@@ -28,7 +28,7 @@ a: {
 tagged struct type
 ==================
 
-a: <constructor>{ a: Type, b: Type } := 1
+a :: <constructor>{ a: Type, b: Type } := 1
 
 ---
 
@@ -53,7 +53,7 @@ a: <constructor>{ a: Type, b: Type } := 1
 map type
 ==================
 
-a: { [Type]: Type } := 1
+a :: { [Type]: Type } := 1
 
 ---
 
@@ -72,7 +72,7 @@ a: { [Type]: Type } := 1
 tuple type
 ==================
 
-a: (Type, Type) := 1
+a :: (Type, Type) := 1
 
 ---
 
@@ -91,7 +91,7 @@ a: (Type, Type) := 1
 tagged tuple type
 ==================
 
-a: <constructor>(Type, Type) := 1
+a :: <constructor>(Type, Type) := 1
 
 ---
 
@@ -112,7 +112,7 @@ a: <constructor>(Type, Type) := 1
 list type
 ==================
 
-a: [Type] := 1
+a :: [Type] := 1
 
 ---
 
@@ -129,7 +129,7 @@ a: [Type] := 1
 tagged list type
 ==================
 
-a: <constructor>[Type] := 1
+a :: <constructor>[Type] := 1
 
 ---
 
@@ -170,8 +170,8 @@ a as a[0]
 curried type
 ==================
 
-a: Type -> [Type] -> Type := 1
-a: Type -> (Type -> Type) -> a := 1
+a :: Type -> [Type] -> Type := 1
+a :: Type -> (Type -> Type) -> a := 1
 
 ---
 
@@ -297,7 +297,7 @@ a as <constructor>Type<Type, a, typeof b, typeof 'string', typeof 5>
 intersection/union type
 ==================
 
-a: Type | Type & Type | Type := 1
+a :: Type | Type & Type | Type := 1
 
 ---
 
@@ -322,7 +322,7 @@ a: Type | Type & Type | Type := 1
 subtraction type
 ==================
 
-a: Type | Type \ Type := 1
+a :: Type | Type \ Type := 1
 
 ---
 
@@ -344,7 +344,7 @@ a: Type | Type \ Type := 1
 conditional type
 ==================
 
-a: Type <: (Type; Type) ? Type <: Type ? Type : Type : Type <: Type ? Type : Type := 1
+a :: if Type <: (Type; Type) then if Type <: Type then Type else Type else if Type <: Type then Type else Type := 1
 
 ---
 
@@ -383,7 +383,7 @@ a: Type <: (Type; Type) ? Type <: Type ? Type : Type : Type <: Type ? Type : Typ
 tagged type
 ==================
 
-a: <constructor> := 1
+a :: <constructor> := 1
 
 ---
 
@@ -399,7 +399,7 @@ a: <constructor> := 1
 refinement type
 ==================
 
-a: Type<[(a: Type, Type) | a > 0, a < 10]> := 1
+a :: Type<[(a :: Type, Type) | a > 0, a < 10]> := 1
 
 ---
 

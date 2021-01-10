@@ -19,8 +19,8 @@ x@[y] := z
 struct pattern
 ============================================
 
-{ b: c: Type } := a
-{ b: c: Type, d: Type, ['e']: e: Type, ...f: Type = {} } := a
+{ b: c :: Type } := a
+{ b: c :: Type, d :: Type, ['e']: e :: Type, ...f :: Type = {} } := a
 
 ---
 
@@ -66,8 +66,8 @@ struct pattern
 tagged struct pattern
 ============================================
 
-<constructor>{ b: c: Type } := a
-<constructor>{ b: c: Type, d: Type, ['e']: e: Type, ...f: Type = {} } := a
+<constructor>{ b: c :: Type } := a
+<constructor>{ b: c :: Type, d :: Type, ['e']: e :: Type, ...f :: Type = {} } := a
 
 ---
 
@@ -117,7 +117,7 @@ tagged struct pattern
 tuple pattern
 ============================================
 
-(a, b: Type, ...c) := a
+(a, b :: Type, ...c) := a
 
 ---
 
@@ -140,7 +140,7 @@ tuple pattern
 tagged tuple pattern
 ============================================
 
-<constructor>(a, b: Type, ...c) := a
+<constructor>(a, b :: Type, ...c) := a
 
 ---
 
@@ -165,8 +165,8 @@ tagged tuple pattern
 list pattern
 ============================================
 
-[b: Type, c: Type] := a
-[b: Type, c: Type, ...d: Type = [1]] := a
+[b :: Type, c :: Type] := a
+[b :: Type, c :: Type, ...d :: Type = [1]] := a
 
 ---
 
@@ -207,8 +207,8 @@ list pattern
 tagged list pattern
 ============================================
 
-<constructor>[b: Type, c: Type] := a
-<constructor>[b: Type, c: Type, ...d: Type = [1]] := a
+<constructor>[b :: Type, c :: Type] := a
+<constructor>[b :: Type, c :: Type, ...d :: Type = [1]] := a
 
 ---
 

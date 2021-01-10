@@ -96,11 +96,12 @@ module.exports = {
   conditional_type: ($) =>
     prec.right(
       seq(
+        'if',
         field('type', $._type),
         buildTypeConstraint($),
-        '?',
+        'then',
         field('consequence', $._type),
-        ':',
+        'else',
         field('alternative', $._type),
       ),
     ),
@@ -149,7 +150,7 @@ module.exports = {
     prec.left(
       seq(
         field('name', alias($.identifier, $.identifier_pattern_name)),
-        ':',
+        '::',
         field('type', $._type),
       ),
     ),
