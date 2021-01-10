@@ -5,17 +5,17 @@ abstraction
 (a) =>
   a
 (a, b) => a
-(a: Type, b: Type, 1, { c: Type = 1 }) => a
+(a :: Type, b :: Type, 1, { c :: Type = 1 }) => a
 
 fib :=
   (0) =>
     0
   (1) => 1
-  <a>(n: a = 2) =>
+  <a>(n :: a = 2) =>
     fib(n - 1) + fib(n - 2)
 
-<a <: Type>(...a: a) =>
-  b := (c: Type) =>
+<a <: Type>(...a :: a) =>
+  b := (c :: Type) =>
     c
   b(1)
 
@@ -472,8 +472,8 @@ a.b[c]
 assignment
 ==================
 
-a: Type := 1
-a := (a: Type) =>
+a :: Type := 1
+a := (a :: Type) =>
   1
 
 ---
@@ -504,8 +504,8 @@ import
 import {
   a as b,
   c,
-  a as b: Type,
-  c: Type,
+  a as b :: Type,
+  c :: Type,
   Type as Type,
   Type
 } from 'source'
@@ -577,7 +577,7 @@ export
 ==================
 
 export a := 1
-export a := (x: a) =>
+export a := (x :: a) =>
   1
 
 ---
@@ -605,7 +605,7 @@ return
 ==================
 
 return 1
-return (a: Type) =>
+return (a :: Type) =>
   1
 
 ---
@@ -689,13 +689,14 @@ if true then 1 else 1
 case
 ==================
 
-a := case a
-     when 1 then
-       1
-     else 1
+a :=
+  case a
+    when 1 then
+      1
+    else 1
 
 case a
-when [1, a: Type] then
+when [1, a :: Type] then
   a
 when 1, 1 then 1
 else 1
@@ -758,10 +759,10 @@ interface
 ==================
 
 interface Type<a>
-  a: a -> Number
-  b: a -> Number
+  a :: a -> Number
+  b :: a -> Number
 interface Ord<a <: Eq, b <: (Num; Eq; Ord)>
-  compare: a -> b -> Number
+  compare :: a -> b -> Number
 
 ---
 
@@ -1096,7 +1097,7 @@ type alias
 type Type := Type
 type <constructor> Type := Type
 type Type<a, b <: Num> := a -> b
-type GreaterThan<a>(x: a) := [y: a | y > x]
+type GreaterThan<a>(x :: a) := [y :: a | y > x]
 
 ---
 
