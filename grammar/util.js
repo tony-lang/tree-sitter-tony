@@ -72,6 +72,15 @@ const buildString = ($, ...content) =>
 const buildGenericType = (name, rule) =>
   seq('<', commaSep1(field(name, rule)), '>')
 
+const buildTypeConstraint = ($) =>
+  seq(
+    '<:',
+    choice(
+      field('constraint', $._type),
+      seq('(', sep2(';')(field('constraint', $._type)), ')'),
+    ),
+  )
+
 const buildSimpleBlock = ($, line) => seq(line, $._newline)
 
 const buildCompoundBlock = ($, body) =>
@@ -86,6 +95,7 @@ module.exports = {
   buildMember,
   buildString,
   buildGenericType,
+  buildTypeConstraint,
   commaSep1,
   sep1,
   sep2,
