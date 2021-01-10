@@ -319,6 +319,45 @@ a :: Type | Type & Type | Type := 1
     value: (number)))
 
 ==================
+conditional type
+==================
+
+a :: Type <: (Type; Type) ? Type <: Type ? Type : Type : Type <: Type ? Type : Type := 1
+
+---
+
+(program
+  term: (assignment
+    pattern: (identifier_pattern
+      name: (identifier_pattern_name)
+      type: (conditional_type
+        type: (parametric_type
+          name: (type))
+        constraint: (parametric_type
+          name: (type))
+        constraint: (parametric_type
+          name: (type))
+        consequence: (conditional_type
+          type: (parametric_type
+            name: (type))
+          constraint: (parametric_type
+            name: (type))
+          consequence: (parametric_type
+            name: (type))
+          alternative: (parametric_type
+            name: (type)))
+        alternative: (conditional_type
+          type: (parametric_type
+            name: (type))
+          constraint: (parametric_type
+            name: (type))
+          consequence: (parametric_type
+            name: (type))
+          alternative: (parametric_type
+            name: (type)))))
+    value: (number)))
+
+==================
 refinement type
 ==================
 
