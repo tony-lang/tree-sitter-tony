@@ -4,7 +4,7 @@ const {
   commaSep1,
   buildStruct,
   buildTuple,
-  sep2,
+  buildTypeConstraint,
 } = require('./util')
 
 module.exports = {
@@ -12,15 +12,7 @@ module.exports = {
     prec.left(
       seq(
         field('name', alias($.identifier, $.type_variable_declaration_name)),
-        optional(
-          seq(
-            '<:',
-            choice(
-              field('constraint', $._type),
-              seq('(', sep2(';')(field('constraint', $._type)), ')'),
-            ),
-          ),
-        ),
+        optional(buildTypeConstraint($)),
       ),
     ),
 
@@ -33,6 +25,7 @@ module.exports = {
         $.intersection_type,
         $.union_type,
         $.subtraction_type,
+        $.conditional_type,
         $.struct_type,
         $.map_type,
         $.tuple_type,
@@ -97,6 +90,18 @@ module.exports = {
             $.union_type,
           ),
         ),
+      ),
+    ),
+
+  conditional_type: ($) =>
+    prec.right(
+      seq(
+        field('type', $._type),
+        buildTypeConstraint($),
+        '?',
+        field('consequence', $._type),
+        ':',
+        field('alternative', $._type),
       ),
     ),
 
