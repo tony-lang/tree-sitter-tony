@@ -86,6 +86,7 @@ const {
 const {
   type_variable_declaration,
   _type,
+  _term_type,
   typeof_,
   parametric_type,
   curried_type,
@@ -213,6 +214,7 @@ module.exports = grammar({
 
     type_variable_declaration,
     _type,
+    _term_type,
     typeof: typeof_,
     parametric_type,
     curried_type,
