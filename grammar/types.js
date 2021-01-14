@@ -39,8 +39,9 @@ module.exports = {
       ),
     ),
 
-  typeof_: ($) =>
-    seq('typeof', field('value', choice($.identifier, $._literal))),
+  _term_type: ($) => choice($.identifier, $._literal),
+
+  typeof_: ($) => seq('typeof', field('value', $._term_type)),
 
   parametric_type: ($) =>
     prec.right(
@@ -132,7 +133,7 @@ module.exports = {
   access_type: ($) =>
     prec(
       Prec.Access,
-      seq(field('type', $._type), '[', field('value', $._simple_term), ']'),
+      seq(field('type', $._type), '[', field('value', $._term_type), ']'),
     ),
 
   tagged_type: ($) =>
