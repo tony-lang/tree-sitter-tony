@@ -202,6 +202,7 @@ export const enum SyntaxType {
   ImportType = "import_type",
   InfixApplication = "infix_application",
   Interface = "interface",
+  InterfaceMember = "interface_member",
   Interpolation = "interpolation",
   IntersectionType = "intersection_type",
   LeftSection = "left_section",
@@ -343,6 +344,7 @@ export type SyntaxNode =
   | ImportTypeNode
   | InfixApplicationNode
   | InterfaceNode
+  | InterfaceMemberNode
   | InterpolationNode
   | IntersectionTypeNode
   | LeftSectionNode
@@ -439,8 +441,8 @@ export type SyntaxNode =
   | UnnamedNode<SyntaxType.Return>
   | UnnamedNode<"then">
   | UnnamedNode<"true">
-  | TypeNode
   | UnnamedNode<SyntaxType.Type>
+  | TypeNode
   | UnnamedNode<SyntaxType.Typeof>
   | UnnamedNode<SyntaxType.When>
   | UnnamedNode<"{">
@@ -628,8 +630,14 @@ export interface InfixApplicationNode extends NamedNodeBase {
 
 export interface InterfaceNode extends NamedNodeBase {
   type: SyntaxType.Interface;
-  memberNodes: IdentifierPatternNode[];
+  memberNodes: InterfaceMemberNode[];
   nameNode: TypeDeclarationNode;
+}
+
+export interface InterfaceMemberNode extends NamedNodeBase {
+  type: SyntaxType.InterfaceMember;
+  nameNode: IdentifierPatternNameNode;
+  typeNode: AccessTypeNode | ConditionalTypeNode | CurriedTypeNode | IntersectionTypeNode | ListTypeNode | MapTypeNode | ParametricTypeNode | RefinementTypeNode | RefinementTypeDeclarationNode | StructTypeNode | SubtractionTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | TypeofNode | UnionTypeNode;
 }
 
 export interface InterpolationNode extends NamedNodeBase {

@@ -772,13 +772,13 @@ interface Ord<a <: Eq, b <: (Num; Eq; Ord)>
       name: (type)
       parameter: (type_variable_declaration
         name: (type_variable_declaration_name)))
-    member: (identifier_pattern
+    member: (interface_member
       name: (identifier_pattern_name)
       type: (curried_type
         from: (type_variable)
         to: (parametric_type
           name: (type))))
-    member: (identifier_pattern
+    member: (interface_member
       name: (identifier_pattern_name)
       type: (curried_type
         from: (type_variable)
@@ -799,7 +799,7 @@ interface Ord<a <: Eq, b <: (Num; Eq; Ord)>
           name: (type))
         constraint: (parametric_type
           name: (type))))
-    member: (identifier_pattern
+    member: (interface_member
       name: (identifier_pattern_name)
       type: (curried_type
         from: (type_variable)
