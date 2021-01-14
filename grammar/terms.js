@@ -157,7 +157,13 @@ module.exports = {
     seq(
       'interface',
       field('name', $.type_declaration),
-      buildCompoundBlock($, repeat1(field('member', $.identifier_pattern))),
+      buildCompoundBlock($, repeat1(field('member', $.interface_member))),
+    ),
+  interface_member: ($) =>
+    seq(
+      field('name', alias($.identifier, $.identifier_pattern_name)),
+      '::',
+      field('type', $._type),
     ),
 
   implement: ($) =>
