@@ -809,6 +809,26 @@ interface Ord<a <: Eq, b <: (Num; Eq; Ord)>
             name: (type)))))))
 
 ==================
+implement
+==================
+
+implement Ord<Number>
+  compare := 1
+
+---
+
+(program
+  term: (implement
+    name: (parametric_type
+      name: (type)
+      argument: (parametric_type
+        name: (type)))
+    assignment: (assignment
+      pattern: (identifier_pattern
+        name: (identifier_pattern_name))
+      value: (number))))
+
+==================
 struct
 ==================
 

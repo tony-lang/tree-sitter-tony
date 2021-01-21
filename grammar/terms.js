@@ -53,6 +53,7 @@ module.exports = {
         $.case,
         $.enum,
         $.interface,
+        $.implement,
       ),
     ),
 
@@ -163,6 +164,24 @@ module.exports = {
       field('name', alias($.identifier, $.identifier_pattern_name)),
       '::',
       field('type', $._type),
+    ),
+
+  implement: ($) =>
+    seq(
+      'implement',
+      field('name', $.parametric_type),
+      buildCompoundBlock(
+        $,
+        repeat1(
+          choice(
+            buildSimpleBlock(
+              $,
+              field('assignment', alias($.simple_assignment, $.assignment)),
+            ),
+            field('assignment', alias($.compound_assignment, $.assignment)),
+          ),
+        ),
+      ),
     ),
 
   argument: ($) =>

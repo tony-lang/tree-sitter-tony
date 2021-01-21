@@ -196,6 +196,7 @@ export const enum SyntaxType {
   IdentifierPattern = "identifier_pattern",
   IdentifierPatternName = "identifier_pattern_name",
   If = "if",
+  Implement = "implement",
   Import = "import",
   ImportIdentifier = "import_identifier",
   ImportType = "import_type",
@@ -294,6 +295,7 @@ export type UnnamedType =
   | "false"
   | "from"
   | SyntaxType.If // both named and unnamed
+  | SyntaxType.Implement // both named and unnamed
   | SyntaxType.Import // both named and unnamed
   | "in"
   | SyntaxType.Interface // both named and unnamed
@@ -336,6 +338,7 @@ export type SyntaxNode =
   | IdentifierPatternNode
   | IdentifierPatternNameNode
   | IfNode
+  | ImplementNode
   | ImportNode
   | ImportIdentifierNode
   | ImportTypeNode
@@ -428,6 +431,7 @@ export type SyntaxNode =
   | UnnamedNode<"from">
   | HashBangLineNode
   | UnnamedNode<SyntaxType.If>
+  | UnnamedNode<SyntaxType.Implement>
   | UnnamedNode<SyntaxType.Import>
   | UnnamedNode<"in">
   | UnnamedNode<SyntaxType.Interface>
@@ -488,12 +492,12 @@ export interface ArgumentNode extends NamedNodeBase {
 export interface AssignmentNode extends NamedNodeBase {
   type: SyntaxType.Assignment;
   patternNode: DestructuringPatternNode | IdentifierPatternNode | PatternGroupNode | TaggedPatternNode;
-  valueNode: AbstractionNode | AccessNode | ApplicationNode | AssignmentNode | BooleanNode | CaseNode | EnumNode | ExportNode | ExportedImportNode | GroupNode | IdentifierNode | IfNode | ImportNode | InfixApplicationNode | InterfaceNode | LeftSectionNode | ListNode | ListComprehensionNode | NumberNode | PipelineNode | PrefixApplicationNode | RegexNode | ReturnNode | RightSectionNode | StringNode | StructNode | TaggedValueNode | TupleNode | TypeAliasNode | TypeHintNode;
+  valueNode: AbstractionNode | AccessNode | ApplicationNode | AssignmentNode | BooleanNode | CaseNode | EnumNode | ExportNode | ExportedImportNode | GroupNode | IdentifierNode | IfNode | ImplementNode | ImportNode | InfixApplicationNode | InterfaceNode | LeftSectionNode | ListNode | ListComprehensionNode | NumberNode | PipelineNode | PrefixApplicationNode | RegexNode | ReturnNode | RightSectionNode | StringNode | StructNode | TaggedValueNode | TupleNode | TypeAliasNode | TypeHintNode;
 }
 
 export interface BlockNode extends NamedNodeBase {
   type: SyntaxType.Block;
-  termNodes: (AbstractionNode | AccessNode | ApplicationNode | AssignmentNode | BooleanNode | CaseNode | EnumNode | ExportNode | ExportedImportNode | GroupNode | IdentifierNode | IfNode | ImportNode | InfixApplicationNode | InterfaceNode | LeftSectionNode | ListNode | ListComprehensionNode | NumberNode | PipelineNode | PrefixApplicationNode | RegexNode | ReturnNode | RightSectionNode | StringNode | StructNode | TaggedValueNode | TupleNode | TypeAliasNode | TypeHintNode)[];
+  termNodes: (AbstractionNode | AccessNode | ApplicationNode | AssignmentNode | BooleanNode | CaseNode | EnumNode | ExportNode | ExportedImportNode | GroupNode | IdentifierNode | IfNode | ImplementNode | ImportNode | InfixApplicationNode | InterfaceNode | LeftSectionNode | ListNode | ListComprehensionNode | NumberNode | PipelineNode | PrefixApplicationNode | RegexNode | ReturnNode | RightSectionNode | StringNode | StructNode | TaggedValueNode | TupleNode | TypeAliasNode | TypeHintNode)[];
 }
 
 export interface BooleanNode extends NamedNodeBase {
@@ -590,6 +594,12 @@ export interface IfNode extends NamedNodeBase {
   conditionNode: AbstractionNode | AccessNode | ApplicationNode | AssignmentNode | BooleanNode | ExportNode | ExportedImportNode | GroupNode | IdentifierNode | IfNode | ImportNode | InfixApplicationNode | LeftSectionNode | ListNode | ListComprehensionNode | NumberNode | PipelineNode | PrefixApplicationNode | RegexNode | ReturnNode | RightSectionNode | StringNode | StructNode | TaggedValueNode | TupleNode | TypeAliasNode | TypeHintNode;
   elseNode?: BlockNode;
   elseIfNodes: ElseIfNode[];
+}
+
+export interface ImplementNode extends NamedNodeBase {
+  type: SyntaxType.Implement;
+  assignmentNodes: AssignmentNode[];
+  nameNode: ParametricTypeNode;
 }
 
 export interface ImportNode extends NamedNodeBase {
@@ -724,7 +734,7 @@ export interface PrefixApplicationNode extends NamedNodeBase {
 export interface ProgramNode extends NamedNodeBase {
   type: SyntaxType.Program;
   hashBangLineNode?: HashBangLineNode;
-  termNodes: (AbstractionNode | AccessNode | ApplicationNode | AssignmentNode | BooleanNode | CaseNode | EnumNode | ExportNode | ExportedImportNode | GroupNode | IdentifierNode | IfNode | ImportNode | InfixApplicationNode | InterfaceNode | LeftSectionNode | ListNode | ListComprehensionNode | NumberNode | PipelineNode | PrefixApplicationNode | RegexNode | ReturnNode | RightSectionNode | StringNode | StructNode | TaggedValueNode | TupleNode | TypeAliasNode | TypeHintNode)[];
+  termNodes: (AbstractionNode | AccessNode | ApplicationNode | AssignmentNode | BooleanNode | CaseNode | EnumNode | ExportNode | ExportedImportNode | GroupNode | IdentifierNode | IfNode | ImplementNode | ImportNode | InfixApplicationNode | InterfaceNode | LeftSectionNode | ListNode | ListComprehensionNode | NumberNode | PipelineNode | PrefixApplicationNode | RegexNode | ReturnNode | RightSectionNode | StringNode | StructNode | TaggedValueNode | TupleNode | TypeAliasNode | TypeHintNode)[];
 }
 
 export interface RawStringNode extends NamedNodeBase {
