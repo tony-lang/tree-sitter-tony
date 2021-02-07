@@ -101,10 +101,9 @@ fib :=
         name: (type_variable_declaration_name)
         constraint: (parametric_type
           name: (type)))
-      rest: (rest
-        name: (identifier_pattern
-          name: (identifier_pattern_name)
-          type: (type_variable)))
+      rest: (identifier_pattern
+        name: (identifier_pattern_name)
+        type: (type_variable))
       body: (block
         term: (assignment
           pattern: (identifier_pattern

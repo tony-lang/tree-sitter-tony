@@ -48,8 +48,6 @@ module.exports = {
 
   list_pattern: ($) => prec(Prec.Pattern, buildList($, $._pattern, true)),
 
-  rest: ($) => seq('...', field('name', $.identifier_pattern)),
-
   identifier_pattern: ($) =>
     prec.right(
       Prec.Pattern,

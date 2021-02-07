@@ -224,7 +224,6 @@ export const enum SyntaxType {
   RefinementType = "refinement_type",
   RefinementTypeDeclaration = "refinement_type_declaration",
   Regex = "regex",
-  Rest = "rest",
   Return = "return",
   RightSection = "right_section",
   ShorthandAccessIdentifier = "shorthand_access_identifier",
@@ -366,7 +365,6 @@ export type SyntaxNode =
   | RefinementTypeNode
   | RefinementTypeDeclarationNode
   | RegexNode
-  | RestNode
   | ReturnNode
   | RightSectionNode
   | ShorthandAccessIdentifierNode
@@ -460,7 +458,7 @@ export interface AbstractionBranchNode extends NamedNodeBase {
   type: SyntaxType.AbstractionBranch;
   bodyNode: BlockNode;
   elementNodes: (BooleanNode | DestructuringPatternNode | IdentifierPatternNode | NumberNode | PatternGroupNode | RawStringNode | RegexNode | TaggedPatternNode)[];
-  restNode?: RestNode;
+  restNode?: IdentifierPatternNode;
   typeParameterNodes: TypeVariableDeclarationNode[];
 }
 
@@ -671,7 +669,7 @@ export interface ListComprehensionNode extends NamedNodeBase {
 export interface ListPatternNode extends NamedNodeBase {
   type: SyntaxType.ListPattern;
   elementNodes: (BooleanNode | DestructuringPatternNode | IdentifierPatternNode | NumberNode | PatternGroupNode | RawStringNode | RegexNode | TaggedPatternNode)[];
-  restNode?: RestNode;
+  restNode?: IdentifierPatternNode;
 }
 
 export interface ListTypeNode extends NamedNodeBase {
@@ -759,11 +757,6 @@ export interface RegexNode extends NamedNodeBase {
   patternNode: RegexPatternNode;
 }
 
-export interface RestNode extends NamedNodeBase {
-  type: SyntaxType.Rest;
-  nameNode: IdentifierPatternNode;
-}
-
 export interface ReturnNode extends NamedNodeBase {
   type: SyntaxType.Return;
   valueNode: AbstractionNode | AccessNode | ApplicationNode | AssignmentNode | BooleanNode | ExportNode | ExportedImportNode | GroupNode | IdentifierNode | IfNode | ImportNode | InfixApplicationNode | LeftSectionNode | ListNode | ListComprehensionNode | NumberNode | PipelineNode | PrefixApplicationNode | RegexNode | ReturnNode | RightSectionNode | StringNode | StructNode | TaggedValueNode | TupleNode | TypeAliasNode | TypeHintNode;
@@ -813,7 +806,7 @@ export interface StructNode extends NamedNodeBase {
 export interface StructPatternNode extends NamedNodeBase {
   type: SyntaxType.StructPattern;
   memberNodes: (MemberPatternNode | ShorthandMemberPatternNode)[];
-  restNode?: RestNode;
+  restNode?: IdentifierPatternNode;
 }
 
 export interface StructTypeNode extends NamedNodeBase {
@@ -853,7 +846,7 @@ export interface TupleNode extends NamedNodeBase {
 export interface TuplePatternNode extends NamedNodeBase {
   type: SyntaxType.TuplePattern;
   elementNodes: (BooleanNode | DestructuringPatternNode | IdentifierPatternNode | NumberNode | PatternGroupNode | RawStringNode | RegexNode | TaggedPatternNode)[];
-  restNode?: RestNode;
+  restNode?: IdentifierPatternNode;
 }
 
 export interface TupleTypeNode extends NamedNodeBase {
