@@ -15,11 +15,11 @@ a :: {
       name: (identifier_pattern_name)
       type: (struct_type
         member: (member_type
-          key: (shorthand_member_identifier)
+          key: (shorthand_member_type)
           value: (parametric_type
             name: (type)))
         member: (member_type
-          key: (shorthand_member_identifier)
+          key: (shorthand_member_type)
           value: (parametric_type
             name: (type)))))
     value: (number)))
@@ -40,11 +40,11 @@ a :: <constructor>{ a: Type, b: Type } := 1
         name: (identifier)
         type: (struct_type
           member: (member_type
-            key: (shorthand_member_identifier)
+            key: (shorthand_member_type)
             value: (parametric_type
               name: (type)))
           member: (member_type
-            key: (shorthand_member_identifier)
+            key: (shorthand_member_type)
             value: (parametric_type
               name: (type))))))
     value: (number)))

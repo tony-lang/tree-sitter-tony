@@ -110,7 +110,7 @@ module.exports = {
   struct_type: ($) => buildStruct($, $.member_type),
   member_type: ($) =>
     seq(
-      field('key', alias($.identifier, $.shorthand_member_identifier)),
+      field('key', alias($.identifier, $.shorthand_member_type)),
       ':',
       field('value', $._type),
     ),

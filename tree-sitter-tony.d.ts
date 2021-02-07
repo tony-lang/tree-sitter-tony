@@ -231,6 +231,7 @@ export const enum SyntaxType {
   ShorthandMember = "shorthand_member",
   ShorthandMemberIdentifier = "shorthand_member_identifier",
   ShorthandMemberPattern = "shorthand_member_pattern",
+  ShorthandMemberType = "shorthand_member_type",
   Spread = "spread",
   String = "string",
   Struct = "struct",
@@ -373,6 +374,7 @@ export type SyntaxNode =
   | ShorthandMemberNode
   | ShorthandMemberIdentifierNode
   | ShorthandMemberPatternNode
+  | ShorthandMemberTypeNode
   | SpreadNode
   | StringNode
   | StructNode
@@ -699,7 +701,7 @@ export interface MemberPatternNode extends NamedNodeBase {
 
 export interface MemberTypeNode extends NamedNodeBase {
   type: SyntaxType.MemberType;
-  keyNode: ShorthandMemberIdentifierNode;
+  keyNode: ShorthandMemberTypeNode;
   valueNode: AccessTypeNode | ConditionalTypeNode | CurriedTypeNode | IntersectionTypeNode | ListTypeNode | MapTypeNode | ParametricTypeNode | RefinementTypeNode | RefinementTypeDeclarationNode | StructTypeNode | SubtractionTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | TypeofNode | UnionTypeNode;
 }
 
@@ -792,6 +794,10 @@ export interface ShorthandMemberPatternNode extends NamedNodeBase {
   defaultNode?: AbstractionNode | AccessNode | ApplicationNode | AssignmentNode | BooleanNode | ExportNode | ExportedImportNode | GroupNode | IdentifierNode | IfNode | ImportNode | InfixApplicationNode | LeftSectionNode | ListNode | ListComprehensionNode | NumberNode | PipelineNode | PrefixApplicationNode | RegexNode | ReturnNode | RightSectionNode | StringNode | StructNode | TaggedValueNode | TupleNode | TypeAliasNode | TypeHintNode;
   nameNode: IdentifierPatternNameNode;
   typeNode?: AccessTypeNode | ConditionalTypeNode | CurriedTypeNode | IntersectionTypeNode | ListTypeNode | MapTypeNode | ParametricTypeNode | RefinementTypeNode | RefinementTypeDeclarationNode | StructTypeNode | SubtractionTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | TypeofNode | UnionTypeNode;
+}
+
+export interface ShorthandMemberTypeNode extends NamedNodeBase {
+  type: SyntaxType.ShorthandMemberType;
 }
 
 export interface SpreadNode extends NamedNodeBase {
