@@ -20,11 +20,12 @@ const buildDataStructure = ($, element, rest, commaSepImpl = commaSep1) =>
   optional(
     choice(
       ...notFalse(
-        rest && field('rest', $.rest),
+        rest && seq('...', field('rest', $.identifier_pattern)),
         seq(
           ...notFalse(
             commaSepImpl(element),
-            rest && optional(seq(',', field('rest', $.rest))),
+            rest &&
+              optional(seq(',', '...', field('rest', $.identifier_pattern))),
           ),
         ),
       ),

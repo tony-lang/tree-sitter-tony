@@ -54,12 +54,11 @@ struct pattern
             name: (identifier_pattern_name)
             type: (parametric_type
               name: (type))))
-        rest: (rest
-          name: (identifier_pattern
-            name: (identifier_pattern_name)
-            type: (parametric_type
-              name: (type))
-            default: (struct)))))
+        rest: (identifier_pattern
+          name: (identifier_pattern_name)
+          type: (parametric_type
+            name: (type))
+          default: (struct))))
     value: (identifier)))
 
 ============================================
@@ -105,12 +104,11 @@ tagged struct pattern
                 name: (identifier_pattern_name)
                 type: (parametric_type
                   name: (type))))
-            rest: (rest
-              name: (identifier_pattern
-                name: (identifier_pattern_name)
-                type: (parametric_type
-                  name: (type))
-                default: (struct))))))
+            rest: (identifier_pattern
+              name: (identifier_pattern_name)
+              type: (parametric_type
+                name: (type))
+              default: (struct)))))
     value: (identifier)))
 
 ============================================
@@ -131,9 +129,8 @@ tuple pattern
           name: (identifier_pattern_name)
           type: (parametric_type
             name: (type)))
-        rest: (rest
-          name: (identifier_pattern
-            name: (identifier_pattern_name)))))
+        rest: (identifier_pattern
+          name: (identifier_pattern_name))))
     value: (identifier)))
 
 ============================================
@@ -156,9 +153,8 @@ tagged tuple pattern
               name: (identifier_pattern_name)
               type: (parametric_type
                 name: (type)))
-            rest: (rest
-              name: (identifier_pattern
-                name: (identifier_pattern_name))))))
+            rest: (identifier_pattern
+              name: (identifier_pattern_name)))))
     value: (identifier)))
 
 ============================================
@@ -194,13 +190,12 @@ list pattern
           name: (identifier_pattern_name)
           type: (parametric_type
             name: (type)))
-        rest: (rest
-          name: (identifier_pattern
-            name: (identifier_pattern_name)
-            type: (parametric_type
-              name: (type))
-            default: (list
-              element: (number))))))
+        rest: (identifier_pattern
+          name: (identifier_pattern_name)
+          type: (parametric_type
+            name: (type))
+          default: (list
+            element: (number)))))
     value: (identifier)))
 
 ============================================
@@ -240,13 +235,12 @@ tagged list pattern
               name: (identifier_pattern_name)
               type: (parametric_type
                 name: (type)))
-            rest: (rest
-              name: (identifier_pattern
-                name: (identifier_pattern_name)
-                type: (parametric_type
-                  name: (type))
-                default: (list
-                  element: (number)))))))
+            rest: (identifier_pattern
+              name: (identifier_pattern_name)
+              type: (parametric_type
+                name: (type))
+              default: (list
+                element: (number))))))
     value: (identifier)))
 
 ============================================
