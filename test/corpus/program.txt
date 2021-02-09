@@ -16,3 +16,78 @@ hash bang line
 
 (program
   hashBangLine: (hash_bang_line))
+
+==================
+import
+==================
+
+import {
+  a as b,
+  c,
+  a as b :: Type,
+  c :: Type,
+  Type as Type,
+  Type
+} from 'source'
+import x, { a, b } from 'source'
+import x from 'source'
+
+---
+
+(program
+  import: (import
+    import: (import_identifier
+      name: (identifier_pattern_name)
+      as: (identifier_pattern
+        name: (identifier_pattern_name)))
+    import: (import_identifier
+      as: (identifier_pattern
+        name: (identifier_pattern_name)))
+    import: (import_identifier
+      name: (identifier_pattern_name)
+      as: (identifier_pattern
+        name: (identifier_pattern_name)
+        type: (parametric_type
+          name: (type))))
+    import: (import_identifier
+      as: (identifier_pattern
+        name: (identifier_pattern_name)
+        type: (parametric_type
+          name: (type))))
+    import: (import_type
+      name: (type)
+      as: (type))
+    import: (import_type
+      name: (type))
+    source: (raw_string))
+  import: (import
+    default: (identifier_pattern_name)
+    import: (import_identifier
+      as: (identifier_pattern
+        name: (identifier_pattern_name)))
+    import: (import_identifier
+      as: (identifier_pattern
+        name: (identifier_pattern_name)))
+    source: (raw_string))
+  import: (import
+    default: (identifier_pattern_name)
+    source: (raw_string)))
+
+==================
+exported import
+==================
+
+export x, { a, b } from 'source'
+
+---
+
+(program
+  import: (exported_import
+    default: (identifier_pattern_name)
+    import: (import_identifier
+      as: (identifier_pattern
+        name: (identifier_pattern_name)))
+    import: (import_identifier
+      as: (identifier_pattern
+        name: (identifier_pattern_name)))
+    source: (raw_string)))
