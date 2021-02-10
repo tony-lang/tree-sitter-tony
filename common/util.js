@@ -1,5 +1,3 @@
-const notFalse = (...args) => args.filter((element) => element !== false)
-
 const sep1 = (sep) => (rule) => seq(rule, repeat(seq(sep, rule)))
 
 const sep2 = (sep) => (rule) => seq(rule, repeat1(seq(sep, rule)))
@@ -17,20 +15,17 @@ const buildAbstractionBranch = ($, blockType) =>
   )
 
 const buildDataStructure = ($, element, rest, commaSepImpl = commaSep1) =>
-  optional(
-    choice(
-      ...notFalse(
-        rest && seq('...', field('rest', $.identifier_pattern)),
-        seq(
-          ...notFalse(
+  rest
+    ? optional(
+        choice(
+          seq('...', field('rest', $.identifier_pattern)),
+          seq(
             commaSepImpl(element),
-            rest &&
-              optional(seq(',', '...', field('rest', $.identifier_pattern))),
+            optional(seq(',', '...', field('rest', $.identifier_pattern))),
           ),
         ),
-      ),
-    ),
-  )
+      )
+    : optional(commaSepImpl(element))
 
 const buildStruct = ($, member, rest = false) =>
   seq('{', buildDataStructure($, field('member', member), rest), '}')

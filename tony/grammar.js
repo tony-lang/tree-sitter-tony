@@ -1,13 +1,11 @@
+const { hash_bang_line, comment } = require('../common/miscellaneous')
 const {
-  program,
-  hash_bang_line,
   import_,
   exported_import,
-  _import_body,
+  _import_body_constructor,
   import_identifier,
   import_type,
-  comment,
-} = require('./grammar/program')
+} = require('../common/imports')
 const {
   _term,
   _simple_term,
@@ -58,21 +56,7 @@ const {
   identifier,
   _section_identifier,
   group,
-} = require('./grammar/terms')
-const {
-  _literal,
-  boolean,
-  _decimal,
-  _integer,
-  number,
-  raw_string,
-  string,
-  interpolation,
-  escape_sequence,
-  regex,
-  regex_pattern,
-  regex_flags,
-} = require('./grammar/literals')
+} = require('../common/terms')
 const {
   _pattern,
   _assignable_pattern,
@@ -85,13 +69,13 @@ const {
   tagged_pattern,
   _literal_pattern,
   pattern_group,
-} = require('./grammar/patterns')
+} = require('../common/patterns')
 const {
   type_variable_declaration,
-  _type,
+  _type_constructor,
   _term_type,
   typeof_,
-  parametric_type,
+  parametric_type_constructor,
   curried_type,
   intersection_type,
   union_type,
@@ -110,7 +94,21 @@ const {
   type_declaration,
   type_group,
   type,
-} = require('./grammar/types')
+} = require('../common/types')
+const {
+  _literal,
+  boolean,
+  _decimal,
+  _integer,
+  number,
+  raw_string,
+  string,
+  interpolation,
+  escape_sequence,
+  regex,
+  regex_pattern,
+  regex_flags,
+} = require('../common/literals')
 
 module.exports = grammar({
   name: 'tony',
@@ -143,14 +141,21 @@ module.exports = grammar({
   ],
 
   rules: {
-    program,
+    program: ($) =>
+      seq(
+        optional(field('hashBangLine', $.hash_bang_line)),
+        repeat(field('import', choice($.import, $.exported_import))),
+        repeat(field('term', $._term)),
+      ),
+
     hash_bang_line,
+    comment,
+
     import: import_,
     exported_import,
-    _import_body,
+    _import_body: _import_body_constructor('tony'),
     import_identifier,
     import_type,
-    comment,
 
     _term,
     _simple_term,
@@ -215,10 +220,10 @@ module.exports = grammar({
     pattern_group,
 
     type_variable_declaration,
-    _type,
+    _type: _type_constructor('tony'),
     _term_type,
     typeof: typeof_,
-    parametric_type,
+    parametric_type: parametric_type_constructor('tony'),
     curried_type,
     intersection_type,
     union_type,

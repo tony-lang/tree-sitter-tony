@@ -2,14 +2,19 @@
   "name": "tree-sitter-tony",
   "version": "0.2.0-alpha.30",
   "description": "Tony grammar for tree-sitter",
-  "main": "index.js",
-  "types": "tree-sitter-tony.d.ts",
   "scripts": {
     "setup": "yarn global add tree-sitter-cli && yarn generate && yarn install --dev",
-    "generate": "tree-sitter generate",
-    "parse": "tree-sitter parse",
-    "test": "tree-sitter test",
-    "types": "node ./node_modules/@asgerf/dts-tree-sitter/build/src . > tree-sitter-tony.d.ts",
+    "generate": "yarn generate-tony && yarn generate-dtn",
+    "generate-tony": "cd tony && tree-sitter generate",
+    "generate-dtn": "cd dtn && tree-sitter generate",
+    "parse-tony": "cd tony && tree-sitter parse",
+    "parse-dtn": "cd dtn && tree-sitter parse",
+    "test": "yarn test-tony && yarn test-dtn",
+    "test-tony": "cd tony && tree-sitter test",
+    "test-dtn": "cd dtn && tree-sitter test",
+    "types": "yarn types-tony && yarn types-dtn",
+    "types-tony": "cd tony && node ../node_modules/@asgerf/dts-tree-sitter/build/src . > index.d.ts",
+    "types-dtn": "cd dtn && node ../node_modules/@asgerf/dts-tree-sitter/build/src . > index.d.ts",
     "build": "yarn generate && yarn types",
     "prettierlint": "prettier --check **/*.js",
     "eslint": "eslint . --ext .js",
@@ -49,5 +54,21 @@
     "prettier": "^2.0.5",
     "tree-sitter": "^0.17.0",
     "tree-sitter-cli": "^0.18.0"
-  }
+  },
+  "tree-sitter": [
+    {
+      "scope": "source.tn",
+      "file-types": [
+        "tn"
+      ],
+      "path": "tony"
+    },
+    {
+      "scope": "source.dtn",
+      "file-types": [
+        "dtn"
+      ],
+      "path": "dtn"
+    }
+  ]
 }

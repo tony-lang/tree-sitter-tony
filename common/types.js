@@ -16,41 +16,49 @@ module.exports = {
       ),
     ),
 
-  _type: ($) =>
-    prec.left(
-      choice(
+  _type_constructor: (dialect) => ($) => {
+    const choices = [
+      $.parametric_type,
+      $.curried_type,
+      $.intersection_type,
+      $.union_type,
+      $.subtraction_type,
+      $.conditional_type,
+      $.struct_type,
+      $.map_type,
+      $.tuple_type,
+      $.list_type,
+      $.tagged_type,
+      alias($.identifier, $.type_variable),
+      $.type_group,
+    ]
+
+    if (dialect === 'tony')
+      choices.push(
         $.typeof,
-        $.parametric_type,
-        $.curried_type,
-        $.intersection_type,
-        $.union_type,
-        $.subtraction_type,
-        $.conditional_type,
-        $.struct_type,
-        $.map_type,
-        $.tuple_type,
-        $.list_type,
         $.access_type,
-        $.tagged_type,
         $.refinement_type,
         $.refinement_type_declaration,
-        alias($.identifier, $.type_variable),
-        $.type_group,
-      ),
-    ),
+      )
+
+    return prec.left(choice(...choices))
+  },
 
   _term_type: ($) => choice($.identifier, $._literal),
 
   typeof_: ($) => seq('typeof', field('value', $._term_type)),
 
-  parametric_type: ($) =>
-    prec.right(
-      seq(
-        field('name', $.type),
-        optional(buildGenericType('argument', $._type)),
-        optional(buildTuple($, $._literal, false, true)),
-      ),
-    ),
+  parametric_type_constructor: (dialect) => ($) => {
+    const nodes = [
+      field('name', $.type),
+      optional(buildGenericType('argument', $._type)),
+    ]
+
+    if (dialect === 'tony')
+      nodes.push(optional(buildTuple($, $._term_type, false, true)))
+
+    return prec.right(seq(...nodes))
+  },
 
   curried_type: ($) =>
     prec.right(

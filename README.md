@@ -76,7 +76,7 @@ Import the parser with
 
 ```ts
 import Parser from 'tree-sitter'
-import TreeSitterTony, { Tree } from 'tree-sitter-tony'
+import TreeSitterTony, { Tree } from 'tree-sitter-tony/tony'
 ```
 
 Then you are able to create an instance of the parser as follows:
@@ -95,6 +95,8 @@ const tree = parser.parse(sourceCode) as Tree
 ```
 
 `tree` and every child node including their properties are strongly typed.
+
+Import from `'tree-sitter-tony/dtn'` instead of `'tree-sitter-tony/tony'` to load the declaration file parser.
 
 ## Development
 
