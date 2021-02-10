@@ -1,3 +1,4 @@
+const Constants = require('./constants')
 const Prec = require('./precedence')
 const { buildString } = require('./util')
 
@@ -8,8 +9,8 @@ module.exports = {
   boolean: () => choice('false', 'true'),
 
   _decimal: () => {
-    const digits = repeat1(/_?[0-9]+/)
-    const exponent = seq(/e-?/, digits)
+    const digits = repeat1(Constants.DIGITS)
+    const exponent = seq(Constants.EXP, digits)
 
     return token(
       choice(
@@ -21,10 +22,10 @@ module.exports = {
   _integer: () =>
     token(
       choice(
-        seq('0x', repeat1(/_?[A-Fa-f0-9]+/)),
-        seq('0o', repeat1(/_?[0-7]+/)),
-        seq('0b', repeat1(/_?[0-1]+/)),
-        seq(repeat1(/_?[0-9]+/)),
+        seq('0x', repeat1(Constants.HEX)),
+        seq('0o', repeat1(Constants.OCT)),
+        seq('0b', repeat1(Constants.BIN)),
+        seq(repeat1(Constants.DIGITS)),
       ),
     ),
   number: ($) => choice($._decimal, $._integer),
