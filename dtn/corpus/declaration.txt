@@ -1,0 +1,55 @@
+==================
+without imports
+==================
+
+declare 'module'
+  x :: Type
+  y :: Type
+
+---
+
+(program
+  declaration: (declaration
+    name: (raw_string)
+    member: (declaration_member
+      name: (identifier_pattern_name)
+      type: (parametric_type
+        name: (type)))
+    member: (declaration_member
+      name: (identifier_pattern_name)
+      type: (parametric_type
+        name: (type)))))
+
+==================
+with imports
+==================
+
+import {
+  Type as Type,
+  Type
+} from 'source'
+
+declare 'module'
+  x :: Type
+  y :: Type
+
+---
+
+(program
+  import: (import
+    import: (import_type
+      name: (type)
+      as: (type))
+    import: (import_type
+      as: (type))
+  source: (raw_string))
+  declaration: (declaration
+    name: (raw_string)
+    member: (declaration_member
+      name: (identifier_pattern_name)
+      type: (parametric_type
+        name: (type)))
+    member: (declaration_member
+      name: (identifier_pattern_name)
+      type: (parametric_type
+        name: (type)))))

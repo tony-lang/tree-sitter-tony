@@ -609,14 +609,14 @@ export interface ImportNode extends NamedNodeBase {
 
 export interface ImportIdentifierNode extends NamedNodeBase {
   type: SyntaxType.ImportIdentifier;
-  asNode: IdentifierPatternNode;
+  asNode: IdentifierPatternNameNode;
   nameNode?: IdentifierPatternNameNode;
 }
 
 export interface ImportTypeNode extends NamedNodeBase {
   type: SyntaxType.ImportType;
-  asNode?: TypeNode;
-  nameNode: TypeNode;
+  asNode: TypeNode;
+  nameNode?: TypeNode;
 }
 
 export interface InfixApplicationNode extends NamedNodeBase {
@@ -708,7 +708,7 @@ export interface NumberNode extends NamedNodeBase {
 export interface ParametricTypeNode extends NamedNodeBase {
   type: SyntaxType.ParametricType;
   argumentNodes: (AccessTypeNode | ConditionalTypeNode | CurriedTypeNode | IntersectionTypeNode | ListTypeNode | MapTypeNode | ParametricTypeNode | RefinementTypeNode | RefinementTypeDeclarationNode | StructTypeNode | SubtractionTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | TypeofNode | UnionTypeNode)[];
-  elementNodes: (BooleanNode | NumberNode | RegexNode | StringNode)[];
+  elementNodes: (BooleanNode | IdentifierNode | NumberNode | RegexNode | StringNode)[];
   nameNode: TypeNode;
 }
 

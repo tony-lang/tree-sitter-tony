@@ -4,7 +4,6 @@ prebuilds
 src
 index.js
 
-.tool-versions
 *.log
 
 !src/scanner.cc
