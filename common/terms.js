@@ -1,3 +1,4 @@
+const Constants = require('./constants')
 const Prec = require('./precedence')
 const {
   commaSep1,
@@ -487,8 +488,8 @@ module.exports = {
       seq(field('value', $._simple_term), 'as', field('type', $._type)),
     ),
 
-  _identifier_without_operators: () => /_?[a-z][a-z0-9_]*(\?|!)?/,
-  _operator: () => /(==|[!@$%^&*|<>~*\\\-+/.])[!@$%^&*|<>~*\\\-+/.=?]*/,
+  _identifier_without_operators: () => Constants.IDENTIFIER,
+  _operator: () => Constants.OPERATOR,
   identifier: ($) => choice($._operator, $._identifier_without_operators),
 
   group: ($) => seq('(', field('term', $._simple_term), ')'),
