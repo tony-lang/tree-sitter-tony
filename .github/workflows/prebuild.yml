@@ -18,17 +18,13 @@ jobs:
           - 13
           - 14
           - 15
-        architecture:
-          - x64
-          - x86
 
-    name: Node ${{ matrix.node_version }} - ${{ matrix.architecture }} on ${{ matrix.os }}
+    name: Node ${{ matrix.node_version }} on ${{ matrix.os }}
     steps:
     - uses: actions/checkout@master
     - uses: actions/setup-node@v2.1.4
       with:
         node-version: ${{ matrix.node_version }}
-        architecture: ${{ matrix.architecture }}
     - name: Setup
       run: yarn setup
 
