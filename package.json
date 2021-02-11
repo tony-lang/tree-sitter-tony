@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-tony",
-  "version": "0.2.0-alpha.33",
+  "version": "0.2.0-alpha.34",
   "description": "Tony grammar for tree-sitter",
   "scripts": {
     "setup": "yarn global add tree-sitter-cli && yarn generate && yarn install --dev",
