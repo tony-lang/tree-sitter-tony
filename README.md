@@ -60,7 +60,7 @@ Some may require you to set up a [development](#development) environment.
 
 To parse a file and emit a syntax tree run
 
-    $ yarn parse file.tn
+    $ yarn parse-tony file.tn
 
 where `file.tn` is the relative path to the file you want to parse.
 
@@ -69,6 +69,8 @@ For a simple hello world use
 ```tony
 io->print('hello world')
 ```
+
+Use `yarn parse-dtn file.dtn` to parse a module declaration file.
 
 ### TypeScript / JavaScript
 

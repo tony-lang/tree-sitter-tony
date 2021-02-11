@@ -8,7 +8,7 @@
       ],
       "sources": [
         "tony/src/parser.c",
-        "tony/src/scanner.c",
+        "tony/src/scanner.cc",
         "tony/src/binding.cc"
       ],
       "cflags_c": [
@@ -23,7 +23,7 @@
       ],
       "sources": [
         "dtn/src/parser.c",
-        "dtn/src/scanner.c",
+        "dtn/src/scanner.cc",
         "dtn/src/binding.cc"
       ],
       "cflags_c": [
