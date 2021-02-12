@@ -51,8 +51,8 @@ module.exports = {
         alias($.compound_if, $.if),
         $.case,
         $.enum,
-        $.interface,
-        $.implement,
+        $.class,
+        $.instance,
       ),
     ),
 
@@ -110,22 +110,22 @@ module.exports = {
       optional(seq('=', field('value', $._literal))),
     ),
 
-  interface_: ($) =>
+  class_: ($) =>
     seq(
-      'interface',
+      'class',
       field('name', $.type_declaration),
-      buildCompoundBlock($, repeat1(field('member', $.interface_member))),
+      buildCompoundBlock($, repeat1(field('member', $.class_member))),
     ),
-  interface_member: ($) =>
+  class_member: ($) =>
     seq(
       field('name', alias($.identifier, $.identifier_pattern_name)),
       '::',
       field('type', $._type),
     ),
 
-  implement: ($) =>
+  instance: ($) =>
     seq(
-      'implement',
+      'instance',
       field('name', $.parametric_type),
       buildCompoundBlock(
         $,
