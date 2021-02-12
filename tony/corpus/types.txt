@@ -396,6 +396,23 @@ a :: <constructor> := 1
     value: (number)))
 
 ==================
+keyof
+==================
+
+a :: keyof Type := 1
+
+---
+
+(program
+  term: (assignment
+    pattern: (identifier_pattern
+      name: (identifier_pattern_name)
+      type: (keyof
+        type: (parametric_type
+          name: (type))))
+    value: (number)))
+
+==================
 refinement type
 ==================
 

@@ -25,6 +25,7 @@ const {
   tuple_type,
   list_type,
   tagged_type,
+  keyof,
   type_group,
   type,
 } = require('../common/types')
@@ -87,6 +88,7 @@ module.exports = grammar({
     tuple_type,
     list_type,
     tagged_type,
+    keyof,
     type_group,
     type,
 
