@@ -11,20 +11,15 @@ jobs:
       matrix:
         os:
           - ubuntu-latest
-          # - windows-latest
+          - windows-latest
           # - macOS-latest
-        node_version:
-          - 12
-          - 13
-          - 14
-          - 15
 
-    name: Node ${{ matrix.node_version }} on ${{ matrix.os }}
+    name: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@master
     - uses: actions/setup-node@v2.1.4
       with:
-        node-version: ${{ matrix.node_version }}
+        node-version: 15
     - name: Setup
       run: yarn setup
 
