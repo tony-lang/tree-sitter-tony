@@ -77,18 +77,13 @@ module.exports = {
     ),
 
   simple_assignment: ($) =>
-    prec.right(
-      Prec.Assignment,
-      seq(
+    seq(
         field('pattern', $._assignable_pattern),
         ':=',
         field('value', $._simple_term),
       ),
-    ),
   compound_assignment: ($) =>
-    prec.right(
-      Prec.Assignment,
-      seq(
+    seq(
         field('pattern', $._assignable_pattern),
         ':=',
         choice(
@@ -96,7 +91,6 @@ module.exports = {
           seq($._indent, field('value', $._compound_term), $._dedent),
         ),
       ),
-    ),
 
   enum_: ($) =>
     seq(

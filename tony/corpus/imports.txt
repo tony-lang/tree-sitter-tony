@@ -53,4 +53,14 @@ export x from 'source'
       as: (identifier_pattern_name))
     import: (import_identifier
       as: (identifier_pattern_name))
+    source: (raw_string))
+  import: (exported_import
+    default: (identifier_pattern_name)
+    import: (import_identifier
+      as: (identifier_pattern_name))
+    import: (import_identifier
+      as: (identifier_pattern_name))
+    source: (raw_string))
+  import: (exported_import
+    default: (identifier_pattern_name)
     source: (raw_string)))

@@ -6,30 +6,24 @@ module.exports = {
     prec(Prec.Pattern, choice($._assignable_pattern, $._literal_pattern)),
 
   _assignable_pattern: ($) =>
-    prec(
-      Prec.Pattern,
-      choice(
-        $.identifier_pattern,
-        $.destructuring_pattern,
-        $.tagged_pattern,
-        $.pattern_group,
-      ),
+    choice(
+      $.identifier_pattern,
+      $.destructuring_pattern,
+      $.tagged_pattern,
+      $.pattern_group,
     ),
 
   destructuring_pattern: ($) =>
-    prec(
-      Prec.Pattern,
-      seq(
-        optional(
-          seq(
-            field('alias', alias($.identifier, $.identifier_pattern_name)),
-            '@',
-          ),
+    seq(
+      optional(
+        seq(
+          field('alias', alias($.identifier, $.identifier_pattern_name)),
+          '@',
         ),
-        field(
-          'pattern',
-          choice($.struct_pattern, $.tuple_pattern, $.list_pattern),
-        ),
+      ),
+      field(
+        'pattern',
+        choice($.struct_pattern, $.tuple_pattern, $.list_pattern),
       ),
     ),
 
