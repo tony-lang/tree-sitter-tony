@@ -18,7 +18,7 @@ module.exports = {
                       'default',
                       alias($.identifier, $.identifier_pattern_name),
                     ),
-                    ',',
+                    '@',
                   ),
                 ),
                 '{',
