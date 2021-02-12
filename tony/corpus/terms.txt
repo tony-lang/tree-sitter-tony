@@ -679,36 +679,36 @@ enum Type
       value: (string))))
 
 ==================
-interface
+class
 ==================
 
-interface Type<a>
+class Type<a>
   a :: a -> Number
   b :: a -> Number
-interface Ord<a <: Eq, b <: (Num; Eq; Ord)>
+class Ord<a <: Eq, b <: (Num; Eq; Ord)>
   compare :: a -> b -> Number
 
 ---
 
 (program
-  term: (interface
+  term: (class
     name: (type_declaration
       name: (type)
       parameter: (type_variable_declaration
         name: (type_variable_declaration_name)))
-    member: (interface_member
+    member: (class_member
       name: (identifier_pattern_name)
       type: (curried_type
         from: (type_variable)
         to: (parametric_type
           name: (type))))
-    member: (interface_member
+    member: (class_member
       name: (identifier_pattern_name)
       type: (curried_type
         from: (type_variable)
         to: (parametric_type
           name: (type)))))
-  term: (interface
+  term: (class
     name: (type_declaration
       name: (type)
       parameter: (type_variable_declaration
@@ -723,7 +723,7 @@ interface Ord<a <: Eq, b <: (Num; Eq; Ord)>
           name: (type))
         constraint: (parametric_type
           name: (type))))
-    member: (interface_member
+    member: (class_member
       name: (identifier_pattern_name)
       type: (curried_type
         from: (type_variable)
@@ -733,16 +733,16 @@ interface Ord<a <: Eq, b <: (Num; Eq; Ord)>
             name: (type)))))))
 
 ==================
-implement
+instance
 ==================
 
-implement Ord<Number>
+instance Ord<Number>
   compare := 1
 
 ---
 
 (program
-  term: (implement
+  term: (instance
     name: (parametric_type
       name: (type)
       argument: (parametric_type
