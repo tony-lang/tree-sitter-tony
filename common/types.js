@@ -128,6 +128,15 @@ module.exports = {
     seq(
       '{',
       '[',
+      optional(
+        seq(
+          field(
+            'property',
+            alias($.identifier, $.type_variable_declaration_name),
+          ),
+          'in',
+        ),
+      ),
       field('key', $._type),
       ']',
       ':',

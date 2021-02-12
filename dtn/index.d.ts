@@ -227,6 +227,7 @@ export type UnnamedType =
   | "from"
   | "if"
   | SyntaxType.Import // both named and unnamed
+  | "in"
   | SyntaxType.Keyof // both named and unnamed
   | "r/"
   | "then"
@@ -288,6 +289,7 @@ export type SyntaxNode =
   | UnnamedNode<"from">
   | UnnamedNode<"if">
   | UnnamedNode<SyntaxType.Import>
+  | UnnamedNode<"in">
   | UnnamedNode<SyntaxType.Keyof>
   | UnnamedNode<"r/">
   | RegexFlagsNode
@@ -366,6 +368,7 @@ export interface ListTypeNode extends NamedNodeBase {
 export interface MapTypeNode extends NamedNodeBase {
   type: SyntaxType.MapType;
   keyNode: ConditionalTypeNode | CurriedTypeNode | IntersectionTypeNode | KeyofNode | ListTypeNode | MapTypeNode | ParametricTypeNode | StructTypeNode | SubtractionTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | UnionTypeNode;
+  propertyNode?: TypeVariableDeclarationNameNode;
   valueNode: ConditionalTypeNode | CurriedTypeNode | IntersectionTypeNode | KeyofNode | ListTypeNode | MapTypeNode | ParametricTypeNode | StructTypeNode | SubtractionTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | UnionTypeNode;
 }
 

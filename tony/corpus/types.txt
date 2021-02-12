@@ -54,6 +54,7 @@ map type
 ==================
 
 a :: { [Type]: Type } := 1
+a :: { [a in Type]: a } := 1
 
 ---
 
@@ -66,6 +67,15 @@ a :: { [Type]: Type } := 1
           name: (type))
         value: (parametric_type
           name: (type))))
+    value: (number))
+  term: (assignment
+    pattern: (identifier_pattern
+      name: (identifier_pattern_name)
+      type: (map_type
+        property: (type_variable_declaration_name)
+        key: (parametric_type
+          name: (type))
+        value: (type_variable)))
     value: (number)))
 
 ==================

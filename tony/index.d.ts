@@ -689,6 +689,7 @@ export interface ListTypeNode extends NamedNodeBase {
 export interface MapTypeNode extends NamedNodeBase {
   type: SyntaxType.MapType;
   keyNode: AccessTypeNode | ConditionalTypeNode | CurriedTypeNode | IntersectionTypeNode | KeyofNode | ListTypeNode | MapTypeNode | ParametricTypeNode | RefinementTypeNode | RefinementTypeDeclarationNode | StructTypeNode | SubtractionTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | TypeofNode | UnionTypeNode;
+  propertyNode?: TypeVariableDeclarationNameNode;
   valueNode: AccessTypeNode | ConditionalTypeNode | CurriedTypeNode | IntersectionTypeNode | KeyofNode | ListTypeNode | MapTypeNode | ParametricTypeNode | RefinementTypeNode | RefinementTypeDeclarationNode | StructTypeNode | SubtractionTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | TypeofNode | UnionTypeNode;
 }
 
