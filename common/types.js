@@ -29,6 +29,7 @@ module.exports = {
       $.tuple_type,
       $.list_type,
       $.tagged_type,
+      $.keyof,
       alias($.identifier, $.type_variable),
       $.type_group,
     ]
@@ -154,6 +155,8 @@ module.exports = {
         optional(field('type', $._type)),
       ),
     ),
+
+  keyof: ($) => prec.right(seq('keyof', field('type', $._type))),
 
   refinement_type_declaration: ($) =>
     prec.left(
