@@ -6,11 +6,14 @@ module.exports = {
     prec(Prec.Pattern, choice($._assignable_pattern, $._literal_pattern)),
 
   _assignable_pattern: ($) =>
-    choice(
-      $.identifier_pattern,
-      $.destructuring_pattern,
-      $.tagged_pattern,
-      $.pattern_group,
+    prec(
+      Prec.Pattern,
+      choice(
+        $.identifier_pattern,
+        $.destructuring_pattern,
+        $.tagged_pattern,
+        $.pattern_group,
+      ),
     ),
 
   destructuring_pattern: ($) =>

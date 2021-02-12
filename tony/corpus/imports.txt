@@ -41,13 +41,14 @@ import x from 'source'
 exported import
 ==================
 
+export { a, b } from 'source'
 export x@{ a, b } from 'source'
+export x from 'source'
 
 ---
 
 (program
   import: (exported_import
-    default: (identifier_pattern_name)
     import: (import_identifier
       as: (identifier_pattern_name))
     import: (import_identifier

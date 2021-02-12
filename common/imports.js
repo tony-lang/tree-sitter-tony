@@ -1,4 +1,3 @@
-const Prec = require('./precedence')
 const { commaSep1 } = require('./util')
 
 module.exports = {
@@ -6,42 +5,36 @@ module.exports = {
   exported_import: ($) => seq('export', $._import_body),
   _import_body_constructor: (dialect) => ($) =>
     dialect === 'tony'
-      ? prec.left(
-          Prec.Pattern,
-          seq(
-            choice(
-              field('default', alias($.identifier, $.identifier_pattern_name)),
-              seq(
-                optional(
-                  seq(
-                    field(
-                      'default',
-                      alias($.identifier, $.identifier_pattern_name),
-                    ),
-                    '@',
+      ? seq(
+          choice(
+            field('default', alias($.identifier, $.identifier_pattern_name)),
+            seq(
+              optional(
+                seq(
+                  field(
+                    'default',
+                    alias($.identifier, $.identifier_pattern_name),
                   ),
+                  '@',
                 ),
-                '{',
-                commaSep1(
-                  field('import', choice($.import_identifier, $.import_type)),
-                ),
-                '}',
               ),
+              '{',
+              commaSep1(
+                field('import', choice($.import_identifier, $.import_type)),
+              ),
+              '}',
             ),
-            'from',
-            field('source', $.raw_string),
           ),
+          'from',
+          field('source', $.raw_string),
         )
       : dialect === 'dtn'
-      ? prec.left(
-          Prec.Pattern,
-          seq(
-            '{',
-            commaSep1(field('import', $.import_type)),
-            '}',
-            'from',
-            field('source', $.raw_string),
-          ),
+      ? seq(
+          '{',
+          commaSep1(field('import', $.import_type)),
+          '}',
+          'from',
+          field('source', $.raw_string),
         )
       : undefined,
   import_identifier: ($) =>
