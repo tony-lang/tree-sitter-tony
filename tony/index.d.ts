@@ -522,7 +522,7 @@ export interface ClassNode extends NamedNodeBase {
 export interface ClassMemberNode extends NamedNodeBase {
   type: SyntaxType.ClassMember;
   nameNode: IdentifierPatternNameNode;
-  typeNode: AccessTypeNode | ConditionalTypeNode | CurriedTypeNode | IntersectionTypeNode | ListTypeNode | MapTypeNode | ParametricTypeNode | RefinementTypeNode | RefinementTypeDeclarationNode | StructTypeNode | SubtractionTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | TypeofNode | UnionTypeNode;
+  typeNode: AccessTypeNode | ConditionalTypeNode | CurriedTypeNode | IntersectionTypeNode | KeyofNode | ListTypeNode | MapTypeNode | ParametricTypeNode | RefinementTypeNode | RefinementTypeDeclarationNode | StructTypeNode | SubtractionTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | TypeofNode | UnionTypeNode;
 }
 
 export interface ConditionalTypeNode extends NamedNodeBase {
