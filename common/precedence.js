@@ -11,6 +11,7 @@ module.exports = {
   IntersectionType: 1,
   LabeledType: 2,
   OperatorInfixApplication: 2,
+  OptionalType: 3,
   Biconditional: 3,
   Implication: 4,
   Or: 5,

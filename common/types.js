@@ -156,7 +156,8 @@ module.exports = {
       seq(field('type', $._type), '[', field('value', $._term_type), ']'),
     ),
 
-  optional_type: ($) => seq(field('type', $._type), '?'),
+  optional_type: ($) =>
+    prec(Prec.OptionalType, seq(field('type', $._type), '?')),
 
   tagged_type: ($) =>
     prec.right(
