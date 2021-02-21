@@ -455,6 +455,22 @@ a :: Type<[(a :: Type, Type) | a > 0, a < 10]> := 1
     value: (number)))
 
 ==================
+labeled type
+==================
+
+a as label: Type
+
+---
+
+(program
+  term: (type_hint
+    value: (identifier)
+    type: (labeled_type
+      label: (identifier)
+      type: (parametric_type
+        name: (type)))))
+
+==================
 type
 ==================
 

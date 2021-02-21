@@ -29,6 +29,7 @@ module.exports = {
       $.tuple_type,
       $.list_type,
       $.tagged_type,
+      $.labeled_type,
       $.keyof,
       alias($.identifier, $.type_variable),
       $.type_group,
@@ -163,6 +164,12 @@ module.exports = {
         '>',
         optional(field('type', $._type)),
       ),
+    ),
+
+  labeled_type: ($) =>
+    prec(
+      Prec.LabeledType,
+      seq(field('label', $.identifier), ':', field('type', $._type)),
     ),
 
   keyof: ($) => prec.right(seq('keyof', field('type', $._type))),
