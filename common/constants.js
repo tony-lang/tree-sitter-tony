@@ -9,4 +9,8 @@ module.exports = {
   // identifiers
   IDENTIFIER: /_?[a-z][a-z0-9_]*(\?|!)?/,
   OPERATOR: /(==|[!@$%^&*|<>~*\\\-+/.])[!@$%^&*|<>~*\\\-+/.=?]*/,
+
+  // declarations
+  JS_ALPHA: /[^\x00-\x1F\s0-9:;`"'@#.,|^&<=>+\-*/\\%?!~()\[\]{}\uFEFF\u2060\u200B\u00A0]|\\u[0-9a-fA-F]{4}|\\u\{[0-9a-fA-F]+\}/, // eslint-disable-line no-control-regex, no-useless-escape
+  JS_ALPHANUMERIC: /[^\x00-\x1F\s:;`"'@#.,|^&<=>+\-*/\\%?!~()\[\]{}\uFEFF\u2060\u200B\u00A0]|\\u[0-9a-fA-F]{4}|\\u\{[0-9a-fA-F]+\}/, // eslint-disable-line no-control-regex, no-useless-escape
 }

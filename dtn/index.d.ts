@@ -325,7 +325,8 @@ export interface DeclarationNode extends NamedNodeBase {
 
 export interface DeclarationMemberNode extends NamedNodeBase {
   type: SyntaxType.DeclarationMember;
-  nameNode: IdentifierPatternNameNode;
+  asNode: IdentifierPatternNameNode;
+  nameNode?: IdentifierPatternNameNode;
   typeNode: ConditionalTypeNode | CurriedTypeNode | IntersectionTypeNode | KeyofNode | ListTypeNode | MapTypeNode | ParametricTypeNode | StructTypeNode | SubtractionTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | UnionTypeNode;
 }
 

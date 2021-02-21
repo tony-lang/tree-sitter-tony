@@ -1,5 +1,9 @@
 const { comment } = require('../common/miscellaneous')
-const { declaration, declaration_member } = require('../common/declarations')
+const {
+  declaration,
+  declaration_member,
+  js_identifier,
+} = require('../common/declarations')
 const {
   import_,
   _import_body_constructor,
@@ -65,6 +69,7 @@ module.exports = grammar({
 
     declaration,
     declaration_member,
+    js_identifier,
 
     import: import_,
     _import_body: _import_body_constructor('dtn'),

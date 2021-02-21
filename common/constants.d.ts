@@ -8,3 +8,7 @@ export const BIN: RegExp
 // identifiers
 export const IDENTIFIER: RegExp
 export const OPERATOR: RegExp
+
+// declarations
+export const JS_ALPHA: RegExp
+export const JS_ALPHANUMERIC: RegExp
