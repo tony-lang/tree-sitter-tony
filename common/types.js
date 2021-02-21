@@ -28,6 +28,7 @@ module.exports = {
       $.map_type,
       $.tuple_type,
       $.list_type,
+      $.optional_type,
       $.tagged_type,
       $.labeled_type,
       $.keyof,
@@ -154,6 +155,8 @@ module.exports = {
       Prec.Access,
       seq(field('type', $._type), '[', field('value', $._term_type), ']'),
     ),
+
+  optional_type: ($) => seq(field('type', $._type), '?'),
 
   tagged_type: ($) =>
     prec.right(

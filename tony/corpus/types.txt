@@ -155,6 +155,21 @@ a :: <constructor>[Type] := 1
     value: (number)))
 
 ==================
+optional type
+==================
+
+a as Type?
+
+---
+
+(program
+  term: (type_hint
+    value: (identifier)
+    type: (optional_type
+      type: (parametric_type
+        name: (type)))))
+
+==================
 access type
 ==================
 
