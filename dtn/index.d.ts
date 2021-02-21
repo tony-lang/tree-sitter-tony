@@ -186,6 +186,7 @@ export const enum SyntaxType {
   ListType = "list_type",
   MapType = "map_type",
   MemberType = "member_type",
+  OptionalType = "optional_type",
   ParametricType = "parametric_type",
   Program = "program",
   RawString = "raw_string",
@@ -218,6 +219,7 @@ export type UnnamedType =
   | "<"
   | "<:"
   | ">"
+  | "?"
   | "["
   | "\\"
   | "]"
@@ -255,6 +257,7 @@ export type SyntaxNode =
   | ListTypeNode
   | MapTypeNode
   | MemberTypeNode
+  | OptionalTypeNode
   | ParametricTypeNode
   | ProgramNode
   | RawStringNode
@@ -280,6 +283,7 @@ export type SyntaxNode =
   | UnnamedNode<"<">
   | UnnamedNode<"<:">
   | UnnamedNode<">">
+  | UnnamedNode<"?">
   | UnnamedNode<"[">
   | UnnamedNode<"\\">
   | UnnamedNode<"]">
@@ -307,16 +311,16 @@ export type SyntaxNode =
 
 export interface ConditionalTypeNode extends NamedNodeBase {
   type: SyntaxType.ConditionalType;
-  alternativeNode: ConditionalTypeNode | CurriedTypeNode | IntersectionTypeNode | KeyofNode | LabeledTypeNode | ListTypeNode | MapTypeNode | ParametricTypeNode | StructTypeNode | SubtractionTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | UnionTypeNode;
-  consequenceNode: ConditionalTypeNode | CurriedTypeNode | IntersectionTypeNode | KeyofNode | LabeledTypeNode | ListTypeNode | MapTypeNode | ParametricTypeNode | StructTypeNode | SubtractionTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | UnionTypeNode;
-  constraintNodes: (ConditionalTypeNode | CurriedTypeNode | IntersectionTypeNode | KeyofNode | LabeledTypeNode | ListTypeNode | MapTypeNode | ParametricTypeNode | StructTypeNode | SubtractionTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | UnionTypeNode)[];
-  typeNode: ConditionalTypeNode | CurriedTypeNode | IntersectionTypeNode | KeyofNode | LabeledTypeNode | ListTypeNode | MapTypeNode | ParametricTypeNode | StructTypeNode | SubtractionTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | UnionTypeNode;
+  alternativeNode: ConditionalTypeNode | CurriedTypeNode | IntersectionTypeNode | KeyofNode | LabeledTypeNode | ListTypeNode | MapTypeNode | OptionalTypeNode | ParametricTypeNode | StructTypeNode | SubtractionTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | UnionTypeNode;
+  consequenceNode: ConditionalTypeNode | CurriedTypeNode | IntersectionTypeNode | KeyofNode | LabeledTypeNode | ListTypeNode | MapTypeNode | OptionalTypeNode | ParametricTypeNode | StructTypeNode | SubtractionTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | UnionTypeNode;
+  constraintNodes: (ConditionalTypeNode | CurriedTypeNode | IntersectionTypeNode | KeyofNode | LabeledTypeNode | ListTypeNode | MapTypeNode | OptionalTypeNode | ParametricTypeNode | StructTypeNode | SubtractionTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | UnionTypeNode)[];
+  typeNode: ConditionalTypeNode | CurriedTypeNode | IntersectionTypeNode | KeyofNode | LabeledTypeNode | ListTypeNode | MapTypeNode | OptionalTypeNode | ParametricTypeNode | StructTypeNode | SubtractionTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | UnionTypeNode;
 }
 
 export interface CurriedTypeNode extends NamedNodeBase {
   type: SyntaxType.CurriedType;
-  fromNode: ConditionalTypeNode | CurriedTypeNode | IntersectionTypeNode | KeyofNode | LabeledTypeNode | ListTypeNode | MapTypeNode | ParametricTypeNode | StructTypeNode | SubtractionTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | UnionTypeNode;
-  toNode: ConditionalTypeNode | CurriedTypeNode | IntersectionTypeNode | KeyofNode | LabeledTypeNode | ListTypeNode | MapTypeNode | ParametricTypeNode | StructTypeNode | SubtractionTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | UnionTypeNode;
+  fromNode: ConditionalTypeNode | CurriedTypeNode | IntersectionTypeNode | KeyofNode | LabeledTypeNode | ListTypeNode | MapTypeNode | OptionalTypeNode | ParametricTypeNode | StructTypeNode | SubtractionTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | UnionTypeNode;
+  toNode: ConditionalTypeNode | CurriedTypeNode | IntersectionTypeNode | KeyofNode | LabeledTypeNode | ListTypeNode | MapTypeNode | OptionalTypeNode | ParametricTypeNode | StructTypeNode | SubtractionTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | UnionTypeNode;
 }
 
 export interface DeclarationNode extends NamedNodeBase {
@@ -328,7 +332,7 @@ export interface DeclarationNode extends NamedNodeBase {
 export interface DeclarationMemberNode extends NamedNodeBase {
   type: SyntaxType.DeclarationMember;
   nameNode: IdentifierPatternNameNode;
-  typeNode: ConditionalTypeNode | CurriedTypeNode | IntersectionTypeNode | KeyofNode | LabeledTypeNode | ListTypeNode | MapTypeNode | ParametricTypeNode | StructTypeNode | SubtractionTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | UnionTypeNode;
+  typeNode: ConditionalTypeNode | CurriedTypeNode | IntersectionTypeNode | KeyofNode | LabeledTypeNode | ListTypeNode | MapTypeNode | OptionalTypeNode | ParametricTypeNode | StructTypeNode | SubtractionTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | UnionTypeNode;
 }
 
 export interface IdentifierNode extends NamedNodeBase {
@@ -353,42 +357,47 @@ export interface ImportTypeNode extends NamedNodeBase {
 
 export interface IntersectionTypeNode extends NamedNodeBase {
   type: SyntaxType.IntersectionType;
-  leftNode: ConditionalTypeNode | CurriedTypeNode | IntersectionTypeNode | KeyofNode | LabeledTypeNode | ListTypeNode | MapTypeNode | ParametricTypeNode | StructTypeNode | SubtractionTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | UnionTypeNode;
-  rightNode: ConditionalTypeNode | CurriedTypeNode | IntersectionTypeNode | KeyofNode | LabeledTypeNode | ListTypeNode | MapTypeNode | ParametricTypeNode | StructTypeNode | SubtractionTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | UnionTypeNode;
+  leftNode: ConditionalTypeNode | CurriedTypeNode | IntersectionTypeNode | KeyofNode | LabeledTypeNode | ListTypeNode | MapTypeNode | OptionalTypeNode | ParametricTypeNode | StructTypeNode | SubtractionTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | UnionTypeNode;
+  rightNode: ConditionalTypeNode | CurriedTypeNode | IntersectionTypeNode | KeyofNode | LabeledTypeNode | ListTypeNode | MapTypeNode | OptionalTypeNode | ParametricTypeNode | StructTypeNode | SubtractionTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | UnionTypeNode;
 }
 
 export interface KeyofNode extends NamedNodeBase {
   type: SyntaxType.Keyof;
-  typeNode: ConditionalTypeNode | CurriedTypeNode | IntersectionTypeNode | KeyofNode | LabeledTypeNode | ListTypeNode | MapTypeNode | ParametricTypeNode | StructTypeNode | SubtractionTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | UnionTypeNode;
+  typeNode: ConditionalTypeNode | CurriedTypeNode | IntersectionTypeNode | KeyofNode | LabeledTypeNode | ListTypeNode | MapTypeNode | OptionalTypeNode | ParametricTypeNode | StructTypeNode | SubtractionTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | UnionTypeNode;
 }
 
 export interface LabeledTypeNode extends NamedNodeBase {
   type: SyntaxType.LabeledType;
   labelNode: IdentifierNode;
-  typeNode: ConditionalTypeNode | CurriedTypeNode | IntersectionTypeNode | KeyofNode | LabeledTypeNode | ListTypeNode | MapTypeNode | ParametricTypeNode | StructTypeNode | SubtractionTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | UnionTypeNode;
+  typeNode: ConditionalTypeNode | CurriedTypeNode | IntersectionTypeNode | KeyofNode | LabeledTypeNode | ListTypeNode | MapTypeNode | OptionalTypeNode | ParametricTypeNode | StructTypeNode | SubtractionTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | UnionTypeNode;
 }
 
 export interface ListTypeNode extends NamedNodeBase {
   type: SyntaxType.ListType;
-  elementNode: ConditionalTypeNode | CurriedTypeNode | IntersectionTypeNode | KeyofNode | LabeledTypeNode | ListTypeNode | MapTypeNode | ParametricTypeNode | StructTypeNode | SubtractionTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | UnionTypeNode;
+  elementNode: ConditionalTypeNode | CurriedTypeNode | IntersectionTypeNode | KeyofNode | LabeledTypeNode | ListTypeNode | MapTypeNode | OptionalTypeNode | ParametricTypeNode | StructTypeNode | SubtractionTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | UnionTypeNode;
 }
 
 export interface MapTypeNode extends NamedNodeBase {
   type: SyntaxType.MapType;
-  keyNode: ConditionalTypeNode | CurriedTypeNode | IntersectionTypeNode | KeyofNode | LabeledTypeNode | ListTypeNode | MapTypeNode | ParametricTypeNode | StructTypeNode | SubtractionTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | UnionTypeNode;
+  keyNode: ConditionalTypeNode | CurriedTypeNode | IntersectionTypeNode | KeyofNode | LabeledTypeNode | ListTypeNode | MapTypeNode | OptionalTypeNode | ParametricTypeNode | StructTypeNode | SubtractionTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | UnionTypeNode;
   propertyNode?: TypeVariableDeclarationNameNode;
-  valueNode: ConditionalTypeNode | CurriedTypeNode | IntersectionTypeNode | KeyofNode | LabeledTypeNode | ListTypeNode | MapTypeNode | ParametricTypeNode | StructTypeNode | SubtractionTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | UnionTypeNode;
+  valueNode: ConditionalTypeNode | CurriedTypeNode | IntersectionTypeNode | KeyofNode | LabeledTypeNode | ListTypeNode | MapTypeNode | OptionalTypeNode | ParametricTypeNode | StructTypeNode | SubtractionTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | UnionTypeNode;
 }
 
 export interface MemberTypeNode extends NamedNodeBase {
   type: SyntaxType.MemberType;
   keyNode: ShorthandMemberIdentifierNode;
-  valueNode: ConditionalTypeNode | CurriedTypeNode | IntersectionTypeNode | KeyofNode | LabeledTypeNode | ListTypeNode | MapTypeNode | ParametricTypeNode | StructTypeNode | SubtractionTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | UnionTypeNode;
+  valueNode: ConditionalTypeNode | CurriedTypeNode | IntersectionTypeNode | KeyofNode | LabeledTypeNode | ListTypeNode | MapTypeNode | OptionalTypeNode | ParametricTypeNode | StructTypeNode | SubtractionTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | UnionTypeNode;
+}
+
+export interface OptionalTypeNode extends NamedNodeBase {
+  type: SyntaxType.OptionalType;
+  typeNode: ConditionalTypeNode | CurriedTypeNode | IntersectionTypeNode | KeyofNode | LabeledTypeNode | ListTypeNode | MapTypeNode | OptionalTypeNode | ParametricTypeNode | StructTypeNode | SubtractionTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | UnionTypeNode;
 }
 
 export interface ParametricTypeNode extends NamedNodeBase {
   type: SyntaxType.ParametricType;
-  argumentNodes: (ConditionalTypeNode | CurriedTypeNode | IntersectionTypeNode | KeyofNode | LabeledTypeNode | ListTypeNode | MapTypeNode | ParametricTypeNode | StructTypeNode | SubtractionTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | UnionTypeNode)[];
+  argumentNodes: (ConditionalTypeNode | CurriedTypeNode | IntersectionTypeNode | KeyofNode | LabeledTypeNode | ListTypeNode | MapTypeNode | OptionalTypeNode | ParametricTypeNode | StructTypeNode | SubtractionTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | UnionTypeNode)[];
   nameNode: TypeNode;
 }
 
@@ -420,17 +429,17 @@ export interface SubtractionTypeNode extends NamedNodeBase {
 export interface TaggedTypeNode extends NamedNodeBase {
   type: SyntaxType.TaggedType;
   nameNode: IdentifierNode;
-  typeNode?: ConditionalTypeNode | CurriedTypeNode | IntersectionTypeNode | KeyofNode | LabeledTypeNode | ListTypeNode | MapTypeNode | ParametricTypeNode | StructTypeNode | SubtractionTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | UnionTypeNode;
+  typeNode?: ConditionalTypeNode | CurriedTypeNode | IntersectionTypeNode | KeyofNode | LabeledTypeNode | ListTypeNode | MapTypeNode | OptionalTypeNode | ParametricTypeNode | StructTypeNode | SubtractionTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | UnionTypeNode;
 }
 
 export interface TupleTypeNode extends NamedNodeBase {
   type: SyntaxType.TupleType;
-  elementNodes: (ConditionalTypeNode | CurriedTypeNode | IntersectionTypeNode | KeyofNode | LabeledTypeNode | ListTypeNode | MapTypeNode | ParametricTypeNode | StructTypeNode | SubtractionTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | UnionTypeNode)[];
+  elementNodes: (ConditionalTypeNode | CurriedTypeNode | IntersectionTypeNode | KeyofNode | LabeledTypeNode | ListTypeNode | MapTypeNode | OptionalTypeNode | ParametricTypeNode | StructTypeNode | SubtractionTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | UnionTypeNode)[];
 }
 
 export interface TypeGroupNode extends NamedNodeBase {
   type: SyntaxType.TypeGroup;
-  typeNode: ConditionalTypeNode | CurriedTypeNode | IntersectionTypeNode | KeyofNode | LabeledTypeNode | ListTypeNode | MapTypeNode | ParametricTypeNode | StructTypeNode | SubtractionTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | UnionTypeNode;
+  typeNode: ConditionalTypeNode | CurriedTypeNode | IntersectionTypeNode | KeyofNode | LabeledTypeNode | ListTypeNode | MapTypeNode | OptionalTypeNode | ParametricTypeNode | StructTypeNode | SubtractionTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | UnionTypeNode;
 }
 
 export interface TypeVariableNode extends NamedNodeBase {
@@ -443,8 +452,8 @@ export interface TypeVariableDeclarationNameNode extends NamedNodeBase {
 
 export interface UnionTypeNode extends NamedNodeBase {
   type: SyntaxType.UnionType;
-  leftNode: ConditionalTypeNode | CurriedTypeNode | IntersectionTypeNode | KeyofNode | LabeledTypeNode | ListTypeNode | MapTypeNode | ParametricTypeNode | StructTypeNode | SubtractionTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | UnionTypeNode;
-  rightNode: ConditionalTypeNode | CurriedTypeNode | IntersectionTypeNode | KeyofNode | LabeledTypeNode | ListTypeNode | MapTypeNode | ParametricTypeNode | StructTypeNode | SubtractionTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | UnionTypeNode;
+  leftNode: ConditionalTypeNode | CurriedTypeNode | IntersectionTypeNode | KeyofNode | LabeledTypeNode | ListTypeNode | MapTypeNode | OptionalTypeNode | ParametricTypeNode | StructTypeNode | SubtractionTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | UnionTypeNode;
+  rightNode: ConditionalTypeNode | CurriedTypeNode | IntersectionTypeNode | KeyofNode | LabeledTypeNode | ListTypeNode | MapTypeNode | OptionalTypeNode | ParametricTypeNode | StructTypeNode | SubtractionTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | UnionTypeNode;
 }
 
 export interface CommentNode extends NamedNodeBase {
