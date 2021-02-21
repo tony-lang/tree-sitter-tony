@@ -44,7 +44,7 @@ module.exports = {
         $.refinement_type_declaration,
       )
 
-    return prec.left(choice(...choices))
+    return choice(...choices)
   },
 
   _term_type: ($) => choice($.identifier, $._literal),
@@ -58,7 +58,7 @@ module.exports = {
     ]
 
     if (dialect === 'tony')
-      nodes.push(optional(buildTuple($, $._term_type, false, true)))
+      nodes.push(optional(buildTuple($, $._term_type, false, true, false)))
 
     return prec.right(seq(...nodes))
   },
@@ -163,10 +163,12 @@ module.exports = {
     prec.right(
       Prec.Tagged,
       seq(
-        '<',
-        field('name', $.identifier),
-        '>',
-        optional(field('type', $._type)),
+        ':',
+        field(
+          'name',
+          alias($._identifier_without_operators, $.identifier_pattern_name),
+        ),
+        field('type', $._type),
       ),
     ),
 
@@ -205,13 +207,6 @@ module.exports = {
   type_declaration: ($) =>
     prec.left(
       seq(
-        optional(
-          seq(
-            '<',
-            field('tag', alias($.identifier, $.identifier_pattern_name)),
-            '>',
-          ),
-        ),
         field('name', $.type),
         optional(buildGenericType('parameter', $.type_variable_declaration)),
         optional(buildTuple($, $.identifier_pattern, false, true)),

@@ -809,9 +809,9 @@ struct
 tagged struct
 ==================
 
-<constructor>{}
-<constructor>{ a, b }
-<constructor>{ ['a']: 1, ...b, c: 'str', d, e }
+:tag {}
+:tag { a, b }
+:tag { ['a']: 1, ...b, c: 'str', d, e }
 
 ---
 
@@ -864,9 +864,9 @@ tuple
 tagged tuple
 ==================
 
-<constructor>()
-<constructor>(a, 1, 'str', ...x)
-<constructor>(1,1)
+:tag ()
+:tag (a, 1, 'str', ...x)
+:tag (1,1)
 
 ---
 
@@ -918,9 +918,9 @@ list
 tagged list
 ==================
 
-<constructor>[]
-<constructor>[a, 1, ...b, 'str']
-<constructor>[1,1..1,1]
+:tag []
+:tag [a, 1, ...b, 'str']
+:tag [1,1..1,1]
 
 ---
 
@@ -1024,9 +1024,9 @@ list comprehension
 tagged value
 ==================
 
-<constructor>'String'
-<constructor>1
-<constructor>
+:tag 'String'
+:tag 1
+:tag ()
 
 ---
 
@@ -1038,14 +1038,16 @@ tagged value
     name: (identifier)
     value: (number))
   term: (tagged_value
-    name: (identifier)))
+    name: (identifier)
+    value: (tuple)))
 
 ==================
 type alias
 ==================
 
 type Type := Type
-type <constructor> Type := Type
+type Type := :tag Type
+type Type := :tag Type | :tag ()
 type Type<a, b <: Num> := a -> b
 type GreaterThan<a>(x :: a) := [y :: a | y > x]
 
@@ -1059,10 +1061,22 @@ type GreaterThan<a>(x :: a) := [y :: a | y > x]
       name: (type)))
   term: (type_alias
     name: (type_declaration
-      tag: (identifier_pattern_name)
       name: (type))
-    type: (parametric_type
-      name: (type)))
+    type: (tagged_type
+      name: (identifier_pattern_name)
+      type: (parametric_type
+        name: (type))))
+  term: (type_alias
+    name: (type_declaration
+      name: (type))
+    type: (union_type
+      left: (tagged_type
+        name: (identifier_pattern_name)
+        type: (parametric_type
+          name: (type)))
+      right: (tagged_type
+        name: (identifier_pattern_name)
+        type: (tuple_type))))
   term: (type_alias
     name: (type_declaration
       name: (type)

@@ -849,19 +849,19 @@ export interface SubtractionTypeNode extends NamedNodeBase {
 export interface TaggedPatternNode extends NamedNodeBase {
   type: SyntaxType.TaggedPattern;
   nameNode: IdentifierNode;
-  patternNode?: BooleanNode | DestructuringPatternNode | IdentifierPatternNode | NumberNode | PatternGroupNode | RawStringNode | RegexNode | TaggedPatternNode;
+  patternNode: BooleanNode | DestructuringPatternNode | IdentifierPatternNode | NumberNode | PatternGroupNode | RawStringNode | RegexNode | TaggedPatternNode;
 }
 
 export interface TaggedTypeNode extends NamedNodeBase {
   type: SyntaxType.TaggedType;
-  nameNode: IdentifierNode;
-  typeNode?: AccessTypeNode | ConditionalTypeNode | CurriedTypeNode | IntersectionTypeNode | KeyofNode | LabeledTypeNode | ListTypeNode | MapTypeNode | OptionalTypeNode | ParametricTypeNode | RefinementTypeNode | RefinementTypeDeclarationNode | StructTypeNode | SubtractionTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | TypeofNode | UnionTypeNode;
+  nameNode: IdentifierPatternNameNode;
+  typeNode: AccessTypeNode | ConditionalTypeNode | CurriedTypeNode | IntersectionTypeNode | KeyofNode | LabeledTypeNode | ListTypeNode | MapTypeNode | OptionalTypeNode | ParametricTypeNode | RefinementTypeNode | RefinementTypeDeclarationNode | StructTypeNode | SubtractionTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | TypeofNode | UnionTypeNode;
 }
 
 export interface TaggedValueNode extends NamedNodeBase {
   type: SyntaxType.TaggedValue;
   nameNode: IdentifierNode;
-  valueNode?: AbstractionNode | AccessNode | ApplicationNode | AssignmentNode | BooleanNode | ExportNode | GroupNode | IdentifierNode | IfNode | InfixApplicationNode | LeftSectionNode | ListNode | ListComprehensionNode | NumberNode | PipelineNode | PrefixApplicationNode | RegexNode | ReturnNode | RightSectionNode | StringNode | StructNode | TaggedValueNode | TupleNode | TypeAliasNode | TypeHintNode;
+  valueNode: AbstractionNode | AccessNode | ApplicationNode | AssignmentNode | BooleanNode | ExportNode | GroupNode | IdentifierNode | IfNode | InfixApplicationNode | LeftSectionNode | ListNode | ListComprehensionNode | NumberNode | PipelineNode | PrefixApplicationNode | RegexNode | ReturnNode | RightSectionNode | StringNode | StructNode | TaggedValueNode | TupleNode | TypeAliasNode | TypeHintNode;
 }
 
 export interface TupleNode extends NamedNodeBase {
@@ -891,7 +891,6 @@ export interface TypeDeclarationNode extends NamedNodeBase {
   elementNodes: IdentifierPatternNode[];
   nameNode: TypeNode;
   parameterNodes: TypeVariableDeclarationNode[];
-  tagNode?: IdentifierPatternNameNode;
 }
 
 export interface TypeGroupNode extends NamedNodeBase {
