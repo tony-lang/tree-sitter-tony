@@ -9,6 +9,7 @@ module.exports = {
   SectionIdentifier: 1,
   Literal: 1,
   IntersectionType: 1,
+  LabeledType: 2,
   OperatorInfixApplication: 2,
   Biconditional: 3,
   Implication: 4,
