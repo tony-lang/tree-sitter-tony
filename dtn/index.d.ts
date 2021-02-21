@@ -428,8 +428,8 @@ export interface SubtractionTypeNode extends NamedNodeBase {
 
 export interface TaggedTypeNode extends NamedNodeBase {
   type: SyntaxType.TaggedType;
-  nameNode: IdentifierNode;
-  typeNode?: ConditionalTypeNode | CurriedTypeNode | IntersectionTypeNode | KeyofNode | LabeledTypeNode | ListTypeNode | MapTypeNode | OptionalTypeNode | ParametricTypeNode | StructTypeNode | SubtractionTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | UnionTypeNode;
+  nameNode: IdentifierPatternNameNode;
+  typeNode: ConditionalTypeNode | CurriedTypeNode | IntersectionTypeNode | KeyofNode | LabeledTypeNode | ListTypeNode | MapTypeNode | OptionalTypeNode | ParametricTypeNode | StructTypeNode | SubtractionTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeVariableNode | UnionTypeNode;
 }
 
 export interface TupleTypeNode extends NamedNodeBase {

@@ -62,10 +62,9 @@ module.exports = {
     prec.right(
       Prec.Tagged,
       seq(
-        '<',
-        field('name', $.identifier),
-        '>',
-        optional(field('pattern', $._pattern)),
+        ':',
+        field('name', alias($._identifier_without_operators, $.identifier)),
+        field('pattern', $._pattern),
       ),
     ),
 

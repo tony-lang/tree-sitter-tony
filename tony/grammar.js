@@ -32,6 +32,7 @@ const {
   _section,
   left_section,
   right_section,
+  _section_identifier,
   list_comprehension,
   generator,
   pipeline,
@@ -54,7 +55,6 @@ const {
   _identifier_without_operators,
   _operator,
   identifier,
-  _section_identifier,
   group,
 } = require('../common/terms')
 const {
@@ -185,6 +185,7 @@ module.exports = grammar({
     _section,
     left_section,
     right_section,
+    _section_identifier,
     list_comprehension,
     generator,
     pipeline,
@@ -207,7 +208,6 @@ module.exports = grammar({
     _identifier_without_operators,
     _operator,
     identifier,
-    _section_identifier,
     group,
 
     _pattern,

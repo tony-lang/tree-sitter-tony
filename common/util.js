@@ -30,9 +30,14 @@ const buildDataStructure = ($, element, rest, commaSepImpl = commaSep1) =>
 const buildStruct = ($, member, rest = false) =>
   seq('{', buildDataStructure($, field('member', member), rest), '}')
 
-const buildTuple = ($, element, rest = false, allowSingle = false) =>
-  choice(
-    '()',
+const buildTuple = (
+  $,
+  element,
+  rest = false,
+  allowSingle = false,
+  allowEmpty = true,
+) => {
+  const options = [
     seq(
       '(',
       buildDataStructure(
@@ -43,7 +48,12 @@ const buildTuple = ($, element, rest = false, allowSingle = false) =>
       ),
       ')',
     ),
-  )
+  ]
+
+  if (allowEmpty) options.push('()')
+
+  return choice(...options)
+}
 
 const buildList = ($, element, rest = false) =>
   seq('[', buildDataStructure($, field('element', element), rest), ']')
