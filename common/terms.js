@@ -23,7 +23,7 @@ module.exports = {
         $.prefix_application,
         $.infix_application,
         $._section,
-        $.pipeline,
+        // $.pipeline,
         $.access,
         alias($.simple_assignment, $.assignment),
         alias($.simple_export, $.export),
@@ -186,6 +186,22 @@ module.exports = {
     ),
   infix_application: ($) =>
     choice(
+      prec.left(
+        Prec.Pipeline,
+        seq(
+          field('left', $._simple_term),
+          field('name', alias('&.', $.identifier)),
+          field('right', $._simple_term),
+        ),
+      ),
+      prec.left(
+        Prec.Pipeline,
+        seq(
+          field('left', $._simple_term),
+          field('name', alias('.', $.identifier)),
+          field('right', $._simple_term),
+        ),
+      ),
       prec.left(
         Prec.Not,
         seq(
@@ -376,12 +392,6 @@ module.exports = {
       optional(seq('if', field('condition', $._simple_term))),
     ),
 
-  pipeline: ($) =>
-    prec.left(
-      Prec.Pipeline,
-      seq(field('value', $._simple_term), '.', field('name', $._simple_term)),
-    ),
-
   access: ($) =>
     prec.left(
       Prec.Access,
@@ -462,13 +472,10 @@ module.exports = {
   spread: ($) => seq('...', field('value', $._simple_term)),
 
   tagged_value: ($) =>
-    prec.right(
-      Prec.Tagged,
-      seq(
-        ':',
-        field('name', alias($._identifier_without_operators, $.identifier)),
-        field('value', $._simple_term),
-      ),
+    seq(
+      ':',
+      field('name', alias($._identifier_without_operators, $.identifier)),
+      field('value', $._simple_term),
     ),
 
   type_alias: ($) =>

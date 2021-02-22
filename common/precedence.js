@@ -1,5 +1,4 @@
 module.exports = {
-  TaggedType: -1,
   SubtractionType: -1,
   UnionType: 0,
   Assignment: 1,
@@ -13,6 +12,7 @@ module.exports = {
   OperatorInfixApplication: 2,
   OptionalType: 3,
   Biconditional: 3,
+  TaggedType: 4,
   Implication: 4,
   Or: 5,
   And: 6,
@@ -24,10 +24,9 @@ module.exports = {
   Exponentiation: 12,
   Not: 13,
   PrefixApplication: 14,
-  Application: 16,
-  Term: 17,
-  Pattern: 17,
-  Tagged: 17,
+  Application: 15,
+  Term: 16,
+  Pattern: 16,
+  Access: 17,
   Pipeline: 18,
-  Access: 19,
 }
