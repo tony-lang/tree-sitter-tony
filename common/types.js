@@ -197,12 +197,7 @@ module.exports = {
       ']',
     ),
   _predicate: ($) =>
-    choice(
-      $.application,
-      $.infix_application,
-      $.prefix_application,
-      // $.pipeline,
-    ),
+    choice($.application, $.infix_application, $.prefix_application),
 
   type_declaration: ($) =>
     prec.left(

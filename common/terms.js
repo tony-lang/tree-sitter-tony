@@ -23,7 +23,6 @@ module.exports = {
         $.prefix_application,
         $.infix_application,
         $._section,
-        // $.pipeline,
         $.access,
         alias($.simple_assignment, $.assignment),
         alias($.simple_export, $.export),
@@ -168,7 +167,7 @@ module.exports = {
     prec.left(buildAbstractionBranch($, $._compound_block)),
 
   application: ($) =>
-    prec(
+    prec.left(
       Prec.Application,
       seq(
         field('name', $._simple_term),
