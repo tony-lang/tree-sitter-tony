@@ -160,8 +160,8 @@ module.exports = {
     prec(Prec.OptionalType, seq(field('type', $._type), '?')),
 
   tagged_type: ($) =>
-    prec.right(
-      Prec.Tagged,
+    prec(
+      Prec.TaggedType,
       seq(
         ':',
         field(
@@ -201,7 +201,7 @@ module.exports = {
       $.application,
       $.infix_application,
       $.prefix_application,
-      $.pipeline,
+      // $.pipeline,
     ),
 
   type_declaration: ($) =>

@@ -59,13 +59,10 @@ module.exports = {
     ),
 
   tagged_pattern: ($) =>
-    prec.right(
-      Prec.Tagged,
-      seq(
-        ':',
-        field('name', alias($._identifier_without_operators, $.identifier)),
-        field('pattern', $._pattern),
-      ),
+    seq(
+      ':',
+      field('name', alias($._identifier_without_operators, $.identifier)),
+      field('pattern', $._pattern),
     ),
 
   _literal_pattern: ($) => choice($.boolean, $.number, $.raw_string, $.regex),

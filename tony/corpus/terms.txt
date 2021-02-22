@@ -276,6 +276,8 @@ false || false && false
 1 * 1 / 1 - 1
 false || !false
 (a.b) . c ^ 1 . (d.e)
+a.b.c(1)
+a&.b&.c(1)
 
 ---
 
@@ -410,35 +412,41 @@ false || !false
       name: (identifier)
       value: (boolean)))
   term: (infix_application
-    left: (pipeline
-      value: (group
-        term: (pipeline
-          value: (identifier)
-          name: (identifier)))
-      name: (identifier))
+    left: (infix_application
+      left: (group
+        term: (infix_application
+          left: (identifier)
+          name: (identifier)
+          right: (identifier)))
+      name: (identifier)
+      right: (identifier))
     name: (identifier)
-    right: (pipeline
-      value: (number)
-      name: (group
-        term: (pipeline
-          value: (identifier)
-          name: (identifier))))))
-
-==================
-pipeline
-==================
-
-a.b.c(1)
-
----
-
-(program
+    right: (infix_application
+      left: (number)
+      name: (identifier)
+      right: (group
+        term: (infix_application
+          left: (identifier)
+          name: (identifier)
+          right: (identifier)))))
   term: (application
-    name: (pipeline
-      value: (pipeline
-        value: (identifier)
-        name: (identifier))
-      name: (identifier))
+    name: (infix_application
+      left: (infix_application
+        left: (identifier)
+        name: (identifier)
+        right: (identifier))
+      name: (identifier)
+      right: (identifier))
+    element: (argument
+      value: (number)))
+  term: (application
+    name: (infix_application
+      left: (infix_application
+        left: (identifier)
+        name: (identifier)
+        right: (identifier))
+      name: (identifier)
+      right: (identifier))
     element: (argument
       value: (number))))
 
@@ -487,11 +495,12 @@ a.b[c]
       value: (shorthand_access_identifier))
     element: (argument
       value: (number)))
-  term: (pipeline
-    value: (identifier)
-    name: (access
+  term: (access
+    name: (infix_application
+      left: (identifier)
       name: (identifier)
-      value: (identifier))))
+      right: (identifier))
+    value: (identifier)))
 
 ==================
 assignment
