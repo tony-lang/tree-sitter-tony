@@ -27,7 +27,7 @@ jobs:
     - name: Tracked files are up-to-date
       run: |
         changes=$(git diff)
-        if [[ -n $files ]]; then
+        if [[ -n $changes ]]; then
           echo "Uncommitted changes:\n\n$changes"
           exit 1
         fi
