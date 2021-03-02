@@ -28,7 +28,7 @@ jobs:
       run: |
         changes=$(git diff)
         if [[ -n $changes ]]; then
-          echo $changes
+          echo "$changes"
           exit 1
         fi
     - name: Prettier
