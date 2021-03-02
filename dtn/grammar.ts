@@ -1,4 +1,4 @@
-import 'tree-sitter-cli/dsl'
+/// <reference types="tree-sitter-cli/dsl" />
 
 import {
   _decimal,
