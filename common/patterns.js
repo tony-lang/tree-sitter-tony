@@ -1,5 +1,5 @@
 const Prec = require('./precedence')
-const { buildStruct, buildTuple, buildList, buildMember } = require('./util')
+const { buildStruct, buildTuple, buildList, buildMember, buildGenericType } = require('./util')
 
 module.exports = {
   _pattern: ($) =>
@@ -17,6 +17,7 @@ module.exports = {
     prec(
       Prec.Pattern,
       seq(
+        optional(buildGenericType('typeParameter', $.type_variable_declaration)),
         optional(
           seq(
             field('alias', alias($.identifier, $.identifier_pattern_name)),
@@ -53,6 +54,7 @@ module.exports = {
       Prec.Pattern,
       seq(
         field('name', alias($.identifier, $.identifier_pattern_name)),
+        optional(buildGenericType('typeParameter', $.type_variable_declaration)),
         optional(seq('::', field('type', $._type))),
         optional(seq('=', field('default', $._simple_term))),
       ),

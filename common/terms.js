@@ -23,7 +23,6 @@ module.exports = {
         $.prefix_application,
         $.infix_application,
         $._section,
-        // $.pipeline,
         $.access,
         alias($.simple_assignment, $.assignment),
         alias($.simple_export, $.export),
@@ -34,6 +33,7 @@ module.exports = {
         $.list,
         $.list_comprehension,
         $.tagged_value,
+        $.parametric_type_instance,
         $.type_alias,
         $.type_hint,
         $.identifier,
@@ -172,7 +172,6 @@ module.exports = {
       Prec.Application,
       seq(
         field('name', $._simple_term),
-        optional(buildGenericType('typeArgument', $.parametric_type)),
         buildTuple($, $.argument, false, true),
       ),
     ),
@@ -477,6 +476,8 @@ module.exports = {
       field('name', alias($._identifier_without_operators, $.identifier)),
       field('value', $._simple_term),
     ),
+
+  parametric_type_instance: ($) => seq(field('name', $.identifier), buildGenericType('typeArgument', $.parametric_type)),
 
   type_alias: ($) =>
     prec.right(

@@ -8,7 +8,6 @@ const commaSep2 = sep2(',')
 
 const buildAbstractionBranch = ($, blockType) =>
   seq(
-    optional(buildGenericType('typeParameter', $.type_variable_declaration)),
     buildTuple($, $._pattern, true, true),
     '=>',
     field('body', alias(blockType, $.block)),
