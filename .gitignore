@@ -1,8 +1,8 @@
+bindings
 build
 node_modules
 prebuilds
 src
-index.js
 
 *.log
 
