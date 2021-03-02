@@ -1,16 +1,35 @@
 module.exports = {
   env: {
-    browser: true,
     node: true,
   },
-  extends: ['eslint:recommended', 'plugin:prettier/recommended'],
+  extends: [
+    'eslint:recommended',
+    'plugin:@typescript-eslint/eslint-recommended',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:prettier/recommended',
+  ],
+  parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaVersion: 2020,
     sourceType: 'module',
   },
+  plugins: ['@typescript-eslint', 'filenames'],
   rules: {
+    'filenames/match-regex': [2, /^[a-z_]+(\.d)?$/, true],
     'sort-imports': 'error',
-    'no-undef': 'off',
+    '@typescript-eslint/ban-types': 'off',
+    '@typescript-eslint/camelcase': 'off',
+    '@typescript-eslint/explicit-module-boundary-types': 'off',
+    '@typescript-eslint/no-explicit-any': 'error',
+    '@typescript-eslint/no-non-null-assertion': 'error',
+    '@typescript-eslint/no-unused-vars': 'error',
   },
-  ignorePatterns: ['index.js'],
+  overrides: [
+    {
+      files: ['dtn/index.d.ts', 'tony/index.d.ts'],
+      rules: {
+        '@typescript-eslint/no-explicit-any': 'off',
+      },
+    },
+  ],
 }

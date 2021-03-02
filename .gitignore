@@ -4,6 +4,8 @@ node_modules
 prebuilds
 src
 
+*.js
+
 *.log
 
 !src/scanner.cc

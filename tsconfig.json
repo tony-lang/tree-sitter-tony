@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "module": "CommonJS",
+    "moduleResolution": "node",
+    "strict": true,
+    "target": "ES3",
+    "sourceMap": false,
+  },
+  "include": [
+    "common",
+    "dtn",
+    "tony",
+  ],
+}
