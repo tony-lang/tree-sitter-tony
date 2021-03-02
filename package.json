@@ -3,10 +3,10 @@
   "version": "0.2.0-alpha.38",
   "description": "Tony grammar for tree-sitter",
   "scripts": {
-    "setup": "yarn global add tree-sitter-cli typescript && yarn generate && yarn install --dev && git reset --hard",
+    "setup": "yarn install --dev --ignore-scripts && yarn generate && git reset --hard",
     "generate": "yarn generate-tony && yarn generate-dtn",
-    "generate-tony": "tsc && cd tony && tree-sitter generate",
-    "generate-dtn": "tsc && cd dtn && tree-sitter generate",
+    "generate-tony": "yarn tsc && cd tony && tree-sitter generate",
+    "generate-dtn": "yarn tsc && cd dtn && tree-sitter generate",
     "parse-tony": "cd tony && tree-sitter parse",
     "parse-dtn": "cd dtn && tree-sitter parse",
     "test": "yarn test-tony && yarn test-dtn",
