@@ -2075,10 +2075,10 @@ traceur@0.0.x:
   resolved "https://registry.yarnpkg.com/traverse/-/traverse-0.3.9.tgz#717b8f220cc0bb7b44e40514c22b2e8bbc70d8b9"
   integrity sha1-cXuPIgzAu3tE5AUUwisui7xw2Lk=
 
-tree-sitter-cli@^0.18.0:
-  version "0.18.3"
-  resolved "https://registry.yarnpkg.com/tree-sitter-cli/-/tree-sitter-cli-0.18.3.tgz#bb0d3e9333838932400538437f1283555cf63703"
-  integrity sha512-ntN8Siljy7dlazb4cSYtZCfibaNppIy6RIr/XGt44GW1hAy/yuTLtKVi4kqYlImB4/7H0AjktcSlQRmI8zLNng==
+tree-sitter-cli@^0.19.0:
+  version "0.19.0"
+  resolved "https://registry.yarnpkg.com/tree-sitter-cli/-/tree-sitter-cli-0.19.0.tgz#c639a3ff02f858e02e90db4c835707c297a1e4f1"
+  integrity sha512-Wd4DaSG/+ndIFIbSMKmpsUZ+bGbmGtF4RZYIUPvXa1XHQuUGfGi4Z2P4T25ccyOBEw+9TE2plrIN07oROtMHHw==
 
 tree-sitter@^0.16.1:
   version "0.16.2"
