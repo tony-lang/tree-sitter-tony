@@ -26,9 +26,9 @@ jobs:
       run: yarn types
     - name: Tracked files are up-to-date
       run: |
-        files=$(git diff --name-only)
+        changes=$(git diff)
         if [[ -n $files ]]; then
-          echo "Files that are out of sync: $files"
+          echo "Uncommitted changes:\n\n$changes"
           exit 1
         fi
     - name: Prettier
