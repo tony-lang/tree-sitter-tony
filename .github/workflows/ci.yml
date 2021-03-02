@@ -9,9 +9,9 @@ jobs:
     strategy:
       matrix:
         node:
-          # - '12.x'
-          # - '13.x'
-          # - '14.x'
+          - '12.x'
+          - '13.x'
+          - '14.x'
           - '15.x'
 
     name: Node ${{ matrix.node }}
@@ -20,45 +20,13 @@ jobs:
     - uses: actions/setup-node@v2.1.5
       with:
         node-version: ${{ matrix.node }}
-    - name: Tracked files are up-to-date
-      run: |
-        changes=$(git diff)
-        if [[ -n $changes ]]; then
-          echo "$changes"
-          exit 1
-        fi
-    - name: Setup 1
-      run: yarn global add tree-sitter-cli
-    - name: Tracked files are up-to-date
-      run: |
-        changes=$(git diff)
-        if [[ -n $changes ]]; then
-          echo "$changes"
-          exit 1
-        fi
-    - name: Setup 2
-      run: yarn generate
-    - name: Tracked files are up-to-date
-      run: |
-        changes=$(git diff)
-        if [[ -n $changes ]]; then
-          echo "$changes"
-          exit 1
-        fi
-    - name: Setup 3
-      run: yarn install --dev
-    - name: Tracked files are up-to-date
-      run: |
-        changes=$(git diff)
-        if [[ -n $changes ]]; then
-          echo "$changes"
-          exit 1
-        fi
+    - name: Setup
+      run: yarn setup
     - name: Generate type declarations
       run: yarn types
-    - name: Tracked files are up-to-date
+    - name: Type declarations are up-to-date
       run: |
-        changes=$(git diff)
+        changes=$(git diff -- **/*.d.ts)
         if [[ -n $changes ]]; then
           echo "$changes"
           exit 1
