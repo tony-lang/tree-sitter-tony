@@ -14,19 +14,16 @@ module.exports = {
     ),
 
   destructuring_pattern: ($) =>
-    prec(
-      Prec.Pattern,
-      seq(
-        optional(
-          seq(
-            field('alias', alias($.identifier, $.identifier_pattern_name)),
-            '@',
-          ),
+    seq(
+      optional(
+        seq(
+          field('alias', alias($.identifier, $.identifier_pattern_name)),
+          '@',
         ),
-        field(
-          'pattern',
-          choice($.struct_pattern, $.tuple_pattern, $.list_pattern),
-        ),
+      ),
+      field(
+        'pattern',
+        choice($.struct_pattern, $.tuple_pattern, $.list_pattern),
       ),
     ),
 
