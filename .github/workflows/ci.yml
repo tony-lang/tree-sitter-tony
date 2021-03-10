@@ -23,8 +23,14 @@ jobs:
     - name: Setup
       run: yarn setup
       shell: bash {0}
+    - name: Prettier
+      run: yarn prettierlint
+    - name: ESLint
+      run: yarn eslint
+    - name: Test parser
+      run: yarn test
     - name: Generate type declarations
-      run: yarn types
+      run: yarn types && yarn prettier
     - name: Type declarations are up-to-date
       run: |
         changes=$(git diff -- **/*.d.ts)
@@ -32,9 +38,3 @@ jobs:
           echo "$changes"
           exit 1
         fi
-    - name: Prettier
-      run: yarn prettierlint
-    - name: ESLint
-      run: yarn eslint
-    - name: Test parser
-      run: yarn test
