@@ -3,4 +3,4 @@ node_modules
 src
 
 index.js
-tree-sitter-tony.d.ts
+index.d.ts
