@@ -2076,9 +2076,9 @@ traceur@0.0.x:
   integrity sha1-cXuPIgzAu3tE5AUUwisui7xw2Lk=
 
 tree-sitter-cli@^0.19.0:
-  version "0.19.2"
-  resolved "https://registry.yarnpkg.com/tree-sitter-cli/-/tree-sitter-cli-0.19.2.tgz#a2bd0e5763df73b1d30f4db2ec26aafed6a586b4"
-  integrity sha512-Ykmza3kS9QmPOkpNikKXR5c3IwPhTCrWj+Okj9vVilrPlR1gFlgnjoKWoX2aTDW8ODFKsT0KqFRm1Ey4+xvTxg==
+  version "0.19.3"
+  resolved "https://registry.yarnpkg.com/tree-sitter-cli/-/tree-sitter-cli-0.19.3.tgz#78681667ab565ce7ba88b3fbede1343476afc149"
+  integrity sha512-UlntGxLrlkQCKVrhm7guzfi+ovM4wDLVCCu3z5jmfDgFNoUoKa/23ddaQON5afD5jB9a02xv4N5MXJfCx+/mpw==
 
 tree-sitter@^0.16.1:
   version "0.16.2"
