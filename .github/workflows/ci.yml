@@ -22,7 +22,7 @@ jobs:
         node-version: ${{ matrix.node }}
     - name: Setup
       run: yarn setup
-      allow_failure: true
+      shell: bash {0}
     - name: Generate type declarations
       run: yarn types
     - name: Type declarations are up-to-date
