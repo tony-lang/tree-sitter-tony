@@ -16,6 +16,7 @@ jobs:
         registry-url: https://registry.npmjs.org/
     - name: Setup
       run: yarn setup
+      allow_failure: true
     - name: Publish
       run: npm publish
       env:

@@ -22,6 +22,7 @@ jobs:
         node-version: 15
     - name: Setup
       run: yarn setup
+      allow_failure: true
 
     - name: Build binaries and upload to GitHub (Linux/macOS)
       if: runner.os == 'Linux' || runner.os == 'macOS'
