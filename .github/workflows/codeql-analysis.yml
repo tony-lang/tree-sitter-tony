@@ -40,6 +40,7 @@ jobs:
         node-version: ${{ matrix.node }}
     - name: Setup
       run: yarn setup
+      shell: bash {0}
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v1
