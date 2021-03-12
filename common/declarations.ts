@@ -1,3 +1,4 @@
+import { JS_ALPHA, JS_ALPHANUMERIC } from './constants'
 import { buildCompoundBlock } from './util'
 
 export const declaration = <RuleName extends string>(
@@ -13,7 +14,15 @@ export const declaration_member = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
 ) =>
   seq(
-    field('name', alias($.identifier, $.identifier_pattern_name)),
+    field('as', alias($.identifier, $.identifier_pattern_name)),
+    optional(
+      seq(
+        'from',
+        field('name', alias($.js_identifier, $.identifier_pattern_name)),
+      ),
+    ),
     '::',
     field('type', $._type),
   )
+
+export const js_identifier = () => token(seq(JS_ALPHA, repeat(JS_ALPHANUMERIC)))

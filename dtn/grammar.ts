@@ -41,7 +41,11 @@ import {
   type_variable_declaration,
   union_type,
 } from '../common/types'
-import { declaration, declaration_member } from '../common/declarations'
+import {
+  declaration,
+  declaration_member,
+  js_identifier,
+} from '../common/declarations'
 import { Dialect } from '../common/enums'
 import { comment } from '../common/miscellaneous'
 
@@ -74,6 +78,7 @@ export = grammar({
 
     declaration,
     declaration_member,
+    js_identifier,
 
     import: import_,
     _import_body: _import_body_constructor(dialect),

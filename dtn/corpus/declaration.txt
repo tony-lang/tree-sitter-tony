@@ -4,7 +4,7 @@ without imports
 
 declare 'module'
   x :: Type
-  y :: Type
+  y from x :: Type
 
 ---
 
@@ -12,10 +12,11 @@ declare 'module'
   declaration: (declaration
     name: (raw_string)
     member: (declaration_member
-      name: (identifier_pattern_name)
+      as: (identifier_pattern_name)
       type: (parametric_type
         name: (type)))
     member: (declaration_member
+      as: (identifier_pattern_name)
       name: (identifier_pattern_name)
       type: (parametric_type
         name: (type)))))
@@ -31,7 +32,7 @@ import {
 
 declare 'module'
   x :: Type
-  y :: Type
+  y from x40596C :: Type
 
 ---
 
@@ -46,10 +47,11 @@ declare 'module'
   declaration: (declaration
     name: (raw_string)
     member: (declaration_member
-      name: (identifier_pattern_name)
+      as: (identifier_pattern_name)
       type: (parametric_type
         name: (type)))
     member: (declaration_member
+      as: (identifier_pattern_name)
       name: (identifier_pattern_name)
       type: (parametric_type
         name: (type)))))
