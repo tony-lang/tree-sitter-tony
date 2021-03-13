@@ -1,4 +1,3 @@
-import { Dialect } from './dialects'
 import {
   buildGenericType,
   buildStruct,
@@ -6,8 +5,9 @@ import {
   buildTypeConstraint,
   commaSep1,
 } from './util'
-import { TYPE } from './constants'
+import { Dialect } from './dialects'
 import { Prec } from './precedences'
+import { TYPE } from './constants'
 
 export const type_variable_declaration = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,

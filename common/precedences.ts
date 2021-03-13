@@ -70,7 +70,4 @@ const termPrecedences = [
   Prec.Identifier,
 ]
 
-export const precedences = () => [
-  typePrecedences,
-  termPrecedences,
-]
+export const precedences = () => [typePrecedences, termPrecedences]
