@@ -8,7 +8,7 @@ export const commaSep1 = sep1(',')
 
 const commaSep2 = sep2(',')
 
-export const buildAbstractionBranch = <RuleName extends string>(
+export const buildAbstraction = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
   blockType: Rule,
 ) =>
