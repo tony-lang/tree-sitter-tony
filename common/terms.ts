@@ -172,11 +172,11 @@ export const argument = <RuleName extends string>(
 
 export const simple_abstraction = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
-) => prec.left(20, buildAbstraction($, $._simple_block))
+) => prec.left(buildAbstraction($, $._simple_block))
 
 export const compound_abstraction = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
-) => prec.left(20, buildAbstraction($, $._compound_block))
+) => prec.left(buildAbstraction($, $._compound_block))
 
 export const application = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
