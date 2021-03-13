@@ -1,6 +1,6 @@
 import { IDENTIFIER, OPERATOR } from './constants'
 import {
-  buildAbstraction,
+  buildAbstractionBranch,
   buildCompoundBlock,
   buildGenericType,
   buildList,
@@ -26,6 +26,7 @@ export const _simple_term = <RuleName extends string>(
       $.prefix_application,
       $.infix_application,
       $._section,
+      // $.pipeline,
       $.access,
       alias($.simple_assignment, $.assignment),
       alias($.simple_export, $.export),
@@ -172,11 +173,32 @@ export const argument = <RuleName extends string>(
 
 export const simple_abstraction = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
-) => prec.left(buildAbstraction($, $._simple_block))
+) =>
+  prec.left(
+    commaSep1(
+      field('branch', alias($.simple_abstraction_branch, $.abstraction_branch)),
+    ),
+  )
+
+export const simple_abstraction_branch = <RuleName extends string>(
+  $: GrammarSymbols<RuleName>,
+) => prec.left(buildAbstractionBranch($, $._simple_block))
 
 export const compound_abstraction = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
-) => prec.left(buildAbstraction($, $._compound_block))
+) =>
+  prec.left(
+    repeat1(
+      field(
+        'branch',
+        alias($.compound_abstraction_branch, $.abstraction_branch),
+      ),
+    ),
+  )
+
+export const compound_abstraction_branch = <RuleName extends string>(
+  $: GrammarSymbols<RuleName>,
+) => prec.left(buildAbstractionBranch($, $._compound_block))
 
 export const application = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
