@@ -1,10 +1,9 @@
 import { BIN, DIGITS, EXP, HEX, OCT } from './constants'
-import { Prec } from './enums'
 import { buildString } from './util'
 
 export const _literal = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
-) => prec(Prec.Literal, choice($.boolean, $.number, $.string, $.regex))
+) => choice($.boolean, $.number, $.string, $.regex)
 
 export const boolean = () => choice('false', 'true')
 

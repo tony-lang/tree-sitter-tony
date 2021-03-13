@@ -46,8 +46,9 @@ import {
   declaration_member,
   js_identifier,
 } from '../common/declarations'
-import { Dialect } from '../common/enums'
+import { Dialect } from '../common/dialects'
 import { comment } from '../common/miscellaneous'
+import { precedences } from '../common/precedences'
 
 const dialect = Dialect.DTN
 
@@ -65,7 +66,7 @@ export = grammar({
   extras: ($) => [$.comment, /\s+/],
   word: ($) => $._identifier_without_operators,
 
-  precedences: () => [],
+  precedences,
 
   rules: {
     program: ($) =>
