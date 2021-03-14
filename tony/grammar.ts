@@ -148,10 +148,6 @@ export = grammar({
     [$.list, $.list_pattern],
     [$.application, $.prefix_application, $.infix_application],
     [$.application, $.infix_application],
-    [$.tagged_value, $.tagged_pattern],
-    [$.tagged_value, $.tagged_pattern, $.tagged_type],
-    [$.tagged_value, $.tagged_type],
-    [$.tagged_pattern, $.tagged_type],
   ],
 
   precedences,
