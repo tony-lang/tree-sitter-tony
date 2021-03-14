@@ -146,8 +146,6 @@ export = grammar({
     [$.tuple, $.tuple_type],
     [$.tuple, $.tuple_pattern, $.tuple_type],
     [$.list, $.list_pattern],
-    [$.application, $.prefix_application, $.infix_application],
-    [$.application, $.infix_application],
   ],
 
   precedences,

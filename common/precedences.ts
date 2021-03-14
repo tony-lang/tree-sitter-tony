@@ -27,6 +27,7 @@ export enum Prec {
   TypeHint = 'TypeHint',
   TaggedValue = 'TaggedValue',
   Assignment = 'Assignment',
+  InfixApplication = 'InfixApplication',
   PrefixApplication = 'PrefixApplication',
   Application = 'Application',
   PatternOrTerm = 'PatternOrTerm',
@@ -45,10 +46,20 @@ const typePrecedences = [
 ]
 
 const termPrecedences = [
-  Prec.Pipeline,
-  Prec.Access,
+  Prec.PatternOrTerm,
   Prec.Application,
   Prec.PrefixApplication,
+  Prec.InfixApplication,
+  Prec.Assignment,
+  Prec.TypeHint,
+  Prec.TaggedValue,
+  Prec.SectionIdentifier,
+  Prec.Identifier,
+]
+
+const operatorPrecedences = [
+  Prec.Pipeline,
+  Prec.Access,
   Prec.Not,
   Prec.Exponentiation,
   Prec.Product,
@@ -62,12 +73,10 @@ const termPrecedences = [
   Prec.Biconditional,
   Prec.OperatorInfixApplication,
   Prec.NamedInfixApplication,
-  Prec.PatternOrTerm,
-  Prec.Assignment,
-  Prec.TypeHint,
-  Prec.TaggedValue,
-  Prec.SectionIdentifier,
-  Prec.Identifier,
 ]
 
-export const precedences = () => [typePrecedences, termPrecedences]
+export const precedences = () => [
+  typePrecedences,
+  termPrecedences,
+  operatorPrecedences,
+]
