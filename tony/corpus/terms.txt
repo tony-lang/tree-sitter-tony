@@ -19,6 +19,9 @@ fib :=
     c
   b(1)
 
+(0) => 0
+(0, a) => 0
+
 () => 1
 / := (a, b) => /
 
@@ -124,8 +127,20 @@ fn :: Number -> Number? -> Number := (a, b = 5) => a + b
             value: (number))))))
   term: (abstraction
     branch: (abstraction_branch
-    body: (block
-      term: (number))))
+      element: (number)
+      body: (block
+        term: (number))))
+  term: (abstraction
+    branch: (abstraction_branch
+      element: (number)
+      element: (identifier_pattern
+        name: (identifier_pattern_name))
+      body: (block
+        term: (number))))
+  term: (abstraction
+    branch: (abstraction_branch
+      body: (block
+        term: (number))))
   term: (assignment
     pattern: (identifier_pattern
       name: (identifier_pattern_name))
