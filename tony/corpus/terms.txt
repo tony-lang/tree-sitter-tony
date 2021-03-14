@@ -20,12 +20,12 @@ fib :=
   b(1)
 
 (0) => 0
-(0, a) => 0
+(0, a) => 0 + 0
 
 () => 1
 / := (a, b) => /
 
-fn :: Number -> Number? -> Number := (a, b = 5) => a + b
+fn :: Number -> Number? -> Number := (a, b = 5) => a > b
 
 ---
 
@@ -136,7 +136,10 @@ fn :: Number -> Number? -> Number := (a, b = 5) => a + b
       element: (identifier_pattern
         name: (identifier_pattern_name))
       body: (block
-        term: (number))))
+        term: (infix_application
+          left: (number)
+          name: (identifier)
+          right: (number)))))))))
   term: (abstraction
     branch: (abstraction_branch
       body: (block

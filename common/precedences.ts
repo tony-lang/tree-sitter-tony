@@ -47,7 +47,6 @@ const typePrecedences = [
 const termPrecedences = [
   Prec.Pipeline,
   Prec.Access,
-  Prec.PatternOrTerm,
   Prec.Application,
   Prec.PrefixApplication,
   Prec.Not,
@@ -63,6 +62,7 @@ const termPrecedences = [
   Prec.Biconditional,
   Prec.OperatorInfixApplication,
   Prec.NamedInfixApplication,
+  Prec.PatternOrTerm,
   Prec.Assignment,
   Prec.TypeHint,
   Prec.TaggedValue,
