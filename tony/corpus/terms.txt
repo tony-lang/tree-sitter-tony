@@ -479,16 +479,36 @@ sections
 access
 ==================
 
-a[0]
+a[0] == ->(a, 0)
+a->b == ->(a, 'b')
 a->b(1)
 a.b[c]
 
 ---
 
 (program
-  term: (access
+  term: (infix_application
+    left: (access
       name: (identifier)
       value: (number))
+    name: (identifier)
+    right: (application
+      name: (identifier)
+      element: (argument
+        value: (identifier))
+      element: (argument
+        value: (number))))
+  term: (infix_application
+    left: (access
+      name: (identifier)
+      value: (shorthand_access_identifier))
+    name: (identifier)
+    right: (application
+      name: (identifier)
+      element: (argument
+        value: (identifier))
+      element: (argument
+        value: (string))))
   term: (application
     name: (access
       name: (identifier)

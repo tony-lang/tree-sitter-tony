@@ -26,7 +26,6 @@ export const _simple_term = <RuleName extends string>(
       $.prefix_application,
       $.infix_application,
       $._section,
-      // $.pipeline,
       $.access,
       alias($.simple_assignment, $.assignment),
       alias($.simple_export, $.export),
@@ -203,7 +202,7 @@ export const compound_abstraction_branch = <RuleName extends string>(
 export const application = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
 ) =>
-  prec(
+  prec.left(
     Prec.Application,
     seq(
       field('name', $._simple_term),

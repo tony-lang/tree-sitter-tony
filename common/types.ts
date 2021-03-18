@@ -245,13 +245,7 @@ export const refinement_type = <RuleName extends string>(
 
 export const _predicate = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
-) =>
-  choice(
-    $.application,
-    $.infix_application,
-    $.prefix_application,
-    // $.pipeline,
-  )
+) => choice($.application, $.infix_application, $.prefix_application)
 
 export const type_declaration = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
