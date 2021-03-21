@@ -104,9 +104,9 @@ export const buildGenericType = (
   singleParameter = false,
 ) =>
   seq(
-    '<',
+    '(',
     singleParameter ? field(name, rule) : commaSep1(field(name, rule)),
-    '>',
+    ')',
   )
 
 export const buildTypeConstraint = <RuleName extends string>(

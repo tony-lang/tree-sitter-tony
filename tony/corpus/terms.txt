@@ -701,10 +701,10 @@ else 1
 class
 ==================
 
-class Type<T>
+class Type(T)
   a :: T -> Number
   b :: T -> Number
-class Ord<T <: (Num; Eq; Ord)>
+class T <: (Num; Eq; Ord) => Ord(T)
   compare :: T -> T -> Number
 
 ---
@@ -753,7 +753,7 @@ class Ord<T <: (Num; Eq; Ord)>
 instance
 ==================
 
-instance Ord<Number>
+instance Ord(Number)
   compare := 1
 
 ---
@@ -1039,8 +1039,8 @@ type alias
 type Type := Type
 type Type := :tag Type
 type Type := :tag Type | :tag ()
-type Type<T, U <: Num> := T -> U
-type GreaterThan<T>(x :: T) := [y :: T | y > x]
+type U <: Num => Type(T, U) := T -> U
+type T <: Ord => GreaterThan(T, x :: T) := [y :: T | y > x]
 
 ---
 

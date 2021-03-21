@@ -271,11 +271,9 @@ export type UnnamedType =
   | "::"
   | ":="
   | ";"
-  | "<"
   | "<:"
   | "="
   | "=>"
-  | ">"
   | "?"
   | "@"
   | "["
@@ -398,11 +396,9 @@ export type SyntaxNode =
   | UnnamedNode<"::">
   | UnnamedNode<":=">
   | UnnamedNode<";">
-  | UnnamedNode<"<">
   | UnnamedNode<"<:">
   | UnnamedNode<"=">
   | UnnamedNode<"=>">
-  | UnnamedNode<">">
   | UnnamedNode<"?">
   | UnnamedNode<"@">
   | UnnamedNode<"[">
@@ -430,8 +426,8 @@ export type SyntaxNode =
   | UnnamedNode<SyntaxType.Return>
   | UnnamedNode<"then">
   | UnnamedNode<"true">
-  | TypeNode
   | UnnamedNode<SyntaxType.Type>
+  | TypeNode
   | TypeVariableDeclarationNameNode
   | UnnamedNode<SyntaxType.Typeof>
   | UnnamedNode<SyntaxType.When>

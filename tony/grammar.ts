@@ -142,6 +142,7 @@ export = grammar({
     [$.tagged_value, $.tagged_pattern, $.tagged_type],
     [$.tagged_value, $.tagged_type],
     [$.tagged_pattern, $.tagged_type],
+    [$.type_variable_declaration, $.parametric_type],
   ],
 
   precedences: () => [],
