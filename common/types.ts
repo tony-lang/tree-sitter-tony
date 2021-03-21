@@ -219,7 +219,7 @@ export const labeled_type = <RuleName extends string>(
   )
 
 export const keyof = <RuleName extends string>($: GrammarSymbols<RuleName>) =>
-  prec.right(seq('keyof', field('type', $._type)))
+  prec.right(seq('@', field('type', $._type)))
 
 export const refinement_type_declaration = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
