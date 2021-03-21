@@ -105,21 +105,9 @@ export const subtraction_type = <RuleName extends string>(
   prec.right(
     Prec.SubtractionType,
     seq(
-      field(
-        'left',
-        choice(
-          $.parametric_type,
-          $.union_type,
-        ),
-      ),
+      field('left', choice($.parametric_type, $.union_type)),
       '\\',
-      field(
-        'right',
-        choice(
-          $.parametric_type,
-          $.union_type,
-        ),
-      ),
+      field('right', choice($.parametric_type, $.union_type)),
     ),
   )
 
@@ -158,10 +146,7 @@ export const map_type = <RuleName extends string>(
     '[',
     optional(
       seq(
-        field(
-          'property',
-          alias($.type, $.type_variable_declaration_name),
-        ),
+        field('property', alias($.type, $.type_variable_declaration_name)),
         'in',
       ),
     ),
@@ -242,12 +227,7 @@ export const refinement_type = <RuleName extends string>(
 
 export const _predicate = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
-) =>
-  choice(
-    $.application,
-    $.infix_application,
-    $.prefix_application,
-  )
+) => choice($.application, $.infix_application, $.prefix_application)
 
 export const type_declaration = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
