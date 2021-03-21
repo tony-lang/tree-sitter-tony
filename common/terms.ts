@@ -8,6 +8,7 @@ import {
   buildSimpleBlock,
   buildStruct,
   buildTuple,
+  buildTypeDeclaration,
   commaSep1,
 } from './util'
 import { Prec } from './enums'
@@ -134,7 +135,7 @@ export const enum_value = <RuleName extends string>(
 export const class_ = <RuleName extends string>($: GrammarSymbols<RuleName>) =>
   seq(
     'class',
-    field('name', $.type_declaration),
+    buildTypeDeclaration($, true),
     buildCompoundBlock($, repeat1(field('member', $.class_member))),
   )
 
@@ -557,7 +558,7 @@ export const type_alias = <RuleName extends string>(
   prec.right(
     seq(
       'type',
-      field('name', $.type_declaration),
+      buildTypeDeclaration($),
       ':=',
       field('type', $._type),
     ),
