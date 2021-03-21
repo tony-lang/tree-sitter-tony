@@ -1034,6 +1034,35 @@ tagged value
     value: (tuple)))
 
 ==================
+parametric type instance
+==================
+
+value<Type>
+(<T>(a :: T) => a)<Type>
+
+---
+
+(program
+  term: (parametric_type_instance
+    name: (identifier)
+    typeArgument: (parametric_type
+      name: (type)))
+  term: (parametric_type_instance
+    name: (group
+      term: (abstraction
+        branch: (abstraction_branch
+          typeParameter: (type_variable_declaration
+            name: (type_variable_declaration_name))
+          element: (identifier_pattern
+            name: (identifier_pattern_name)
+            type: (parametric_type
+              name: (type)))
+        body: (block
+          term: (identifier)))))
+    typeArgument: (parametric_type
+      name: (type))))
+
+==================
 type alias
 ==================
 

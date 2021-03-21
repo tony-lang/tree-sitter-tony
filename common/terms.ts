@@ -207,7 +207,7 @@ export const prefix_application = <RuleName extends string>(
 export const infix_application = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
 ) =>
-  choice(
+  prec.left(Prec.InfixApplication, choice(
     prec.left(
       Prec.Pipeline,
       seq(
@@ -378,7 +378,7 @@ export const infix_application = <RuleName extends string>(
         field('right', $._simple_term),
       ),
     ),
-  )
+  ))
 
 export const _section = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
@@ -535,10 +535,10 @@ export const tagged_value = <RuleName extends string>(
 export const parametric_type_instance = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
 ) =>
-  seq(
-    field('name', $.identifier),
+  prec(Prec.ParametricTypeInstance, seq(
+    field('name', $._simple_term),
     buildGenericType('typeArgument', $.parametric_type),
-  )
+  ))
 
 export const type_alias = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,

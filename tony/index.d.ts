@@ -453,6 +453,7 @@ export interface AbstractionBranchNode extends NamedNodeBase {
   bodyNode: BlockNode;
   elementNodes: (BooleanNode | DestructuringPatternNode | IdentifierPatternNode | NumberNode | PatternGroupNode | RawStringNode | RegexNode | TaggedPatternNode)[];
   restNode?: IdentifierPatternNode;
+  typeParameterNodes: TypeVariableDeclarationNode[];
 }
 
 export interface AccessNode extends NamedNodeBase {
@@ -533,7 +534,6 @@ export interface DestructuringPatternNode extends NamedNodeBase {
   type: SyntaxType.DestructuringPattern;
   aliasNode?: IdentifierPatternNameNode;
   patternNode: ListPatternNode | StructPatternNode | TuplePatternNode;
-  typeParameterNodes: TypeVariableDeclarationNode[];
 }
 
 export interface ElseIfNode extends NamedNodeBase {
@@ -575,7 +575,6 @@ export interface IdentifierPatternNode extends NamedNodeBase {
   defaultNode?: AbstractionNode | AccessNode | ApplicationNode | AssignmentNode | BooleanNode | ExportNode | GroupNode | IdentifierNode | IfNode | InfixApplicationNode | LeftSectionNode | ListNode | ListComprehensionNode | NumberNode | ParametricTypeInstanceNode | PrefixApplicationNode | RegexNode | ReturnNode | RightSectionNode | StringNode | StructNode | TaggedValueNode | TupleNode | TypeAliasNode | TypeHintNode;
   nameNode: IdentifierPatternNameNode;
   typeNode?: AccessTypeNode | ConditionalTypeNode | CurriedTypeNode | IntersectionTypeNode | KeyofNode | LabeledTypeNode | ListTypeNode | MapTypeNode | OptionalTypeNode | ParametricTypeNode | RefinementTypeNode | RefinementTypeDeclarationNode | StructTypeNode | SubtractionTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeofNode | UnionTypeNode;
-  typeParameterNodes: TypeVariableDeclarationNode[];
 }
 
 export interface IdentifierPatternNameNode extends NamedNodeBase {
@@ -715,7 +714,7 @@ export interface ParametricTypeNode extends NamedNodeBase {
 
 export interface ParametricTypeInstanceNode extends NamedNodeBase {
   type: SyntaxType.ParametricTypeInstance;
-  nameNode: IdentifierNode;
+  nameNode: AbstractionNode | AccessNode | ApplicationNode | AssignmentNode | BooleanNode | ExportNode | GroupNode | IdentifierNode | IfNode | InfixApplicationNode | LeftSectionNode | ListNode | ListComprehensionNode | NumberNode | ParametricTypeInstanceNode | PrefixApplicationNode | RegexNode | ReturnNode | RightSectionNode | StringNode | StructNode | TaggedValueNode | TupleNode | TypeAliasNode | TypeHintNode;
   typeArgumentNodes: ParametricTypeNode[];
 }
 
@@ -787,7 +786,6 @@ export interface ShorthandMemberPatternNode extends NamedNodeBase {
   defaultNode?: AbstractionNode | AccessNode | ApplicationNode | AssignmentNode | BooleanNode | ExportNode | GroupNode | IdentifierNode | IfNode | InfixApplicationNode | LeftSectionNode | ListNode | ListComprehensionNode | NumberNode | ParametricTypeInstanceNode | PrefixApplicationNode | RegexNode | ReturnNode | RightSectionNode | StringNode | StructNode | TaggedValueNode | TupleNode | TypeAliasNode | TypeHintNode;
   nameNode: IdentifierPatternNameNode;
   typeNode?: AccessTypeNode | ConditionalTypeNode | CurriedTypeNode | IntersectionTypeNode | KeyofNode | LabeledTypeNode | ListTypeNode | MapTypeNode | OptionalTypeNode | ParametricTypeNode | RefinementTypeNode | RefinementTypeDeclarationNode | StructTypeNode | SubtractionTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeofNode | UnionTypeNode;
-  typeParameterNodes: TypeVariableDeclarationNode[];
 }
 
 export interface SpreadNode extends NamedNodeBase {

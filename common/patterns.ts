@@ -1,10 +1,4 @@
-import {
-  buildGenericType,
-  buildList,
-  buildMember,
-  buildStruct,
-  buildTuple,
-} from './util'
+import { buildList, buildMember, buildStruct, buildTuple } from './util'
 import { Prec } from './enums'
 
 export const _pattern = <RuleName extends string>(
@@ -27,7 +21,6 @@ export const destructuring_pattern = <RuleName extends string>(
   prec(
     Prec.Pattern,
     seq(
-      optional(buildGenericType('typeParameter', $.type_variable_declaration)),
       optional(
         seq(
           field('alias', alias($.identifier, $.identifier_pattern_name)),
@@ -75,7 +68,6 @@ export const identifier_pattern = <RuleName extends string>(
     Prec.Pattern,
     seq(
       field('name', alias($.identifier, $.identifier_pattern_name)),
-      optional(buildGenericType('typeParameter', $.type_variable_declaration)),
       optional(seq('::', field('type', $._type))),
       optional(seq('=', field('default', $._simple_term))),
     ),
