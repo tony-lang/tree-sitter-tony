@@ -37,6 +37,7 @@ export const _simple_term = <RuleName extends string>(
       $.list,
       $.list_comprehension,
       $.tagged_value,
+      $.parametric_type_instance,
       $.type_alias,
       $.type_hint,
       $.identifier,
@@ -189,11 +190,7 @@ export const application = <RuleName extends string>(
 ) =>
   prec(
     Prec.Application,
-    seq(
-      field('name', $._simple_term),
-      optional(buildGenericType('typeArgument', $.parametric_type)),
-      buildTuple($, $.argument, false, true),
-    ),
+    seq(field('name', $._simple_term), buildTuple($, $.argument, false, true)),
   )
 
 export const prefix_application = <RuleName extends string>(
@@ -533,6 +530,14 @@ export const tagged_value = <RuleName extends string>(
     ':',
     field('name', alias($._identifier_without_operators, $.identifier)),
     field('value', $._simple_term),
+  )
+
+export const parametric_type_instance = <RuleName extends string>(
+  $: GrammarSymbols<RuleName>,
+) =>
+  seq(
+    field('name', $.identifier),
+    buildGenericType('typeArgument', $.parametric_type),
   )
 
 export const type_alias = <RuleName extends string>(

@@ -192,15 +192,16 @@ a(...(a, b))
     value: (group
       term: (number)))
   term: (application
-    name: (identifier)
-    typeArgument: (parametric_type
-      name: (type)
-      argument: (parametric_type
-        name: (type))
-      argument: (parametric_type
+    name: (parametric_type_instance
+      name: (identifier)
+      typeArgument: (parametric_type
+        name: (type)
+        argument: (parametric_type
+          name: (type))
+        argument: (parametric_type
+          name: (type)))
+      typeArgument: (parametric_type
         name: (type)))
-    typeArgument: (parametric_type
-      name: (type))
     element: (argument)
     element: (argument
       value: (number)))

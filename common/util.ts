@@ -13,7 +13,6 @@ export const buildAbstractionBranch = <RuleName extends string>(
   blockType: Rule,
 ) =>
   seq(
-    optional(buildGenericType('typeParameter', $.type_variable_declaration)),
     buildTuple($, $._pattern, true, true),
     '=>',
     field('body', alias(blockType, $.block)),

@@ -45,6 +45,7 @@ import {
   list,
   list_comprehension,
   member,
+  parametric_type_instance,
   prefix_application,
   return_,
   right_section,
@@ -142,6 +143,7 @@ export = grammar({
     [$.tagged_value, $.tagged_pattern, $.tagged_type],
     [$.tagged_value, $.tagged_type],
     [$.tagged_pattern, $.tagged_type],
+    [$.type_variable_declaration, $.parametric_type],
   ],
 
   precedences: () => [],
@@ -203,6 +205,7 @@ export = grammar({
     _element,
     spread,
     tagged_value,
+    parametric_type_instance,
     type_alias,
     type_hint,
     _identifier_without_operators,
