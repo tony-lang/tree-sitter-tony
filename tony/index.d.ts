@@ -506,7 +506,7 @@ export interface ClassNode extends NamedNodeBase {
   elementNodes: IdentifierPatternNode[];
   memberNodes: ClassMemberNode[];
   nameNode: TypeNode;
-  parameterNode?: TypeVariableDeclarationNode;
+  parameterNode: TypeVariableDeclarationNode;
 }
 
 export interface ClassMemberNode extends NamedNodeBase {

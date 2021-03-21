@@ -126,13 +126,11 @@ export const buildTypeDeclaration = <RuleName extends string>(
 ) =>
   seq(
     field('name', $.type),
-    optional(
-      buildGenericType(
-        'parameter',
-        $.type_variable_declaration,
-        singleParameter,
-      ),
-    ),
+    singleParameter
+      ? buildGenericType('parameter', $.type_variable_declaration, true)
+      : optional(
+          buildGenericType('parameter', $.type_variable_declaration, false),
+        ),
     optional(buildTuple($, $.identifier_pattern, false, true)),
   )
 
