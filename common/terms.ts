@@ -26,7 +26,6 @@ export const _simple_term = <RuleName extends string>(
       $.prefix_application,
       $.infix_application,
       $._section,
-      // $.pipeline,
       $.access,
       alias($.simple_assignment, $.assignment),
       alias($.simple_export, $.export),
@@ -56,7 +55,6 @@ export const _compound_term = <RuleName extends string>(
       alias($.compound_export, $.export),
       alias($.compound_if, $.if),
       $.case,
-      $.enum,
       $.class,
       $.instance,
     ),
@@ -114,21 +112,6 @@ export const compound_assignment = <RuleName extends string>(
         seq($._indent, field('value', $._compound_term), $._dedent),
       ),
     ),
-  )
-
-export const enum_ = <RuleName extends string>($: GrammarSymbols<RuleName>) =>
-  seq(
-    'enum',
-    field('name', $.type),
-    buildCompoundBlock($, repeat1(field('value', $.enum_value))),
-  )
-
-export const enum_value = <RuleName extends string>(
-  $: GrammarSymbols<RuleName>,
-) =>
-  seq(
-    field('name', alias($.identifier, $.identifier_pattern_name)),
-    optional(seq('=', field('value', $._literal))),
   )
 
 export const class_ = <RuleName extends string>($: GrammarSymbols<RuleName>) =>
