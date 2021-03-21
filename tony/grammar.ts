@@ -110,7 +110,8 @@ import {
   union_type,
 } from '../common/types'
 import { comment, hash_bang_line } from '../common/miscellaneous'
-import { Dialect } from '../common/enums'
+import { Dialect } from '../common/dialects'
+import { precedences } from '../common/precedences'
 
 const dialect = Dialect.Tony
 
@@ -129,22 +130,22 @@ export = grammar({
   word: ($) => $._identifier_without_operators,
   conflicts: ($) => [
     [$._simple_term, $.identifier_pattern],
+    [$._simple_term, $._type],
     [$._simple_term, $.identifier_pattern, $._type],
+    [$.import_identifier, $.identifier_pattern],
+    [$.refinement_type_declaration, $.identifier_pattern],
     [$.string, $.raw_string],
+    [$._literal, $._literal_pattern],
     [$.struct, $.struct_pattern],
+    [$.struct, $.struct_type],
     [$.struct, $.struct_pattern, $.struct_type],
     [$.tuple, $.tuple_pattern],
+    [$.tuple, $.tuple_type],
     [$.tuple, $.tuple_pattern, $.tuple_type],
     [$.list, $.list_pattern],
-    [$.application, $.prefix_application, $.infix_application],
-    [$.application, $.infix_application],
-    [$.tagged_value, $.tagged_pattern],
-    [$.tagged_value, $.tagged_pattern, $.tagged_type],
-    [$.tagged_value, $.tagged_type],
-    [$.tagged_pattern, $.tagged_type],
   ],
 
-  precedences: () => [],
+  precedences,
 
   rules: {
     program: ($) =>

@@ -1,9 +1,9 @@
 import { buildList, buildMember, buildStruct, buildTuple } from './util'
-import { Prec } from './enums'
+import { Prec } from './precedences'
 
 export const _pattern = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
-) => prec(Prec.Pattern, choice($._assignable_pattern, $._literal_pattern))
+) => prec(Prec.PatternOrTerm, choice($._assignable_pattern, $._literal_pattern))
 
 export const _assignable_pattern = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
@@ -19,7 +19,7 @@ export const destructuring_pattern = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
 ) =>
   prec(
-    Prec.Pattern,
+    Prec.PatternOrTerm,
     seq(
       optional(
         seq(
@@ -38,7 +38,7 @@ export const struct_pattern = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
 ) =>
   prec(
-    Prec.Pattern,
+    Prec.PatternOrTerm,
     buildStruct(
       $,
       choice(
@@ -55,17 +55,17 @@ export const member_pattern = <RuleName extends string>(
 
 export const tuple_pattern = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
-) => prec(Prec.Pattern, buildTuple($, $._pattern, true))
+) => prec(Prec.PatternOrTerm, buildTuple($, $._pattern, true))
 
 export const list_pattern = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
-) => prec(Prec.Pattern, buildList($, $._pattern, true))
+) => prec(Prec.PatternOrTerm, buildList($, $._pattern, true))
 
 export const identifier_pattern = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
 ) =>
   prec.right(
-    Prec.Pattern,
+    Prec.PatternOrTerm,
     seq(
       field('name', alias($.identifier, $.identifier_pattern_name)),
       optional(seq('::', field('type', $._type))),
@@ -88,4 +88,4 @@ export const _literal_pattern = <RuleName extends string>(
 
 export const pattern_group = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
-) => prec(Prec.Pattern, seq('(', field('pattern', $._pattern), ')'))
+) => prec(Prec.PatternOrTerm, seq('(', field('pattern', $._pattern), ')'))

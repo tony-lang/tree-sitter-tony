@@ -1,4 +1,3 @@
-import { Dialect, Prec } from './enums'
 import {
   buildGenericType,
   buildStruct,
@@ -6,6 +5,8 @@ import {
   buildTypeConstraint,
   commaSep1,
 } from './util'
+import { Dialect } from './dialects'
+import { Prec } from './precedences'
 import { TYPE } from './constants'
 
 export const type_variable_declaration = <RuleName extends string>(
@@ -49,7 +50,7 @@ export const _type_constructor = (dialect: Dialect) => <
       $.refinement_type_declaration,
     )
 
-  return choice(...choices)
+  return prec(Prec.Type, choice(...choices))
 }
 
 export const _term_type = <RuleName extends string>(
@@ -79,7 +80,7 @@ export const curried_type = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
 ) =>
   prec.right(
-    Prec.CurriedType,
+    Prec.CurriedOrIntersectionType,
     seq(field('from', $._type), '->', field('to', $._type)),
   )
 
@@ -87,7 +88,7 @@ export const intersection_type = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
 ) =>
   prec.right(
-    Prec.IntersectionType,
+    Prec.CurriedOrIntersectionType,
     seq(field('left', $._type), '&', field('right', $._type)),
   )
 
@@ -180,7 +181,7 @@ export const optional_type = <RuleName extends string>(
 export const tagged_type = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
 ) =>
-  prec(
+  prec.right(
     Prec.TaggedType,
     seq(
       ':',

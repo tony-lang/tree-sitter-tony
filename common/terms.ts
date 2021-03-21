@@ -11,7 +11,7 @@ import {
   buildTypeDeclaration,
   commaSep1,
 } from './util'
-import { Prec } from './enums'
+import { Prec } from './precedences'
 
 export const _term = <RuleName extends string>($: GrammarSymbols<RuleName>) =>
   choice(seq($._simple_term, $._newline), $._compound_term)
@@ -20,7 +20,7 @@ export const _simple_term = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
 ) =>
   prec.left(
-    Prec.Term,
+    Prec.PatternOrTerm,
     choice(
       alias($.simple_abstraction, $.abstraction),
       $.application,
@@ -49,7 +49,7 @@ export const _compound_term = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
 ) =>
   prec.left(
-    Prec.Term,
+    Prec.PatternOrTerm,
     choice(
       alias($.compound_abstraction, $.abstraction),
       alias($.compound_assignment, $.assignment),
@@ -159,6 +159,7 @@ export const simple_abstraction = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
 ) =>
   prec.left(
+    Prec.PatternOrTerm,
     commaSep1(
       field('branch', alias($.simple_abstraction_branch, $.abstraction_branch)),
     ),
@@ -166,12 +167,13 @@ export const simple_abstraction = <RuleName extends string>(
 
 export const simple_abstraction_branch = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
-) => prec.left(buildAbstractionBranch($, $._simple_block))
+) => prec.left(Prec.PatternOrTerm, buildAbstractionBranch($, $._simple_block))
 
 export const compound_abstraction = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
 ) =>
   prec.left(
+    Prec.PatternOrTerm,
     repeat1(
       field(
         'branch',
@@ -182,12 +184,12 @@ export const compound_abstraction = <RuleName extends string>(
 
 export const compound_abstraction_branch = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
-) => prec.left(buildAbstractionBranch($, $._compound_block))
+) => prec.left(Prec.PatternOrTerm, buildAbstractionBranch($, $._compound_block))
 
 export const application = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
 ) =>
-  prec(
+  prec.left(
     Prec.Application,
     seq(
       field('name', $._simple_term),
@@ -210,175 +212,178 @@ export const prefix_application = <RuleName extends string>(
 export const infix_application = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
 ) =>
-  choice(
-    prec.left(
-      Prec.Pipeline,
-      seq(
-        field('left', $._simple_term),
-        field('name', alias('&.', $.identifier)),
-        field('right', $._simple_term),
+  prec.left(
+    Prec.InfixApplication,
+    choice(
+      prec.left(
+        Prec.Pipeline,
+        seq(
+          field('left', $._simple_term),
+          field('name', alias('&.', $.identifier)),
+          field('right', $._simple_term),
+        ),
       ),
-    ),
-    prec.left(
-      Prec.Pipeline,
-      seq(
-        field('left', $._simple_term),
-        field('name', alias('.', $.identifier)),
-        field('right', $._simple_term),
+      prec.left(
+        Prec.Pipeline,
+        seq(
+          field('left', $._simple_term),
+          field('name', alias('.', $.identifier)),
+          field('right', $._simple_term),
+        ),
       ),
-    ),
-    prec.left(
-      Prec.Not,
-      seq(
-        field('left', $._simple_term),
-        field('name', alias('!', $.identifier)),
-        field('right', $._simple_term),
+      prec.left(
+        Prec.Not,
+        seq(
+          field('left', $._simple_term),
+          field('name', alias('!', $.identifier)),
+          field('right', $._simple_term),
+        ),
       ),
-    ),
-    prec.left(
-      Prec.Exponentiation,
-      seq(
-        field('left', $._simple_term),
-        field('name', alias('^', $.identifier)),
-        field('right', $._simple_term),
+      prec.left(
+        Prec.Exponentiation,
+        seq(
+          field('left', $._simple_term),
+          field('name', alias('^', $.identifier)),
+          field('right', $._simple_term),
+        ),
       ),
-    ),
-    prec.left(
-      Prec.Product,
-      seq(
-        field('left', $._simple_term),
-        field('name', alias('*', $.identifier)),
-        field('right', $._simple_term),
+      prec.left(
+        Prec.Product,
+        seq(
+          field('left', $._simple_term),
+          field('name', alias('*', $.identifier)),
+          field('right', $._simple_term),
+        ),
       ),
-    ),
-    prec.left(
-      Prec.Product,
-      seq(
-        field('left', $._simple_term),
-        field('name', alias('/', $.identifier)),
-        field('right', $._simple_term),
+      prec.left(
+        Prec.Product,
+        seq(
+          field('left', $._simple_term),
+          field('name', alias('/', $.identifier)),
+          field('right', $._simple_term),
+        ),
       ),
-    ),
-    prec.left(
-      Prec.Sum,
-      seq(
-        field('left', $._simple_term),
-        field('name', alias('+', $.identifier)),
-        field('right', $._simple_term),
+      prec.left(
+        Prec.Sum,
+        seq(
+          field('left', $._simple_term),
+          field('name', alias('+', $.identifier)),
+          field('right', $._simple_term),
+        ),
       ),
-    ),
-    prec.left(
-      Prec.Sum,
-      seq(
-        field('left', $._simple_term),
-        field('name', alias('-', $.identifier)),
-        field('right', $._simple_term),
+      prec.left(
+        Prec.Sum,
+        seq(
+          field('left', $._simple_term),
+          field('name', alias('-', $.identifier)),
+          field('right', $._simple_term),
+        ),
       ),
-    ),
-    prec.left(
-      Prec.Mod,
-      seq(
-        field('left', $._simple_term),
-        field('name', alias('%', $.identifier)),
-        field('right', $._simple_term),
+      prec.left(
+        Prec.Mod,
+        seq(
+          field('left', $._simple_term),
+          field('name', alias('%', $.identifier)),
+          field('right', $._simple_term),
+        ),
       ),
-    ),
-    prec.left(
-      Prec.Order,
-      seq(
-        field('left', $._simple_term),
-        field('name', alias('<', $.identifier)),
-        field('right', $._simple_term),
+      prec.left(
+        Prec.Order,
+        seq(
+          field('left', $._simple_term),
+          field('name', alias('<', $.identifier)),
+          field('right', $._simple_term),
+        ),
       ),
-    ),
-    prec.left(
-      Prec.Order,
-      seq(
-        field('left', $._simple_term),
-        field('name', alias('<=', $.identifier)),
-        field('right', $._simple_term),
+      prec.left(
+        Prec.Order,
+        seq(
+          field('left', $._simple_term),
+          field('name', alias('<=', $.identifier)),
+          field('right', $._simple_term),
+        ),
       ),
-    ),
-    prec.left(
-      Prec.Order,
-      seq(
-        field('left', $._simple_term),
-        field('name', alias('>', $.identifier)),
-        field('right', $._simple_term),
+      prec.left(
+        Prec.Order,
+        seq(
+          field('left', $._simple_term),
+          field('name', alias('>', $.identifier)),
+          field('right', $._simple_term),
+        ),
       ),
-    ),
-    prec.left(
-      Prec.Order,
-      seq(
-        field('left', $._simple_term),
-        field('name', alias('>=', $.identifier)),
-        field('right', $._simple_term),
+      prec.left(
+        Prec.Order,
+        seq(
+          field('left', $._simple_term),
+          field('name', alias('>=', $.identifier)),
+          field('right', $._simple_term),
+        ),
       ),
-    ),
-    prec.left(
-      Prec.Equality,
-      seq(
-        field('left', $._simple_term),
-        field('name', alias('==', $.identifier)),
-        field('right', $._simple_term),
+      prec.left(
+        Prec.Equality,
+        seq(
+          field('left', $._simple_term),
+          field('name', alias('==', $.identifier)),
+          field('right', $._simple_term),
+        ),
       ),
-    ),
-    prec.left(
-      Prec.Equality,
-      seq(
-        field('left', $._simple_term),
-        field('name', alias('!=', $.identifier)),
-        field('right', $._simple_term),
+      prec.left(
+        Prec.Equality,
+        seq(
+          field('left', $._simple_term),
+          field('name', alias('!=', $.identifier)),
+          field('right', $._simple_term),
+        ),
       ),
-    ),
-    prec.left(
-      Prec.And,
-      seq(
-        field('left', $._simple_term),
-        field('name', alias('&&', $.identifier)),
-        field('right', $._simple_term),
+      prec.left(
+        Prec.And,
+        seq(
+          field('left', $._simple_term),
+          field('name', alias('&&', $.identifier)),
+          field('right', $._simple_term),
+        ),
       ),
-    ),
-    prec.left(
-      Prec.Or,
-      seq(
-        field('left', $._simple_term),
-        field('name', alias('||', $.identifier)),
-        field('right', $._simple_term),
+      prec.left(
+        Prec.Or,
+        seq(
+          field('left', $._simple_term),
+          field('name', alias('||', $.identifier)),
+          field('right', $._simple_term),
+        ),
       ),
-    ),
-    prec.left(
-      Prec.Implication,
-      seq(
-        field('left', $._simple_term),
-        field('name', alias('==>', $.identifier)),
-        field('right', $._simple_term),
+      prec.left(
+        Prec.Implication,
+        seq(
+          field('left', $._simple_term),
+          field('name', alias('==>', $.identifier)),
+          field('right', $._simple_term),
+        ),
       ),
-    ),
-    prec.left(
-      Prec.Biconditional,
-      seq(
-        field('left', $._simple_term),
-        field('name', alias('<=>', $.identifier)),
-        field('right', $._simple_term),
+      prec.left(
+        Prec.Biconditional,
+        seq(
+          field('left', $._simple_term),
+          field('name', alias('<=>', $.identifier)),
+          field('right', $._simple_term),
+        ),
       ),
-    ),
-    prec.left(
-      Prec.OperatorInfixApplication,
-      seq(
-        field('left', $._simple_term),
-        field('name', alias($._operator, $.identifier)),
-        field('right', $._simple_term),
+      prec.left(
+        Prec.OperatorInfixApplication,
+        seq(
+          field('left', $._simple_term),
+          field('name', alias($._operator, $.identifier)),
+          field('right', $._simple_term),
+        ),
       ),
-    ),
-    prec.left(
-      Prec.NamedInfixApplication,
-      seq(
-        field('left', $._simple_term),
-        '`',
-        field('name', alias($._identifier_without_operators, $.identifier)),
-        '`',
-        field('right', $._simple_term),
+      prec.left(
+        Prec.NamedInfixApplication,
+        seq(
+          field('left', $._simple_term),
+          '`',
+          field('name', alias($._identifier_without_operators, $.identifier)),
+          '`',
+          field('right', $._simple_term),
+        ),
       ),
     ),
   )
@@ -503,7 +508,7 @@ export const when = <RuleName extends string>($: GrammarSymbols<RuleName>) =>
 
 export const struct = <RuleName extends string>($: GrammarSymbols<RuleName>) =>
   prec(
-    Prec.Term,
+    Prec.PatternOrTerm,
     buildStruct(
       $,
       choice($.member, alias($.identifier, $.shorthand_member), $.spread),
@@ -514,10 +519,10 @@ export const member = <RuleName extends string>($: GrammarSymbols<RuleName>) =>
   buildMember($, $._simple_term, $._simple_term)
 
 export const tuple = <RuleName extends string>($: GrammarSymbols<RuleName>) =>
-  prec(Prec.Term, buildTuple($, $._element))
+  prec(Prec.PatternOrTerm, buildTuple($, $._element))
 
 export const list = <RuleName extends string>($: GrammarSymbols<RuleName>) =>
-  prec(Prec.Term, buildList($, $._element))
+  prec(Prec.PatternOrTerm, buildList($, $._element))
 
 export const _element = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
@@ -529,10 +534,13 @@ export const spread = <RuleName extends string>($: GrammarSymbols<RuleName>) =>
 export const tagged_value = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
 ) =>
-  seq(
-    ':',
-    field('name', alias($._identifier_without_operators, $.identifier)),
-    field('value', $._simple_term),
+  prec.right(
+    Prec.TaggedValue,
+    seq(
+      ':',
+      field('name', alias($._identifier_without_operators, $.identifier)),
+      field('value', $._simple_term),
+    ),
   )
 
 export const type_alias = <RuleName extends string>(
@@ -554,7 +562,7 @@ export const _operator = () => OPERATOR
 
 export const identifier = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
-) => choice($._operator, $._identifier_without_operators)
+) => prec(Prec.Identifier, choice($._operator, $._identifier_without_operators))
 
 export const group = <RuleName extends string>($: GrammarSymbols<RuleName>) =>
   seq('(', field('term', $._simple_term), ')')
