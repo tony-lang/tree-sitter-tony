@@ -555,14 +555,7 @@ export const tagged_value = <RuleName extends string>(
 export const type_alias = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
 ) =>
-  prec.right(
-    seq(
-      'type',
-      buildTypeDeclaration($),
-      ':=',
-      field('type', $._type),
-    ),
-  )
+  prec.right(seq('type', buildTypeDeclaration($), ':=', field('type', $._type)))
 
 export const type_hint = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
