@@ -1141,6 +1141,18 @@ type hint
       name: (type))))
 
 ==================
+hole
+==================
+
+?hole
+
+---
+
+(program
+  term: (hole
+    name: (identifier)))
+
+==================
 group
 ==================
 

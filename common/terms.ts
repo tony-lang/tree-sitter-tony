@@ -40,6 +40,7 @@ export const _simple_term = <RuleName extends string>(
       $.parametric_type_instance,
       $.type_alias,
       $.type_hint,
+      $.hole,
       $.identifier,
       $._literal,
       $.group,
@@ -558,6 +559,9 @@ export const type_hint = <RuleName extends string>(
     Prec.TypeHint,
     seq(field('value', $._simple_term), 'as', field('type', $._type)),
   )
+
+export const hole = <RuleName extends string>($: GrammarSymbols<RuleName>) =>
+  seq('?', field('name', $.identifier))
 
 export const _identifier_without_operators = () => IDENTIFIER
 
