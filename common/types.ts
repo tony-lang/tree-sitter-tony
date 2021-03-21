@@ -13,7 +13,7 @@ export const type_variable_declaration = <RuleName extends string>(
 ) =>
   prec.left(
     seq(
-      field('name', alias($.identifier, $.type_variable_declaration_name)),
+      field('name', alias($.type, $.type_variable_declaration_name)),
       optional(buildTypeConstraint($)),
     ),
   )
@@ -38,7 +38,6 @@ export const _type_constructor = (dialect: Dialect) => <
     $.tagged_type,
     $.labeled_type,
     $.keyof,
-    alias($.identifier, $.type_variable),
     $.type_group,
   ]
 
@@ -110,7 +109,6 @@ export const subtraction_type = <RuleName extends string>(
         'left',
         choice(
           $.parametric_type,
-          alias($.identifier, $.type_variable),
           $.union_type,
         ),
       ),
@@ -119,7 +117,6 @@ export const subtraction_type = <RuleName extends string>(
         'right',
         choice(
           $.parametric_type,
-          alias($.identifier, $.type_variable),
           $.union_type,
         ),
       ),
@@ -163,7 +160,7 @@ export const map_type = <RuleName extends string>(
       seq(
         field(
           'property',
-          alias($.identifier, $.type_variable_declaration_name),
+          alias($.type, $.type_variable_declaration_name),
         ),
         'in',
       ),
@@ -250,7 +247,6 @@ export const _predicate = <RuleName extends string>(
     $.application,
     $.infix_application,
     $.prefix_application,
-    // $.pipeline,
   )
 
 export const type_declaration = <RuleName extends string>(
