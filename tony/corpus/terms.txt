@@ -698,25 +698,6 @@ else 1
       term: (number))))
 
 ==================
-enum
-==================
-
-enum Type
-  a
-  b = 'string'
-
----
-
-(program
-  term: (enum
-    name: (type)
-    value: (enum_value
-      name: (identifier_pattern_name))
-    value: (enum_value
-      name: (identifier_pattern_name)
-      value: (string))))
-
-==================
 class
 ==================
 
