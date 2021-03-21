@@ -702,19 +702,17 @@ else 1
 class
 ==================
 
-class Type<T>
-  a :: T -> Number
-  b :: T -> Number
-class Ord<T <: (Num; Eq; Ord)>
-  compare :: T -> T -> Number
+class Type
+  a :: Type -> Number
+  b :: Type -> Number
+class Ord <: (Num; Eq; Ord)
+  compare :: Ord -> Ord -> Number
 
 ---
 
 (program
   term: (class
     name: (type)
-    parameter: (type_variable_declaration
-      name: (type_variable_declaration_name))
     member: (class_member
       name: (identifier_pattern_name)
       type: (curried_type
@@ -731,14 +729,12 @@ class Ord<T <: (Num; Eq; Ord)>
           name: (type)))))
   term: (class
     name: (type)
-    parameter: (type_variable_declaration
-      name: (type_variable_declaration_name)
-      constraint: (parametric_type
-        name: (type))
-      constraint: (parametric_type
-        name: (type))
-      constraint: (parametric_type
-        name: (type)))
+    constraint: (parametric_type
+      name: (type))
+    constraint: (parametric_type
+      name: (type))
+    constraint: (parametric_type
+      name: (type))
     member: (class_member
       name: (identifier_pattern_name)
       type: (curried_type
@@ -754,17 +750,32 @@ class Ord<T <: (Num; Eq; Ord)>
 instance
 ==================
 
-instance Ord<Number>
+instance Number of Ord
   compare := 1
+instance Type<T <: Type, U <: Type> of Type
+  f := 1
 
 ---
 
 (program
   term: (instance
-    name: (parametric_type
-      name: (type)
-      argument: (parametric_type
+    name: (type)
+    class: (type)
+    assignment: (assignment
+      pattern: (identifier_pattern
+        name: (identifier_pattern_name))
+      value: (number)))
+  term: (instance
+    name: (type)
+    parameter: (type_variable_declaration
+      name: (type_variable_declaration_name)
+      constraint: (parametric_type
         name: (type)))
+    parameter: (type_variable_declaration
+      name: (type_variable_declaration_name)
+      constraint: (parametric_type
+        name: (type)))
+    class: (type)
     assignment: (assignment
       pattern: (identifier_pattern
         name: (identifier_pattern_name))
