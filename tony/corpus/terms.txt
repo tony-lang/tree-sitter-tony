@@ -11,10 +11,10 @@ fib :=
   (0) =>
     0
   (1) => 1
-  <a>(n :: a = 2) =>
+  <T>(n :: T = 2) =>
     fib(n - 1) + fib(n - 2)
 
-<a <: Type>(...a :: a) =>
+<T <: Type>(...a :: T) =>
   b := (c :: Type) =>
     c
   b(1)
@@ -78,7 +78,8 @@ fn :: Number -> Number? -> Number := (a, b = 5) => a + b
           name: (type_variable_declaration_name))
         element: (identifier_pattern
           name: (identifier_pattern_name)
-          type: (type_variable)
+          type: (parametric_type
+            name: (type))
           default: (number))
         body: (block
           term: (infix_application
@@ -105,7 +106,8 @@ fn :: Number -> Number? -> Number := (a, b = 5) => a + b
           name: (type)))
       rest: (identifier_pattern
         name: (identifier_pattern_name)
-        type: (type_variable))
+        type: (parametric_type
+          name: (type)))
       body: (block
         term: (assignment
           pattern: (identifier_pattern
@@ -536,7 +538,7 @@ export
 ==================
 
 export a := 1
-export a := (x :: a) =>
+export a := (x :: T) =>
   1
 
 ---
@@ -555,7 +557,8 @@ export a := (x :: a) =>
         branch: (abstraction_branch
           element: (identifier_pattern
             name: (identifier_pattern_name)
-            type: (type_variable))
+            type: (parametric_type
+              name: (type)))
           body: (block
             term: (number)))))))
 
@@ -717,11 +720,11 @@ enum Type
 class
 ==================
 
-class Type<a>
-  a :: a -> Number
-  b :: a -> Number
-class Ord<a <: Eq, b <: (Num; Eq; Ord)>
-  compare :: a -> b -> Number
+class Type<T>
+  a :: T -> Number
+  b :: T -> Number
+class Ord<T <: Eq, U <: (Num; Eq; Ord)>
+  compare :: T -> U -> Number
 
 ---
 
@@ -734,13 +737,15 @@ class Ord<a <: Eq, b <: (Num; Eq; Ord)>
     member: (class_member
       name: (identifier_pattern_name)
       type: (curried_type
-        from: (type_variable)
+        from: (parametric_type
+          name: (type))
         to: (parametric_type
           name: (type))))
     member: (class_member
       name: (identifier_pattern_name)
       type: (curried_type
-        from: (type_variable)
+        from: (parametric_type
+          name: (type))
         to: (parametric_type
           name: (type)))))
   term: (class
@@ -761,9 +766,11 @@ class Ord<a <: Eq, b <: (Num; Eq; Ord)>
     member: (class_member
       name: (identifier_pattern_name)
       type: (curried_type
-        from: (type_variable)
+        from: (parametric_type
+          name: (type))
         to: (curried_type
-          from: (type_variable)
+          from: (parametric_type
+            name: (type))
           to: (parametric_type
             name: (type)))))))
 
@@ -1057,8 +1064,8 @@ type alias
 type Type := Type
 type Type := :tag Type
 type Type := :tag Type | :tag ()
-type Type<a, b <: Num> := a -> b
-type GreaterThan<a>(x :: a) := [y :: a | y > x]
+type Type<T, U <: Num> := T -> U
+type GreaterThan<T>(x :: T) := [y :: T | y > x]
 
 ---
 
@@ -1096,8 +1103,10 @@ type GreaterThan<a>(x :: a) := [y :: a | y > x]
         constraint: (parametric_type
           name: (type))))
     type: (curried_type
-      from: (type_variable)
-      to: (type_variable)))
+      from: (parametric_type
+        name: (type))
+      to: (parametric_type
+        name: (type))))
   term: (type_alias
     name: (type_declaration
       name: (type)
@@ -1105,11 +1114,13 @@ type GreaterThan<a>(x :: a) := [y :: a | y > x]
         name: (type_variable_declaration_name))
       element: (identifier_pattern
         name: (identifier_pattern_name)
-        type: (type_variable)))
+        type: (parametric_type
+          name: (type))))
     type: (refinement_type
       generator: (refinement_type_declaration
         name: (identifier_pattern_name)
-        type: (type_variable))
+        type: (parametric_type
+          name: (type)))
       predicate: (infix_application
         left: (identifier)
         name: (identifier)
