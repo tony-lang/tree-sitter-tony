@@ -303,7 +303,7 @@ a :: if Type <: (Type; Type) then if Type <: Type then Type else Type else if Ty
 keyof
 ==================
 
-a :: keyof Type := 1
+a :: @Type := 1
 
 ---
 

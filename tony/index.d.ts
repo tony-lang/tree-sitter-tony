@@ -299,7 +299,6 @@ export type UnnamedType =
   | SyntaxType.Import // both named and unnamed
   | "in"
   | SyntaxType.Instance // both named and unnamed
-  | SyntaxType.Keyof // both named and unnamed
   | "r/"
   | SyntaxType.Return // both named and unnamed
   | "then"
@@ -436,7 +435,6 @@ export type SyntaxNode =
   | UnnamedNode<SyntaxType.Import>
   | UnnamedNode<"in">
   | UnnamedNode<SyntaxType.Instance>
-  | UnnamedNode<SyntaxType.Keyof>
   | UnnamedNode<"r/">
   | RegexFlagsNode
   | RegexPatternNode
