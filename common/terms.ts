@@ -8,6 +8,7 @@ import {
   buildSimpleBlock,
   buildStruct,
   buildTuple,
+  buildTypeConstraint,
   buildTypeDeclaration,
   commaSep1,
 } from './util'
@@ -119,7 +120,8 @@ export const compound_assignment = <RuleName extends string>(
 export const class_ = <RuleName extends string>($: GrammarSymbols<RuleName>) =>
   seq(
     'class',
-    buildTypeDeclaration($, true),
+    field('name', $.type),
+    optional(buildTypeConstraint($)),
     buildCompoundBlock($, repeat1(field('member', $.class_member))),
   )
 
@@ -137,7 +139,9 @@ export const instance = <RuleName extends string>(
 ) =>
   seq(
     'instance',
-    field('name', $.parametric_type),
+    buildTypeDeclaration($),
+    'of',
+    field('class', $.type),
     buildCompoundBlock(
       $,
       repeat1(

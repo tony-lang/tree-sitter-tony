@@ -295,6 +295,7 @@ export type UnnamedType =
   | SyntaxType.Import // both named and unnamed
   | "in"
   | SyntaxType.Instance // both named and unnamed
+  | "of"
   | "r/"
   | SyntaxType.Return // both named and unnamed
   | "then"
@@ -426,6 +427,7 @@ export type SyntaxNode =
   | UnnamedNode<SyntaxType.Import>
   | UnnamedNode<"in">
   | UnnamedNode<SyntaxType.Instance>
+  | UnnamedNode<"of">
   | UnnamedNode<"r/">
   | RegexFlagsNode
   | RegexPatternNode
@@ -504,10 +506,9 @@ export interface CaseNode extends NamedNodeBase {
 
 export interface ClassNode extends NamedNodeBase {
   type: SyntaxType.Class;
-  elementNodes: IdentifierPatternNode[];
+  constraintNodes: (AccessTypeNode | ConditionalTypeNode | CurriedTypeNode | IntersectionTypeNode | KeyofNode | LabeledTypeNode | ListTypeNode | MapTypeNode | OptionalTypeNode | ParametricTypeNode | RefinementTypeNode | RefinementTypeDeclarationNode | StructTypeNode | SubtractionTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeofNode | UnionTypeNode)[];
   memberNodes: ClassMemberNode[];
   nameNode: TypeNode;
-  parameterNode: TypeVariableDeclarationNode;
 }
 
 export interface ClassMemberNode extends NamedNodeBase {
@@ -618,7 +619,10 @@ export interface InfixApplicationNode extends NamedNodeBase {
 export interface InstanceNode extends NamedNodeBase {
   type: SyntaxType.Instance;
   assignmentNodes: AssignmentNode[];
-  nameNode: ParametricTypeNode;
+  classNode: TypeNode;
+  elementNodes: IdentifierPatternNode[];
+  nameNode: TypeNode;
+  parameterNodes: TypeVariableDeclarationNode[];
 }
 
 export interface InterpolationNode extends NamedNodeBase {
