@@ -98,8 +98,16 @@ export const buildString = <RuleName extends string>(
     $._string_end,
   )
 
-export const buildGenericType = (name: string, rule: Rule) =>
-  seq('<', commaSep1(field(name, rule)), '>')
+export const buildGenericType = (
+  name: string,
+  rule: Rule,
+  singleParameter = false,
+) =>
+  seq(
+    '<',
+    singleParameter ? field(name, rule) : commaSep1(field(name, rule)),
+    '>',
+  )
 
 export const buildTypeConstraint = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
@@ -110,6 +118,20 @@ export const buildTypeConstraint = <RuleName extends string>(
       field('constraint', $._type),
       seq('(', sep2(';')(field('constraint', $._type)), ')'),
     ),
+  )
+
+export const buildTypeDeclaration = <RuleName extends string>(
+  $: GrammarSymbols<RuleName>,
+  singleParameter = false,
+) =>
+  seq(
+    field('name', $.type),
+    singleParameter
+      ? buildGenericType('parameter', $.type_variable_declaration, true)
+      : optional(
+          buildGenericType('parameter', $.type_variable_declaration, false),
+        ),
+    optional(buildTuple($, $.identifier_pattern, false, true)),
   )
 
 export const buildSimpleBlock = <RuleName extends string>(

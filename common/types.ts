@@ -229,17 +229,6 @@ export const _predicate = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
 ) => choice($.application, $.infix_application, $.prefix_application)
 
-export const type_declaration = <RuleName extends string>(
-  $: GrammarSymbols<RuleName>,
-) =>
-  prec.left(
-    seq(
-      field('name', $.type),
-      optional(buildGenericType('parameter', $.type_variable_declaration)),
-      optional(buildTuple($, $.identifier_pattern, false, true)),
-    ),
-  )
-
 export const type_group = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
 ) => seq('(', field('type', $._type), ')')

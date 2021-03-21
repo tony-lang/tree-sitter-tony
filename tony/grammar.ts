@@ -104,7 +104,6 @@ import {
   tagged_type,
   tuple_type,
   type,
-  type_declaration,
   type_group,
   type_variable_declaration,
   typeof_,
@@ -246,7 +245,6 @@ export = grammar({
     refinement_type_declaration,
     refinement_type,
     _predicate,
-    type_declaration,
     type_group,
     type,
 

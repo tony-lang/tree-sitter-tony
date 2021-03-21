@@ -8,6 +8,7 @@ import {
   buildSimpleBlock,
   buildStruct,
   buildTuple,
+  buildTypeDeclaration,
   commaSep1,
 } from './util'
 import { Prec } from './enums'
@@ -117,7 +118,7 @@ export const compound_assignment = <RuleName extends string>(
 export const class_ = <RuleName extends string>($: GrammarSymbols<RuleName>) =>
   seq(
     'class',
-    field('name', $.type_declaration),
+    buildTypeDeclaration($, true),
     buildCompoundBlock($, repeat1(field('member', $.class_member))),
   )
 
@@ -537,14 +538,7 @@ export const tagged_value = <RuleName extends string>(
 export const type_alias = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
 ) =>
-  prec.right(
-    seq(
-      'type',
-      field('name', $.type_declaration),
-      ':=',
-      field('type', $._type),
-    ),
-  )
+  prec.right(seq('type', buildTypeDeclaration($), ':=', field('type', $._type)))
 
 export const type_hint = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,

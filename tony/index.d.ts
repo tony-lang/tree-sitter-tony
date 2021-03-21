@@ -243,7 +243,6 @@ export const enum SyntaxType {
   TuplePattern = "tuple_pattern",
   TupleType = "tuple_type",
   TypeAlias = "type_alias",
-  TypeDeclaration = "type_declaration",
   TypeGroup = "type_group",
   TypeHint = "type_hint",
   TypeVariableDeclaration = "type_variable_declaration",
@@ -381,7 +380,6 @@ export type SyntaxNode =
   | TuplePatternNode
   | TupleTypeNode
   | TypeAliasNode
-  | TypeDeclarationNode
   | TypeGroupNode
   | TypeHintNode
   | TypeVariableDeclarationNode
@@ -432,8 +430,8 @@ export type SyntaxNode =
   | UnnamedNode<SyntaxType.Return>
   | UnnamedNode<"then">
   | UnnamedNode<"true">
-  | UnnamedNode<SyntaxType.Type>
   | TypeNode
+  | UnnamedNode<SyntaxType.Type>
   | TypeVariableDeclarationNameNode
   | UnnamedNode<SyntaxType.Typeof>
   | UnnamedNode<SyntaxType.When>
@@ -505,8 +503,10 @@ export interface CaseNode extends NamedNodeBase {
 
 export interface ClassNode extends NamedNodeBase {
   type: SyntaxType.Class;
+  elementNodes: IdentifierPatternNode[];
   memberNodes: ClassMemberNode[];
-  nameNode: TypeDeclarationNode;
+  nameNode: TypeNode;
+  parameterNode: TypeVariableDeclarationNode;
 }
 
 export interface ClassMemberNode extends NamedNodeBase {
@@ -850,15 +850,10 @@ export interface TupleTypeNode extends NamedNodeBase {
 
 export interface TypeAliasNode extends NamedNodeBase {
   type: SyntaxType.TypeAlias;
-  nameNode: TypeDeclarationNode;
-  typeNode: AccessTypeNode | ConditionalTypeNode | CurriedTypeNode | IntersectionTypeNode | KeyofNode | LabeledTypeNode | ListTypeNode | MapTypeNode | OptionalTypeNode | ParametricTypeNode | RefinementTypeNode | RefinementTypeDeclarationNode | StructTypeNode | SubtractionTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeofNode | UnionTypeNode;
-}
-
-export interface TypeDeclarationNode extends NamedNodeBase {
-  type: SyntaxType.TypeDeclaration;
   elementNodes: IdentifierPatternNode[];
   nameNode: TypeNode;
   parameterNodes: TypeVariableDeclarationNode[];
+  typeNode: AccessTypeNode | ConditionalTypeNode | CurriedTypeNode | IntersectionTypeNode | KeyofNode | LabeledTypeNode | ListTypeNode | MapTypeNode | OptionalTypeNode | ParametricTypeNode | RefinementTypeNode | RefinementTypeDeclarationNode | StructTypeNode | SubtractionTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeofNode | UnionTypeNode;
 }
 
 export interface TypeGroupNode extends NamedNodeBase {

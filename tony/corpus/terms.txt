@@ -704,17 +704,16 @@ class
 class Type<T>
   a :: T -> Number
   b :: T -> Number
-class Ord<T <: Eq, U <: (Num; Eq; Ord)>
-  compare :: T -> U -> Number
+class Ord<T <: (Num; Eq; Ord)>
+  compare :: T -> T -> Number
 
 ---
 
 (program
   term: (class
-    name: (type_declaration
-      name: (type)
-      parameter: (type_variable_declaration
-        name: (type_variable_declaration_name)))
+    name: (type)
+    parameter: (type_variable_declaration
+      name: (type_variable_declaration_name))
     member: (class_member
       name: (identifier_pattern_name)
       type: (curried_type
@@ -730,20 +729,15 @@ class Ord<T <: Eq, U <: (Num; Eq; Ord)>
         to: (parametric_type
           name: (type)))))
   term: (class
-    name: (type_declaration
-      name: (type)
-      parameter: (type_variable_declaration
-        name: (type_variable_declaration_name)
-        constraint: (parametric_type
-          name: (type)))
-      parameter: (type_variable_declaration
-        name: (type_variable_declaration_name)
-        constraint: (parametric_type
-          name: (type))
-        constraint: (parametric_type
-          name: (type))
-        constraint: (parametric_type
-          name: (type))))
+    name: (type)
+    parameter: (type_variable_declaration
+      name: (type_variable_declaration_name)
+      constraint: (parametric_type
+        name: (type))
+      constraint: (parametric_type
+        name: (type))
+      constraint: (parametric_type
+        name: (type)))
     member: (class_member
       name: (identifier_pattern_name)
       type: (curried_type
@@ -1052,20 +1046,17 @@ type GreaterThan<T>(x :: T) := [y :: T | y > x]
 
 (program
   term: (type_alias
-    name: (type_declaration
-      name: (type))
+    name: (type)
     type: (parametric_type
       name: (type)))
   term: (type_alias
-    name: (type_declaration
-      name: (type))
+    name: (type)
     type: (tagged_type
       name: (identifier_pattern_name)
       type: (parametric_type
         name: (type))))
   term: (type_alias
-    name: (type_declaration
-      name: (type))
+    name: (type)
     type: (union_type
       left: (tagged_type
         name: (identifier_pattern_name)
@@ -1075,28 +1066,26 @@ type GreaterThan<T>(x :: T) := [y :: T | y > x]
         name: (identifier_pattern_name)
         type: (tuple_type))))
   term: (type_alias
-    name: (type_declaration
-      name: (type)
-      parameter: (type_variable_declaration
-        name: (type_variable_declaration_name))
-      parameter: (type_variable_declaration
-        name: (type_variable_declaration_name)
-        constraint: (parametric_type
-          name: (type))))
+    name: (type)
+    parameter: (type_variable_declaration
+      name: (type_variable_declaration_name))
+    parameter: (type_variable_declaration
+      name: (type_variable_declaration_name)
+      constraint: (parametric_type
+        name: (type)))
     type: (curried_type
       from: (parametric_type
         name: (type))
       to: (parametric_type
         name: (type))))
   term: (type_alias
-    name: (type_declaration
-      name: (type)
-      parameter: (type_variable_declaration
-        name: (type_variable_declaration_name))
-      element: (identifier_pattern
-        name: (identifier_pattern_name)
-        type: (parametric_type
-          name: (type))))
+    name: (type)
+    parameter: (type_variable_declaration
+      name: (type_variable_declaration_name))
+    element: (identifier_pattern
+      name: (identifier_pattern_name)
+      type: (parametric_type
+        name: (type)))
     type: (refinement_type
       generator: (refinement_type_declaration
         name: (identifier_pattern_name)
