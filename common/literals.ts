@@ -43,7 +43,7 @@ export const string = <RuleName extends string>($: GrammarSymbols<RuleName>) =>
 
 export const interpolation = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
-) => seq('{', field('term', $._simple_term), '}')
+) => seq('{', field('term', $._term), '}')
 
 export const escape_sequence = () =>
   token.immediate(
