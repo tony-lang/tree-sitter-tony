@@ -459,11 +459,10 @@ export const simple_if = <RuleName extends string>(
 ) =>
   prec.right(
     seq(
-      'if',
       field('condition', $._simple_term),
-      'then',
+      '?',
       field('body', alias($._simple_block, $.block)),
-      optional(seq('else', field('else', alias($._simple_block, $.block)))),
+      optional(seq(':', field('else', alias($._simple_block, $.block)))),
     ),
   )
 
@@ -534,10 +533,12 @@ export const spread = <RuleName extends string>($: GrammarSymbols<RuleName>) =>
 export const tagged_value = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
 ) =>
-  seq(
-    ':',
-    field('name', alias($._identifier_without_operators, $.identifier)),
-    field('value', $._simple_term),
+  prec.left(
+    seq(
+      ':',
+      field('name', alias($._identifier_without_operators, $.identifier)),
+      field('value', $._simple_term),
+    ),
   )
 
 export const parametric_type_instance = <RuleName extends string>(
