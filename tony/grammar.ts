@@ -28,7 +28,6 @@ import {
   string,
 } from '../common/literals'
 import {
-  ternary,
   _element,
   _identifier_without_operators,
   _operator,
@@ -65,6 +64,7 @@ import {
   spread,
   struct,
   tagged_value,
+  ternary,
   tuple,
   type_alias,
   type_hint,
