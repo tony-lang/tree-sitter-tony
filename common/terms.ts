@@ -375,6 +375,18 @@ export const access = <RuleName extends string>($: GrammarSymbols<RuleName>) =>
 export const return_ = <RuleName extends string>($: GrammarSymbols<RuleName>) =>
   prec.right(seq('return', field('value', $._term)))
 
+export const ternary = <RuleName extends string>(
+  $: GrammarSymbols<RuleName>,
+) =>
+  prec.right(
+    seq(
+      field('condition', $._term),
+      '?',
+      field('body', $._term),
+      optional(seq(':', field('else', $._term))),
+    ),
+  )
+
 export const if_ = <RuleName extends string>($: GrammarSymbols<RuleName>) =>
   prec.right(
     seq(
@@ -438,10 +450,12 @@ export const spread = <RuleName extends string>($: GrammarSymbols<RuleName>) =>
 export const tagged_value = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
 ) =>
-  seq(
-    ':',
-    field('name', alias($._identifier_without_operators, $.identifier)),
-    field('value', $._term),
+  prec.left(
+    seq(
+      ':',
+      field('name', alias($._identifier_without_operators, $.identifier)),
+      field('value', $._term),
+    ),
   )
 
 export const parametric_type_instance = <RuleName extends string>(
@@ -469,7 +483,7 @@ export const type_hint = <RuleName extends string>(
   )
 
 export const hole = <RuleName extends string>($: GrammarSymbols<RuleName>) =>
-  seq('?', field('name', $.identifier))
+  seq('?', field('name', alias($.identifier, $.identifier_pattern_name)))
 
 export const _identifier_without_operators = () => IDENTIFIER
 

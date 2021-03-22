@@ -587,8 +587,8 @@ a :=
     1
   }
 
-fn(if false then 1)
-if true then 1 else 1
+fn(false ? 1)
+true ? 1 : 1
 
 ---
 
@@ -1146,7 +1146,7 @@ hole
 
 (program
   term: (hole
-    name: (identifier)))
+    name: (identifier_pattern_name)))
 
 ==================
 group

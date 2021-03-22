@@ -116,12 +116,11 @@ export const conditional_type = <RuleName extends string>(
 ) =>
   prec.right(
     seq(
-      'if',
       field('type', $._type),
       buildTypeConstraint($),
-      'then',
+      '?',
       field('consequence', $._type),
-      'else',
+      ':',
       field('alternative', $._type),
     ),
   )
