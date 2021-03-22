@@ -565,7 +565,7 @@ export const type_hint = <RuleName extends string>(
   )
 
 export const hole = <RuleName extends string>($: GrammarSymbols<RuleName>) =>
-  seq('?', field('name', $.identifier))
+  seq('?', field('name', alias($.identifier, $.identifier_pattern_name)))
 
 export const _identifier_without_operators = () => IDENTIFIER
 

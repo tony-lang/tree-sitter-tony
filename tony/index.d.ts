@@ -573,7 +573,7 @@ export interface GroupNode extends NamedNodeBase {
 
 export interface HoleNode extends NamedNodeBase {
   type: SyntaxType.Hole;
-  nameNode: IdentifierNode;
+  nameNode: IdentifierPatternNameNode;
 }
 
 export interface IdentifierNode extends NamedNodeBase {
