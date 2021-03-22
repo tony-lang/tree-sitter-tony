@@ -7,22 +7,22 @@ abstraction
 (a, b) => a
 (a :: Type, b :: Type, 1, { c :: Type = 1 }) => a
 
-fib := (x) =>
+fib = (x) =>
   0
-fib := (x) => 1
-fib := <T>(n :: T = 2) =>
+fib = (x) => 1
+fib = <T>(n :: T = 2) =>
   fib(n - 1) + fib(n - 2)
 
 <T <: Type>(...a :: T) => {
-  b := (c :: Type) =>
+  b = (c :: Type) =>
     c
   b(1)
 }
 
 () => 1
-/ := (a, b) => /
+/ = (a, b) => /
 
-fn :: Number -> Number? -> Number := (a, b = 5) => a + b
+fn :: Number -> Number? -> Number = (a, b = 5) => a + b
 
 ---
 
@@ -498,8 +498,8 @@ a.b[c]
 assignment
 ==================
 
-a :: Type := 1
-a := (a :: Type) =>
+a :: Type = 1
+a = (a :: Type) =>
   1
 
 ---
@@ -525,8 +525,8 @@ a := (a :: Type) =>
 export
 ==================
 
-export a := 1
-export a := (x :: T) =>
+export a = 1
+export a = (x :: T) =>
   1
 
 ---
@@ -580,7 +580,7 @@ if true {
   1
 } else 1
 
-a :=
+a =
   if true {
     1
   } else if false then 1 else if true {
@@ -631,7 +631,7 @@ true ? 1 : 1
 case
 ==================
 
-a :=
+a =
   case a
   when 1 then {
     1
@@ -736,10 +736,10 @@ instance
 ==================
 
 instance Number of Ord {
-  compare := 1
+  compare = 1
 }
 instance Type<T <: Type, U <: Type> of Type {
-  f := 1
+  f = 1
 }
 
 ---
@@ -1062,11 +1062,11 @@ value<Type>
 type alias
 ==================
 
-type Type := Type
-type Type := :tag Type
-type Type := :tag Type | :tag ()
-type Type<T, U <: Num> := T -> U
-type GreaterThan<T>(x :: T) := [y :: T | y > x]
+type Type = Type
+type Type = :tag Type
+type Type = :tag Type | :tag ()
+type Type<T, U <: Num> = T -> U
+type GreaterThan<T>(x :: T) = [y :: T | y > x]
 
 ---
 

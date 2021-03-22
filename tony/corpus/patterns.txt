@@ -2,7 +2,7 @@
 destructuring pattern
 ============================================
 
-x@[y] := z
+x@[y] = z
 
 ---
 
@@ -19,8 +19,8 @@ x@[y] := z
 struct pattern
 ============================================
 
-{ b: c :: Type } := a
-{ b: c :: Type, d :: Type, ['e']: e :: Type, ...f :: Type = {} } := a
+{ b: c :: Type } = a
+{ b: c :: Type, d :: Type, ['e']: e :: Type, ...f :: Type = {} } = a
 
 ---
 
@@ -65,8 +65,8 @@ struct pattern
 tagged struct pattern
 ============================================
 
-:tag { b: c :: Type } := a
-:tag { b: c :: Type, d :: Type, ['e']: e :: Type, ...f :: Type = {} } := a
+:tag { b: c :: Type } = a
+:tag { b: c :: Type, d :: Type, ['e']: e :: Type, ...f :: Type = {} } = a
 
 ---
 
@@ -115,7 +115,7 @@ tagged struct pattern
 tuple pattern
 ============================================
 
-(a, b :: Type, ...c) := a
+(a, b :: Type, ...c) = a
 
 ---
 
@@ -137,7 +137,7 @@ tuple pattern
 tagged tuple pattern
 ============================================
 
-:tag (a, b :: Type, ...c) := a
+:tag (a, b :: Type, ...c) = a
 
 ---
 
@@ -161,8 +161,8 @@ tagged tuple pattern
 list pattern
 ============================================
 
-[b :: Type, c :: Type] := a
-[b :: Type, c :: Type, ...d :: Type = [1]] := a
+[b :: Type, c :: Type] = a
+[b :: Type, c :: Type, ...d :: Type = [1]] = a
 
 ---
 
@@ -202,8 +202,8 @@ list pattern
 tagged list pattern
 ============================================
 
-:tag [b :: Type, c :: Type] := a
-:tag [b :: Type, c :: Type, ...d :: Type = [1]] := a
+:tag [b :: Type, c :: Type] = a
+:tag [b :: Type, c :: Type, ...d :: Type = [1]] = a
 
 ---
 
@@ -247,14 +247,15 @@ tagged list pattern
 tagged pattern
 ============================================
 
-:tag b := a
+(:tag b) = a
 
 ---
 
 (program
   term: (assignment
-    pattern: (tagged_pattern
-      name: (identifier)
-      pattern: (identifier_pattern
-        name: (identifier_pattern_name)))
+    pattern: (pattern_group
+      pattern: (tagged_pattern
+        name: (identifier)
+        pattern: (identifier_pattern
+          name: (identifier_pattern_name))))
     value: (identifier)))
