@@ -1,5 +1,5 @@
 import { JS_ALPHA, JS_ALPHANUMERIC } from './constants'
-import { buildCompoundBlock } from './util'
+import { buildBlock } from './util'
 
 export const declaration = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
@@ -7,7 +7,7 @@ export const declaration = <RuleName extends string>(
   seq(
     'declare',
     field('name', $.raw_string),
-    buildCompoundBlock($, repeat1(field('member', $.declaration_member))),
+    buildBlock($, field('member', $.declaration_member)),
   )
 
 export const declaration_member = <RuleName extends string>(

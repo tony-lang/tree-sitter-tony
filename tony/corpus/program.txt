@@ -11,11 +11,13 @@ hash bang line
 ==================
 
 #!/usr/bin/env tony
+1
 
 ---
 
 (program
-  hashBangLine: (hash_bang_line))
+  hashBangLine: (hash_bang_line)
+  term: (number))
 
 ==================
 import

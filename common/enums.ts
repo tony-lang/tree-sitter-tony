@@ -23,12 +23,14 @@ export enum Prec {
   Product = 11,
   Exponentiation = 12,
   Not = 13,
-  PrefixApplication = 14,
-  Application = 15,
-  Term = 16,
-  Pattern = 16,
-  Access = 17,
-  Pipeline = 18,
+  InfixApplication = 14,
+  PrefixApplication = 15,
+  Application = 16,
+  Term = 17,
+  Pattern = 17,
+  Access = 18,
+  Pipeline = 19,
+  ParametricTypeInstance = 20,
 }
 
 export enum Dialect {

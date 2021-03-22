@@ -2,9 +2,10 @@
 without imports
 ==================
 
-declare 'module'
+declare 'module' {
   x :: Type
   y from x :: Type
+}
 
 ---
 
@@ -30,9 +31,10 @@ import {
   Type
 } from 'source'
 
-declare 'module'
+declare 'module' {
   x :: Type
   y from x40596C :: Type
+}
 
 ---
 

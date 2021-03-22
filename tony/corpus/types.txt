@@ -29,7 +29,7 @@ map type
 ==================
 
 a :: { [Type]: Type } := 1
-a :: { [a in Type]: a } := 1
+a :: { [T in Type]: U } := 1
 
 ---
 
@@ -50,7 +50,8 @@ a :: { [a in Type]: a } := 1
         property: (type_variable_declaration_name)
         key: (parametric_type
           name: (type))
-        value: (type_variable)))
+        value: (parametric_type
+          name: (type))))
     value: (number)))
 
 ==================
@@ -109,7 +110,7 @@ access type
 ==================
 
 a as Type[b]
-a as a[0]
+a as T[0]
 
 ---
 
@@ -123,7 +124,8 @@ a as a[0]
   term: (type_hint
     value: (identifier)
     type: (access_type
-      type: (type_variable)
+      type: (parametric_type
+        name: (type))
       value: (number))))
 
 ==================
@@ -131,7 +133,7 @@ curried type
 ==================
 
 a :: Type -> [Type] -> Type := 1
-a :: Type -> (Type -> Type) -> a := 1
+a :: Type -> (Type -> Type) -> T := 1
 
 ---
 
@@ -162,7 +164,8 @@ a :: Type -> (Type -> Type) -> a := 1
                 name: (type))
               to: (parametric_type
                 name: (type))))
-          to: (type_variable))))
+          to: (parametric_type
+            name: (type)))))
     value: (number)))
 
 ==================
@@ -171,9 +174,9 @@ parametric type
 
 a as Type
 a as Type(5)
-a as Type<a>
-a as Type<a>(5, 'string')
-a as Type<Type, a, typeof b, typeof 'string', typeof 5>
+a as Type<T>
+a as Type<T>(5, 'string')
+a as Type<Type, T, typeof b, typeof 'string', typeof 5>
 
 ---
 
@@ -191,12 +194,14 @@ a as Type<Type, a, typeof b, typeof 'string', typeof 5>
     value: (identifier)
     type: (parametric_type
       name: (type)
-      argument: (type_variable)))
+      argument: (parametric_type
+        name: (type))))
   term: (type_hint
     value: (identifier)
     type: (parametric_type
       name: (type)
-      argument: (type_variable)
+      argument: (parametric_type
+        name: (type))
       element: (number)
       element: (string)))
   term: (type_hint
@@ -205,7 +210,8 @@ a as Type<Type, a, typeof b, typeof 'string', typeof 5>
       name: (type)
       argument: (parametric_type
         name: (type))
-      argument: (type_variable)
+      argument: (parametric_type
+        name: (type))
       argument: (typeof
         value: (identifier))
       argument: (typeof
@@ -264,7 +270,7 @@ a :: Type | Type \ Type := 1
 conditional type
 ==================
 
-a :: if Type <: (Type; Type) then if Type <: Type then Type else Type else if Type <: Type then Type else Type := 1
+a :: Type <: (Type; Type) ? Type <: Type ? Type : Type : Type <: Type ? Type : Type := 1
 
 ---
 

@@ -7,17 +7,17 @@ abstraction
 (a, b) => a
 (a :: Type, b :: Type, 1, { c :: Type = 1 }) => a
 
-fib :=
-  (0) =>
-    0
-  (1) => 1
-  <a>(n :: a = 2) =>
-    fib(n - 1) + fib(n - 2)
+fib := (x) =>
+  0
+fib := (x) => 1
+fib := <T>(n :: T = 2) =>
+  fib(n - 1) + fib(n - 2)
 
-<a <: Type>(...a :: a) =>
+<T <: Type>(...a :: T) => {
   b := (c :: Type) =>
     c
   b(1)
+}
 
 () => 1
 / := (a, b) => /
@@ -28,115 +28,108 @@ fn :: Number -> Number? -> Number := (a, b = 5) => a + b
 
 (program
   term: (abstraction
-    branch: (abstraction_branch
-      element: (identifier_pattern
-        name: (identifier_pattern_name))
-      body: (block
-        term: (identifier))))
+    element: (identifier_pattern
+      name: (identifier_pattern_name))
+    body: (identifier))
   term: (abstraction
-    branch: (abstraction_branch
-      element: (identifier_pattern
-        name: (identifier_pattern_name))
-      element: (identifier_pattern
-        name: (identifier_pattern_name))
-      body: (block
-        term: (identifier))))
+    element: (identifier_pattern
+      name: (identifier_pattern_name))
+    element: (identifier_pattern
+      name: (identifier_pattern_name))
+    body: (identifier))
   term: (abstraction
-    branch: (abstraction_branch
-      element: (identifier_pattern
-        name: (identifier_pattern_name)
-        type: (parametric_type
-          name: (type)))
-      element: (identifier_pattern
-        name: (identifier_pattern_name)
-        type: (parametric_type
-          name: (type)))
-      element: (number)
-      element: (destructuring_pattern
-        pattern: (struct_pattern
-          member: (shorthand_member_pattern
-            name: (identifier_pattern_name)
-            type: (parametric_type
-              name: (type))
-            default: (number))))
-      body: (block
-        term: (identifier))))
+    element: (identifier_pattern
+      name: (identifier_pattern_name)
+      type: (parametric_type
+        name: (type)))
+    element: (identifier_pattern
+      name: (identifier_pattern_name)
+      type: (parametric_type
+        name: (type)))
+    element: (number)
+    element: (destructuring_pattern
+      pattern: (struct_pattern
+        member: (shorthand_member_pattern
+          name: (identifier_pattern_name)
+          type: (parametric_type
+            name: (type))
+          default: (number))))
+    body: (identifier))
   term: (assignment
     pattern: (identifier_pattern
       name: (identifier_pattern_name))
     value: (abstraction
-      branch: (abstraction_branch
-        element: (number)
-        body: (block
-          term: (number)))
-      branch: (abstraction_branch
-        element: (number)
-        body: (block
-          term: (number)))
-      branch: (abstraction_branch
-        typeParameter: (type_variable_declaration
-          name: (type_variable_declaration_name))
-        element: (identifier_pattern
-          name: (identifier_pattern_name)
-          type: (type_variable)
-          default: (number))
-        body: (block
-          term: (infix_application
-            left: (application
-              name: (identifier)
-              element: (argument
-                value: (infix_application
-                  left: (identifier)
-                  name: (identifier)
-                  right: (number))))
-            name: (identifier)
-            right: (application
-              name: (identifier)
-              element: (argument
-                value: (infix_application
-                  left: (identifier)
-                  name: (identifier)
-                  right: (number)))))))))
-  term: (abstraction
-    branch: (abstraction_branch
+      element: (identifier_pattern
+        name: (identifier_pattern_name))
+      body: (number)))
+  term: (assignment
+    pattern: (identifier_pattern
+      name: (identifier_pattern_name))
+    value: (abstraction
+      element: (identifier_pattern
+        name: (identifier_pattern_name))
+      body: (number)))
+  term: (assignment
+    pattern: (identifier_pattern
+      name: (identifier_pattern_name))
+    value: (abstraction
       typeParameter: (type_variable_declaration
-        name: (type_variable_declaration_name)
-        constraint: (parametric_type
-          name: (type)))
-      rest: (identifier_pattern
+        name: (type_variable_declaration_name))
+      element: (identifier_pattern
         name: (identifier_pattern_name)
-        type: (type_variable))
-      body: (block
-        term: (assignment
-          pattern: (identifier_pattern
-            name: (identifier_pattern_name))
-          value: (abstraction
-            branch: (abstraction_branch
-              element: (identifier_pattern
-                name: (identifier_pattern_name)
-                type: (parametric_type
-                  name: (type)))
-              body: (block
-                term: (identifier)))))
-        term: (application
+        type: (parametric_type
+          name: (type))
+        default: (number))
+      body: (infix_application
+        left: (application
           name: (identifier)
           element: (argument
-            value: (number))))))
+            value: (infix_application
+              left: (identifier)
+              name: (identifier)
+              right: (number))))
+        name: (identifier)
+        right: (application
+          name: (identifier)
+          element: (argument
+            value: (infix_application
+              left: (identifier)
+              name: (identifier)
+              right: (number)))))))
   term: (abstraction
-    branch: (abstraction_branch
+    typeParameter: (type_variable_declaration
+      name: (type_variable_declaration_name)
+      constraint: (parametric_type
+        name: (type)))
+    rest: (identifier_pattern
+      name: (identifier_pattern_name)
+      type: (parametric_type
+        name: (type)))
     body: (block
-      term: (number))))
+      term: (assignment
+        pattern: (identifier_pattern
+          name: (identifier_pattern_name))
+        value: (abstraction
+          element: (identifier_pattern
+            name: (identifier_pattern_name)
+            type: (parametric_type
+              name: (type)))
+          body: (identifier)))
+      term: (application
+        name: (identifier)
+        element: (argument
+          value: (number)))))
+  term: (abstraction
+    body: (number))
   term: (assignment
     pattern: (identifier_pattern
       name: (identifier_pattern_name))
     value: (abstraction
-      branch: (abstraction_branch
-        element: (identifier_pattern
-          name: (identifier_pattern_name))
-        element: (identifier_pattern
-          name: (identifier_pattern_name))
-        body: (block
-          term: (identifier)))))
+      element: (identifier_pattern
+        name: (identifier_pattern_name))
+      element: (identifier_pattern
+        name: (identifier_pattern_name))
+      body: (identifier)))
   term: (assignment
     pattern: (identifier_pattern
       name: (identifier_pattern_name)
@@ -150,17 +143,15 @@ fn :: Number -> Number? -> Number := (a, b = 5) => a + b
           to: (parametric_type
             name: (type)))))
     value: (abstraction
-      branch: (abstraction_branch
-        element: (identifier_pattern
-          name: (identifier_pattern_name))
-        element: (identifier_pattern
-          name: (identifier_pattern_name)
-          default: (number))
-        body: (block
-          term: (infix_application
-            left: (identifier)
-            name: (identifier)
-            right: (identifier)))))))
+      element: (identifier_pattern
+        name: (identifier_pattern_name))
+      element: (identifier_pattern
+        name: (identifier_pattern_name)
+        default: (number))
+      body: (infix_application
+        left: (identifier)
+        name: (identifier)
+        right: (identifier)))))
 
 ==================
 application
@@ -190,15 +181,16 @@ a(...(a, b))
     value: (group
       term: (number)))
   term: (application
-    name: (identifier)
-    typeArgument: (parametric_type
-      name: (type)
-      argument: (parametric_type
-        name: (type))
-      argument: (parametric_type
+    name: (parametric_type_instance
+      name: (identifier)
+      typeArgument: (parametric_type
+        name: (type)
+        argument: (parametric_type
+          name: (type))
+        argument: (parametric_type
+          name: (type)))
+      typeArgument: (parametric_type
         name: (type)))
-    typeArgument: (parametric_type
-      name: (type))
     element: (argument)
     element: (argument
       value: (number)))
@@ -543,20 +535,18 @@ a := (a :: Type) =>
     pattern: (identifier_pattern
       name: (identifier_pattern_name))
     value: (abstraction
-      branch: (abstraction_branch
-        element: (identifier_pattern
-          name: (identifier_pattern_name)
-          type: (parametric_type
-            name: (type)))
-        body: (block
-          term: (number))))))
+      element: (identifier_pattern
+        name: (identifier_pattern_name)
+        type: (parametric_type
+          name: (type)))
+      body: (number))))
 
 ==================
 export
 ==================
 
 export a := 1
-export a := (x :: a) =>
+export a := (x :: T) =>
   1
 
 ---
@@ -572,12 +562,11 @@ export a := (x :: a) =>
       pattern: (identifier_pattern
         name: (identifier_pattern_name))
       value: (abstraction
-        branch: (abstraction_branch
-          element: (identifier_pattern
-            name: (identifier_pattern_name)
-            type: (type_variable))
-          body: (block
-            term: (number)))))))
+        element: (identifier_pattern
+          name: (identifier_pattern_name)
+          type: (parametric_type
+            name: (type)))
+        body: (number)))))
 
 ==================
 return
@@ -594,13 +583,11 @@ return (a :: Type) =>
     value: (number))
   term: (return
     value: (abstraction
-      branch: (abstraction_branch
-        element: (identifier_pattern
-          name: (identifier_pattern_name)
-          type: (parametric_type
-            name: (type)))
-        body: (block
-          term: (number))))))
+      element: (identifier_pattern
+        name: (identifier_pattern_name)
+        type: (parametric_type
+          name: (type)))
+      body: (number))))
 
 ==================
 if
@@ -608,33 +595,33 @@ if
 
 if false then
   1
-if true then
+if true {
   1
-else
   1
-a :=
-  if true then
-    1
-  else if false then 1
-  else if true then
-    1
+} else 1
 
-fn(if false then 1)
-if true then 1 else 1
+a :=
+  if true {
+    1
+  } else if false then 1 else if true {
+    1
+  }
+
+fn(false ? 1)
+true ? 1 : 1
 
 ---
 
 (program
   term: (if
     condition: (boolean)
-    body: (block
-      term: (number)))
+    body: (number))
   term: (if
     condition: (boolean)
     body: (block
+      term: (number)
       term: (number))
-    else: (block
-      term: (number)))
+    else: (number))
   term: (assignment
     pattern: (identifier_pattern
       name: (identifier_pattern_name))
@@ -644,8 +631,7 @@ if true then 1 else 1
         term: (number))
       elseIf: (else_if
         condition: (boolean)
-        body: (block
-          term: (number)))
+        body: (number))
       elseIf: (else_if
         condition: (boolean)
         body: (block
@@ -653,16 +639,13 @@ if true then 1 else 1
   term: (application
     name: (identifier)
     element: (argument
-      value: (if
+      value: (ternary
         condition: (boolean)
-        body: (block
-          term: (number)))))
-  term: (if
+        body: (number))))
+  term: (ternary
     condition: (boolean)
-    body: (block
-      term: (number))
-    else: (block
-      term: (number))))
+    body: (number)
+    else: (number)))
 
 ==================
 case
@@ -670,15 +653,20 @@ case
 
 a :=
   case a
-    when 1 then
-      1
-    else 1
+  when 1 then {
+    1
+  }
+  else 1
 
 case a
-when [1, a :: Type] then
+when [1, a :: Type] {
   a
+}
 when 1, 1 then 1
-else 1
+else {
+  1
+  1
+}
 
 ---
 
@@ -692,8 +680,7 @@ else 1
         pattern: (number)
         body: (block
           term: (number)))
-      else: (block
-        term: (number))))
+      else: (number)))
   term: (case
     value: (identifier)
     when: (when
@@ -709,81 +696,58 @@ else 1
     when: (when
       pattern: (number)
       pattern: (number)
-      body: (block
-        term: (number)))
+      body: (number))
     else: (block
+      term: (number)
       term: (number))))
-
-==================
-enum
-==================
-
-enum Type
-  a
-  b = 'string'
-
----
-
-(program
-  term: (enum
-    name: (type)
-    value: (enum_value
-      name: (identifier_pattern_name))
-    value: (enum_value
-      name: (identifier_pattern_name)
-      value: (string))))
 
 ==================
 class
 ==================
 
-class Type<a>
-  a :: a -> Number
-  b :: a -> Number
-class Ord<a <: Eq, b <: (Num; Eq; Ord)>
-  compare :: a -> b -> Number
+class Type {
+  a :: Type -> Number
+  b :: Type -> Number
+}
+class Ord <: (Num; Eq; Ord) {
+  compare :: Ord -> Ord -> Number
+}
 
 ---
 
 (program
   term: (class
-    name: (type_declaration
-      name: (type)
-      parameter: (type_variable_declaration
-        name: (type_variable_declaration_name)))
+    name: (type)
     member: (class_member
       name: (identifier_pattern_name)
       type: (curried_type
-        from: (type_variable)
+        from: (parametric_type
+          name: (type))
         to: (parametric_type
           name: (type))))
     member: (class_member
       name: (identifier_pattern_name)
       type: (curried_type
-        from: (type_variable)
+        from: (parametric_type
+          name: (type))
         to: (parametric_type
           name: (type)))))
   term: (class
-    name: (type_declaration
-      name: (type)
-      parameter: (type_variable_declaration
-        name: (type_variable_declaration_name)
-        constraint: (parametric_type
-          name: (type)))
-      parameter: (type_variable_declaration
-        name: (type_variable_declaration_name)
-        constraint: (parametric_type
-          name: (type))
-        constraint: (parametric_type
-          name: (type))
-        constraint: (parametric_type
-          name: (type))))
+    name: (type)
+    constraint: (parametric_type
+      name: (type))
+    constraint: (parametric_type
+      name: (type))
+    constraint: (parametric_type
+      name: (type))
     member: (class_member
       name: (identifier_pattern_name)
       type: (curried_type
-        from: (type_variable)
+        from: (parametric_type
+          name: (type))
         to: (curried_type
-          from: (type_variable)
+          from: (parametric_type
+            name: (type))
           to: (parametric_type
             name: (type)))))))
 
@@ -791,17 +755,34 @@ class Ord<a <: Eq, b <: (Num; Eq; Ord)>
 instance
 ==================
 
-instance Ord<Number>
+instance Number of Ord {
   compare := 1
+}
+instance Type<T <: Type, U <: Type> of Type {
+  f := 1
+}
 
 ---
 
 (program
   term: (instance
-    name: (parametric_type
-      name: (type)
-      argument: (parametric_type
+    name: (type)
+    class: (type)
+    assignment: (assignment
+      pattern: (identifier_pattern
+        name: (identifier_pattern_name))
+      value: (number)))
+  term: (instance
+    name: (type)
+    parameter: (type_variable_declaration
+      name: (type_variable_declaration_name)
+      constraint: (parametric_type
         name: (type)))
+    parameter: (type_variable_declaration
+      name: (type_variable_declaration_name)
+      constraint: (parametric_type
+        name: (type)))
+    class: (type)
     assignment: (assignment
       pattern: (identifier_pattern
         name: (identifier_pattern_name))
@@ -980,37 +961,36 @@ list comprehension
 ==================
 
 [i * 2 | i in 1..10]
-[i / 2 | i in 1..10 if i % 2 == 0]
-[[x, y] | x in 1..10 if x % 2 == 0, y in 1..10 if i % 2 == 0]
+[i / 2 | i in 1..10, i % 2 == 0]
+[[x, y] | x in 1..10, x % 2 == 0, y in 1..10, i % 2 == 0]
 
 ---
 
 (program
   term: (list_comprehension
-    body: (block
-      term: (infix_application
-        left: (identifier)
-        name: (identifier)
-        right: (number)))
-    generator: (generator
+    body: (infix_application
+      left: (identifier)
+      name: (identifier)
+      right: (number))
+    generator: (list_comprehension_generator
       name: (identifier_pattern_name)
       value: (infix_application
         left: (number)
         name: (identifier)
         right: (number))))
   term: (list_comprehension
-    body: (block
-      term: (infix_application
-        left: (identifier)
-        name: (identifier)
-        right: (number)))
-    generator: (generator
+    body: (infix_application
+      left: (identifier)
+      name: (identifier)
+      right: (number))
+    generator: (list_comprehension_generator
       name: (identifier_pattern_name)
       value: (infix_application
         left: (number)
         name: (identifier)
-        right: (number))
-      condition: (infix_application
+        right: (number)))
+    condition: (list_comprehension_condition
+      value: (infix_application
         left: (infix_application
           left: (identifier)
           name: (identifier)
@@ -1018,30 +998,31 @@ list comprehension
         name: (identifier)
         right: (number))))
   term: (list_comprehension
-    body: (block
-      term: (list
-        element: (identifier)
-        element: (identifier)))
-    generator: (generator
+    body: (list
+      element: (identifier)
+      element: (identifier))
+    generator: (list_comprehension_generator
       name: (identifier_pattern_name)
       value: (infix_application
         left: (number)
         name: (identifier)
-        right: (number))
-      condition: (infix_application
+        right: (number)))
+    condition: (list_comprehension_condition
+      value: (infix_application
         left: (infix_application
           left: (identifier)
           name: (identifier)
           right: (number))
         name: (identifier)
         right: (number)))
-    generator: (generator
+    generator: (list_comprehension_generator
       name: (identifier_pattern_name)
       value: (infix_application
         left: (number)
         name: (identifier)
-        right: (number))
-      condition: (infix_application
+        right: (number)))
+    condition: (list_comprehension_condition
+      value: (infix_application
         left: (infix_application
           left: (identifier)
           name: (identifier)
@@ -1071,33 +1052,57 @@ tagged value
     value: (tuple)))
 
 ==================
+parametric type instance
+==================
+
+value<Type>
+(<T>(a :: T) => a)<Type>
+
+---
+
+(program
+  term: (parametric_type_instance
+    name: (identifier)
+    typeArgument: (parametric_type
+      name: (type)))
+  term: (parametric_type_instance
+    name: (group
+      term: (abstraction
+        typeParameter: (type_variable_declaration
+          name: (type_variable_declaration_name))
+        element: (identifier_pattern
+          name: (identifier_pattern_name)
+          type: (parametric_type
+            name: (type)))
+        body: (identifier)))
+    typeArgument: (parametric_type
+      name: (type))))
+
+==================
 type alias
 ==================
 
 type Type := Type
 type Type := :tag Type
 type Type := :tag Type | :tag ()
-type Type<a, b <: Num> := a -> b
-type GreaterThan<a>(x :: a) := [y :: a | y > x]
+type Type<T, U <: Num> := T -> U
+type GreaterThan<T>(x :: T) := [y :: T | y > x]
 
 ---
 
 (program
   term: (type_alias
-    name: (type_declaration
-      name: (type))
+    name: (type)
     type: (parametric_type
       name: (type)))
   term: (type_alias
-    name: (type_declaration
-      name: (type))
+    name: (type)
     type: (tagged_type
       name: (identifier_pattern_name)
       type: (parametric_type
         name: (type))))
   term: (type_alias
-    name: (type_declaration
-      name: (type))
+    name: (type)
     type: (union_type
       left: (tagged_type
         name: (identifier_pattern_name)
@@ -1107,29 +1112,31 @@ type GreaterThan<a>(x :: a) := [y :: a | y > x]
         name: (identifier_pattern_name)
         type: (tuple_type))))
   term: (type_alias
-    name: (type_declaration
-      name: (type)
-      parameter: (type_variable_declaration
-        name: (type_variable_declaration_name))
-      parameter: (type_variable_declaration
-        name: (type_variable_declaration_name)
-        constraint: (parametric_type
-          name: (type))))
+    name: (type)
+    parameter: (type_variable_declaration
+      name: (type_variable_declaration_name))
+    parameter: (type_variable_declaration
+      name: (type_variable_declaration_name)
+      constraint: (parametric_type
+        name: (type)))
     type: (curried_type
-      from: (type_variable)
-      to: (type_variable)))
+      from: (parametric_type
+        name: (type))
+      to: (parametric_type
+        name: (type))))
   term: (type_alias
-    name: (type_declaration
-      name: (type)
-      parameter: (type_variable_declaration
-        name: (type_variable_declaration_name))
-      element: (identifier_pattern
-        name: (identifier_pattern_name)
-        type: (type_variable)))
+    name: (type)
+    parameter: (type_variable_declaration
+      name: (type_variable_declaration_name))
+    element: (identifier_pattern
+      name: (identifier_pattern_name)
+      type: (parametric_type
+        name: (type)))
     type: (refinement_type
       generator: (refinement_type_declaration
         name: (identifier_pattern_name)
-        type: (type_variable))
+        type: (parametric_type
+          name: (type)))
       predicate: (infix_application
         left: (identifier)
         name: (identifier)
@@ -1148,6 +1155,18 @@ type hint
     value: (string)
     type: (parametric_type
       name: (type))))
+
+==================
+hole
+==================
+
+?hole
+
+---
+
+(program
+  term: (hole
+    name: (identifier_pattern_name)))
 
 ==================
 group

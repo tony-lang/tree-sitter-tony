@@ -13,7 +13,7 @@ export const type_variable_declaration = <RuleName extends string>(
 ) =>
   prec.left(
     seq(
-      field('name', alias($.identifier, $.type_variable_declaration_name)),
+      field('name', alias($.type, $.type_variable_declaration_name)),
       optional(buildTypeConstraint($)),
     ),
   )
@@ -38,7 +38,6 @@ export const _type_constructor = (dialect: Dialect) => <
     $.tagged_type,
     $.labeled_type,
     $.keyof,
-    alias($.identifier, $.type_variable),
     $.type_group,
   ]
 
@@ -106,23 +105,9 @@ export const subtraction_type = <RuleName extends string>(
   prec.right(
     Prec.SubtractionType,
     seq(
-      field(
-        'left',
-        choice(
-          $.parametric_type,
-          alias($.identifier, $.type_variable),
-          $.union_type,
-        ),
-      ),
+      field('left', choice($.parametric_type, $.union_type)),
       '\\',
-      field(
-        'right',
-        choice(
-          $.parametric_type,
-          alias($.identifier, $.type_variable),
-          $.union_type,
-        ),
-      ),
+      field('right', choice($.parametric_type, $.union_type)),
     ),
   )
 
@@ -131,12 +116,11 @@ export const conditional_type = <RuleName extends string>(
 ) =>
   prec.right(
     seq(
-      'if',
       field('type', $._type),
       buildTypeConstraint($),
-      'then',
+      '?',
       field('consequence', $._type),
-      'else',
+      ':',
       field('alternative', $._type),
     ),
   )
@@ -161,10 +145,7 @@ export const map_type = <RuleName extends string>(
     '[',
     optional(
       seq(
-        field(
-          'property',
-          alias($.identifier, $.type_variable_declaration_name),
-        ),
+        field('property', alias($.type, $.type_variable_declaration_name)),
         'in',
       ),
     ),
@@ -246,17 +227,6 @@ export const refinement_type = <RuleName extends string>(
 export const _predicate = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
 ) => choice($.application, $.infix_application, $.prefix_application)
-
-export const type_declaration = <RuleName extends string>(
-  $: GrammarSymbols<RuleName>,
-) =>
-  prec.left(
-    seq(
-      field('name', $.type),
-      optional(buildGenericType('parameter', $.type_variable_declaration)),
-      optional(buildTuple($, $.identifier_pattern, false, true)),
-    ),
-  )
 
 export const type_group = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,

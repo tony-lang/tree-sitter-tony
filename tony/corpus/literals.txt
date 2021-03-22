@@ -88,6 +88,8 @@ a5_ds_
 _private
 abs?
 abs!
+f'
+f''
 +
 \
 ||
@@ -97,6 +99,8 @@ abs!
 ---
 
 (program
+  term: (identifier)
+  term: (identifier)
   term: (identifier)
   term: (identifier)
   term: (identifier)

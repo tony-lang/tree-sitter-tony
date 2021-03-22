@@ -12,8 +12,6 @@ using std::memcpy;
 
 enum TokenType {
   NEWLINE,
-  INDENT,
-  DEDENT,
   STRING_START,
   STRING_CONTENT,
   STRING_END,
@@ -104,7 +102,7 @@ struct Scanner {
   }
 
   bool scan(TSLexer *lexer, const bool *valid_symbols) {
-    if (valid_symbols[STRING_CONTENT] && !valid_symbols[INDENT] && !delimiter_stack.empty()) {
+    if (valid_symbols[STRING_CONTENT] && !delimiter_stack.empty()) {
       Delimiter delimiter = delimiter_stack.back();
       int32_t end_character = delimiter.end_character();
       bool has_content = false;
@@ -172,12 +170,6 @@ struct Scanner {
           return false;
         }
       } else if (lexer->lookahead == 0) {
-        if (valid_symbols[DEDENT] && indent_length_stack.size() > 1) {
-          indent_length_stack.pop_back();
-          lexer->result_symbol = DEDENT;
-          return true;
-        }
-
         if (valid_symbols[NEWLINE]) {
           lexer->result_symbol = NEWLINE;
           return true;
@@ -190,18 +182,6 @@ struct Scanner {
     }
 
     if (has_newline) {
-      if (indent_length > indent_length_stack.back() && valid_symbols[INDENT]) {
-        indent_length_stack.push_back(indent_length);
-        lexer->result_symbol = INDENT;
-        return true;
-      }
-
-      if (indent_length < indent_length_stack.back() && valid_symbols[DEDENT]) {
-        indent_length_stack.pop_back();
-        lexer->result_symbol = DEDENT;
-        return true;
-      }
-
       if (valid_symbols[NEWLINE]) {
         lexer->result_symbol = NEWLINE;
         return true;

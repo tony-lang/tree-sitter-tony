@@ -56,8 +56,6 @@ export = grammar({
 
   externals: ($) => [
     $._newline,
-    $._indent,
-    $._dedent,
     $._string_start,
     $._string_content,
     $._string_end,
@@ -70,8 +68,9 @@ export = grammar({
   rules: {
     program: ($) =>
       seq(
-        repeat(field('import', $.import)),
+        repeat(seq(field('import', $.import), $._newline)),
         field('declaration', $.declaration),
+        optional($._newline),
       ),
 
     comment,
