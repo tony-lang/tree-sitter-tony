@@ -270,7 +270,7 @@ a :: Type | Type \ Type := 1
 conditional type
 ==================
 
-a :: if Type <: (Type; Type) then if Type <: Type then Type else Type else if Type <: Type then Type else Type := 1
+a :: Type <: (Type; Type) ? Type <: Type ? Type : Type : Type <: Type ? Type : Type := 1
 
 ---
 

@@ -225,14 +225,11 @@ export type UnnamedType =
   | "]"
   | "as"
   | "declare"
-  | "else"
   | "false"
   | "from"
-  | "if"
   | SyntaxType.Import // both named and unnamed
   | "in"
   | "r/"
-  | "then"
   | "true"
   | "{"
   | "|"
@@ -288,16 +285,13 @@ export type SyntaxNode =
   | UnnamedNode<"as">
   | CommentNode
   | UnnamedNode<"declare">
-  | UnnamedNode<"else">
   | UnnamedNode<"false">
   | UnnamedNode<"from">
-  | UnnamedNode<"if">
   | UnnamedNode<SyntaxType.Import>
   | UnnamedNode<"in">
   | UnnamedNode<"r/">
   | RegexFlagsNode
   | RegexPatternNode
-  | UnnamedNode<"then">
   | UnnamedNode<"true">
   | TypeNode
   | TypeVariableDeclarationNameNode

@@ -603,8 +603,8 @@ a :=
   else if true then
     1
 
-fn(if false then 1)
-if true then 1 else 1
+fn(false ? 1)
+true ? 1 : 1
 
 ---
 
