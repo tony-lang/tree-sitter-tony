@@ -1161,7 +1161,7 @@ hole
 
 (program
   term: (hole
-    name: (identifier)))
+    name: (identifier_pattern_name)))
 
 ==================
 group
