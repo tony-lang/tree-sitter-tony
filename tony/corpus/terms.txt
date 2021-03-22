@@ -619,10 +619,10 @@ true ? 1 : 1
   term: (application
     name: (identifier)
     element: (argument
-      value: (if
+      value: (ternary
         condition: (boolean)
         body: (number))))
-  term: (if
+  term: (ternary
     condition: (boolean)
     body: (number)
     else: (number)))

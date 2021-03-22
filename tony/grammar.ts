@@ -28,6 +28,7 @@ import {
   string,
 } from '../common/literals'
 import {
+  ternary,
   _element,
   _identifier_without_operators,
   _operator,
@@ -183,6 +184,7 @@ export = grammar({
     list_comprehension_condition,
     access,
     return: return_,
+    ternary,
     if: if_,
     else_if,
     case: case_,

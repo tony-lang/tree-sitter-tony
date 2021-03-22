@@ -26,6 +26,7 @@ export const _term = <RuleName extends string>($: GrammarSymbols<RuleName>) =>
       $.assignment,
       $.export,
       $.return,
+      $.ternary,
       $.if,
       $.case,
       $.class,
@@ -399,21 +400,21 @@ export const if_ = <RuleName extends string>($: GrammarSymbols<RuleName>) =>
   )
 
 export const else_if = <RuleName extends string>($: GrammarSymbols<RuleName>) =>
-  seq(
+  prec.right(seq(
     'else if',
     field('condition', $._term),
     choice(seq('then', field('body', $._term)), field('body', $.block)),
-  )
+  ))
 
 export const case_ = <RuleName extends string>($: GrammarSymbols<RuleName>) =>
-  seq(
+  prec.right(seq(
     'case',
     field('value', $._term),
     $._newline,
     repeat1(field('when', $.when)),
     'else',
     field('else', $._term),
-  )
+  ))
 
 export const when = <RuleName extends string>($: GrammarSymbols<RuleName>) =>
   seq(
