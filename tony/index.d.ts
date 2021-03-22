@@ -173,7 +173,6 @@ export interface ErrorNode extends NamedNodeBase {
 export const enum SyntaxType {
   ERROR = "ERROR",
   Abstraction = "abstraction",
-  AbstractionBranch = "abstraction_branch",
   Access = "access",
   AccessType = "access_type",
   Application = "application",
@@ -315,7 +314,6 @@ export type TypeString = SyntaxType | UnnamedType;
 
 export type SyntaxNode = 
   | AbstractionNode
-  | AbstractionBranchNode
   | AccessNode
   | AccessTypeNode
   | ApplicationNode
@@ -453,11 +451,6 @@ export type SyntaxNode =
 
 export interface AbstractionNode extends NamedNodeBase {
   type: SyntaxType.Abstraction;
-  branchNodes: AbstractionBranchNode[];
-}
-
-export interface AbstractionBranchNode extends NamedNodeBase {
-  type: SyntaxType.AbstractionBranch;
   bodyNode: AbstractionNode | AccessNode | ApplicationNode | AssignmentNode | BlockNode | BooleanNode | CaseNode | ClassNode | ExportNode | GroupNode | HoleNode | IdentifierNode | IfNode | InfixApplicationNode | InstanceNode | LeftSectionNode | ListNode | ListComprehensionNode | NumberNode | ParametricTypeInstanceNode | PrefixApplicationNode | RegexNode | ReturnNode | RightSectionNode | StringNode | StructNode | TaggedValueNode | TupleNode | TypeAliasNode | TypeHintNode;
   elementNodes: (BooleanNode | DestructuringPatternNode | IdentifierPatternNode | NumberNode | PatternGroupNode | RawStringNode | RegexNode | TaggedPatternNode)[];
   restNode?: IdentifierPatternNode;

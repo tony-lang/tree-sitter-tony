@@ -45,7 +45,8 @@ export const _term = <RuleName extends string>($: GrammarSymbols<RuleName>) =>
     ),
   )
 
-export const block = <RuleName extends string>($: GrammarSymbols<RuleName>) => buildBlock($, field('term', $._term))
+export const block = <RuleName extends string>($: GrammarSymbols<RuleName>) =>
+  buildBlock($, field('term', $._term))
 
 export const export_ = <RuleName extends string>($: GrammarSymbols<RuleName>) =>
   seq('export', field('declaration', $.assignment))
@@ -92,16 +93,15 @@ export const argument = <RuleName extends string>(
 
 export const abstraction = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
-) => prec.left(commaSep1(field('branch', $.abstraction_branch)))
-
-export const abstraction_branch = <RuleName extends string>(
-  $: GrammarSymbols<RuleName>,
-) => prec.left(seq(
-  optional(buildGenericType('typeParameter', $.type_variable_declaration)),
-  buildTuple($, $._pattern, true, true),
-  '=>',
-  field('body', $._term),
-))
+) =>
+  prec.left(
+    seq(
+      optional(buildGenericType('typeParameter', $.type_variable_declaration)),
+      buildTuple($, $._pattern, true, true),
+      '=>',
+      field('body', $._term),
+    ),
+  )
 
 export const application = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
@@ -387,7 +387,11 @@ export const if_ = <RuleName extends string>($: GrammarSymbols<RuleName>) =>
   )
 
 export const else_if = <RuleName extends string>($: GrammarSymbols<RuleName>) =>
-  seq('else if', field('condition', $._term), choice(seq('then', field('body', $._term)), field('body', $.block)))
+  seq(
+    'else if',
+    field('condition', $._term),
+    choice(seq('then', field('body', $._term)), field('body', $.block)),
+  )
 
 export const case_ = <RuleName extends string>($: GrammarSymbols<RuleName>) =>
   seq(
