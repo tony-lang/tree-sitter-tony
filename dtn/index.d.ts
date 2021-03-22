@@ -219,7 +219,6 @@ export type UnnamedType =
   | "<:"
   | ">"
   | "?"
-  | "@"
   | "["
   | "\\"
   | "]"
@@ -231,6 +230,7 @@ export type UnnamedType =
   | "if"
   | SyntaxType.Import // both named and unnamed
   | "in"
+  | SyntaxType.Keyof // both named and unnamed
   | "r/"
   | "then"
   | "true"
@@ -281,7 +281,6 @@ export type SyntaxNode =
   | UnnamedNode<"<:">
   | UnnamedNode<">">
   | UnnamedNode<"?">
-  | UnnamedNode<"@">
   | UnnamedNode<"[">
   | UnnamedNode<"\\">
   | UnnamedNode<"]">
@@ -294,6 +293,7 @@ export type SyntaxNode =
   | UnnamedNode<"if">
   | UnnamedNode<SyntaxType.Import>
   | UnnamedNode<"in">
+  | UnnamedNode<SyntaxType.Keyof>
   | UnnamedNode<"r/">
   | RegexFlagsNode
   | RegexPatternNode

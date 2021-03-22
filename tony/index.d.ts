@@ -296,6 +296,7 @@ export type UnnamedType =
   | SyntaxType.Import // both named and unnamed
   | "in"
   | SyntaxType.Instance // both named and unnamed
+  | SyntaxType.Keyof // both named and unnamed
   | "of"
   | "r/"
   | SyntaxType.Return // both named and unnamed
@@ -429,6 +430,7 @@ export type SyntaxNode =
   | UnnamedNode<SyntaxType.Import>
   | UnnamedNode<"in">
   | UnnamedNode<SyntaxType.Instance>
+  | UnnamedNode<SyntaxType.Keyof>
   | UnnamedNode<"of">
   | UnnamedNode<"r/">
   | RegexFlagsNode
@@ -436,8 +438,8 @@ export type SyntaxNode =
   | UnnamedNode<SyntaxType.Return>
   | UnnamedNode<"then">
   | UnnamedNode<"true">
-  | TypeNode
   | UnnamedNode<SyntaxType.Type>
+  | TypeNode
   | TypeVariableDeclarationNameNode
   | UnnamedNode<SyntaxType.Typeof>
   | UnnamedNode<SyntaxType.When>
