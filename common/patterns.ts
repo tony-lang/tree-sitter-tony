@@ -9,6 +9,7 @@ export const _assignable_pattern = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
 ) =>
   choice(
+    $.wildcard_pattern,
     $.identifier_pattern,
     $.destructuring_pattern,
     $.tagged_pattern,
@@ -72,6 +73,8 @@ export const identifier_pattern = <RuleName extends string>(
       optional(seq('=', field('default', $._term))),
     ),
   )
+
+export const wildcard_pattern = () => '_'
 
 export const tagged_pattern = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
