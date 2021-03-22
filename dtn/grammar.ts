@@ -54,14 +54,7 @@ const dialect = Dialect.DTN
 export = grammar({
   name: 'dtn',
 
-  externals: ($) => [
-    $._newline,
-    $._indent,
-    $._dedent,
-    $._string_start,
-    $._string_content,
-    $._string_end,
-  ],
+  externals: ($) => [$._newline, $._string_start, $._string_content, $._string_end],
   extras: ($) => [$.comment, /\s+/],
   word: ($) => $._identifier_without_operators,
 
@@ -70,7 +63,7 @@ export = grammar({
   rules: {
     program: ($) =>
       seq(
-        repeat(field('import', $.import)),
+        repeat(seq(field('import', $.import), $._newline)),
         field('declaration', $.declaration),
       ),
 

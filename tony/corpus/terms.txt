@@ -14,10 +14,11 @@ fib :=
   <T>(n :: T = 2) =>
     fib(n - 1) + fib(n - 2)
 
-<T <: Type>(...a :: T) =>
+<T <: Type>(...a :: T) => {
   b := (c :: Type) =>
     c
   b(1)
+}
 
 () => 1
 / := (a, b) => /
@@ -31,16 +32,14 @@ fn :: Number -> Number? -> Number := (a, b = 5) => a + b
     branch: (abstraction_branch
       element: (identifier_pattern
         name: (identifier_pattern_name))
-      body: (block
-        term: (identifier))))
+      body: (identifier)))
   term: (abstraction
     branch: (abstraction_branch
       element: (identifier_pattern
         name: (identifier_pattern_name))
       element: (identifier_pattern
         name: (identifier_pattern_name))
-      body: (block
-        term: (identifier))))
+      body: (identifier)))
   term: (abstraction
     branch: (abstraction_branch
       element: (identifier_pattern
@@ -59,8 +58,7 @@ fn :: Number -> Number? -> Number := (a, b = 5) => a + b
             type: (parametric_type
               name: (type))
             default: (number))))
-      body: (block
-        term: (identifier))))
+      body: (identifier)))
   term: (assignment
     pattern: (identifier_pattern
       name: (identifier_pattern_name))
@@ -126,8 +124,7 @@ fn :: Number -> Number? -> Number := (a, b = 5) => a + b
             value: (number))))))
   term: (abstraction
     branch: (abstraction_branch
-    body: (block
-      term: (number))))
+    body: (number)))
   term: (assignment
     pattern: (identifier_pattern
       name: (identifier_pattern_name))
@@ -137,8 +134,7 @@ fn :: Number -> Number? -> Number := (a, b = 5) => a + b
           name: (identifier_pattern_name))
         element: (identifier_pattern
           name: (identifier_pattern_name))
-        body: (block
-          term: (identifier)))))
+        body: (identifier))))
   term: (assignment
     pattern: (identifier_pattern
       name: (identifier_pattern_name)
@@ -158,11 +154,10 @@ fn :: Number -> Number? -> Number := (a, b = 5) => a + b
         element: (identifier_pattern
           name: (identifier_pattern_name)
           default: (number))
-        body: (block
-          term: (infix_application
-            left: (identifier)
-            name: (identifier)
-            right: (identifier)))))))
+        body: (infix_application
+          left: (identifier)
+          name: (identifier)
+          right: (identifier))))))
 
 ==================
 application
@@ -531,8 +526,7 @@ a := (a :: Type) =>
           name: (identifier_pattern_name)
           type: (parametric_type
             name: (type)))
-        body: (block
-          term: (number))))))
+        body: (number)))))
 
 ==================
 export
@@ -560,8 +554,7 @@ export a := (x :: T) =>
             name: (identifier_pattern_name)
             type: (parametric_type
               name: (type)))
-          body: (block
-            term: (number)))))))
+          body: (number))))))
 
 ==================
 return
@@ -583,8 +576,7 @@ return (a :: Type) =>
           name: (identifier_pattern_name)
           type: (parametric_type
             name: (type)))
-        body: (block
-          term: (number))))))
+        body: (number)))))
 
 ==================
 if
@@ -592,16 +584,19 @@ if
 
 if false then
   1
-if true then
+if true {
   1
-else
   1
+} else 1
+
 a :=
-  if true then
+  if true {
     1
+  }
   else if false then 1
-  else if true then
+  else if true {
     1
+  }
 
 fn(if false then 1)
 if true then 1 else 1
@@ -611,14 +606,13 @@ if true then 1 else 1
 (program
   term: (if
     condition: (boolean)
-    body: (block
-      term: (number)))
+    body: (number))
   term: (if
     condition: (boolean)
     body: (block
+      term: (number)
       term: (number))
-    else: (block
-      term: (number)))
+    else: (number))
   term: (assignment
     pattern: (identifier_pattern
       name: (identifier_pattern_name))
@@ -654,15 +648,20 @@ case
 
 a :=
   case a
-    when 1 then
-      1
-    else 1
+  when 1 then {
+    1
+  }
+  else 1
 
 case a
-when [1, a :: Type] then
+when [1, a :: Type] {
   a
+}
 when 1, 1 then 1
-else 1
+else {
+  1
+  1
+}
 
 ---
 
@@ -676,8 +675,7 @@ else 1
         pattern: (number)
         body: (block
           term: (number)))
-      else: (block
-        term: (number))))
+      else: (number)))
   term: (case
     value: (identifier)
     when: (when
@@ -693,20 +691,22 @@ else 1
     when: (when
       pattern: (number)
       pattern: (number)
-      body: (block
-        term: (number)))
+      body: (number))
     else: (block
+      term: (number)
       term: (number))))
 
 ==================
 class
 ==================
 
-class Type
+class Type {
   a :: Type -> Number
   b :: Type -> Number
-class Ord <: (Num; Eq; Ord)
+}
+class Ord <: (Num; Eq; Ord) {
   compare :: Ord -> Ord -> Number
+}
 
 ---
 
@@ -750,10 +750,12 @@ class Ord <: (Num; Eq; Ord)
 instance
 ==================
 
-instance Number of Ord
+instance Number of Ord {
   compare := 1
-instance Type<T <: Type, U <: Type> of Type
+}
+instance Type<T <: Type, U <: Type> of Type {
   f := 1
+}
 
 ---
 
@@ -954,37 +956,36 @@ list comprehension
 ==================
 
 [i * 2 | i in 1..10]
-[i / 2 | i in 1..10 if i % 2 == 0]
-[[x, y] | x in 1..10 if x % 2 == 0, y in 1..10 if i % 2 == 0]
+[i / 2 | i in 1..10, i % 2 == 0]
+[[x, y] | x in 1..10, x % 2 == 0, y in 1..10, i % 2 == 0]
 
 ---
 
 (program
   term: (list_comprehension
-    body: (block
-      term: (infix_application
-        left: (identifier)
-        name: (identifier)
-        right: (number)))
-    generator: (generator
+    body: (infix_application
+      left: (identifier)
+      name: (identifier)
+      right: (number))
+    generator: (list_comprehension_generator
       name: (identifier_pattern_name)
       value: (infix_application
         left: (number)
         name: (identifier)
         right: (number))))
   term: (list_comprehension
-    body: (block
-      term: (infix_application
-        left: (identifier)
-        name: (identifier)
-        right: (number)))
-    generator: (generator
+    body: (infix_application
+      left: (identifier)
+      name: (identifier)
+      right: (number))
+    generator: (list_comprehension_generator
       name: (identifier_pattern_name)
       value: (infix_application
         left: (number)
         name: (identifier)
-        right: (number))
-      condition: (infix_application
+        right: (number)))
+    condition: (list_comprehension_condition
+      value: (infix_application
         left: (infix_application
           left: (identifier)
           name: (identifier)
@@ -992,30 +993,31 @@ list comprehension
         name: (identifier)
         right: (number))))
   term: (list_comprehension
-    body: (block
-      term: (list
-        element: (identifier)
-        element: (identifier)))
-    generator: (generator
+    body: (list
+      element: (identifier)
+      element: (identifier))
+    generator: (list_comprehension_generator
       name: (identifier_pattern_name)
       value: (infix_application
         left: (number)
         name: (identifier)
-        right: (number))
-      condition: (infix_application
+        right: (number)))
+    condition: (list_comprehension_condition
+      value: (infix_application
         left: (infix_application
           left: (identifier)
           name: (identifier)
           right: (number))
         name: (identifier)
         right: (number)))
-    generator: (generator
+    generator: (list_comprehension_generator
       name: (identifier_pattern_name)
       value: (infix_application
         left: (number)
         name: (identifier)
-        right: (number))
-      condition: (infix_application
+        right: (number)))
+    condition: (list_comprehension_condition
+      value: (infix_application
         left: (infix_application
           left: (identifier)
           name: (identifier)
@@ -1068,8 +1070,7 @@ value<Type>
             name: (identifier_pattern_name)
             type: (parametric_type
               name: (type)))
-        body: (block
-          term: (identifier)))))
+        body: (identifier))))
     typeArgument: (parametric_type
       name: (type))))
 

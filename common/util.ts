@@ -8,17 +8,6 @@ export const commaSep1 = sep1(',')
 
 const commaSep2 = sep2(',')
 
-export const buildAbstractionBranch = <RuleName extends string>(
-  $: GrammarSymbols<RuleName>,
-  blockType: Rule,
-) =>
-  seq(
-    optional(buildGenericType('typeParameter', $.type_variable_declaration)),
-    buildTuple($, $._pattern, true, true),
-    '=>',
-    field('body', alias(blockType, $.block)),
-  )
-
 const buildDataStructure = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
   element: Rule,
@@ -121,12 +110,8 @@ export const buildTypeDeclaration = <RuleName extends string>(
     optional(buildTuple($, $.identifier_pattern, false, true)),
   )
 
-export const buildSimpleBlock = <RuleName extends string>(
-  $: GrammarSymbols<RuleName>,
-  line: Rule,
-) => seq(line, $._newline)
+const buildStatements = <RuleName extends string>(
+  $: GrammarSymbols<RuleName>) => (rule: Rule) => seq(optional($._newline), sep1($._newline as unknown as string)(rule), optional($._newline))
 
-export const buildCompoundBlock = <RuleName extends string>(
-  $: GrammarSymbols<RuleName>,
-  body: Rule,
-) => seq($._newline, $._indent, body, $._dedent)
+export const buildBlock = <RuleName extends string>(
+  $: GrammarSymbols<RuleName>,...rules: Rule[]) => seq('{', seq(...rules.map(buildStatements($))), '}')

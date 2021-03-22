@@ -51,7 +51,7 @@ export const struct_pattern = <RuleName extends string>(
 
 export const member_pattern = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
-) => buildMember($, $._simple_term, $._pattern)
+) => buildMember($, $._term, $._pattern)
 
 export const tuple_pattern = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
@@ -69,7 +69,7 @@ export const identifier_pattern = <RuleName extends string>(
     seq(
       field('name', alias($.identifier, $.identifier_pattern_name)),
       optional(seq('::', field('type', $._type))),
-      optional(seq('=', field('default', $._simple_term))),
+      optional(seq('=', field('default', $._term))),
     ),
   )
 
