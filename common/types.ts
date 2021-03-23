@@ -80,7 +80,7 @@ export const curried_type = <RuleName extends string>(
 ) =>
   prec.right(
     Prec.CurriedType,
-    seq(field('from', $._type), '->', field('to', $._type)),
+    seq(field('from', $._type), '=>', field('to', $._type)),
   )
 
 export const intersection_type = <RuleName extends string>(
@@ -169,7 +169,16 @@ export const access_type = <RuleName extends string>(
 ) =>
   prec(
     Prec.Access,
-    seq(field('type', $._type), '[', field('value', $._term_type), ']'),
+    seq(
+      field('type', $._type),
+      choice(
+        seq('[', field('value', $._term_type), ']'),
+        seq(
+          '->',
+          field('value', alias($.identifier, $.shorthand_access_identifier)),
+        ),
+      ),
+    ),
   )
 
 export const optional_type = <RuleName extends string>(

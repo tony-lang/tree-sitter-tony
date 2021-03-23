@@ -264,11 +264,15 @@ tagged pattern
 wildcard pattern
 ============================================
 
-_ := a
+(_, b) = a
 
 ---
 
 (program
   term: (assignment
-    pattern: (wildcard_pattern)
+    pattern: (destructuring_pattern
+      pattern: (tuple_pattern
+        element: (wildcard_pattern)
+        element: (identifier_pattern
+          name: (identifier_pattern_name))))
     value: (identifier)))

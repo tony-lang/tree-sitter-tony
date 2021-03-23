@@ -277,6 +277,7 @@ export type UnnamedType =
   | "<"
   | "<:"
   | "="
+  | "=>"
   | ">"
   | "?"
   | "@"
@@ -407,6 +408,7 @@ export type SyntaxNode =
   | UnnamedNode<"<">
   | UnnamedNode<"<:">
   | UnnamedNode<"=">
+  | UnnamedNode<"=>">
   | UnnamedNode<">">
   | UnnamedNode<"?">
   | UnnamedNode<"@">
@@ -466,7 +468,7 @@ export interface AccessNode extends NamedNodeBase {
 export interface AccessTypeNode extends NamedNodeBase {
   type: SyntaxType.AccessType;
   typeNode: AccessTypeNode | ConditionalTypeNode | CurriedTypeNode | IntersectionTypeNode | KeyofNode | LabeledTypeNode | ListTypeNode | MapTypeNode | OptionalTypeNode | ParametricTypeNode | RefinementTypeNode | RefinementTypeDeclarationNode | StructTypeNode | SubtractionTypeNode | TaggedTypeNode | TupleTypeNode | TypeGroupNode | TypeofNode | UnionTypeNode;
-  valueNode: BooleanNode | IdentifierNode | NumberNode | RegexNode | StringNode;
+  valueNode: BooleanNode | IdentifierNode | NumberNode | RegexNode | ShorthandAccessIdentifierNode | StringNode;
 }
 
 export interface ApplicationNode extends NamedNodeBase {
@@ -483,7 +485,7 @@ export interface ArgumentNode extends NamedNodeBase {
 
 export interface AssignmentNode extends NamedNodeBase {
   type: SyntaxType.Assignment;
-  patternNode: DestructuringPatternNode | IdentifierPatternNode | PatternGroupNode | TaggedPatternNode | WildcardPatternNode;
+  patternNode: DestructuringPatternNode | IdentifierPatternNode | PatternGroupNode | TaggedPatternNode;
   valueNode: AbstractionNode | AccessNode | ApplicationNode | AssignmentNode | BlockNode | BooleanNode | CaseNode | ClassNode | ExportNode | GroupNode | HoleNode | IdentifierNode | IfNode | InfixApplicationNode | InstanceNode | LeftSectionNode | ListNode | ListComprehensionNode | NumberNode | ParametricTypeInstanceNode | PrefixApplicationNode | RegexNode | ReturnNode | RightSectionNode | StringNode | StructNode | TaggedValueNode | TernaryNode | TupleNode | TypeAliasNode | TypeHintNode;
 }
 

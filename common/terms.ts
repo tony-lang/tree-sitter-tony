@@ -99,7 +99,7 @@ export const abstraction = <RuleName extends string>(
     seq(
       optional(buildGenericType('typeParameter', $.type_variable_declaration)),
       buildTuple($, $._pattern, true, true),
-      '->',
+      '=>',
       field('body', $._term),
     ),
   )

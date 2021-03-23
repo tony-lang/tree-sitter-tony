@@ -140,6 +140,7 @@ export = grammar({
     [$.tuple, $.tuple_pattern],
     [$.tuple, $.tuple_pattern, $.tuple_type],
     [$.list, $.list_pattern],
+    [$.abstraction, $.tuple_type],
     [$.member, $.member_pattern, $._element],
     [$.parametric_type_instance, $.prefix_application, $.infix_application],
     [$.parametric_type_instance, $.infix_application],

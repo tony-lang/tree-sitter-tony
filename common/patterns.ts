@@ -12,14 +12,18 @@ export const _pattern = <RuleName extends string>(
 ) =>
   prec(
     Prec.Pattern,
-    choice($.identifier_pattern, $._assignable_pattern, $._literal_pattern),
+    choice(
+      $.wildcard_pattern,
+      $.identifier_pattern,
+      $._assignable_pattern,
+      $._literal_pattern,
+    ),
   )
 
 export const _assignable_pattern = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
 ) =>
   choice(
-    $.wildcard_pattern,
     alias($.root_identifier_pattern, $.identifier_pattern),
     $.destructuring_pattern,
     $.tagged_pattern,

@@ -110,6 +110,7 @@ access type
 ==================
 
 a as Type[b]
+a as Type->a
 a as T[0]
 
 ---
@@ -126,14 +127,20 @@ a as T[0]
     type: (access_type
       type: (parametric_type
         name: (type))
+      value: (shorthand_access_identifier)))
+  term: (type_hint
+    value: (identifier)
+    type: (access_type
+      type: (parametric_type
+        name: (type))
       value: (number))))
 
 ==================
 curried type
 ==================
 
-a :: Type -> [Type] -> Type = 1
-a :: Type -> (Type -> Type) -> T = 1
+a :: Type => [Type] => Type = 1
+a :: Type => (Type => Type) => T = 1
 
 ---
 
