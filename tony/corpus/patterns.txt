@@ -259,3 +259,16 @@ tagged pattern
         pattern: (identifier_pattern
           name: (identifier_pattern_name))))
     value: (identifier)))
+
+============================================
+wildcard pattern
+============================================
+
+_ := a
+
+---
+
+(program
+  term: (assignment
+    pattern: (wildcard_pattern)
+    value: (identifier)))

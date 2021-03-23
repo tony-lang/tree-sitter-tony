@@ -13,6 +13,7 @@ import {
   struct_pattern,
   tagged_pattern,
   tuple_pattern,
+  wildcard_pattern,
 } from '../common/patterns'
 import {
   _decimal,
@@ -223,6 +224,7 @@ export = grammar({
     member_pattern,
     identifier_pattern,
     root_identifier_pattern,
+    wildcard_pattern,
     tagged_pattern,
     _literal_pattern,
     pattern_group,

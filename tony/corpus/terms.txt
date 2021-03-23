@@ -2,27 +2,27 @@
 abstraction
 ==================
 
-(a) =>
+(a) ->
   a
-(a, b) => a
-(a :: Type, b :: Type, 1, { c :: Type = 1 }) => a
+(a, b) -> a
+(a :: Type, b :: Type, 1, { c :: Type = 1 }) -> a
 
-fib = (x) =>
+fib = (x) ->
   0
-fib = (x) => 1
-fib = <T>(n :: T = 2) =>
+fib = (x) -> 1
+fib = <T>(n :: T = 2) ->
   fib(n - 1) + fib(n - 2)
 
-<T <: Type>(...a :: T) => {
-  b = (c :: Type) =>
+<T <: Type>(...a :: T) -> {
+  b = (c :: Type) ->
     c
   b(1)
 }
 
-() => 1
-/ = (a, b) => /
+() -> 1
+/ = (a, b) -> /
 
-fn :: Number -> Number? -> Number = (a, b = 5) => a + b
+fn :: Number -> Number? -> Number = (a, b = 5) -> a + b
 
 ---
 
@@ -120,6 +120,8 @@ fn :: Number -> Number? -> Number = (a, b = 5) => a + b
         element: (argument
           value: (number)))))
   term: (abstraction
+    element: (identifier_pattern
+      name: (identifier_pattern_name))
     body: (number))
   term: (assignment
     pattern: (identifier_pattern
@@ -499,7 +501,7 @@ assignment
 ==================
 
 a :: Type = 1
-a = (a :: Type) =>
+a = (a :: Type) ->
   1
 
 ---
@@ -526,7 +528,7 @@ export
 ==================
 
 export a = 1
-export a = (x :: T) =>
+export a = (x :: T) ->
   1
 
 ---
@@ -553,7 +555,7 @@ return
 ==================
 
 return 1
-return (a :: Type) =>
+return (a :: Type) ->
   1
 
 ---
@@ -1036,7 +1038,7 @@ parametric type instance
 ==================
 
 value<Type>
-(<T>(a :: T) => a)<Type>
+(<T>(a :: T) -> a)<Type>
 
 ---
 
