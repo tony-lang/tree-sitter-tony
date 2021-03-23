@@ -35,7 +35,6 @@ export const _term = <RuleName extends string>($: GrammarSymbols<RuleName>) =>
       $.tuple,
       $.list,
       $.list_comprehension,
-      $.tagged_value,
       $.parametric_type_instance,
       $.type_alias,
       $.type_hint,
@@ -449,17 +448,6 @@ export const _element = <RuleName extends string>(
 
 export const spread = <RuleName extends string>($: GrammarSymbols<RuleName>) =>
   seq('...', field('value', $._term))
-
-export const tagged_value = <RuleName extends string>(
-  $: GrammarSymbols<RuleName>,
-) =>
-  prec.left(
-    seq(
-      ':',
-      field('name', alias($._identifier_without_operators, $.identifier)),
-      field('value', $._term),
-    ),
-  )
 
 export const parametric_type_instance = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
