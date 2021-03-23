@@ -1,3 +1,5 @@
+import { Prec } from './enums'
+
 const sep1 = (sep: string) => (rule: RuleOrLiteral) =>
   seq(rule, repeat(seq(sep, rule)))
 
@@ -108,6 +110,19 @@ export const buildTypeDeclaration = <RuleName extends string>(
     field('name', $.type),
     optional(buildGenericType('parameter', $.type_variable_declaration)),
     optional(buildTuple($, $.identifier_pattern, false, true)),
+  )
+
+export const buildIdentifierPattern = <RuleName extends string>(
+  $: GrammarSymbols<RuleName>,
+  allowDefaults: boolean,
+) =>
+  prec.right(
+    Prec.Pattern,
+    seq(
+      field('name', alias($.identifier, $.identifier_pattern_name)),
+      optional(seq('::', field('type', $._type))),
+      allowDefaults ? optional(seq('=', field('default', $._term))) : seq(),
+    ),
   )
 
 const buildStatements = <RuleName extends string>(

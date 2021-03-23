@@ -1,16 +1,30 @@
-import { buildList, buildMember, buildStruct, buildTuple } from './util'
+import {
+  buildIdentifierPattern,
+  buildList,
+  buildMember,
+  buildStruct,
+  buildTuple,
+} from './util'
 import { Prec } from './enums'
 
 export const _pattern = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
-) => prec(Prec.Pattern, choice($._assignable_pattern, $._literal_pattern))
+) =>
+  prec(
+    Prec.Pattern,
+    choice(
+      $.wildcard_pattern,
+      $.identifier_pattern,
+      $._assignable_pattern,
+      $._literal_pattern,
+    ),
+  )
 
 export const _assignable_pattern = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
 ) =>
   choice(
-    $.wildcard_pattern,
-    $.identifier_pattern,
+    alias($.root_identifier_pattern, $.identifier_pattern),
     $.destructuring_pattern,
     $.tagged_pattern,
     $.pattern_group,
@@ -64,15 +78,11 @@ export const list_pattern = <RuleName extends string>(
 
 export const identifier_pattern = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
-) =>
-  prec.right(
-    Prec.Pattern,
-    seq(
-      field('name', alias($.identifier, $.identifier_pattern_name)),
-      optional(seq('::', field('type', $._type))),
-      optional(seq('=', field('default', $._term))),
-    ),
-  )
+) => buildIdentifierPattern($, true)
+
+export const root_identifier_pattern = <RuleName extends string>(
+  $: GrammarSymbols<RuleName>,
+) => buildIdentifierPattern($, false)
 
 export const wildcard_pattern = () => '_'
 

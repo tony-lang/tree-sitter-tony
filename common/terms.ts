@@ -57,7 +57,7 @@ export const assignment = <RuleName extends string>(
 ) =>
   prec.right(
     Prec.Assignment,
-    seq(field('pattern', $._assignable_pattern), ':=', field('value', $._term)),
+    seq(field('pattern', $._assignable_pattern), '=', field('value', $._term)),
   )
 
 export const class_ = <RuleName extends string>($: GrammarSymbols<RuleName>) =>
@@ -99,7 +99,7 @@ export const abstraction = <RuleName extends string>(
     seq(
       optional(buildGenericType('typeParameter', $.type_variable_declaration)),
       buildTuple($, $._pattern, true, true),
-      '->',
+      '=>',
       field('body', $._term),
     ),
   )
@@ -475,7 +475,7 @@ export const parametric_type_instance = <RuleName extends string>(
 export const type_alias = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
 ) =>
-  prec.right(seq('type', buildTypeDeclaration($), ':=', field('type', $._type)))
+  prec.right(seq('type', buildTypeDeclaration($), '=', field('type', $._type)))
 
 export const type_hint = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
