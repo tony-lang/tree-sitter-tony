@@ -961,6 +961,35 @@ value<Type>
       name: (type))))
 
 ==================
+sequencing
+==================
+
+do {
+  y = 1
+  z = pure x
+  return y + z
+}
+
+---
+
+(program
+  term: (sequence
+    term: (assignment
+      pattern: (identifier_pattern
+        name: (identifier_pattern_name))
+      value: (number))
+    term: (assignment
+      pattern: (identifier_pattern
+        name: (identifier_pattern_name))
+      value: (pure
+        value: (identifier)))
+    term: (return
+      value: (infix_application
+        left: (identifier)
+        name: (identifier)
+        right: (identifier)))))
+
+==================
 type alias
 ==================
 
