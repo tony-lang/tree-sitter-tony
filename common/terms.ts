@@ -50,8 +50,9 @@ export const _term = <RuleName extends string>($: GrammarSymbols<RuleName>) =>
 export const block = <RuleName extends string>($: GrammarSymbols<RuleName>) =>
   buildBlock($, field('term', $._term))
 
-export const sequence = <RuleName extends string>($: GrammarSymbols<RuleName>) =>
-  seq('do', buildBlock($, field('term', $._term)))
+export const sequence = <RuleName extends string>(
+  $: GrammarSymbols<RuleName>,
+) => seq('do', buildBlock($, field('term', $._term)))
 
 export const export_ = <RuleName extends string>($: GrammarSymbols<RuleName>) =>
   seq('export', field('declaration', $.assignment))
@@ -465,9 +466,7 @@ export const parametric_type_instance = <RuleName extends string>(
     ),
   )
 
-export const pure = <RuleName extends string>(
-  $: GrammarSymbols<RuleName>,
-) =>
+export const pure = <RuleName extends string>($: GrammarSymbols<RuleName>) =>
   prec.right(seq('pure', field('value', $._term)))
 
 export const type_alias = <RuleName extends string>(

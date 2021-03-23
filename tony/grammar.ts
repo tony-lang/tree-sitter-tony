@@ -41,7 +41,6 @@ import {
   application,
   argument,
   assignment,
-  sequence,
   block,
   case_,
   class_,
@@ -62,8 +61,10 @@ import {
   member,
   parametric_type_instance,
   prefix_application,
+  pure,
   return_,
   right_section,
+  sequence,
   spread,
   struct,
   ternary,
@@ -71,7 +72,6 @@ import {
   type_alias,
   type_hint,
   when,
-  pure,
 } from '../common/terms'
 import {
   _import_body_constructor,
