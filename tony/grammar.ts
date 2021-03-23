@@ -41,6 +41,7 @@ import {
   application,
   argument,
   assignment,
+  sequence,
   block,
   case_,
   class_,
@@ -70,6 +71,7 @@ import {
   type_alias,
   type_hint,
   when,
+  pure,
 } from '../common/terms'
 import {
   _import_body_constructor,
@@ -173,6 +175,7 @@ export = grammar({
 
     _term,
     block,
+    sequence,
     export: export_,
     assignment,
     class: class_,
@@ -204,6 +207,7 @@ export = grammar({
     _element,
     spread,
     parametric_type_instance,
+    pure,
     type_alias,
     type_hint,
     hole,
