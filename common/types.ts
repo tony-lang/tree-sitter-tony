@@ -191,12 +191,13 @@ export const tagged_type = <RuleName extends string>(
   prec(
     Prec.TaggedType,
     seq(
-      ':',
       field(
         'name',
         alias($._identifier_without_operators, $.identifier_pattern_name),
       ),
+      '(',
       field('type', $._type),
+      ')',
     ),
   )
 
