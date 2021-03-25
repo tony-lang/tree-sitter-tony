@@ -32,12 +32,12 @@ decimal
 ---
 
 (program
-  term: (prefix_application
+  term: (application
     name: (identifier)
-    value: (number))
-  term: (prefix_application
+    element: (number))
+  term: (application
     name: (identifier)
-    value: (number))
+    element: (number))
   term: (number)
   term: (number)
   term: (number)
@@ -48,9 +48,9 @@ decimal
   term: (number)
   term: (number)
   term: (number)
-  term: (prefix_application
+  term: (application
     name: (identifier)
-    value: (number)))
+    element: (number)))
 
 ==================
 integer
@@ -68,9 +68,9 @@ integer
 ---
 
 (program
-  term: (prefix_application
+  term: (application
     name: (identifier)
-    value: (number))
+    element: (number))
   term: (number)
   term: (number)
   term: (number)
