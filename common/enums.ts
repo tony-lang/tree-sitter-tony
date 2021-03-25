@@ -1,4 +1,5 @@
 export enum Prec {
+  Group = -1,
   SubtractionType = -1,
   UnionType = 0,
   Assignment = 1,
@@ -24,13 +25,14 @@ export enum Prec {
   Exponentiation = 12,
   Not = 13,
   InfixApplication = 14,
-  PrefixApplication = 15,
-  Application = 16,
-  Term = 17,
-  Pattern = 17,
-  Access = 18,
-  Pipeline = 19,
-  ParametricTypeInstance = 20,
+  Application = 15,
+  Term = 16,
+  Pattern = 16,
+  Access = 17,
+  Pipeline = 18,
+  ParametricTypeInstance = 19,
+  Argument = 20,
+  Hole = 21,
 }
 
 export enum Dialect {

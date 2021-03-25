@@ -161,12 +161,13 @@ a(1)(1, 2)
 +(1)
 a<Type<Type, Type>, Type>(?, 1)
 + 1
-1 `a` -b()
+1 `a` -b
+1 `a` -(b())
 a(...(a, b))
 
-tag('String')
-tag(1)
-tag(())
+f('String')
+f(1)
+f(())
 
 ---
 
@@ -180,10 +181,10 @@ tag(())
       value: (number))
     element: (argument
       value: (number)))
-  term: (prefix_application
+  term: (application
     name: (identifier)
-    value: (group
-      term: (number)))
+    element: (argument
+      value: (number)))
   term: (application
     name: (parametric_type_instance
       name: (identifier)
@@ -198,16 +199,23 @@ tag(())
     element: (argument)
     element: (argument
       value: (number)))
-  term: (prefix_application
+  term: (application
     name: (identifier)
-    value: (number))
+    element: (number))
   term: (infix_application
     left: (number)
     name: (identifier)
-    right: (prefix_application
+    right: (application
       name: (identifier)
-      value: (application
-        name: (identifier))))
+      element: (identifier)))
+  term: (infix_application
+    left: (number)
+    name: (identifier)
+    right: (application
+      name: (identifier)
+      element: (argument
+        value: (application
+          name: (identifier)))))
   term: (application
     name: (identifier)
     element: (argument
@@ -240,18 +248,18 @@ prefix application
 ---
 
 (program
-  term: (prefix_application
+  term: (application
     name: (identifier)
-    value: (boolean))
-  term: (prefix_application
+    element: (boolean))
+  term: (application
     name: (identifier)
-    value: (number))
-  term: (prefix_application
+    element: (number))
+  term: (application
     name: (identifier)
-    value: (number))
-  term: (prefix_application
+    element: (number))
+  term: (application
     name: (identifier)
-    value: (number)))
+    element: (number)))
 
 ==================
 infix application
@@ -400,9 +408,9 @@ a&.b&.c(1)
   term: (infix_application
     left: (number)
     name: (identifier)
-    right: (prefix_application
+    right: (application
       name: (identifier)
-      value: (number)))
+      element: (number)))
   term: (infix_application
     left: (infix_application
       left: (infix_application
@@ -416,9 +424,9 @@ a&.b&.c(1)
   term: (infix_application
     left: (boolean)
     name: (identifier)
-    right: (prefix_application
+    right: (application
       name: (identifier)
-      value: (boolean)))
+      element: (boolean)))
   term: (infix_application
     left: (infix_application
       left: (group
@@ -961,19 +969,22 @@ value<Type>
       name: (type))))
 
 ==================
-sequencing
+block
 ==================
 
-do {
+{
   y = 1
   z = pure x
   return y + z
+}
+10.times (i) => {
+  io->print '{i}-th line'
 }
 
 ---
 
 (program
-  term: (sequence
+  term: (block
     term: (assignment
       pattern: (identifier_pattern
         name: (identifier_pattern_name))
@@ -987,15 +998,31 @@ do {
       value: (infix_application
         left: (identifier)
         name: (identifier)
-        right: (identifier)))))
+        right: (identifier))))
+  term: (application
+    name: (infix_application
+      left: (number)
+      name: (identifier)
+      right: (identifier))
+    element: (abstraction
+      element: (identifier_pattern
+        name: (identifier_pattern_name))
+      body: (block
+        term: (application
+          name: (access
+            name: (identifier)
+            value: (shorthand_access_identifier))
+          element: (string
+            interpolation: (interpolation
+              term: (identifier))))))))
 
 ==================
 type alias
 ==================
 
 type Type = Type
-type Type = tag(Type)
-type Type = tag(Type) | tag(())
+type Type = tag Type
+type Type = tag Type | tag ()
 type Type<T, U <: Num> = T => U
 type GreaterThan<T>(x :: T) = [y :: T | y > x]
 
@@ -1097,13 +1124,13 @@ n / ((n + 1) * (-2))
   term: (group
     term: (identifier))
   term: (group
-    term: (prefix_application
+    term: (application
       name: (identifier)
-      value: (number)))
+      element: (number)))
   term: (group
-    term: (prefix_application
+    term: (application
       name: (identifier)
-      value: (identifier)))
+      element: (identifier)))
   term: (infix_application
     left: (identifier)
     name: (identifier)
@@ -1116,6 +1143,6 @@ n / ((n + 1) * (-2))
             right: (number)))
         name: (identifier)
         right: (group
-          term: (prefix_application
+          term: (application
             name: (identifier)
-            value: (number)))))))
+            element: (number)))))))

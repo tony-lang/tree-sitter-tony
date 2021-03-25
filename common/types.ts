@@ -195,9 +195,7 @@ export const tagged_type = <RuleName extends string>(
         'name',
         alias($._identifier_without_operators, $.identifier_pattern_name),
       ),
-      '(',
       field('type', $._type),
-      ')',
     ),
   )
 
@@ -236,7 +234,7 @@ export const refinement_type = <RuleName extends string>(
 
 export const _predicate = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
-) => choice($.application, $.infix_application, $.prefix_application)
+) => choice($.application, $.infix_application)
 
 export const type_group = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
