@@ -969,13 +969,16 @@ value<Type>
       name: (type))))
 
 ==================
-sequencing
+block
 ==================
 
 {
   y = 1
   z = pure x
   return y + z
+}
+10.times (i) => {
+  io->print '{i}-th line'
 }
 
 ---
@@ -995,7 +998,23 @@ sequencing
       value: (infix_application
         left: (identifier)
         name: (identifier)
-        right: (identifier)))))
+        right: (identifier))))
+  term: (application
+    name: (infix_application
+      left: (number)
+      name: (identifier)
+      right: (identifier))
+    element: (abstraction
+      element: (identifier_pattern
+        name: (identifier_pattern_name))
+      body: (block
+        term: (application
+          name: (access
+            name: (identifier)
+            value: (shorthand_access_identifier))
+          element: (string
+            interpolation: (interpolation
+              term: (identifier))))))))
 
 ==================
 type alias
