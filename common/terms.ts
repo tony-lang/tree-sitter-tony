@@ -17,7 +17,6 @@ export const _term = <RuleName extends string>($: GrammarSymbols<RuleName>) =>
     Prec.Term,
     choice(
       $.block,
-      $.sequence,
       $.abstraction,
       $.application,
       $.infix_application,
@@ -48,10 +47,6 @@ export const _term = <RuleName extends string>($: GrammarSymbols<RuleName>) =>
 
 export const block = <RuleName extends string>($: GrammarSymbols<RuleName>) =>
   buildBlock($, field('term', $._term))
-
-export const sequence = <RuleName extends string>(
-  $: GrammarSymbols<RuleName>,
-) => seq('do', buildBlock($, field('term', $._term)))
 
 export const export_ = <RuleName extends string>($: GrammarSymbols<RuleName>) =>
   seq('export', field('declaration', $.assignment))

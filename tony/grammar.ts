@@ -63,7 +63,6 @@ import {
   pure,
   return_,
   right_section,
-  sequence,
   spread,
   struct,
   ternary,
@@ -176,7 +175,6 @@ export = grammar({
 
     _term,
     block,
-    sequence,
     export: export_,
     assignment,
     class: class_,

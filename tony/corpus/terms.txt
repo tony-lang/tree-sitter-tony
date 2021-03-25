@@ -972,7 +972,7 @@ value<Type>
 sequencing
 ==================
 
-do {
+{
   y = 1
   z = pure x
   return y + z
@@ -981,7 +981,7 @@ do {
 ---
 
 (program
-  term: (sequence
+  term: (block
     term: (assignment
       pattern: (identifier_pattern
         name: (identifier_pattern_name))
