@@ -1002,8 +1002,8 @@ type alias
 ==================
 
 type Type = Type
-type Type = tag(Type)
-type Type = tag(Type) | tag(())
+type Type = tag Type
+type Type = tag Type | tag ()
 type Type<T, U <: Num> = T => U
 type GreaterThan<T>(x :: T) = [y :: T | y > x]
 

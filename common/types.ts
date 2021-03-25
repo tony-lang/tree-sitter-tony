@@ -195,9 +195,7 @@ export const tagged_type = <RuleName extends string>(
         'name',
         alias($._identifier_without_operators, $.identifier_pattern_name),
       ),
-      '(',
       field('type', $._type),
-      ')',
     ),
   )
 

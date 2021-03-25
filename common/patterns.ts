@@ -91,9 +91,7 @@ export const tagged_pattern = <RuleName extends string>(
 ) =>
   seq(
     field('name', alias($._identifier_without_operators, $.identifier)),
-    '(',
     field('pattern', $._pattern),
-    ')',
   )
 
 export const _literal_pattern = <RuleName extends string>(

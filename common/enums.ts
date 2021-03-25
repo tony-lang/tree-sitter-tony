@@ -32,6 +32,7 @@ export enum Prec {
   Pipeline = 18,
   ParametricTypeInstance = 19,
   Argument = 20,
+  Hole = 21,
 }
 
 export enum Dialect {
