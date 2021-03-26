@@ -21,8 +21,8 @@ export const declaration_member = <RuleName extends string>(
         field('name', alias($.js_identifier, $.identifier_pattern_name)),
       ),
     ),
-    '::',
-    field('type', $._type),
+    ':',
+    field('type', $._term),
   )
 
 export const js_identifier = () => token(seq(JS_ALPHA, repeat(JS_ALPHANUMERIC)))

@@ -202,8 +202,8 @@ list pattern
 tagged list pattern
 ============================================
 
-tag [b :: Type, c :: Type] = a
-tag [b :: Type, c :: Type, ...d :: Type = [1]] = a
+tag [b: Type, c: Type] = a
+tag [b: Type, c: Type, ...d: Type = [1]] = a
 
 ---
 
@@ -215,12 +215,10 @@ tag [b :: Type, c :: Type, ...d :: Type = [1]] = a
           pattern: (list_pattern
             element: (identifier_pattern
               name: (identifier_pattern_name)
-              type: (parametric_type
-                name: (type)))
+              type: (type))
             element: (identifier_pattern
               name: (identifier_pattern_name)
-              type: (parametric_type
-                name: (type))))))
+              type: (type)))))
     value: (identifier))
   term: (assignment
       pattern: (tagged_pattern
@@ -229,16 +227,13 @@ tag [b :: Type, c :: Type, ...d :: Type = [1]] = a
           pattern: (list_pattern
             element: (identifier_pattern
               name: (identifier_pattern_name)
-              type: (parametric_type
-                name: (type)))
+              type: (type))
             element: (identifier_pattern
               name: (identifier_pattern_name)
-              type: (parametric_type
-                name: (type)))
+              type: (type))
             rest: (identifier_pattern
               name: (identifier_pattern_name)
-              type: (parametric_type
-                name: (type))
+              type: (type)
               default: (list
                 element: (number))))))
     value: (identifier)))
