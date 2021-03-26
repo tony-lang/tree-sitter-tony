@@ -1,4 +1,4 @@
-import { IDENTIFIER, OPERATOR } from './constants'
+import { IDENTIFIER, OPERATOR, TYPE } from './constants'
 import {
   buildBlock,
   buildGenericType,
@@ -9,6 +9,7 @@ import {
   buildTypeConstraint,
   buildTypeDeclaration,
   commaSep1,
+  sep1,
 } from './util'
 import { Prec } from './enums'
 
@@ -17,7 +18,7 @@ export const _term = <RuleName extends string>($: GrammarSymbols<RuleName>) =>
     Prec.Term,
     choice(
       $.block,
-      $.abstraction,
+      $.function,
       $.application,
       $.infix_application,
       $._section,
@@ -36,9 +37,14 @@ export const _term = <RuleName extends string>($: GrammarSymbols<RuleName>) =>
       $.list_comprehension,
       $.parametric_type_instance,
       $.pure,
-      $.type_alias,
-      $.type_hint,
       $.hole,
+      $.type_hint,
+      $.data,
+      $.function_type,
+      $.optional_type,
+      $.map_type,
+      $.keyof_type,
+      $.type,
       $.identifier,
       $._literal,
       $.group,
@@ -72,8 +78,8 @@ export const class_member = <RuleName extends string>(
 ) =>
   seq(
     field('name', alias($.identifier, $.identifier_pattern_name)),
-    '::',
-    field('type', $._type),
+    ':',
+    field('type', $._term),
   )
 
 export const instance = <RuleName extends string>(
@@ -95,7 +101,7 @@ export const argument = <RuleName extends string>(
     choice(field('placeholder', '?'), field('value', $._element)),
   )
 
-export const abstraction = <RuleName extends string>(
+export const function_ = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
 ) =>
   prec.left(
@@ -256,10 +262,34 @@ export const infix_application = <RuleName extends string>(
         ),
       ),
       prec.left(
+        Prec.And,
+        seq(
+          field('left', $._term),
+          field('name', alias('&', $.identifier)),
+          field('right', $._term),
+        ),
+      ),
+      prec.left(
         Prec.Or,
         seq(
           field('left', $._term),
           field('name', alias('||', $.identifier)),
+          field('right', $._term),
+        ),
+      ),
+      prec.left(
+        Prec.Or,
+        seq(
+          field('left', $._term),
+          field('name', alias('|', $.identifier)),
+          field('right', $._term),
+        ),
+      ),
+      prec.left(
+        Prec.Difference,
+        seq(
+          field('left', $._term),
+          field('name', alias('\\', $.identifier)),
           field('right', $._term),
         ),
       ),
@@ -376,6 +406,7 @@ export const return_ = <RuleName extends string>($: GrammarSymbols<RuleName>) =>
 
 export const ternary = <RuleName extends string>($: GrammarSymbols<RuleName>) =>
   prec.right(
+    20,
     seq(
       field('condition', $._term),
       '?',
@@ -455,25 +486,12 @@ export const parametric_type_instance = <RuleName extends string>(
     Prec.ParametricTypeInstance,
     seq(
       field('name', $._term),
-      buildGenericType('typeArgument', $.parametric_type),
+      buildGenericType('typeArgument', $._term),
     ),
   )
 
 export const pure = <RuleName extends string>($: GrammarSymbols<RuleName>) =>
   prec.right(seq('pure', field('value', $._term)))
-
-export const type_alias = <RuleName extends string>(
-  $: GrammarSymbols<RuleName>,
-) =>
-  prec.right(seq('type', buildTypeDeclaration($), '=', field('type', $._type)))
-
-export const type_hint = <RuleName extends string>(
-  $: GrammarSymbols<RuleName>,
-) =>
-  prec.left(
-    Prec.TypeHint,
-    seq(field('value', $._term), 'as', field('type', $._type)),
-  )
 
 export const hole = <RuleName extends string>($: GrammarSymbols<RuleName>) =>
   prec(
@@ -481,10 +499,77 @@ export const hole = <RuleName extends string>($: GrammarSymbols<RuleName>) =>
     seq('?', field('name', alias($.identifier, $.identifier_pattern_name))),
   )
 
+export const type_hint = <RuleName extends string>(
+  $: GrammarSymbols<RuleName>,
+) =>
+  prec.left(
+    Prec.TypeHint,
+    seq(field('value', $._term), 'as', field('type', $._term)),
+  )
+
+export const data = <RuleName extends string>(
+  $: GrammarSymbols<RuleName>,
+) =>
+  prec.right(seq('data', buildTypeDeclaration($), '=', sep1('|')(field('constructor', $.data_constructor))))
+
+export const data_constructor = <RuleName extends string>(
+  $: GrammarSymbols<RuleName>,
+) =>
+  prec.right(seq(
+    field(
+      'name',
+      alias($._identifier_without_operators, $.identifier_pattern_name),
+    ),
+    optional(field('type', $._term)),
+  ))
+
+export const type_variable_declaration = <RuleName extends string>(
+  $: GrammarSymbols<RuleName>,
+) =>
+  prec.left(
+    seq(
+      field('name', alias($.type, $.type_variable_declaration_name)),
+      optional(buildTypeConstraint($)),
+    ),
+  )
+
+export const function_type = <RuleName extends string>(
+  $: GrammarSymbols<RuleName>,
+) =>
+  prec.right(
+    seq(field('from', $._term), '=>', field('to', $._term)),
+  )
+
+export const optional_type = <RuleName extends string>(
+  $: GrammarSymbols<RuleName>,
+) => prec.left(20, seq(field('type', $._term), '?'))
+
+export const map_type = <RuleName extends string>(
+  $: GrammarSymbols<RuleName>,
+) =>
+  seq(
+    '{',
+    '[',
+    optional(
+      seq(
+        field('property', alias($.type, $.type_variable_declaration_name)),
+        'in',
+      ),
+    ),
+    field('key', $._term),
+    ']',
+    ':',
+    field('value', $._term),
+    '}',
+  )
+
+export const keyof_type = <RuleName extends string>($: GrammarSymbols<RuleName>) =>
+  prec.right(seq('Keyof', field('type', $._term)))
+
+export const type = () => TYPE
+
 export const _identifier_without_operators = () => IDENTIFIER
-
 export const _operator = () => OPERATOR
-
 export const identifier = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
 ) => choice($._operator, $._identifier_without_operators)

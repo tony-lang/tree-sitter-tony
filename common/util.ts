@@ -1,6 +1,6 @@
 import { Prec } from './enums'
 
-const sep1 = (sep: string) => (rule: RuleOrLiteral) =>
+export const sep1 = (sep: string) => (rule: RuleOrLiteral) =>
   seq(rule, repeat(seq(sep, rule)))
 
 const sep2 = (sep: string) => (rule: RuleOrLiteral) =>
@@ -98,8 +98,8 @@ export const buildTypeConstraint = <RuleName extends string>(
   seq(
     '<:',
     choice(
-      field('constraint', $._type),
-      seq('(', sep2(';')(field('constraint', $._type)), ')'),
+      field('constraint', $._term),
+      seq('(', sep2(';')(field('constraint', $._term)), ')'),
     ),
   )
 
@@ -109,7 +109,6 @@ export const buildTypeDeclaration = <RuleName extends string>(
   seq(
     field('name', $.type),
     optional(buildGenericType('parameter', $.type_variable_declaration)),
-    optional(buildTuple($, $.identifier_pattern, false, true)),
   )
 
 export const buildIdentifierPattern = <RuleName extends string>(
@@ -120,7 +119,7 @@ export const buildIdentifierPattern = <RuleName extends string>(
     Prec.Pattern,
     seq(
       field('name', alias($.identifier, $.identifier_pattern_name)),
-      optional(seq('::', field('type', $._type))),
+      optional(seq(':', field('type', $._term))),
       allowDefaults ? optional(seq('=', field('default', $._term))) : seq(),
     ),
   )
