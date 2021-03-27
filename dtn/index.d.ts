@@ -176,6 +176,7 @@ export const enum SyntaxType {
   Application = "application",
   Argument = "argument",
   Assignment = "assignment",
+  BindingPattern = "binding_pattern",
   Block = "block",
   Boolean = "boolean",
   Case = "case",
@@ -194,7 +195,6 @@ export const enum SyntaxType {
   Hole = "hole",
   Identifier = "identifier",
   IdentifierPattern = "identifier_pattern",
-  IdentifierPatternName = "identifier_pattern_name",
   If = "if",
   Import = "import",
   ImportType = "import_type",
@@ -241,6 +241,7 @@ export const enum SyntaxType {
   RegexFlags = "regex_flags",
   RegexPattern = "regex_pattern",
   Type = "type",
+  TypePattern = "type_pattern",
   TypeVariableDeclarationName = "type_variable_declaration_name",
   WildcardPattern = "wildcard_pattern",
 }
@@ -299,6 +300,7 @@ export type SyntaxNode =
   | ApplicationNode
   | ArgumentNode
   | AssignmentNode
+  | BindingPatternNode
   | BlockNode
   | BooleanNode
   | CaseNode
@@ -317,7 +319,6 @@ export type SyntaxNode =
   | HoleNode
   | IdentifierNode
   | IdentifierPatternNode
-  | IdentifierPatternNameNode
   | IfNode
   | ImportNode
   | ImportTypeNode
@@ -404,6 +405,7 @@ export type SyntaxNode =
   | UnnamedNode<"then">
   | UnnamedNode<"true">
   | TypeNode
+  | TypePatternNode
   | TypeVariableDeclarationNameNode
   | UnnamedNode<SyntaxType.When>
   | WildcardPatternNode
@@ -433,8 +435,15 @@ export interface ArgumentNode extends NamedNodeBase {
 
 export interface AssignmentNode extends NamedNodeBase {
   type: SyntaxType.Assignment;
-  patternNode: DestructuringPatternNode | IdentifierPatternNode | PatternGroupNode | TaggedPatternNode;
+  patternNode: BindingPatternNode | DestructuringPatternNode | PatternGroupNode | TaggedPatternNode;
   valueNode: AccessNode | ApplicationNode | AssignmentNode | BlockNode | BooleanNode | CaseNode | ClassNode | DataNode | ExportNode | FunctionNode | FunctionTypeNode | GroupNode | HoleNode | IdentifierNode | IfNode | InfixApplicationNode | InstanceNode | KeyofTypeNode | LeftSectionNode | ListNode | ListComprehensionNode | MapTypeNode | NumberNode | OptionalTypeNode | ParametricTypeInstanceNode | PureNode | RegexNode | ReturnNode | RightSectionNode | StringNode | StructNode | TernaryNode | TupleNode | TypeNode | TypeHintNode;
+}
+
+export interface BindingPatternNode extends NamedNodeBase {
+  type: SyntaxType.BindingPattern;
+  defaultNode?: AccessNode | ApplicationNode | AssignmentNode | BlockNode | BooleanNode | CaseNode | ClassNode | DataNode | ExportNode | FunctionNode | FunctionTypeNode | GroupNode | HoleNode | IdentifierNode | IfNode | InfixApplicationNode | InstanceNode | KeyofTypeNode | LeftSectionNode | ListNode | ListComprehensionNode | MapTypeNode | NumberNode | OptionalTypeNode | ParametricTypeInstanceNode | PureNode | RegexNode | ReturnNode | RightSectionNode | StringNode | StructNode | TernaryNode | TupleNode | TypeNode | TypeHintNode;
+  nameNode: IdentifierPatternNode | TypePatternNode;
+  typeNode?: AccessNode | ApplicationNode | AssignmentNode | BlockNode | BooleanNode | CaseNode | ClassNode | DataNode | ExportNode | FunctionNode | FunctionTypeNode | GroupNode | HoleNode | IdentifierNode | IfNode | InfixApplicationNode | InstanceNode | KeyofTypeNode | LeftSectionNode | ListNode | ListComprehensionNode | MapTypeNode | NumberNode | OptionalTypeNode | ParametricTypeInstanceNode | PureNode | RegexNode | ReturnNode | RightSectionNode | StringNode | StructNode | TernaryNode | TupleNode | TypeNode | TypeHintNode;
 }
 
 export interface BlockNode extends NamedNodeBase {
@@ -462,7 +471,7 @@ export interface ClassNode extends NamedNodeBase {
 
 export interface ClassMemberNode extends NamedNodeBase {
   type: SyntaxType.ClassMember;
-  nameNode: IdentifierPatternNameNode;
+  nameNode: IdentifierPatternNode;
   typeNode: AccessNode | ApplicationNode | AssignmentNode | BlockNode | BooleanNode | CaseNode | ClassNode | DataNode | ExportNode | FunctionNode | FunctionTypeNode | GroupNode | HoleNode | IdentifierNode | IfNode | InfixApplicationNode | InstanceNode | KeyofTypeNode | LeftSectionNode | ListNode | ListComprehensionNode | MapTypeNode | NumberNode | OptionalTypeNode | ParametricTypeInstanceNode | PureNode | RegexNode | ReturnNode | RightSectionNode | StringNode | StructNode | TernaryNode | TupleNode | TypeNode | TypeHintNode;
 }
 
@@ -475,7 +484,7 @@ export interface DataNode extends NamedNodeBase {
 
 export interface DataConstructorNode extends NamedNodeBase {
   type: SyntaxType.DataConstructor;
-  nameNode: IdentifierPatternNameNode;
+  nameNode: IdentifierPatternNode;
   typeNode?: AccessNode | ApplicationNode | AssignmentNode | BlockNode | BooleanNode | CaseNode | ClassNode | DataNode | ExportNode | FunctionNode | FunctionTypeNode | GroupNode | HoleNode | IdentifierNode | IfNode | InfixApplicationNode | InstanceNode | KeyofTypeNode | LeftSectionNode | ListNode | ListComprehensionNode | MapTypeNode | NumberNode | OptionalTypeNode | ParametricTypeInstanceNode | PureNode | RegexNode | ReturnNode | RightSectionNode | StringNode | StructNode | TernaryNode | TupleNode | TypeNode | TypeHintNode;
 }
 
@@ -487,14 +496,14 @@ export interface DeclarationNode extends NamedNodeBase {
 
 export interface DeclarationMemberNode extends NamedNodeBase {
   type: SyntaxType.DeclarationMember;
-  asNode: IdentifierPatternNameNode;
-  nameNode?: IdentifierPatternNameNode;
+  asNode: IdentifierPatternNode;
+  nameNode?: IdentifierPatternNode;
   typeNode: AccessNode | ApplicationNode | AssignmentNode | BlockNode | BooleanNode | CaseNode | ClassNode | DataNode | ExportNode | FunctionNode | FunctionTypeNode | GroupNode | HoleNode | IdentifierNode | IfNode | InfixApplicationNode | InstanceNode | KeyofTypeNode | LeftSectionNode | ListNode | ListComprehensionNode | MapTypeNode | NumberNode | OptionalTypeNode | ParametricTypeInstanceNode | PureNode | RegexNode | ReturnNode | RightSectionNode | StringNode | StructNode | TernaryNode | TupleNode | TypeNode | TypeHintNode;
 }
 
 export interface DestructuringPatternNode extends NamedNodeBase {
   type: SyntaxType.DestructuringPattern;
-  aliasNode?: IdentifierPatternNameNode;
+  aliasNode?: IdentifierPatternNode | TypePatternNode;
   patternNode: ListPatternNode | StructPatternNode | TuplePatternNode;
 }
 
@@ -512,8 +521,8 @@ export interface ExportNode extends NamedNodeBase {
 export interface FunctionNode extends NamedNodeBase {
   type: SyntaxType.Function;
   bodyNode: AccessNode | ApplicationNode | AssignmentNode | BlockNode | BooleanNode | CaseNode | ClassNode | DataNode | ExportNode | FunctionNode | FunctionTypeNode | GroupNode | HoleNode | IdentifierNode | IfNode | InfixApplicationNode | InstanceNode | KeyofTypeNode | LeftSectionNode | ListNode | ListComprehensionNode | MapTypeNode | NumberNode | OptionalTypeNode | ParametricTypeInstanceNode | PureNode | RegexNode | ReturnNode | RightSectionNode | StringNode | StructNode | TernaryNode | TupleNode | TypeNode | TypeHintNode;
-  elementNodes: (BooleanNode | DestructuringPatternNode | IdentifierPatternNode | NumberNode | PatternGroupNode | RawStringNode | RegexNode | TaggedPatternNode | WildcardPatternNode)[];
-  restNode?: IdentifierPatternNode;
+  elementNodes: (BindingPatternNode | BooleanNode | DestructuringPatternNode | NumberNode | PatternGroupNode | RawStringNode | RegexNode | TaggedPatternNode | WildcardPatternNode)[];
+  restNode?: BindingPatternNode;
   typeParameterNodes: TypeVariableDeclarationNode[];
 }
 
@@ -530,7 +539,7 @@ export interface GroupNode extends NamedNodeBase {
 
 export interface HoleNode extends NamedNodeBase {
   type: SyntaxType.Hole;
-  nameNode: IdentifierPatternNameNode;
+  nameNode: IdentifierPatternNode;
 }
 
 export interface IdentifierNode extends NamedNodeBase {
@@ -539,13 +548,6 @@ export interface IdentifierNode extends NamedNodeBase {
 
 export interface IdentifierPatternNode extends NamedNodeBase {
   type: SyntaxType.IdentifierPattern;
-  defaultNode?: AccessNode | ApplicationNode | AssignmentNode | BlockNode | BooleanNode | CaseNode | ClassNode | DataNode | ExportNode | FunctionNode | FunctionTypeNode | GroupNode | HoleNode | IdentifierNode | IfNode | InfixApplicationNode | InstanceNode | KeyofTypeNode | LeftSectionNode | ListNode | ListComprehensionNode | MapTypeNode | NumberNode | OptionalTypeNode | ParametricTypeInstanceNode | PureNode | RegexNode | ReturnNode | RightSectionNode | StringNode | StructNode | TernaryNode | TupleNode | TypeNode | TypeHintNode;
-  nameNode: IdentifierPatternNameNode;
-  typeNode?: AccessNode | ApplicationNode | AssignmentNode | BlockNode | BooleanNode | CaseNode | ClassNode | DataNode | ExportNode | FunctionNode | FunctionTypeNode | GroupNode | HoleNode | IdentifierNode | IfNode | InfixApplicationNode | InstanceNode | KeyofTypeNode | LeftSectionNode | ListNode | ListComprehensionNode | MapTypeNode | NumberNode | OptionalTypeNode | ParametricTypeInstanceNode | PureNode | RegexNode | ReturnNode | RightSectionNode | StringNode | StructNode | TernaryNode | TupleNode | TypeNode | TypeHintNode;
-}
-
-export interface IdentifierPatternNameNode extends NamedNodeBase {
-  type: SyntaxType.IdentifierPatternName;
 }
 
 export interface IfNode extends NamedNodeBase {
@@ -618,14 +620,14 @@ export interface ListComprehensionConditionNode extends NamedNodeBase {
 
 export interface ListComprehensionGeneratorNode extends NamedNodeBase {
   type: SyntaxType.ListComprehensionGenerator;
-  nameNode: IdentifierPatternNameNode;
+  nameNode: IdentifierPatternNode;
   valueNode: AccessNode | ApplicationNode | AssignmentNode | BlockNode | BooleanNode | CaseNode | ClassNode | DataNode | ExportNode | FunctionNode | FunctionTypeNode | GroupNode | HoleNode | IdentifierNode | IfNode | InfixApplicationNode | InstanceNode | KeyofTypeNode | LeftSectionNode | ListNode | ListComprehensionNode | MapTypeNode | NumberNode | OptionalTypeNode | ParametricTypeInstanceNode | PureNode | RegexNode | ReturnNode | RightSectionNode | StringNode | StructNode | TernaryNode | TupleNode | TypeNode | TypeHintNode;
 }
 
 export interface ListPatternNode extends NamedNodeBase {
   type: SyntaxType.ListPattern;
-  elementNodes: (BooleanNode | DestructuringPatternNode | IdentifierPatternNode | NumberNode | PatternGroupNode | RawStringNode | RegexNode | TaggedPatternNode | WildcardPatternNode)[];
-  restNode?: IdentifierPatternNode;
+  elementNodes: (BindingPatternNode | BooleanNode | DestructuringPatternNode | NumberNode | PatternGroupNode | RawStringNode | RegexNode | TaggedPatternNode | WildcardPatternNode)[];
+  restNode?: BindingPatternNode;
 }
 
 export interface MapTypeNode extends NamedNodeBase {
@@ -644,7 +646,7 @@ export interface MemberNode extends NamedNodeBase {
 export interface MemberPatternNode extends NamedNodeBase {
   type: SyntaxType.MemberPattern;
   keyNode: AccessNode | ApplicationNode | AssignmentNode | BlockNode | BooleanNode | CaseNode | ClassNode | DataNode | ExportNode | FunctionNode | FunctionTypeNode | GroupNode | HoleNode | IdentifierNode | IfNode | InfixApplicationNode | InstanceNode | KeyofTypeNode | LeftSectionNode | ListNode | ListComprehensionNode | MapTypeNode | NumberNode | OptionalTypeNode | ParametricTypeInstanceNode | PureNode | RegexNode | ReturnNode | RightSectionNode | ShorthandMemberIdentifierNode | StringNode | StructNode | TernaryNode | TupleNode | TypeNode | TypeHintNode;
-  valueNode: BooleanNode | DestructuringPatternNode | IdentifierPatternNode | NumberNode | PatternGroupNode | RawStringNode | RegexNode | TaggedPatternNode | WildcardPatternNode;
+  valueNode: BindingPatternNode | BooleanNode | DestructuringPatternNode | NumberNode | PatternGroupNode | RawStringNode | RegexNode | TaggedPatternNode | WildcardPatternNode;
 }
 
 export interface NumberNode extends NamedNodeBase {
@@ -664,7 +666,7 @@ export interface ParametricTypeInstanceNode extends NamedNodeBase {
 
 export interface PatternGroupNode extends NamedNodeBase {
   type: SyntaxType.PatternGroup;
-  patternNode: BooleanNode | DestructuringPatternNode | IdentifierPatternNode | NumberNode | PatternGroupNode | RawStringNode | RegexNode | TaggedPatternNode | WildcardPatternNode;
+  patternNode: BindingPatternNode | BooleanNode | DestructuringPatternNode | NumberNode | PatternGroupNode | RawStringNode | RegexNode | TaggedPatternNode | WildcardPatternNode;
 }
 
 export interface ProgramNode extends NamedNodeBase {
@@ -714,7 +716,7 @@ export interface ShorthandMemberIdentifierNode extends NamedNodeBase {
 export interface ShorthandMemberPatternNode extends NamedNodeBase {
   type: SyntaxType.ShorthandMemberPattern;
   defaultNode?: AccessNode | ApplicationNode | AssignmentNode | BlockNode | BooleanNode | CaseNode | ClassNode | DataNode | ExportNode | FunctionNode | FunctionTypeNode | GroupNode | HoleNode | IdentifierNode | IfNode | InfixApplicationNode | InstanceNode | KeyofTypeNode | LeftSectionNode | ListNode | ListComprehensionNode | MapTypeNode | NumberNode | OptionalTypeNode | ParametricTypeInstanceNode | PureNode | RegexNode | ReturnNode | RightSectionNode | StringNode | StructNode | TernaryNode | TupleNode | TypeNode | TypeHintNode;
-  nameNode: IdentifierPatternNameNode;
+  nameNode: IdentifierPatternNode | TypePatternNode;
   typeNode?: AccessNode | ApplicationNode | AssignmentNode | BlockNode | BooleanNode | CaseNode | ClassNode | DataNode | ExportNode | FunctionNode | FunctionTypeNode | GroupNode | HoleNode | IdentifierNode | IfNode | InfixApplicationNode | InstanceNode | KeyofTypeNode | LeftSectionNode | ListNode | ListComprehensionNode | MapTypeNode | NumberNode | OptionalTypeNode | ParametricTypeInstanceNode | PureNode | RegexNode | ReturnNode | RightSectionNode | StringNode | StructNode | TernaryNode | TupleNode | TypeNode | TypeHintNode;
 }
 
@@ -737,13 +739,13 @@ export interface StructNode extends NamedNodeBase {
 export interface StructPatternNode extends NamedNodeBase {
   type: SyntaxType.StructPattern;
   memberNodes: (MemberPatternNode | ShorthandMemberPatternNode)[];
-  restNode?: IdentifierPatternNode;
+  restNode?: BindingPatternNode;
 }
 
 export interface TaggedPatternNode extends NamedNodeBase {
   type: SyntaxType.TaggedPattern;
   nameNode: IdentifierNode;
-  patternNode: BooleanNode | DestructuringPatternNode | IdentifierPatternNode | NumberNode | PatternGroupNode | RawStringNode | RegexNode | TaggedPatternNode | WildcardPatternNode;
+  patternNode: BindingPatternNode | BooleanNode | DestructuringPatternNode | NumberNode | PatternGroupNode | RawStringNode | RegexNode | TaggedPatternNode | WildcardPatternNode;
 }
 
 export interface TernaryNode extends NamedNodeBase {
@@ -760,8 +762,8 @@ export interface TupleNode extends NamedNodeBase {
 
 export interface TuplePatternNode extends NamedNodeBase {
   type: SyntaxType.TuplePattern;
-  elementNodes: (BooleanNode | DestructuringPatternNode | IdentifierPatternNode | NumberNode | PatternGroupNode | RawStringNode | RegexNode | TaggedPatternNode | WildcardPatternNode)[];
-  restNode?: IdentifierPatternNode;
+  elementNodes: (BindingPatternNode | BooleanNode | DestructuringPatternNode | NumberNode | PatternGroupNode | RawStringNode | RegexNode | TaggedPatternNode | WildcardPatternNode)[];
+  restNode?: BindingPatternNode;
 }
 
 export interface TypeHintNode extends NamedNodeBase {
@@ -779,7 +781,7 @@ export interface TypeVariableDeclarationNode extends NamedNodeBase {
 export interface WhenNode extends NamedNodeBase {
   type: SyntaxType.When;
   bodyNode: AccessNode | ApplicationNode | AssignmentNode | BlockNode | BooleanNode | CaseNode | ClassNode | DataNode | ExportNode | FunctionNode | FunctionTypeNode | GroupNode | HoleNode | IdentifierNode | IfNode | InfixApplicationNode | InstanceNode | KeyofTypeNode | LeftSectionNode | ListNode | ListComprehensionNode | MapTypeNode | NumberNode | OptionalTypeNode | ParametricTypeInstanceNode | PureNode | RegexNode | ReturnNode | RightSectionNode | StringNode | StructNode | TernaryNode | TupleNode | TypeNode | TypeHintNode;
-  patternNodes: (BooleanNode | DestructuringPatternNode | IdentifierPatternNode | NumberNode | PatternGroupNode | RawStringNode | RegexNode | TaggedPatternNode | WildcardPatternNode)[];
+  patternNodes: (BindingPatternNode | BooleanNode | DestructuringPatternNode | NumberNode | PatternGroupNode | RawStringNode | RegexNode | TaggedPatternNode | WildcardPatternNode)[];
 }
 
 export interface CommentNode extends NamedNodeBase {
@@ -800,6 +802,10 @@ export interface RegexPatternNode extends NamedNodeBase {
 
 export interface TypeNode extends NamedNodeBase {
   type: SyntaxType.Type;
+}
+
+export interface TypePatternNode extends NamedNodeBase {
+  type: SyntaxType.TypePattern;
 }
 
 export interface TypeVariableDeclarationNameNode extends NamedNodeBase {

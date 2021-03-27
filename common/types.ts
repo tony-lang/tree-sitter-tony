@@ -1,11 +1,11 @@
-import { Dialect, Prec } from './enums'
-import {
-  buildGenericType,
-  buildStruct,
-  buildTuple,
-  buildTypeConstraint,
-  commaSep1,
-} from './util'
+// import { Dialect, Prec } from './dialects'
+// import {
+//   buildGenericType,
+//   buildStruct,
+//   buildTuple,
+//   buildTypeConstraint,
+//   commaSep1,
+// } from './util'
 
 // export const _term_type = <RuleName extends string>(
 //   $: GrammarSymbols<RuleName>,
@@ -99,7 +99,7 @@ import {
 // ) =>
 //   prec.left(
 //     seq(
-//       field('name', alias($.identifier, $.identifier_pattern_name)),
+//       field('name', alias($.identifier, $.identifier_pattern)),
 //       '::',
 //       field('type', $._type),
 //     ),

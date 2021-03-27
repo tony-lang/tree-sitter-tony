@@ -15,7 +15,7 @@
     "types": "yarn types-tony && yarn types-dtn",
     "types-tony": "cd tony && node ../node_modules/@asgerf/dts-tree-sitter/build/src . > index.d.ts",
     "types-dtn": "cd dtn && node ../node_modules/@asgerf/dts-tree-sitter/build/src . > index.d.ts",
-    "build": "yarn tsc && yarn generate && yarn types",
+    "build": "yarn tsc && yarn generate-tony && yarn types",
     "prettierlint": "prettier --check **/*.ts",
     "eslint": "eslint . --ext .ts",
     "lint": "yarn prettierlint && yarn eslint",

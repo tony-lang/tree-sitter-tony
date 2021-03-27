@@ -1,4 +1,4 @@
-import { Dialect, Prec } from './enums'
+import { Dialect } from './dialects'
 import { commaSep1 } from './util'
 
 export const import_ = <RuleName extends string>($: GrammarSymbols<RuleName>) =>
@@ -16,7 +16,6 @@ export const _import_body_constructor = (dialect: Dialect) => <
   switch (dialect) {
     case Dialect.DTN:
       return prec.left(
-        Prec.Pattern,
         seq(
           '{',
           commaSep1(field('import', $.import_type)),
@@ -27,17 +26,13 @@ export const _import_body_constructor = (dialect: Dialect) => <
       )
     case Dialect.Tony:
       return prec.left(
-        Prec.Pattern,
         seq(
           choice(
-            field('default', alias($.identifier, $.identifier_pattern_name)),
+            field('default', alias($.identifier, $.identifier_pattern)),
             seq(
               optional(
                 seq(
-                  field(
-                    'default',
-                    alias($.identifier, $.identifier_pattern_name),
-                  ),
+                  field('default', alias($.identifier, $.identifier_pattern)),
                   ',',
                 ),
               ),
@@ -60,9 +55,9 @@ export const import_identifier = <RuleName extends string>(
 ) =>
   seq(
     optional(
-      seq(field('name', alias($.identifier, $.identifier_pattern_name)), 'as'),
+      seq(field('name', alias($.identifier, $.identifier_pattern)), 'as'),
     ),
-    field('as', alias($.identifier, $.identifier_pattern_name)),
+    field('as', alias($.identifier, $.identifier_pattern)),
   )
 
 export const import_type = <RuleName extends string>(
