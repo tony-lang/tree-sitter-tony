@@ -11,8 +11,8 @@ a :: {
 
 (program
   term: (assignment
-    pattern: (identifier_pattern
-      name: (identifier_pattern_name)
+    pattern: (binding_pattern
+      name: (identifier_pattern)
       type: (struct_type
         member: (member_type
           key: (shorthand_member_identifier)
@@ -35,8 +35,8 @@ a :: { [T in Type]: U } = 1
 
 (program
   term: (assignment
-    pattern: (identifier_pattern
-      name: (identifier_pattern_name)
+    pattern: (binding_pattern
+      name: (identifier_pattern)
       type: (map_type
         key: (parametric_type
           name: (type))
@@ -44,8 +44,8 @@ a :: { [T in Type]: U } = 1
           name: (type))))
     value: (number))
   term: (assignment
-    pattern: (identifier_pattern
-      name: (identifier_pattern_name)
+    pattern: (binding_pattern
+      name: (identifier_pattern)
       type: (map_type
         property: (type_variable_declaration_name)
         key: (parametric_type
@@ -64,8 +64,8 @@ a :: (Type, Type) = 1
 
 (program
   term: (assignment
-    pattern: (identifier_pattern
-      name: (identifier_pattern_name)
+    pattern: (binding_pattern
+      name: (identifier_pattern)
       type: (tuple_type
         element: (parametric_type
           name: (type))
@@ -83,8 +83,8 @@ a :: [Type] = 1
 
 (program
   term: (assignment
-    pattern: (identifier_pattern
-      name: (identifier_pattern_name)
+    pattern: (binding_pattern
+      name: (identifier_pattern)
       type: (list_type
         element: (parametric_type
           name: (type))))
@@ -146,8 +146,8 @@ a :: Type => (Type => Type) => T = 1
 
 (program
   term: (assignment
-    pattern: (identifier_pattern
-      name: (identifier_pattern_name)
+    pattern: (binding_pattern
+      name: (identifier_pattern)
       type: (curried_type
         from: (parametric_type
           name: (type))
@@ -159,8 +159,8 @@ a :: Type => (Type => Type) => T = 1
             name: (type)))))
     value: (number))
   term: (assignment
-    pattern: (identifier_pattern
-      name: (identifier_pattern_name)
+    pattern: (binding_pattern
+      name: (identifier_pattern)
       type: (curried_type
         from: (parametric_type
           name: (type))
@@ -236,8 +236,8 @@ a :: Type | Type & Type | Type = 1
 
 (program
   term: (assignment
-    pattern: (identifier_pattern
-      name: (identifier_pattern_name)
+    pattern: (binding_pattern
+      name: (identifier_pattern)
       type: (union_type
         left: (parametric_type
           name: (type))
@@ -261,8 +261,8 @@ a :: Type | Type \ Type = 1
 
 (program
   term: (assignment
-    pattern: (identifier_pattern
-      name: (identifier_pattern_name)
+    pattern: (binding_pattern
+      name: (identifier_pattern)
       type: (subtraction_type
         left: (union_type
           left: (parametric_type
@@ -283,8 +283,8 @@ a :: Type <: (Type; Type) ? Type <: Type ? Type : Type : Type <: Type ? Type : T
 
 (program
   term: (assignment
-    pattern: (identifier_pattern
-      name: (identifier_pattern_name)
+    pattern: (binding_pattern
+      name: (identifier_pattern)
       type: (conditional_type
         type: (parametric_type
           name: (type))
@@ -322,8 +322,8 @@ a :: keyof Type = 1
 
 (program
   term: (assignment
-    pattern: (identifier_pattern
-      name: (identifier_pattern_name)
+    pattern: (binding_pattern
+      name: (identifier_pattern)
       type: (keyof
         type: (parametric_type
           name: (type))))
@@ -339,14 +339,14 @@ a :: Type<[(a :: Type, Type) | a > 0, a < 10]> = 1
 
 (program
   term: (assignment
-    pattern: (identifier_pattern
-      name: (identifier_pattern_name)
+    pattern: (binding_pattern
+      name: (identifier_pattern)
       type: (parametric_type
         name: (type)
         argument: (refinement_type
           generator: (tuple_type
             element: (refinement_type_declaration
-              name: (identifier_pattern_name)
+              name: (identifier_pattern)
               type: (parametric_type
                 name: (type)))
             element: (parametric_type
@@ -362,36 +362,14 @@ a :: Type<[(a :: Type, Type) | a > 0, a < 10]> = 1
     value: (number)))
 
 ==================
-labeled type
-==================
-
-a as label: Type
-
----
-
-(program
-  term: (type_hint
-    value: (identifier)
-    type: (labeled_type
-      label: (identifier)
-      type: (parametric_type
-        name: (type)))))
-
-==================
 type
 ==================
 
-a as Type
-a as AaA0Z
+Type
+AaA0Z
 
 ---
 
 (program
-  term: (type_hint
-    value: (identifier)
-    type: (parametric_type
-      name: (type)))
-  term: (type_hint
-    value: (identifier)
-    type: (parametric_type
-      name: (type))))
+  term: (type)
+  term: (type))
