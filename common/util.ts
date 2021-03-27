@@ -123,7 +123,7 @@ export const buildBindingPattern = <RuleName extends string>(
         ),
       ),
       optional(seq(':', field('type', $._term))),
-      allowDefaults ? optional(seq(':=', field('default', $._term))) : seq(),
+      allowDefaults ? optional(seq('=', field('default', $._term))) : seq(),
     ),
   )
 
