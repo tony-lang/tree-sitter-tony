@@ -330,38 +330,6 @@ a :: keyof Type = 1
     value: (number)))
 
 ==================
-refinement type
-==================
-
-a :: Type<[(a :: Type, Type) | a > 0, a < 10]> = 1
-
----
-
-(program
-  term: (assignment
-    pattern: (binding_pattern
-      name: (identifier_pattern)
-      type: (parametric_type
-        name: (type)
-        argument: (refinement_type
-          generator: (tuple_type
-            element: (refinement_type_declaration
-              name: (identifier_pattern)
-              type: (parametric_type
-                name: (type)))
-            element: (parametric_type
-              name: (type)))
-          predicate: (infix_application
-            left: (identifier)
-            name: (identifier)
-            right: (number))
-          predicate: (infix_application
-            left: (identifier)
-            name: (identifier)
-            right: (number)))))
-    value: (number)))
-
-==================
 type
 ==================
 

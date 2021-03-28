@@ -22,7 +22,6 @@ export const _assignable_pattern = <RuleName extends string>(
   choice(
     alias($.root_binding_pattern, $.binding_pattern),
     $.destructuring_pattern,
-    $.tag_pattern,
     $.pattern_group,
   )
 

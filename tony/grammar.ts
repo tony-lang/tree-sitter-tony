@@ -36,6 +36,7 @@ import {
   _operator,
   _section,
   _section_identifier,
+  _statement,
   _term,
   access,
   application,
@@ -51,6 +52,7 @@ import {
   extends_type,
   function_,
   function_type,
+  generator,
   group,
   hole,
   identifier,
@@ -60,7 +62,6 @@ import {
   left_section,
   list,
   list_comprehension,
-  generator,
   map_type,
   member,
   optional_type,
@@ -105,12 +106,17 @@ export = grammar({
   word: ($) => $._identifier_without_operators,
 
   conflicts: ($) => [
+    [$._term, $.destructuring_pattern],
+
+    [$.binding_pattern],
     [$._term, $.binding_pattern],
+    [$.root_binding_pattern],
     [$._term, $.root_binding_pattern],
     [$.binding_pattern, $.root_binding_pattern],
     [$._term, $.binding_pattern, $.root_binding_pattern],
 
     [$.member, $.binding_pattern],
+    [$.member, $.class_member],
     [$.member, $.class_member, $.binding_pattern],
 
     [$.list, $.list_pattern],
@@ -125,9 +131,21 @@ export = grammar({
 
     // investigate
     [$.static_application, $.infix_application],
+    [$._term, $.struct],
     [$._term, $.struct, $.binding_pattern],
     [$.import_type, $.binding_pattern],
     [$.import_identifier, $.binding_pattern],
+
+    [$._term, $.hole, $.destructuring_pattern],
+    [$._term, $.hole, $.root_binding_pattern],
+    [$.tuple_pattern, $.application],
+    [$.tuple_pattern, $.tuple, $.application],
+
+    [$.infix_application, $.application],
+    [$.infix_application, $.application, $.static_application],
+
+    [$.access, $._element],
+    [$.access, $._term],
   ],
 
   precedences,
@@ -139,7 +157,7 @@ export = grammar({
         repeat(
           seq(field('import', choice($.import, $.exported_import)), $._newline),
         ),
-        repeat(seq(field('term', $._term), $._newline)),
+        repeat(seq(field('term', $._statement), $._newline)),
       ),
 
     hash_bang_line,
@@ -151,6 +169,7 @@ export = grammar({
     import_identifier,
     import_type,
 
+    _statement,
     _term,
     block,
     export: export_,

@@ -503,20 +503,20 @@ a.b[c]
 
 (program
   term: (access
-      name: (identifier)
-      value: (number))
+      left: (identifier)
+      right: (number))
   term: (application
     name: (access
-      name: (identifier)
-      value: (shorthand_access_identifier))
+      left: (identifier)
+      right: (shorthand_access_identifier))
     element: (argument
       value: (number)))
   term: (access
-    name: (infix_application
+    left: (infix_application
       left: (identifier)
       name: (identifier)
       right: (identifier))
-    value: (identifier)))
+    right: (identifier)))
 
 ==================
 assignment
@@ -868,7 +868,7 @@ list comprehension
       left: (identifier)
       name: (identifier)
       right: (number))
-    generator: (list_comprehension_generator
+    generator: (generator
       name: (identifier_pattern)
       value: (infix_application
         left: (number)
@@ -879,55 +879,52 @@ list comprehension
       left: (identifier)
       name: (identifier)
       right: (number))
-    generator: (list_comprehension_generator
+    generator: (generator
       name: (identifier_pattern)
       value: (infix_application
         left: (number)
         name: (identifier)
         right: (number)))
-    condition: (list_comprehension_condition
-      value: (infix_application
-        left: (infix_application
-          left: (identifier)
-          name: (identifier)
-          right: (number))
+    condition: (infix_application
+      left: (infix_application
+        left: (identifier)
         name: (identifier)
-        right: (number))))
+        right: (number))
+      name: (identifier)
+      right: (number)))
   term: (list_comprehension
     body: (list
       element: (identifier)
       element: (identifier))
-    generator: (list_comprehension_generator
+    generator: (generator
       name: (identifier_pattern)
       value: (infix_application
         left: (number)
         name: (identifier)
         right: (number)))
-    condition: (list_comprehension_condition
-      value: (infix_application
-        left: (infix_application
-          left: (identifier)
-          name: (identifier)
-          right: (number))
+    condition: (infix_application
+      left: (infix_application
+        left: (identifier)
         name: (identifier)
-        right: (number)))
-    generator: (list_comprehension_generator
+        right: (number))
+      name: (identifier)
+      right: (number))
+    generator: (generator
       name: (identifier_pattern)
       value: (infix_application
         left: (number)
         name: (identifier)
         right: (number)))
-    condition: (list_comprehension_condition
-      value: (infix_application
-        left: (infix_application
-          left: (identifier)
-          name: (identifier)
-          right: (number))
+    condition: (infix_application
+      left: (infix_application
+        left: (identifier)
         name: (identifier)
-        right: (number)))))
+        right: (number))
+      name: (identifier)
+      right: (number))))
 
 ==================
-parametric type instance
+static function / application
 ==================
 
 value<Type>
@@ -936,19 +933,19 @@ value<Type>
 ---
 
 (program
-  term: (parametric_type_instance
-    name: (identifier)
-    typeArgument: (type))
-  term: (parametric_type_instance
-    name: (group
-      term: (function
-        typeParameter: (type_variable_declaration
-          name: (type_variable_declaration_name))
-        element: (binding_pattern
-          name: (identifier_pattern)
-          type: (type))
-        body: (identifier)))
-    typeArgument: (type)))
+  term: (static_application
+    value: (identifier)
+    argument: (type))
+  term: (static_application
+    value: (group
+      term: (static_function
+        parameter: (type)
+        value: (function
+          element: (binding_pattern
+            name: (identifier_pattern)
+            type: (type))
+          body: (identifier))))
+    argument: (type)))
 
 ==================
 block
@@ -1048,15 +1045,15 @@ data Type = tag Type | tag
 (program
   term: (data
     name: (type)
-    constructor: (data_constructor
+    constructor: (tag
       name: (identifier_pattern)
       type: (type)))
   term: (data
     name: (type)
-    constructor: (data_constructor
+    constructor: (tag
       name: (identifier_pattern)
       type: (type))
-    constructor: (data_constructor
+    constructor: (tag
       name: (identifier_pattern))))
 
 ==================

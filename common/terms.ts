@@ -1,5 +1,4 @@
 import { IDENTIFIER, OPERATOR, TYPE } from './constants'
-import { Operator } from './precedences'
 import {
   buildBlock,
   buildList,
@@ -9,6 +8,11 @@ import {
   commaSep1,
   sep1,
 } from './util'
+import { Operator } from './precedences'
+
+export const _statement = <RuleName extends string>(
+  $: GrammarSymbols<RuleName>,
+) => choice($._term, $.assignment, $.export, $.class, $.instance, $.data)
 
 export const _term = <RuleName extends string>($: GrammarSymbols<RuleName>) =>
   choice(
@@ -18,13 +22,9 @@ export const _term = <RuleName extends string>($: GrammarSymbols<RuleName>) =>
     $.infix_application,
     $._section,
     $.access,
-    $.assignment,
-    $.export,
     $.return,
     $.conditional,
     $.case,
-    $.class,
-    $.instance,
     $.struct,
     $.tuple,
     $.list,
@@ -34,7 +34,6 @@ export const _term = <RuleName extends string>($: GrammarSymbols<RuleName>) =>
     $.static_function,
     $.static_application,
     $.type_hint,
-    $.data,
     $.extends_type,
     $.function_type,
     $.optional_type,
@@ -47,7 +46,7 @@ export const _term = <RuleName extends string>($: GrammarSymbols<RuleName>) =>
   )
 
 export const block = <RuleName extends string>($: GrammarSymbols<RuleName>) =>
-  buildBlock($, field('term', $._term))
+  buildBlock($, field('term', choice($._term, $.assignment)))
 
 export const _immediate_block = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
@@ -116,7 +115,6 @@ export const infix_application = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
 ) =>
   prec.left(
-    // Prec.InfixApplication,
     choice(
       prec.left(
         Operator.Pipeline,
@@ -347,10 +345,7 @@ export const list_comprehension = <RuleName extends string>(
     field('body', $._term),
     '|',
     commaSep1(
-      choice(
-        field('generator', $.generator),
-        field('condition', $._term),
-      ),
+      choice(field('generator', $.generator), field('condition', $._term)),
     ),
     ']',
   )
@@ -476,7 +471,7 @@ export const data = <RuleName extends string>($: GrammarSymbols<RuleName>) =>
   )
 
 export const tag = <RuleName extends string>($: GrammarSymbols<RuleName>) =>
-  prec.right(
+  prec.left(
     seq(
       field(
         'name',
@@ -503,12 +498,7 @@ export const map_type = <RuleName extends string>(
 ) =>
   seq(
     '{',
-    optional(
-      seq(
-        field('property', alias($.type, $.type_pattern)),
-        'in',
-      ),
-    ),
+    optional(seq(field('property', alias($.type, $.type_pattern)), 'in')),
     field('key', $._term),
     '->',
     field('value', $._term),
