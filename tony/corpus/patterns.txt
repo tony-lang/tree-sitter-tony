@@ -20,7 +20,7 @@ struct pattern
 ============================================
 
 { b: c: Type } = a
-{ b: c: Type, d: Type, ['e']: e: Type, ...f: Type := {} } = a
+{ b: c: Type, d: Type, d: d, ['e']: e: Type, ...f: Type = {} } = a
 
 ---
 
@@ -46,6 +46,10 @@ struct pattern
           name: (identifier_pattern)
           type: (type))
         member: (member_pattern
+          key: (shorthand_member_identifier)
+          value: (binding_pattern
+            name: (identifier_pattern)))
+        member: (member_pattern
           key: (string)
           value: (binding_pattern
             name: (identifier_pattern)
@@ -61,44 +65,46 @@ tagged struct pattern
 ============================================
 
 tag { b: c: Type } = a
-tag { b: c: Type, d: Type, ['e']: e: Type, ...f: Type := {} } = a
+tag { b: c: Type, d: Type, ['e']: e: Type, ...f: Type = {} } = a
 
 ---
 
 (program
   term: (assignment
-      pattern: (tagged_pattern
-        name: (identifier)
-        pattern: (destructuring_pattern
-          pattern: (struct_pattern
-            member: (member_pattern
-              key: (shorthand_member_identifier)
-              value: (binding_pattern
-                name: (identifier_pattern)
-                type: (type))))))
+      pattern: (destructuring_pattern
+        pattern: (tag_pattern
+          name: (identifier)
+          pattern: (destructuring_pattern
+            pattern: (struct_pattern
+              member: (member_pattern
+                key: (shorthand_member_identifier)
+                value: (binding_pattern
+                  name: (identifier_pattern)
+                  type: (type)))))))
     value: (identifier))
   term: (assignment
-      pattern: (tagged_pattern
-        name: (identifier)
-        pattern: (destructuring_pattern
-          pattern: (struct_pattern
-            member: (member_pattern
-              key: (shorthand_member_identifier)
-              value: (binding_pattern
+      pattern: (destructuring_pattern
+        pattern: (tag_pattern
+          name: (identifier)
+          pattern: (destructuring_pattern
+            pattern: (struct_pattern
+              member: (member_pattern
+                key: (shorthand_member_identifier)
+                value: (binding_pattern
+                  name: (identifier_pattern)
+                  type: (type)))
+              member: (shorthand_member_pattern
                 name: (identifier_pattern)
-                type: (type)))
-            member: (shorthand_member_pattern
-              name: (identifier_pattern)
-              type: (type))
-            member: (member_pattern
-              key: (string)
-              value: (binding_pattern
+                type: (type))
+              member: (member_pattern
+                key: (string)
+                value: (binding_pattern
+                  name: (identifier_pattern)
+                  type: (type)))
+              rest: (binding_pattern
                 name: (identifier_pattern)
-                type: (type)))
-            rest: (binding_pattern
-              name: (identifier_pattern)
-              type: (type)
-              default: (struct)))))
+                type: (type)
+                default: (struct))))))
     value: (identifier)))
 
 ============================================
@@ -132,25 +138,26 @@ tag (a, b: Type, ...c) = a
 
 (program
   term: (assignment
-      pattern: (tagged_pattern
-        name: (identifier)
-        pattern: (destructuring_pattern
-          pattern: (tuple_pattern
-            element: (binding_pattern
-              name: (identifier_pattern))
-            element: (binding_pattern
-              name: (identifier_pattern)
-              type: (type))
-            rest: (binding_pattern
-              name: (identifier_pattern)))))
+      pattern: (destructuring_pattern
+        pattern: (tag_pattern
+          name: (identifier)
+          pattern: (destructuring_pattern
+            pattern: (tuple_pattern
+              element: (binding_pattern
+                name: (identifier_pattern))
+              element: (binding_pattern
+                name: (identifier_pattern)
+                type: (type))
+              rest: (binding_pattern
+                name: (identifier_pattern))))))
     value: (identifier)))
 
 ============================================
 list pattern
 ============================================
 
-[b: Type, c: Type] = a
-[b: Type, c: Type, ...d: Type := [1]] = a
+[b: Type = 1, c: Type] = a
+[b: Type, c: Type = 1, ...d = [1]] = a
 
 ---
 
@@ -160,7 +167,8 @@ list pattern
       pattern: (list_pattern
         element: (binding_pattern
           name: (identifier_pattern)
-          type: (type))
+          type: (type)
+          default: (number))
         element: (binding_pattern
           name: (identifier_pattern)
           type: (type))))
@@ -173,10 +181,10 @@ list pattern
           type: (type))
         element: (binding_pattern
           name: (identifier_pattern)
-          type: (type))
+          type: (type)
+          default: (number))
         rest: (binding_pattern
           name: (identifier_pattern)
-          type: (type)
           default: (list
             element: (number)))))
     value: (identifier)))
@@ -186,43 +194,45 @@ tagged list pattern
 ============================================
 
 tag [b: Type, c: Type] = a
-tag [b: Type, c: Type, ...d: Type := [1]] = a
+tag [b: Type, c: Type, ...d: Type = [1]] = a
 
 ---
 
 (program
   term: (assignment
-      pattern: (tagged_pattern
-        name: (identifier)
-        pattern: (destructuring_pattern
-          pattern: (list_pattern
-            element: (binding_pattern
-              name: (identifier_pattern)
-              type: (type))
-            element: (binding_pattern
-              name: (identifier_pattern)
-              type: (type)))))
+      pattern: (destructuring_pattern
+        pattern: (tag_pattern
+          name: (identifier)
+          pattern: (destructuring_pattern
+            pattern: (list_pattern
+              element: (binding_pattern
+                name: (identifier_pattern)
+                type: (type))
+              element: (binding_pattern
+                name: (identifier_pattern)
+                type: (type))))))
     value: (identifier))
   term: (assignment
-      pattern: (tagged_pattern
-        name: (identifier)
-        pattern: (destructuring_pattern
-          pattern: (list_pattern
-            element: (binding_pattern
-              name: (identifier_pattern)
-              type: (type))
-            element: (binding_pattern
-              name: (identifier_pattern)
-              type: (type))
-            rest: (binding_pattern
-              name: (identifier_pattern)
-              type: (type)
-              default: (list
-                element: (number))))))
+      pattern: (destructuring_pattern
+        pattern: (tag_pattern
+          name: (identifier)
+          pattern: (destructuring_pattern
+            pattern: (list_pattern
+              element: (binding_pattern
+                name: (identifier_pattern)
+                type: (type))
+              element: (binding_pattern
+                name: (identifier_pattern)
+                type: (type))
+              rest: (binding_pattern
+                name: (identifier_pattern)
+                type: (type)
+                default: (list
+                  element: (number)))))))
     value: (identifier)))
 
 ============================================
-tagged pattern
+tag pattern
 ============================================
 
 (tag b) = a
@@ -232,10 +242,11 @@ tagged pattern
 (program
   term: (assignment
     pattern: (pattern_group
-      pattern: (tagged_pattern
-        name: (identifier)
-        pattern: (binding_pattern
-          name: (identifier_pattern))))
+      pattern: (destructuring_pattern
+        pattern: (tag_pattern
+          name: (identifier)
+          pattern: (binding_pattern
+            name: (identifier_pattern)))))
     value: (identifier)))
 
 ============================================

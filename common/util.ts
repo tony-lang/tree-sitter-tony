@@ -113,7 +113,7 @@ export const buildBindingPattern = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
   allowDefaults: boolean,
 ) =>
-  prec.right(
+  prec.left(
     seq(
       field(
         'name',
@@ -122,7 +122,7 @@ export const buildBindingPattern = <RuleName extends string>(
           alias($.type, $.type_pattern),
         ),
       ),
-      optional(seq(':', field('type', $._term))),
+      optional(seq(':', field('type', $.type))),
       allowDefaults ? optional(seq('=', field('default', $._term))) : seq(),
     ),
   )
