@@ -38,7 +38,6 @@ export const _term = <RuleName extends string>($: GrammarSymbols<RuleName>) =>
     $.function_type,
     $.optional_type,
     $.map_type,
-    $.keyof_type,
     $.type,
     $.identifier,
     $._literal,
@@ -504,10 +503,6 @@ export const map_type = <RuleName extends string>(
     field('value', $._term),
     '}',
   )
-
-export const keyof_type = <RuleName extends string>(
-  $: GrammarSymbols<RuleName>,
-) => prec.right(seq('@', field('type', $._term)))
 
 export const type = () => TYPE
 
