@@ -34,6 +34,7 @@ export const buildStruct = <RuleName extends string>(
 
 export const buildTuple = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
+  fieldName: string,
   element: Rule,
   rest = false,
   allowSingle = false,
@@ -44,7 +45,7 @@ export const buildTuple = <RuleName extends string>(
       '(',
       buildDataStructure(
         $,
-        field('element', element),
+        field(fieldName, element),
         rest,
         allowSingle ? commaSep1 : commaSep2,
       ),
@@ -113,18 +114,16 @@ export const buildBindingPattern = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
   allowDefaults: boolean,
 ) =>
-  prec.left(
-    seq(
-      field(
-        'name',
-        choice(
-          alias($.identifier, $.identifier_pattern),
-          alias($.type, $.type_pattern),
-        ),
+  seq(
+    field(
+      'name',
+      choice(
+        alias($.identifier, $.identifier_pattern),
+        alias($.type, $.type_pattern),
       ),
-      optional(seq(':', field('type', $.type))),
-      allowDefaults ? optional(seq('=', field('default', $._term))) : seq(),
     ),
+    optional(seq(':', field('type', $.type))),
+    allowDefaults ? optional(seq('=', field('default', $._term))) : seq(),
   )
 
 const buildStatements =

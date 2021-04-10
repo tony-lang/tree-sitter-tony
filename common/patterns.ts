@@ -1,3 +1,4 @@
+import { Prec } from './precedences'
 import {
   buildBindingPattern,
   buildList,
@@ -65,7 +66,7 @@ export const member_pattern = <RuleName extends string>(
 
 export const tuple_pattern = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
-) => buildTuple($, $._pattern, true)
+) => buildTuple($, 'element', $._pattern, true)
 
 export const list_pattern = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
@@ -84,14 +85,17 @@ export const wildcard_pattern = () => '_'
 export const tag_pattern = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
 ) =>
-  seq(
-    field('name', alias($._identifier_without_operators, $.identifier)),
-    field('pattern', $._pattern),
+  prec(
+    Prec.Pattern,
+    seq(
+      field('name', alias($._identifier_without_operators, $.identifier)),
+      field('pattern', $._pattern),
+    ),
   )
 
 export const _literal_pattern = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
-) => choice($.boolean, $.number, $.raw_string, $.regex)
+) => choice($.boolean, $.decimal, $.integer, $.raw_string, $.regex)
 
 export const pattern_group = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,

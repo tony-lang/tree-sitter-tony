@@ -3,11 +3,11 @@ import { buildString } from './util'
 
 export const _literal = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
-) => choice($.boolean, $.number, $.string, $.regex)
+) => choice($.boolean, $.decimal, $.integer, $.string, $.regex)
 
 export const boolean = () => choice('false', 'true')
 
-export const _decimal = () => {
+export const decimal = () => {
   const digits = repeat1(DIGITS)
   const exponent = seq(EXP, digits)
 
@@ -16,7 +16,7 @@ export const _decimal = () => {
   )
 }
 
-export const _integer = () =>
+export const integer = () =>
   token(
     choice(
       seq('0x', repeat1(HEX)),
@@ -25,9 +25,6 @@ export const _integer = () =>
       seq(repeat1(DIGITS)),
     ),
   )
-
-export const number = <RuleName extends string>($: GrammarSymbols<RuleName>) =>
-  choice($._decimal, $._integer)
 
 export const raw_string = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,

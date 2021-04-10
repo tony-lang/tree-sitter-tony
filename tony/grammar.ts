@@ -16,13 +16,12 @@ import {
   wildcard_pattern,
 } from '../common/patterns'
 import {
-  _decimal,
-  _integer,
   _literal,
   boolean,
+  decimal,
   escape_sequence,
+  integer,
   interpolation,
-  number,
   raw_string,
   regex,
   regex_flags,
@@ -49,7 +48,6 @@ import {
   conditional,
   data,
   export_,
-  extends_type,
   function_,
   function_type,
   generator,
@@ -58,6 +56,7 @@ import {
   identifier,
   infix_application,
   instance,
+  keyof_type,
   left_section,
   list,
   list_comprehension,
@@ -76,6 +75,8 @@ import {
   type,
   type_hint,
   when,
+  _arguments,
+  _parameters,
 } from '../common/terms'
 import {
   _import_body_constructor,
@@ -123,6 +124,9 @@ export = grammar({
     [$.tuple, $.tuple_pattern],
     [$._literal, $._literal_pattern],
 
+    [$.tuple, $._arguments],
+    [$.tuple_pattern, $._parameters],
+
     [$.raw_string, $.string],
 
     [$.group, $._element],
@@ -130,6 +134,7 @@ export = grammar({
 
     // investigate
     [$.static_application, $.infix_application],
+    [$.static_application, $.infix_application, $.conditional],
     [$._term, $.struct],
     [$._term, $.struct, $.binding_pattern],
     [$.import_type, $.binding_pattern],
@@ -142,6 +147,14 @@ export = grammar({
 
     [$.infix_application, $.application],
     [$.infix_application, $.application, $.static_application],
+    [$.infix_application, $.application, $.static_application, $.conditional],
+    [
+      $.infix_application,
+      $.application,
+      $.static_application,
+      $.conditional,
+      $.optional_type,
+    ],
 
     [$.access, $._element],
     [$.access, $._term],
@@ -177,7 +190,9 @@ export = grammar({
     class_member,
     instance,
     argument,
+    _parameters,
     function: function_,
+    _arguments,
     application,
     infix_application,
     _section,
@@ -190,7 +205,6 @@ export = grammar({
     return: return_,
     static_application,
     static_function,
-    extends_type,
     conditional,
     _immediate_block,
     case: case_,
@@ -208,6 +222,7 @@ export = grammar({
     tag,
     function_type,
     optional_type,
+    keyof_type,
     map_type,
     type,
     _identifier_without_operators,
@@ -231,9 +246,8 @@ export = grammar({
 
     _literal,
     boolean,
-    _decimal,
-    _integer,
-    number,
+    decimal,
+    integer,
     raw_string,
     string,
     interpolation,
