@@ -53,6 +53,7 @@ export const struct_pattern = <RuleName extends string>(
 ) =>
   buildStruct(
     $,
+    'member',
     choice(
       $.member_pattern,
       alias($.binding_pattern, $.shorthand_member_pattern),
@@ -66,11 +67,11 @@ export const member_pattern = <RuleName extends string>(
 
 export const tuple_pattern = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
-) => buildTuple($, 'element', $._pattern, true)
+) => buildTuple($, 'element', $._pattern, true, false)
 
 export const list_pattern = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
-) => buildList($, $._pattern, true)
+) => buildList($, 'element', $._pattern, true)
 
 export const binding_pattern = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,

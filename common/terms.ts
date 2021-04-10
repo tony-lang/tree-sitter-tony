@@ -431,7 +431,9 @@ export const struct = <RuleName extends string>($: GrammarSymbols<RuleName>) =>
     Prec.Term,
     buildStruct(
       $,
+      'member',
       choice($.member, alias($.identifier, $.shorthand_member), $.spread),
+      false,
     ),
   )
 
@@ -439,10 +441,10 @@ export const member = <RuleName extends string>($: GrammarSymbols<RuleName>) =>
   buildMember($, $._term, $._term)
 
 export const tuple = <RuleName extends string>($: GrammarSymbols<RuleName>) =>
-  buildTuple($, 'element', $._element)
+  buildTuple($, 'element', $._element, false, false)
 
 export const list = <RuleName extends string>($: GrammarSymbols<RuleName>) =>
-  buildList($, $._element)
+  buildList($, 'element', $._element, false)
 
 export const _element = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
