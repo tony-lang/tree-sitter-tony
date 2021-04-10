@@ -5,15 +5,15 @@ function
 (a) =>
   a
 (a, b) => a
-(a: Type, b: Type, 1, { c: Type := 1 }) => a
+(a: Type, b: Type, 1, { c: Type = 1 }) => a
 
 fib = (x) =>
   0
 fib = (x) => 1
-fib = <T>(n: T := 2) =>
+fib = <T>(n: T = 2) =>
   fib(n - 1) + fib(n - 2)
 
-<T <: Type>(...a: T) => {
+<T: Type>(...a: T) => {
   b = (c: Type) =>
     c
   b(1)
@@ -22,132 +22,124 @@ fib = <T>(n: T := 2) =>
 () => 1
 / = (a, b) => /
 
-fn :: Number => Number? => Number = (a, b := 5) => a + b
+fn: Number -> ?Number -> Number = (a, b = 5) => a + b
 
 ---
 
 (program
   term: (function
-    element: (binding_pattern
+    parameter: (binding_pattern
       name: (identifier_pattern))
     body: (identifier))
   term: (function
-    element: (binding_pattern
+    parameter: (binding_pattern
       name: (identifier_pattern))
-    element: (binding_pattern
+    parameter: (binding_pattern
       name: (identifier_pattern))
     body: (identifier))
   term: (function
-    element: (binding_pattern
+    parameter: (binding_pattern
       name: (identifier_pattern)
-      type: (parametric_type
-        name: (type)))
-    element: (binding_pattern
+      type: (type))
+    parameter: (binding_pattern
       name: (identifier_pattern)
-      type: (parametric_type
-        name: (type)))
-    element: (number)
-    element: (destructuring_pattern
+      type: (type))
+    parameter: (integer)
+    parameter: (destructuring_pattern
       pattern: (struct_pattern
         member: (shorthand_member_pattern
           name: (identifier_pattern)
-          type: (parametric_type
-            name: (type))
-          default: (number))))
+          type: (type)
+          default: (integer))))
     body: (identifier))
   term: (assignment
     pattern: (binding_pattern
       name: (identifier_pattern))
     value: (function
-      element: (binding_pattern
+      parameter: (binding_pattern
         name: (identifier_pattern))
-      body: (number)))
+      body: (integer)))
   term: (assignment
     pattern: (binding_pattern
       name: (identifier_pattern))
     value: (function
-      element: (binding_pattern
+      parameter: (binding_pattern
         name: (identifier_pattern))
-      body: (number)))
+      body: (integer)))
   term: (assignment
     pattern: (binding_pattern
       name: (identifier_pattern))
+    value: (static_function
+      parameter: (binding_pattern
+        name: (type_pattern))
+      value: (function
+        parameter: (binding_pattern
+          name: (identifier_pattern)
+          type: (type)
+          default: (integer))
+        body: (infix_application
+          left: (application
+            name: (identifier)
+            argument: (argument
+              value: (infix_application
+                left: (identifier)
+                name: (identifier)
+                right: (integer))))
+          name: (identifier)
+          right: (application
+            name: (identifier)
+            argument: (argument
+              value: (infix_application
+                left: (identifier)
+                name: (identifier)
+                right: (integer))))))))
+  term: (static_function
+    parameter: (binding_pattern
+      name: (type_pattern)
+      type: (type))
     value: (function
-      typeParameter: (type_variable_declaration
-        name: (type_variable_declaration_name))
-      element: (binding_pattern
+      rest: (binding_pattern
         name: (identifier_pattern)
-        type: (parametric_type
-          name: (type))
-        default: (number))
-      body: (infix_application
-        left: (application
+        type: (type))
+      body: (block
+        term: (assignment
+          pattern: (binding_pattern
+            name: (identifier_pattern))
+          value: (function
+            parameter: (binding_pattern
+              name: (identifier_pattern)
+              type: (type))
+            body: (identifier)))
+        term: (application
           name: (identifier)
-          element: (argument
-            value: (infix_application
-              left: (identifier)
-              name: (identifier)
-              right: (number))))
-        name: (identifier)
-        right: (application
-          name: (identifier)
-          element: (argument
-            value: (infix_application
-              left: (identifier)
-              name: (identifier)
-              right: (number)))))))
+          argument: (argument
+            value: (integer))))))
   term: (function
-    typeParameter: (type_variable_declaration
-      name: (type_variable_declaration_name)
-      constraint: (parametric_type
-        name: (type)))
-    rest: (binding_pattern
-      name: (identifier_pattern)
-      type: (parametric_type
-        name: (type)))
-    body: (block
-      term: (assignment
-        pattern: (binding_pattern
-          name: (identifier_pattern))
-        value: (function
-          element: (binding_pattern
-            name: (identifier_pattern)
-            type: (parametric_type
-              name: (type)))
-          body: (identifier)))
-      term: (application
-        name: (identifier)
-        element: (argument
-          value: (number)))))
-  term: (function
-    body: (number))
+    body: (integer))
   term: (assignment
     pattern: (binding_pattern
       name: (identifier_pattern))
     value: (function
-      element: (binding_pattern
+      parameter: (binding_pattern
         name: (identifier_pattern))
-      element: (binding_pattern
+      parameter: (binding_pattern
         name: (identifier_pattern))
       body: (identifier)))
   term: (assignment
     pattern: (binding_pattern
       name: (identifier_pattern)
-      type: (curried_type
-        from: (parametric_type
-          name: (type))
-        to: (curried_type
+      type: (function_type
+        from: (type)
+        to: (function_type
           from: (optional_type
-            type: (parametric_type
-              name: (type)))
-          to: (parametric_type
-            name: (type)))))
+            type: (type))
+          to: (type))))
     value: (function
-      element: (binding_pattern
+      parameter: (binding_pattern
         name: (identifier_pattern))
-      element: (binding_pattern
+      parameter: (binding_pattern
         name: (identifier_pattern)
-        default: (number))
+        default: (integer))
       body: (infix_application
         left: (identifier)
         name: (identifier)
@@ -175,16 +167,16 @@ f(())
   term: (application
     name: (application
       name: (identifier)
-      element: (argument
-        value: (number)))
-    element: (argument
-      value: (number))
-    element: (argument
-      value: (number)))
+      argument: (argument
+        value: (integer)))
+    argument: (argument
+      value: (integer))
+    argument: (argument
+      value: (integer)))
   term: (application
     name: (identifier)
-    element: (argument
-      value: (number)))
+    argument: (argument
+      value: (integer)))
   term: (application
     name: (parametric_type_instance
       name: (identifier)
@@ -196,44 +188,44 @@ f(())
           name: (type)))
       typeArgument: (parametric_type
         name: (type)))
-    element: (argument)
-    element: (argument
-      value: (number)))
+    argument: (argument)
+    argument: (argument
+      value: (integer)))
   term: (application
     name: (identifier)
-    element: (number))
+    argument: (integer))
   term: (infix_application
-    left: (number)
+    left: (integer)
     name: (identifier)
     right: (application
       name: (identifier)
-      element: (identifier)))
+      argument: (identifier)))
   term: (infix_application
-    left: (number)
+    left: (integer)
     name: (identifier)
     right: (application
       name: (identifier)
-      element: (argument
+      argument: (argument
         value: (application
           name: (identifier)))))
   term: (application
     name: (identifier)
-    element: (argument
+    argument: (argument
       value: (spread
         value: (tuple
           element: (identifier)
           element: (identifier)))))
   term: (application
     name: (identifier)
-    element: (argument
+    argument: (argument
       value: (string)))
   term: (application
     name: (identifier)
-    element: (argument
-      value: (number)))
+    argument: (argument
+      value: (integer)))
   term: (application
     name: (identifier)
-    element: (argument
+    argument: (argument
       value: (tuple))))
 
 ==================
@@ -250,16 +242,16 @@ prefix application
 (program
   term: (application
     name: (identifier)
-    element: (boolean))
+    argument: (boolean))
   term: (application
     name: (identifier)
-    element: (number))
+    argument: (integer))
   term: (application
     name: (identifier)
-    element: (number))
+    argument: (integer))
   term: (application
     name: (identifier)
-    element: (number)))
+    argument: (integer)))
 
 ==================
 infix application
@@ -278,9 +270,8 @@ infix application
 1 >= 1
 1 == 1
 1 != 1
-a === 1
-1 !== b
-a ~ b
+Type | Type
+Type & Type
 false && false
 false || false
 false ==> true <=> true
@@ -299,69 +290,65 @@ a&.b&.c(1)
 
 (program
   term: (infix_application
-    left: (number)
+    left: (integer)
     name: (identifier)
-    right: (number))
+    right: (integer))
   term: (infix_application
-    left: (number)
+    left: (integer)
     name: (identifier)
-    right: (number))
+    right: (integer))
   term: (infix_application
-    left: (number)
+    left: (integer)
     name: (identifier)
-    right: (number))
+    right: (integer))
   term: (infix_application
-    left: (number)
+    left: (integer)
     name: (identifier)
-    right: (number))
+    right: (integer))
   term: (infix_application
-    left: (number)
+    left: (integer)
     name: (identifier)
-    right: (number))
+    right: (integer))
   term: (infix_application
-    left: (number)
+    left: (integer)
     name: (identifier)
-    right: (number))
+    right: (integer))
   term: (infix_application
-    left: (number)
+    left: (integer)
     name: (identifier)
-    right: (number))
+    right: (integer))
   term: (infix_application
-    left: (number)
+    left: (integer)
     name: (identifier)
-    right: (number))
+    right: (integer))
   term: (infix_application
-    left: (number)
+    left: (integer)
     name: (identifier)
-    right: (number))
+    right: (integer))
   term: (infix_application
-    left: (number)
+    left: (integer)
     name: (identifier)
-    right: (number))
+    right: (integer))
   term: (infix_application
-    left: (number)
+    left: (integer)
     name: (identifier)
-    right: (number))
+    right: (integer))
   term: (infix_application
-    left: (number)
+    left: (integer)
     name: (identifier)
-    right: (number))
+    right: (integer))
   term: (infix_application
-    left: (number)
+    left: (integer)
     name: (identifier)
-    right: (number))
+    right: (integer))
   term: (infix_application
-    left: (identifier)
+    left: (type)
     name: (identifier)
-    right: (number))
+    right: (type))
   term: (infix_application
-    left: (number)
+    left: (type)
     name: (identifier)
-    right: (identifier))
-  term: (infix_application
-    left: (identifier)
-    name: (identifier)
-    right: (identifier))
+    right: (type))
   term: (infix_application
     left: (boolean)
     name: (identifier)
@@ -393,40 +380,40 @@ a&.b&.c(1)
       right: (boolean)))
   term: (infix_application
     left: (infix_application
-      left: (number)
+      left: (integer)
       name: (identifier)
-      right: (number))
+      right: (integer))
     name: (identifier)
-    right: (number))
+    right: (integer))
   term: (infix_application
     left: (infix_application
-      left: (number)
+      left: (integer)
       name: (identifier)
-      right: (number))
+      right: (integer))
     name: (identifier)
-    right: (number))
+    right: (integer))
   term: (infix_application
-    left: (number)
+    left: (integer)
     name: (identifier)
     right: (application
       name: (identifier)
-      element: (number)))
+      argument: (integer)))
   term: (infix_application
     left: (infix_application
       left: (infix_application
-        left: (number)
+        left: (integer)
         name: (identifier)
-        right: (number))
+        right: (integer))
       name: (identifier)
-      right: (number))
+      right: (integer))
     name: (identifier)
-    right: (number))
+    right: (integer))
   term: (infix_application
     left: (boolean)
     name: (identifier)
     right: (application
       name: (identifier)
-      element: (boolean)))
+      argument: (boolean)))
   term: (infix_application
     left: (infix_application
       left: (group
@@ -438,7 +425,7 @@ a&.b&.c(1)
       right: (identifier))
     name: (identifier)
     right: (infix_application
-      left: (number)
+      left: (integer)
       name: (identifier)
       right: (group
         term: (infix_application
@@ -453,8 +440,8 @@ a&.b&.c(1)
         right: (identifier))
       name: (identifier)
       right: (identifier))
-    element: (argument
-      value: (number)))
+    argument: (argument
+      value: (integer)))
   term: (application
     name: (infix_application
       left: (infix_application
@@ -463,8 +450,8 @@ a&.b&.c(1)
         right: (identifier))
       name: (identifier)
       right: (identifier))
-    element: (argument
-      value: (number))))
+    argument: (argument
+      value: (integer))))
 
 ==================
 sections
@@ -480,15 +467,15 @@ sections
 (program
   term: (right_section
     name: (identifier)
-    value: (number))
+    value: (integer))
   term: (left_section
-    value: (number)
+    value: (integer)
     name: (identifier))
   term: (right_section
     name: (identifier)
-    value: (number))
+    value: (integer))
   term: (left_section
-    value: (number)
+    value: (integer)
     name: (identifier)))
 
 ==================
@@ -504,13 +491,13 @@ a.b[c]
 (program
   term: (access
       left: (identifier)
-      right: (number))
+      right: (integer))
   term: (application
     name: (access
       left: (identifier)
       right: (shorthand_access_identifier))
-    element: (argument
-      value: (number)))
+    argument: (argument
+      value: (integer)))
   term: (access
     left: (infix_application
       left: (identifier)
@@ -533,15 +520,15 @@ a = (a: Type) =>
     pattern: (binding_pattern
       name: (identifier_pattern)
       type: (type))
-    value: (number))
+    value: (integer))
   term: (assignment
     pattern: (binding_pattern
       name: (identifier_pattern))
     value: (function
-      element: (binding_pattern
+      parameter: (binding_pattern
         name: (identifier_pattern)
         type: (type))
-      body: (number))))
+      body: (integer))))
 
 ==================
 export
@@ -558,16 +545,16 @@ export a = (x: T) =>
     declaration: (assignment
       pattern: (binding_pattern
         name: (identifier_pattern))
-      value: (number)))
+      value: (integer)))
   term: (export
     declaration: (assignment
       pattern: (binding_pattern
         name: (identifier_pattern))
       value: (function
-        element: (binding_pattern
+        parameter: (binding_pattern
           name: (identifier_pattern)
           type: (type))
-        body: (number)))))
+        body: (integer)))))
 
 ==================
 return
@@ -581,29 +568,29 @@ return (a: Type) =>
 
 (program
   term: (return
-    value: (number))
+    value: (integer))
   term: (return
     value: (function
-      element: (binding_pattern
+      parameter: (binding_pattern
         name: (identifier_pattern)
         type: (type))
-      body: (number))))
+      body: (integer))))
 
 ==================
-if
+conditional
 ==================
 
-if false then
+false ?
   1
-if true {
+true ? {
   1
   1
-} else 1
+} : 1
 
 a =
-  if true {
+  true ? {
     1
-  } else if false then 1 else if true {
+  } : false ? 1 : true ? {
     1
   }
 
@@ -613,39 +600,39 @@ true ? 1 : 1
 ---
 
 (program
-  term: (if
+  term: (conditional
     condition: (boolean)
-    body: (number))
-  term: (if
+    body: (integer))
+  term: (conditional
     condition: (boolean)
     body: (block
-      term: (number)
-      term: (number))
-    else: (number))
+      term: (integer)
+      term: (integer))
+    else: (integer))
   term: (assignment
     pattern: (binding_pattern
       name: (identifier_pattern))
-    value: (if
+    value: (conditional
       condition: (boolean)
       body: (block
-        term: (number))
-      elseIf: (else_if
+        term: (integer))
+      else: (conditional
         condition: (boolean)
-        body: (number))
-      elseIf: (else_if
-        condition: (boolean)
-        body: (block
-          term: (number)))))
+        body: (integer)
+        else: (conditional
+          condition: (boolean)
+          body: (block
+            term: (integer))))))
   term: (application
     name: (identifier)
     element: (argument
-      value: (ternary
+      value: (conditional
         condition: (boolean)
-        body: (number))))
-  term: (ternary
+        body: (integer))))
+  term: (conditional
     condition: (boolean)
-    body: (number)
-    else: (number)))
+    body: (integer)
+    else: (integer)))
 
 ==================
 case
@@ -677,39 +664,39 @@ else {
     value: (case
       value: (identifier)
       when: (when
-        pattern: (number)
+        pattern: (integer)
         body: (block
-          term: (number)))
-      else: (number)))
+          term: (integer)))
+      else: (integer)))
   term: (case
     value: (identifier)
     when: (when
       pattern: (destructuring_pattern
         pattern: (list_pattern
-          element: (number)
+          element: (integer)
           element: (binding_pattern
             name: (identifier_pattern)
             type: (type))))
       body: (block
         term: (identifier)))
     when: (when
-      pattern: (number)
-      pattern: (number)
-      body: (number))
+      pattern: (integer)
+      pattern: (integer)
+      body: (integer))
     else: (block
-      term: (number)
-      term: (number))))
+      term: (integer)
+      term: (integer))))
 
 ==================
 class
 ==================
 
 class Type {
-  a: Type => Number
-  b: Type => Number
+  a: Type -> Number
+  b: Type -> Number
 }
 class Ord: Num & Eq {
-  compare: Ord => Ord => Number
+  compare: Ord -> Ord -> Number
 }
 
 ---
@@ -729,9 +716,10 @@ class Ord: Num & Eq {
         to: (type))))
   term: (class
     name: (type)
-    constraint: (type)
-    constraint: (type)
-    constraint: (type)
+    constraint: (infix_application
+      left: (type)
+      name: (identifier)
+      right: (type))
     member: (class_member
       name: (identifier_pattern)
       type: (function_type
@@ -755,27 +743,29 @@ instance (T: Type, U: Type) => Type(T, U) of Type {
 
 (program
   term: (instance
-    name: (type)
+    type: (type)
     class: (type)
     assignment: (assignment
       pattern: (binding_pattern
         name: (identifier_pattern))
-      value: (number)))
+      value: (integer)))
   term: (instance
-    name: (type)
-    parameter: (type_variable_declaration
-      name: (type_variable_declaration_name)
-      constraint: (parametric_type
-        name: (type)))
-    parameter: (type_variable_declaration
-      name: (type_variable_declaration_name)
-      constraint: (parametric_type
-        name: (type)))
+    type: (function
+      parameter: (binding_pattern
+        name: (type_pattern)
+        type: (type))
+      parameter: (binding_pattern
+        name: (type_pattern)
+        type: (type))
+      body: (application
+        name: (type)
+        argument: (type)
+        argument: (type)))
     class: (type)
     assignment: (assignment
       pattern: (binding_pattern
         name: (identifier_pattern))
-      value: (number))))
+      value: (integer))))
 
 ==================
 struct
@@ -795,7 +785,7 @@ struct
   term: (struct
     member: (member
       key: (string)
-      value: (number))
+      value: (integer))
     member: (spread
       value: (identifier))
     member: (member
@@ -818,13 +808,13 @@ tuple
   term: (tuple)
   term: (tuple
     element: (identifier)
-    element: (number)
+    element: (integer)
     element: (string)
     element: (spread
       value: (identifier)))
   term: (tuple
-    element: (number)
-    element: (number)))
+    element: (integer)
+    element: (integer)))
 
 ==================
 list
@@ -840,17 +830,17 @@ list
   term: (list)
   term: (list
     element: (identifier)
-    element: (number)
+    element: (integer)
     element: (spread
       value: (identifier))
     element: (string))
   term: (list
-    element: (number)
+    element: (integer)
     element: (infix_application
-      left: (number)
+      left: (integer)
       name: (identifier)
-      right: (number))
-    element: (number)))
+      right: (integer))
+    element: (integer)))
 
 ==================
 list comprehension
@@ -867,31 +857,31 @@ list comprehension
     body: (infix_application
       left: (identifier)
       name: (identifier)
-      right: (number))
+      right: (integer))
     generator: (generator
       name: (identifier_pattern)
       value: (infix_application
-        left: (number)
+        left: (integer)
         name: (identifier)
-        right: (number))))
+        right: (integer))))
   term: (list_comprehension
     body: (infix_application
       left: (identifier)
       name: (identifier)
-      right: (number))
+      right: (integer))
     generator: (generator
       name: (identifier_pattern)
       value: (infix_application
-        left: (number)
+        left: (integer)
         name: (identifier)
-        right: (number)))
+        right: (integer)))
     condition: (infix_application
       left: (infix_application
         left: (identifier)
         name: (identifier)
-        right: (number))
+        right: (integer))
       name: (identifier)
-      right: (number)))
+      right: (integer)))
   term: (list_comprehension
     body: (list
       element: (identifier)
@@ -899,29 +889,29 @@ list comprehension
     generator: (generator
       name: (identifier_pattern)
       value: (infix_application
-        left: (number)
+        left: (integer)
         name: (identifier)
-        right: (number)))
+        right: (integer)))
     condition: (infix_application
       left: (infix_application
         left: (identifier)
         name: (identifier)
-        right: (number))
+        right: (integer))
       name: (identifier)
-      right: (number))
+      right: (integer))
     generator: (generator
       name: (identifier_pattern)
       value: (infix_application
-        left: (number)
+        left: (integer)
         name: (identifier)
-        right: (number)))
+        right: (integer)))
     condition: (infix_application
       left: (infix_application
         left: (identifier)
         name: (identifier)
-        right: (number))
+        right: (integer))
       name: (identifier)
-      right: (number))))
+      right: (integer))))
 
 ==================
 static function / application
@@ -939,7 +929,8 @@ value<Type>
   term: (static_application
     value: (group
       term: (static_function
-        parameter: (type)
+        parameter: (binding_pattern
+          name: (type_pattern))
         value: (function
           element: (binding_pattern
             name: (identifier_pattern)
@@ -967,7 +958,7 @@ block
     term: (assignment
       pattern: (binding_pattern
         name: (identifier_pattern))
-      value: (number))
+      value: (integer))
     term: (assignment
       pattern: (binding_pattern
         name: (identifier_pattern))
@@ -980,18 +971,18 @@ block
         right: (identifier))))
   term: (application
     name: (infix_application
-      left: (number)
+      left: (integer)
       name: (identifier)
       right: (identifier))
-    element: (function
-      element: (binding_pattern
+    argument: (function
+      parameter: (binding_pattern
         name: (identifier_pattern))
       body: (block
         term: (application
           name: (access
-            name: (identifier)
-            value: (shorthand_access_identifier))
-          element: (string
+            left: (identifier)
+            right: (shorthand_access_identifier))
+          argument: (string
             interpolation: (interpolation
               term: (identifier))))))))
 
@@ -1014,9 +1005,9 @@ GreaterThan = (T, x: T) => T
     pattern: (binding_pattern
       name: (type_pattern))
       value: (function
-        element: (binding_pattern
+        parameter: (binding_pattern
           name: (type_pattern))
-        element: (binding_pattern
+        parameter: (binding_pattern
           name: (type_pattern)
           type: (type))
         body: (function_type
@@ -1026,9 +1017,9 @@ GreaterThan = (T, x: T) => T
     pattern: (binding_pattern
       name: (type_pattern))
       value: (function
-        element: (binding_pattern
+        parameter: (binding_pattern
           name: (type_pattern))
-        element: (binding_pattern
+        parameter: (binding_pattern
           name: (identifier_pattern)
           type: (type))
         body: (type))))
@@ -1095,17 +1086,17 @@ n / ((n + 1) * (-2))
 
 (program
   term: (group
-    term: (number))
+    term: (integer))
   term: (group
     term: (identifier))
   term: (group
     term: (application
       name: (identifier)
-      element: (number)))
+      argument: (integer)))
   term: (group
     term: (application
       name: (identifier)
-      element: (identifier)))
+      argument: (identifier)))
   term: (infix_application
     left: (identifier)
     name: (identifier)
@@ -1115,9 +1106,9 @@ n / ((n + 1) * (-2))
           term: (infix_application
             left: (identifier)
             name: (identifier)
-            right: (number)))
+            right: (integer)))
         name: (identifier)
         right: (group
           term: (application
             name: (identifier)
-            element: (number)))))))
+            argument: (integer)))))))

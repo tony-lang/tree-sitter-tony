@@ -168,7 +168,7 @@ list pattern
         element: (binding_pattern
           name: (identifier_pattern)
           type: (type)
-          default: (number))
+          default: (integer))
         element: (binding_pattern
           name: (identifier_pattern)
           type: (type))))
@@ -182,11 +182,11 @@ list pattern
         element: (binding_pattern
           name: (identifier_pattern)
           type: (type)
-          default: (number))
+          default: (integer))
         rest: (binding_pattern
           name: (identifier_pattern)
           default: (list
-            element: (number)))))
+            element: (integer)))))
     value: (identifier)))
 
 ============================================
@@ -228,7 +228,7 @@ tag [b: Type, c: Type, ...d: Type = [1]] = a
                 name: (identifier_pattern)
                 type: (type)
                 default: (list
-                  element: (number)))))))
+                  element: (integer)))))))
     value: (identifier)))
 
 ============================================

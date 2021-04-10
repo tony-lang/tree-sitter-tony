@@ -17,7 +17,7 @@ hash bang line
 
 (program
   hashBangLine: (hash_bang_line)
-  term: (number))
+  term: (integer))
 
 ==================
 import
