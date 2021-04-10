@@ -28,41 +28,34 @@ const buildDataStructure = <RuleName extends string>(
 
 export const buildStruct = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
+  fieldName: string,
   member: Rule,
-  rest = false,
-) => seq('{', buildDataStructure($, field('member', member), rest), '}')
+  rest: boolean,
+) => seq('{', buildDataStructure($, field(fieldName, member), rest), '}')
 
 export const buildTuple = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
   fieldName: string,
   element: Rule,
-  rest = false,
-  allowSingle = false,
-  allowEmpty = true,
-) => {
-  const options: RuleOrLiteral[] = [
-    seq(
-      '(',
-      buildDataStructure(
-        $,
-        field(fieldName, element),
-        rest,
-        allowSingle ? commaSep1 : commaSep2,
-      ),
-      ')',
-    ),
-  ]
-
-  if (allowEmpty) options.push('()')
-
-  return choice(...options)
-}
+  rest: boolean,
+  allowSingle: boolean,
+) => choice(seq(
+  '(',
+  buildDataStructure(
+    $,
+    field(fieldName, element),
+    rest,
+    allowSingle ? commaSep1 : commaSep2,
+  ),
+  ')',
+), '()')
 
 export const buildList = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
+  fieldName: string,
   element: Rule,
-  rest = false,
-) => seq('[', buildDataStructure($, field('element', element), rest), ']')
+  rest: boolean,
+) => seq('[', buildDataStructure($, field(fieldName, element), rest), ']')
 
 export const buildMember = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
@@ -90,25 +83,6 @@ export const buildString = <RuleName extends string>(
 
 export const buildGenericType = (name: string, rule: Rule) =>
   seq('<', commaSep1(field(name, rule)), '>')
-
-export const buildTypeConstraint = <RuleName extends string>(
-  $: GrammarSymbols<RuleName>,
-) =>
-  seq(
-    '<:',
-    choice(
-      field('constraint', $._term),
-      seq('(', sep2(';')(field('constraint', $._term)), ')'),
-    ),
-  )
-
-export const buildTypeDeclaration = <RuleName extends string>(
-  $: GrammarSymbols<RuleName>,
-) =>
-  seq(
-    field('name', $.type),
-    optional(buildGenericType('parameter', $.type_variable_declaration)),
-  )
 
 export const buildBindingPattern = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
