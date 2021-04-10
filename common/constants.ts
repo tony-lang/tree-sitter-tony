@@ -7,7 +7,7 @@ export const BIN = /_?[0-1]+/
 
 // identifiers
 export const IDENTIFIER = /_?[a-z][a-z0-9_]*(\?|!)?'*/
-export const OPERATOR = /(==|[!@$%^&*|<>~*\\\-+/.?])[!@$%^&*|<>~*\\\-+/.?=]*/
+export const OPERATOR = /[!@$%^&*|<>~*\\\-+/.?=]+/
 export const TYPE = /[A-Z][a-zA-Z0-9]*/
 
 // declarations
