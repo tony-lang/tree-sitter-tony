@@ -625,7 +625,7 @@ true ? 1 : 1
             term: (integer))))))
   term: (application
     name: (identifier)
-    element: (argument
+    argument: (argument
       value: (conditional
         condition: (boolean)
         body: (integer))))
@@ -759,8 +759,10 @@ instance (T: Type, U: Type) => Type(T, U) of Type {
         type: (type))
       body: (application
         name: (type)
-        argument: (type)
-        argument: (type)))
+        argument: (argument
+          value: (type))
+        argument: (argument
+          value: (type))))
     class: (type)
     assignment: (assignment
       pattern: (binding_pattern
