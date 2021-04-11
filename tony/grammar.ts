@@ -88,6 +88,7 @@ import {
 import { comment, hash_bang_line } from '../common/miscellaneous'
 import { Dialect } from '../common/dialects'
 import { precedences } from '../common/precedences'
+import { line } from '../common/util'
 
 const dialect = Dialect.Tony
 
@@ -165,11 +166,9 @@ export = grammar({
   rules: {
     program: ($) =>
       seq(
-        optional(seq(field('hashBangLine', $.hash_bang_line), $._newline)),
-        repeat(
-          seq(field('import', choice($.import, $.exported_import)), $._newline),
-        ),
-        repeat(seq(field('term', $._statement), $._newline)),
+        optional(line($, field('hashBangLine', $.hash_bang_line))),
+        repeat(line($, field('import', choice($.import, $.exported_import)))),
+        repeat(line($, field('term', $._statement))),
       ),
 
     hash_bang_line,

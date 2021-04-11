@@ -253,6 +253,7 @@ export type UnnamedType =
   | "..."
   | "/"
   | ":"
+  | ";"
   | "<"
   | "="
   | "=>"
@@ -357,6 +358,7 @@ export type SyntaxNode =
   | UnnamedNode<"...">
   | UnnamedNode<"/">
   | UnnamedNode<":">
+  | UnnamedNode<";">
   | UnnamedNode<"<">
   | UnnamedNode<"=">
   | UnnamedNode<"=>">

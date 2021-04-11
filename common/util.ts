@@ -8,6 +8,10 @@ export const commaSep1 = sep1(',')
 
 const commaSep2 = sep2(',')
 
+export const newlineSep1 = <RuleName extends string>(
+  $: GrammarSymbols<RuleName>,
+) => sep1(($._newline as unknown) as string)
+
 const buildDataStructure = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
   element: Rule,
@@ -39,16 +43,20 @@ export const buildTuple = <RuleName extends string>(
   element: Rule,
   rest: boolean,
   allowSingle: boolean,
-) => choice(seq(
-  '(',
-  buildDataStructure(
-    $,
-    field(fieldName, element),
-    rest,
-    allowSingle ? commaSep1 : commaSep2,
-  ),
-  ')',
-), '()')
+) =>
+  choice(
+    seq(
+      '(',
+      buildDataStructure(
+        $,
+        field(fieldName, element),
+        rest,
+        allowSingle ? commaSep1 : commaSep2,
+      ),
+      ')',
+    ),
+    '()',
+  )
 
 export const buildList = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
@@ -100,16 +108,12 @@ export const buildBindingPattern = <RuleName extends string>(
     allowDefaults ? optional(seq('=', field('default', $._term))) : seq(),
   )
 
-const buildStatements =
-  <RuleName extends string>($: GrammarSymbols<RuleName>) =>
-  (rule: Rule) =>
-    seq(
-      optional($._newline),
-      sep1($._newline as unknown as string)(rule),
-      optional($._newline),
-    )
-
 export const buildBlock = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
-  ...rules: Rule[]
-) => seq('{', seq(...rules.map(buildStatements($))), '}')
+  rule: Rule
+) => seq('{', newlineSep1($)(rule), '}')
+
+export const line = <RuleName extends string>(
+  $: GrammarSymbols<RuleName>,
+  rule: Rule,
+) => seq(rule, choice($._newline, ';'))

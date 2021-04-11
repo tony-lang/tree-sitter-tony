@@ -5,6 +5,7 @@ export enum Operator {
   Difference = 'Difference',
   Equality = 'Equality',
   Exponentiation = 'Exponentiation',
+  Extends = 'Extends',
   Implication = 'Implication',
   Mod = 'Mod',
   Named = 'Named',
@@ -59,6 +60,32 @@ export enum Prec {
 export const precedences = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
 ) => [
+  [
+    $.argument,
+    Operator.Pipeline,
+    'access',
+    'patternOrTerm',
+    'application',
+    $.infix_application,
+    Operator.Not,
+    Operator.Exponentiation,
+    Operator.Product,
+    Operator.Sum,
+    Operator.Mod,
+    Operator.Order,
+    Operator.Equality,
+    Operator.And,
+    Operator.Or,
+    Operator.Difference,
+    Operator.Implication,
+    Operator.Biconditional,
+    Operator.Extends,
+    Operator.Other,
+    Operator.Named,
+    $._section_identifier,
+    'base',
+    $.group,
+  ],
   // [
   //   Operator.Access,
   //   Operator.Pipeline,
@@ -119,4 +146,14 @@ export const precedences = <RuleName extends string>(
 
   // _term ( ... binding_pattern ) = :: member
   // [$.tuple_pattern, $.application],
+
+  // { identifier , ... :: struct
+  [$.struct, $.binding_pattern],
+
+  // _term ? _term ... :: conditional
+  [$.conditional, $.optional_type],
+
+  // type = _term :: binding_pattern
+  [$.binding_pattern, $.infix_application],
+  [$.binding_pattern, $.application],
 ]
