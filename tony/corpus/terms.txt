@@ -919,7 +919,7 @@ list comprehension
 static function / application
 ==================
 
-value<Type>
+value<Type>;
 (<T>(a: T) => a)<Type>
 
 ---
@@ -934,7 +934,7 @@ value<Type>
         parameter: (binding_pattern
           name: (type_pattern))
         value: (function
-          element: (binding_pattern
+          parameter: (binding_pattern
             name: (identifier_pattern)
             type: (type))
           body: (identifier))))
