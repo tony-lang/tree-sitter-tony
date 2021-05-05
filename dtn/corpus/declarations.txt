@@ -13,12 +13,12 @@ declare 'module' {
   declaration: (declaration
     name: (raw_string)
     member: (declaration_member
-      as: (identifier_pattern_name)
+      as: (identifier_pattern)
       type: (parametric_type
         name: (type)))
     member: (declaration_member
-      as: (identifier_pattern_name)
-      name: (identifier_pattern_name)
+      as: (identifier_pattern)
+      name: (identifier_pattern)
       type: (parametric_type
         name: (type)))))
 
@@ -49,11 +49,11 @@ declare 'module' {
   declaration: (declaration
     name: (raw_string)
     member: (declaration_member
-      as: (identifier_pattern_name)
+      as: (identifier_pattern)
       type: (parametric_type
         name: (type)))
     member: (declaration_member
-      as: (identifier_pattern_name)
-      name: (identifier_pattern_name)
+      as: (identifier_pattern)
+      name: (identifier_pattern)
       type: (parametric_type
         name: (type)))))

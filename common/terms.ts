@@ -1,44 +1,46 @@
-import { IDENTIFIER, OPERATOR } from './constants'
+import { IDENTIFIER, OPERATOR, TYPE } from './constants'
 import {
   buildBlock,
-  buildGenericType,
   buildList,
   buildMember,
   buildStruct,
   buildTuple,
-  buildTypeConstraint,
-  buildTypeDeclaration,
   commaSep1,
+  sep1,
 } from './util'
-import { Prec } from './enums'
+import { Operator, Prec } from './precedences'
+
+export const _statement = <RuleName extends string>(
+  $: GrammarSymbols<RuleName>,
+) => choice($._term, $.assignment, $.export, $.class, $.instance, $.data)
 
 export const _term = <RuleName extends string>($: GrammarSymbols<RuleName>) =>
-  prec.left(
-    Prec.Term,
+  prec(
+    'base',
     choice(
       $.block,
-      $.abstraction,
+      $.function,
       $.application,
       $.infix_application,
       $._section,
       $.access,
-      $.assignment,
-      $.export,
       $.return,
-      $.ternary,
-      $.if,
+      $.conditional,
       $.case,
-      $.class,
-      $.instance,
       $.struct,
       $.tuple,
       $.list,
       $.list_comprehension,
-      $.parametric_type_instance,
       $.pure,
-      $.type_alias,
-      $.type_hint,
       $.hole,
+      $.static_function,
+      $.static_application,
+      $.type_hint,
+      $.function_type,
+      $.optional_type,
+      $.keyof_type,
+      $.map_type,
+      $.type,
       $.identifier,
       $._literal,
       $.group,
@@ -46,89 +48,104 @@ export const _term = <RuleName extends string>($: GrammarSymbols<RuleName>) =>
   )
 
 export const block = <RuleName extends string>($: GrammarSymbols<RuleName>) =>
-  buildBlock($, field('term', $._term))
+  prec('base', buildBlock($, field('term', choice($._term, $.assignment))))
+
+export const _immediate_block = <RuleName extends string>(
+  $: GrammarSymbols<RuleName>,
+) =>
+  prec(
+    'base',
+    choice(seq('then', field('body', $._term)), field('body', $.block)),
+  )
 
 export const export_ = <RuleName extends string>($: GrammarSymbols<RuleName>) =>
-  seq('export', field('declaration', $.assignment))
+  prec('base', seq('export', field('declaration', $.assignment)))
 
 export const assignment = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
 ) =>
   prec.right(
-    Prec.Assignment,
+    'base',
     seq(field('pattern', $._assignable_pattern), '=', field('value', $._term)),
   )
 
 export const class_ = <RuleName extends string>($: GrammarSymbols<RuleName>) =>
-  seq(
-    'class',
-    field('name', $.type),
-    optional(buildTypeConstraint($)),
-    buildBlock($, field('member', $.class_member)),
+  prec.right(
+    'base',
+    seq(
+      'class',
+      field('name', $.type),
+      optional(seq(':', field('constraint', $._term))),
+      buildBlock($, field('member', $.class_member)),
+    ),
   )
 
 export const class_member = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
 ) =>
-  seq(
-    field('name', alias($.identifier, $.identifier_pattern_name)),
-    '::',
-    field('type', $._type),
+  prec(
+    'base',
+    seq(
+      field('name', alias($.identifier, $.identifier_pattern)),
+      ':',
+      field('type', $._term),
+    ),
   )
 
 export const instance = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
 ) =>
-  seq(
-    'instance',
-    buildTypeDeclaration($),
-    'of',
-    field('class', $.type),
-    buildBlock($, field('assignment', $.assignment)),
-  )
-
-export const argument = <RuleName extends string>(
-  $: GrammarSymbols<RuleName>,
-) =>
-  prec.left(
-    Prec.Argument,
-    choice(field('placeholder', '?'), field('value', $._element)),
-  )
-
-export const abstraction = <RuleName extends string>(
-  $: GrammarSymbols<RuleName>,
-) =>
-  prec.left(
+  prec(
+    'base',
     seq(
-      optional(buildGenericType('typeParameter', $.type_variable_declaration)),
-      buildTuple($, $._pattern, true, true),
-      '=>',
-      field('body', $._term),
+      'instance',
+      field('type', $._term),
+      'of',
+      field('class', $.type),
+      buildBlock($, field('assignment', $.assignment)),
     ),
   )
+
+export const _parameters = <RuleName extends string>(
+  $: GrammarSymbols<RuleName>,
+) => prec('base', buildTuple($, 'parameter', $._pattern, true, true))
+
+export const function_ = <RuleName extends string>(
+  $: GrammarSymbols<RuleName>,
+) => prec.right('base', seq($._parameters, '=>', field('body', $._term)))
+
+export const _arguments = <RuleName extends string>(
+  $: GrammarSymbols<RuleName>,
+) => prec('base', buildTuple($, 'argument', $.argument, true, true))
 
 export const application = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
 ) =>
   prec.left(
-    Prec.Application,
+    'application',
+    // Prec.Application,
     seq(
       field('name', $._term),
-      choice(
-        prec(Prec.Argument, buildTuple($, $.argument, false, true)),
-        field('element', $._term),
-      ),
+      choice($._arguments, field('argument', $._term)),
     ),
   )
+
+export const argument = <RuleName extends string>(
+  $: GrammarSymbols<RuleName>,
+) =>
+  // prec(
+  // Prec.Argument,
+  choice(field('placeholder', '?'), field('value', $._element))
+//)
 
 export const infix_application = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
 ) =>
   prec.left(
-    Prec.InfixApplication,
+    // Prec.InfixApplication,
     choice(
       prec.left(
-        Prec.Pipeline,
+        Operator.Pipeline,
         seq(
           field('left', $._term),
           field('name', alias('&.', $.identifier)),
@@ -136,7 +153,7 @@ export const infix_application = <RuleName extends string>(
         ),
       ),
       prec.left(
-        Prec.Pipeline,
+        Operator.Pipeline,
         seq(
           field('left', $._term),
           field('name', alias('.', $.identifier)),
@@ -144,7 +161,7 @@ export const infix_application = <RuleName extends string>(
         ),
       ),
       prec.left(
-        Prec.Not,
+        Operator.Not,
         seq(
           field('left', $._term),
           field('name', alias('!', $.identifier)),
@@ -152,7 +169,7 @@ export const infix_application = <RuleName extends string>(
         ),
       ),
       prec.left(
-        Prec.Exponentiation,
+        Operator.Exponentiation,
         seq(
           field('left', $._term),
           field('name', alias('^', $.identifier)),
@@ -160,7 +177,7 @@ export const infix_application = <RuleName extends string>(
         ),
       ),
       prec.left(
-        Prec.Product,
+        Operator.Product,
         seq(
           field('left', $._term),
           field('name', alias('*', $.identifier)),
@@ -168,7 +185,7 @@ export const infix_application = <RuleName extends string>(
         ),
       ),
       prec.left(
-        Prec.Product,
+        Operator.Product,
         seq(
           field('left', $._term),
           field('name', alias('/', $.identifier)),
@@ -176,7 +193,7 @@ export const infix_application = <RuleName extends string>(
         ),
       ),
       prec.left(
-        Prec.Sum,
+        Operator.Sum,
         seq(
           field('left', $._term),
           field('name', alias('+', $.identifier)),
@@ -184,7 +201,7 @@ export const infix_application = <RuleName extends string>(
         ),
       ),
       prec.left(
-        Prec.Sum,
+        Operator.Sum,
         seq(
           field('left', $._term),
           field('name', alias('-', $.identifier)),
@@ -192,7 +209,7 @@ export const infix_application = <RuleName extends string>(
         ),
       ),
       prec.left(
-        Prec.Mod,
+        Operator.Mod,
         seq(
           field('left', $._term),
           field('name', alias('%', $.identifier)),
@@ -200,7 +217,7 @@ export const infix_application = <RuleName extends string>(
         ),
       ),
       prec.left(
-        Prec.Order,
+        Operator.Order,
         seq(
           field('left', $._term),
           field('name', alias('<', $.identifier)),
@@ -208,7 +225,7 @@ export const infix_application = <RuleName extends string>(
         ),
       ),
       prec.left(
-        Prec.Order,
+        Operator.Order,
         seq(
           field('left', $._term),
           field('name', alias('<=', $.identifier)),
@@ -216,7 +233,7 @@ export const infix_application = <RuleName extends string>(
         ),
       ),
       prec.left(
-        Prec.Order,
+        Operator.Order,
         seq(
           field('left', $._term),
           field('name', alias('>', $.identifier)),
@@ -224,7 +241,7 @@ export const infix_application = <RuleName extends string>(
         ),
       ),
       prec.left(
-        Prec.Order,
+        Operator.Order,
         seq(
           field('left', $._term),
           field('name', alias('>=', $.identifier)),
@@ -232,7 +249,7 @@ export const infix_application = <RuleName extends string>(
         ),
       ),
       prec.left(
-        Prec.Equality,
+        Operator.Equality,
         seq(
           field('left', $._term),
           field('name', alias('==', $.identifier)),
@@ -240,7 +257,7 @@ export const infix_application = <RuleName extends string>(
         ),
       ),
       prec.left(
-        Prec.Equality,
+        Operator.Equality,
         seq(
           field('left', $._term),
           field('name', alias('!=', $.identifier)),
@@ -248,7 +265,7 @@ export const infix_application = <RuleName extends string>(
         ),
       ),
       prec.left(
-        Prec.And,
+        Operator.And,
         seq(
           field('left', $._term),
           field('name', alias('&&', $.identifier)),
@@ -256,7 +273,15 @@ export const infix_application = <RuleName extends string>(
         ),
       ),
       prec.left(
-        Prec.Or,
+        Operator.And,
+        seq(
+          field('left', $._term),
+          field('name', alias('&', $.identifier)),
+          field('right', $._term),
+        ),
+      ),
+      prec.left(
+        Operator.Or,
         seq(
           field('left', $._term),
           field('name', alias('||', $.identifier)),
@@ -264,7 +289,23 @@ export const infix_application = <RuleName extends string>(
         ),
       ),
       prec.left(
-        Prec.Implication,
+        Operator.Or,
+        seq(
+          field('left', $._term),
+          field('name', alias('|', $.identifier)),
+          field('right', $._term),
+        ),
+      ),
+      prec.left(
+        Operator.Difference,
+        seq(
+          field('left', $._term),
+          field('name', alias('\\', $.identifier)),
+          field('right', $._term),
+        ),
+      ),
+      prec.left(
+        Operator.Implication,
         seq(
           field('left', $._term),
           field('name', alias('==>', $.identifier)),
@@ -272,7 +313,7 @@ export const infix_application = <RuleName extends string>(
         ),
       ),
       prec.left(
-        Prec.Biconditional,
+        Operator.Biconditional,
         seq(
           field('left', $._term),
           field('name', alias('<=>', $.identifier)),
@@ -280,7 +321,15 @@ export const infix_application = <RuleName extends string>(
         ),
       ),
       prec.left(
-        Prec.OperatorInfixApplication,
+        Operator.Extends,
+        seq(
+          field('left', $._term),
+          field('name', alias('<:', $.identifier)),
+          field('right', $._term),
+        ),
+      ),
+      prec.left(
+        Operator.Other,
         seq(
           field('left', $._term),
           field('name', alias($._operator, $.identifier)),
@@ -288,7 +337,7 @@ export const infix_application = <RuleName extends string>(
         ),
       ),
       prec.left(
-        Prec.NamedInfixApplication,
+        Operator.Named,
         seq(
           field('left', $._term),
           '`',
@@ -302,80 +351,84 @@ export const infix_application = <RuleName extends string>(
 
 export const _section = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
-) => choice($.left_section, $.right_section)
+) => prec('base', choice($.left_section, $.right_section))
 
 export const left_section = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
-) => seq('(', field('value', $._term), $._section_identifier, ')')
+) => prec('base', seq('(', field('value', $._term), $._section_identifier, ')'))
 
 export const right_section = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
-) => seq('(', $._section_identifier, field('value', $._term), ')')
+) => prec('base', seq('(', $._section_identifier, field('value', $._term), ')'))
 
 export const _section_identifier = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
 ) =>
-  prec(
-    Prec.SectionIdentifier,
-    choice(
-      seq('(', field('name', alias($._operator, $.identifier)), ')'),
-      seq(
-        '`',
-        field('name', alias($._identifier_without_operators, $.identifier)),
-        '`',
-      ),
+  // prec(
+  // Prec.SectionIdentifier,
+  choice(
+    seq('(', field('name', alias($._operator, $.identifier)), ')'),
+    seq(
+      '`',
+      field('name', alias($._identifier_without_operators, $.identifier)),
+      '`',
     ),
   )
+// )
 
 export const list_comprehension = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
 ) =>
-  seq(
-    '[',
-    field('body', $._term),
-    '|',
-    commaSep1(
-      choice(
-        field('generator', $.list_comprehension_generator),
-        field('condition', $.list_comprehension_condition),
+  prec(
+    'base',
+    seq(
+      '[',
+      field('body', $._term),
+      '|',
+      commaSep1(
+        choice(field('generator', $.generator), field('condition', $._term)),
       ),
+      ']',
     ),
-    ']',
   )
 
-export const list_comprehension_generator = <RuleName extends string>(
+export const generator = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
 ) =>
-  seq(
-    field('name', alias($.identifier, $.identifier_pattern_name)),
-    'in',
-    field('value', $._term),
+  prec(
+    'base',
+    seq(
+      field('name', alias($.identifier, $.identifier_pattern)),
+      'in',
+      field('value', $._term),
+    ),
   )
-
-export const list_comprehension_condition = <RuleName extends string>(
-  $: GrammarSymbols<RuleName>,
-) => field('value', $._term)
 
 export const access = <RuleName extends string>($: GrammarSymbols<RuleName>) =>
   prec.left(
-    Prec.Access,
+    'access',
+    // Prec.Access,
     seq(
-      field('name', $._term),
+      field('left', $._term),
       choice(
-        seq('[', field('value', $._term), ']'),
+        seq('[', field('right', $._term), ']'),
         seq(
           '->',
-          field('value', alias($.identifier, $.shorthand_access_identifier)),
+          field('right', alias($.identifier, $.shorthand_access_identifier)),
         ),
       ),
     ),
   )
 
 export const return_ = <RuleName extends string>($: GrammarSymbols<RuleName>) =>
-  prec.right(seq('return', field('value', $._term)))
+  prec.right('base', seq('return', field('value', $._term)))
 
-export const ternary = <RuleName extends string>($: GrammarSymbols<RuleName>) =>
+export const conditional = <RuleName extends string>(
+  $: GrammarSymbols<RuleName>,
+) =>
   prec.right(
+    'application',
+    // Prec.Application,
     seq(
       field('condition', $._term),
       '?',
@@ -384,32 +437,12 @@ export const ternary = <RuleName extends string>($: GrammarSymbols<RuleName>) =>
     ),
   )
 
-export const if_ = <RuleName extends string>($: GrammarSymbols<RuleName>) =>
-  prec.right(
-    seq(
-      'if',
-      field('condition', $._term),
-      choice(seq('then', field('body', $._term)), field('body', $.block)),
-      repeat(field('elseIf', $.else_if)),
-      optional(seq('else', field('else', $._term))),
-    ),
-  )
-
-export const else_if = <RuleName extends string>($: GrammarSymbols<RuleName>) =>
-  prec.right(
-    seq(
-      'else if',
-      field('condition', $._term),
-      choice(seq('then', field('body', $._term)), field('body', $.block)),
-    ),
-  )
-
 export const case_ = <RuleName extends string>($: GrammarSymbols<RuleName>) =>
   prec.right(
+    'base',
     seq(
       'case',
       field('value', $._term),
-      $._newline,
       repeat1(field('when', $.when)),
       'else',
       field('else', $._term),
@@ -417,77 +450,143 @@ export const case_ = <RuleName extends string>($: GrammarSymbols<RuleName>) =>
   )
 
 export const when = <RuleName extends string>($: GrammarSymbols<RuleName>) =>
-  seq(
-    'when',
-    commaSep1(field('pattern', $._pattern)),
-    choice(seq('then', field('body', $._term)), field('body', $.block)),
+  prec(
+    'base',
+    seq('when', commaSep1(field('pattern', $._pattern)), $._immediate_block),
   )
 
 export const struct = <RuleName extends string>($: GrammarSymbols<RuleName>) =>
   prec(
-    Prec.Term,
+    'patternOrTerm',
+    // Prec.Term,
     buildStruct(
       $,
+      'member',
       choice($.member, alias($.identifier, $.shorthand_member), $.spread),
+      false,
     ),
   )
 
 export const member = <RuleName extends string>($: GrammarSymbols<RuleName>) =>
-  buildMember($, $._term, $._term)
+  prec('base', buildMember($, $._term, $._term))
 
 export const tuple = <RuleName extends string>($: GrammarSymbols<RuleName>) =>
-  prec(Prec.Term, buildTuple($, $._element))
+  prec('base', buildTuple($, 'element', $._element, false, false))
 
 export const list = <RuleName extends string>($: GrammarSymbols<RuleName>) =>
-  prec(Prec.Term, buildList($, $._element))
+  prec('base', buildList($, 'element', $._element, false))
 
 export const _element = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
-) => choice($._term, $.spread)
+) => prec('base', choice($._term, $.spread))
 
 export const spread = <RuleName extends string>($: GrammarSymbols<RuleName>) =>
-  seq('...', field('value', $._term))
+  prec('base', seq('...', field('value', $._term)))
 
-export const parametric_type_instance = <RuleName extends string>(
+export const pure = <RuleName extends string>($: GrammarSymbols<RuleName>) =>
+  prec('base', prec.right(seq('pure', field('value', $._term))))
+
+export const hole = <RuleName extends string>($: GrammarSymbols<RuleName>) =>
+  prec(
+    'base',
+    seq('?', field('name', alias($.identifier, $.identifier_pattern))),
+  )
+
+export const static_function = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
 ) =>
-  prec(
-    Prec.ParametricTypeInstance,
+  prec.right(
+    'base',
     seq(
-      field('name', $._term),
-      buildGenericType('typeArgument', $.parametric_type),
+      '<',
+      commaSep1(field('parameter', $._pattern)),
+      '>',
+      field('value', $._term),
     ),
   )
 
-export const pure = <RuleName extends string>($: GrammarSymbols<RuleName>) =>
-  prec.right(seq('pure', field('value', $._term)))
-
-export const type_alias = <RuleName extends string>(
+export const static_application = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
 ) =>
-  prec.right(seq('type', buildTypeDeclaration($), '=', field('type', $._type)))
+  prec.left(
+    'patternOrTerm',
+    // Prec.Term,
+    seq(
+      field('value', $._term),
+      '<',
+      commaSep1(prec.left(field('argument', $._term))),
+      '>',
+    ),
+  )
 
 export const type_hint = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
 ) =>
-  prec.left(
-    Prec.TypeHint,
-    seq(field('value', $._term), 'as', field('type', $._type)),
+  prec.right('base', seq(field('value', $._term), 'as', field('type', $._term)))
+
+export const data = <RuleName extends string>($: GrammarSymbols<RuleName>) =>
+  prec.right(
+    Operator.Or,
+    seq(
+      'data',
+      field('name', $.type),
+      '=',
+      optional(seq('(', commaSep1(field('parameter', $._pattern)), ')', '=>')),
+      sep1('|')(field('constructor', $.tag)),
+    ),
   )
 
-export const hole = <RuleName extends string>($: GrammarSymbols<RuleName>) =>
-  prec(
-    Prec.Hole,
-    seq('?', field('name', alias($.identifier, $.identifier_pattern_name))),
+export const tag = <RuleName extends string>($: GrammarSymbols<RuleName>) =>
+  prec.left(
+    Operator.Or,
+    seq(
+      field(
+        'name',
+        alias($._identifier_without_operators, $.identifier_pattern),
+      ),
+      optional(field('type', $._term)),
+    ),
   )
+
+export const function_type = <RuleName extends string>(
+  $: GrammarSymbols<RuleName>,
+) =>
+  prec.right(
+    'access',
+    // Prec.Access,
+    seq(field('from', $._term), '->', field('to', $._term)),
+  )
+
+export const optional_type = <RuleName extends string>(
+  $: GrammarSymbols<RuleName>,
+) => prec.right('base', seq('?', field('type', $._term)))
+
+export const keyof_type = <RuleName extends string>(
+  $: GrammarSymbols<RuleName>,
+) => prec.right('base', seq('keyof', field('type', $._term)))
+
+export const map_type = <RuleName extends string>(
+  $: GrammarSymbols<RuleName>,
+) =>
+  prec(
+    'base',
+    seq(
+      '{',
+      optional(seq(field('property', alias($.type, $.type_pattern)), 'in')),
+      field('key', $._term),
+      '->',
+      field('value', $._term),
+      '}',
+    ),
+  )
+
+export const type = () => TYPE
 
 export const _identifier_without_operators = () => IDENTIFIER
-
 export const _operator = () => OPERATOR
-
 export const identifier = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
-) => choice($._operator, $._identifier_without_operators)
+) => prec.left('base', choice($._operator, $._identifier_without_operators))
 
 export const group = <RuleName extends string>($: GrammarSymbols<RuleName>) =>
-  prec(Prec.Group, seq('(', field('term', $._term), ')'))
+  seq('(', field('term', $._term), ')')
