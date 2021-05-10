@@ -125,14 +125,14 @@ export const buildIdentifierPattern = <RuleName extends string>(
     ),
   )
 
-const buildStatements = <RuleName extends string>(
-  $: GrammarSymbols<RuleName>,
-) => (rule: Rule) =>
-  seq(
-    optional($._newline),
-    sep1(($._newline as unknown) as string)(rule),
-    optional($._newline),
-  )
+const buildStatements =
+  <RuleName extends string>($: GrammarSymbols<RuleName>) =>
+  (rule: Rule) =>
+    seq(
+      optional($._newline),
+      sep1($._newline as unknown as string)(rule),
+      optional($._newline),
+    )
 
 export const buildBlock = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,

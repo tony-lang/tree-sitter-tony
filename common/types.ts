@@ -18,39 +18,37 @@ export const type_variable_declaration = <RuleName extends string>(
     ),
   )
 
-export const _type_constructor = (dialect: Dialect) => <
-  RuleName extends string
->(
-  $: GrammarSymbols<RuleName>,
-) => {
-  const choices = [
-    $.parametric_type,
-    $.curried_type,
-    $.intersection_type,
-    $.union_type,
-    $.subtraction_type,
-    $.conditional_type,
-    $.struct_type,
-    $.map_type,
-    $.tuple_type,
-    $.list_type,
-    $.optional_type,
-    $.tagged_type,
-    $.labeled_type,
-    $.keyof,
-    $.type_group,
-  ]
+export const _type_constructor =
+  (dialect: Dialect) =>
+  <RuleName extends string>($: GrammarSymbols<RuleName>) => {
+    const choices = [
+      $.parametric_type,
+      $.curried_type,
+      $.intersection_type,
+      $.union_type,
+      $.subtraction_type,
+      $.conditional_type,
+      $.struct_type,
+      $.map_type,
+      $.tuple_type,
+      $.list_type,
+      $.optional_type,
+      $.tagged_type,
+      $.labeled_type,
+      $.keyof,
+      $.type_group,
+    ]
 
-  if (dialect === Dialect.Tony)
-    choices.push(
-      $.typeof,
-      $.access_type,
-      $.refinement_type,
-      $.refinement_type_declaration,
-    )
+    if (dialect === Dialect.Tony)
+      choices.push(
+        $.typeof,
+        $.access_type,
+        $.refinement_type,
+        $.refinement_type_declaration,
+      )
 
-  return choice(...choices)
-}
+    return choice(...choices)
+  }
 
 export const _term_type = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
@@ -59,21 +57,19 @@ export const _term_type = <RuleName extends string>(
 export const typeof_ = <RuleName extends string>($: GrammarSymbols<RuleName>) =>
   seq('typeof', field('value', $._term_type))
 
-export const parametric_type_constructor = (dialect: Dialect) => <
-  RuleName extends string
->(
-  $: GrammarSymbols<RuleName>,
-) => {
-  const nodes = [
-    field('name', $.type),
-    optional(buildGenericType('argument', $._type)),
-  ]
+export const parametric_type_constructor =
+  (dialect: Dialect) =>
+  <RuleName extends string>($: GrammarSymbols<RuleName>) => {
+    const nodes = [
+      field('name', $.type),
+      optional(buildGenericType('argument', $._type)),
+    ]
 
-  if (dialect === Dialect.Tony)
-    nodes.push(optional(buildTuple($, $._term_type, false, true, false)))
+    if (dialect === Dialect.Tony)
+      nodes.push(optional(buildTuple($, $._term_type, false, true, false)))
 
-  return prec.right(seq(...nodes))
-}
+    return prec.right(seq(...nodes))
+  }
 
 export const curried_type = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
