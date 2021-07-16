@@ -472,7 +472,7 @@ export const type_hint = <RuleName extends string>(
 ) =>
   prec.left(
     Prec.TypeHint,
-    seq(field('value', $._term), 'as', field('type', $._type)),
+    seq(field('value', $._term), '::', field('type', $._type)),
   )
 
 export const hole = <RuleName extends string>($: GrammarSymbols<RuleName>) =>

@@ -3,7 +3,7 @@ export enum Prec {
   SubtractionType = -1,
   UnionType = 0,
   Assignment = 1,
-  TypeHint = 1,
+  TypeHint = 0,
   CurriedType = 1,
   NamedInfixApplication = 1,
   SectionIdentifier = 1,
