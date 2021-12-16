@@ -1573,6 +1573,13 @@ next-tick@~1.0.0:
   resolved "https://registry.yarnpkg.com/next-tick/-/next-tick-1.0.0.tgz#ca86d1fe8828169b0120208e3dc8424b9db8342c"
   integrity sha1-yobR/ogoFpsBICCOPchCS524NCw=
 
+node-abi@^2.21.0:
+  version "2.30.1"
+  resolved "https://registry.yarnpkg.com/node-abi/-/node-abi-2.30.1.tgz#c437d4b1fe0e285aaf290d45b45d4d7afedac4cf"
+  integrity sha512-/2D0wOQPgaUWzVSVgRMx+trKJRC2UG4SUc4oCJoXx9Uxjtp0Vy3/kt7zcbxHF8+Z/pK3UloLWzBISg72brfy1w==
+  dependencies:
+    semver "^5.4.1"
+
 node-abi@^2.7.0:
   version "2.21.0"
   resolved "https://registry.yarnpkg.com/node-abi/-/node-abi-2.21.0.tgz#c2dc9ebad6f4f53d6ea9b531e7b8faad81041d48"
@@ -1825,6 +1832,25 @@ prebuild-install@^5.0.0:
     tar-fs "^2.0.0"
     tunnel-agent "^0.6.0"
     which-pm-runs "^1.0.0"
+
+prebuild-install@^6.0.1:
+  version "6.1.4"
+  resolved "https://registry.yarnpkg.com/prebuild-install/-/prebuild-install-6.1.4.tgz#ae3c0142ad611d58570b89af4986088a4937e00f"
+  integrity sha512-Z4vpywnK1lBg+zdPCVCsKq0xO66eEV9rWo2zrROGGiRS4JtueBOdlB1FnY8lcy7JsUud/Q3ijUxyWN26Ika0vQ==
+  dependencies:
+    detect-libc "^1.0.3"
+    expand-template "^2.0.3"
+    github-from-package "0.0.0"
+    minimist "^1.2.3"
+    mkdirp-classic "^0.5.3"
+    napi-build-utils "^1.0.1"
+    node-abi "^2.21.0"
+    npmlog "^4.0.1"
+    pump "^3.0.0"
+    rc "^1.2.7"
+    simple-get "^3.0.3"
+    tar-fs "^2.0.0"
+    tunnel-agent "^0.6.0"
 
 prebuild-install@^7.0.0:
   version "7.0.0"
@@ -2430,13 +2456,13 @@ tree-sitter@^0.16.1:
     nan "^2.14.0"
     prebuild-install "^5.0.0"
 
-tree-sitter@^0.19.0:
-  version "0.19.0"
-  resolved "https://registry.yarnpkg.com/tree-sitter/-/tree-sitter-0.19.0.tgz#68c4cfa12b34752d69162b81ad233f3e6fc4a70d"
-  integrity sha512-jw/BNCCRB9RCq/GFGU0VuhchGlIIlYRQFnjXgPKG3fBIo+c3ImuPITtAHJJ4XgTBNfeAQmt8XC4wShgBw8tgdg==
+tree-sitter@^0.20.0:
+  version "0.20.0"
+  resolved "https://registry.yarnpkg.com/tree-sitter/-/tree-sitter-0.20.0.tgz#b24f4d0ce6b9fdd9e99101907c954c5d938cb82d"
+  integrity sha512-tqTdtD1T2cN4aEES0sZCjKTQrc9Ls8H/iYlzpskhGy8yCwNPKBIbK9YuuCg/AxACr8RAY4wMoeCigM1X/A79yg==
   dependencies:
     nan "^2.14.0"
-    prebuild-install "^5.0.0"
+    prebuild-install "^6.0.1"
 
 tslib@^1.8.1:
   version "1.14.1"
