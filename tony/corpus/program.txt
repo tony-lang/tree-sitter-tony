@@ -17,7 +17,7 @@ hash bang line
 
 (program
   hashBangLine: (hash_bang_line)
-  term: (number))
+  term: (integer))
 
 ==================
 import
@@ -37,10 +37,10 @@ import x from 'source'
 (program
   import: (import
     import: (import_identifier
-      name: (identifier_pattern_name)
-      as: (identifier_pattern_name))
+      name: (identifier_pattern)
+      as: (identifier_pattern))
     import: (import_identifier
-      as: (identifier_pattern_name))
+      as: (identifier_pattern))
     import: (import_type
       name: (type)
       as: (type))
@@ -48,14 +48,14 @@ import x from 'source'
       as: (type))
     source: (raw_string))
   import: (import
-    default: (identifier_pattern_name)
+    default: (identifier_pattern)
     import: (import_identifier
-      as: (identifier_pattern_name))
+      as: (identifier_pattern))
     import: (import_identifier
-      as: (identifier_pattern_name))
+      as: (identifier_pattern))
     source: (raw_string))
   import: (import
-    default: (identifier_pattern_name)
+    default: (identifier_pattern)
     source: (raw_string)))
 
 ==================
@@ -68,9 +68,9 @@ export x, { a, b } from 'source'
 
 (program
   import: (exported_import
-    default: (identifier_pattern_name)
+    default: (identifier_pattern)
     import: (import_identifier
-      as: (identifier_pattern_name))
+      as: (identifier_pattern))
     import: (import_identifier
-      as: (identifier_pattern_name))
+      as: (identifier_pattern))
     source: (raw_string)))

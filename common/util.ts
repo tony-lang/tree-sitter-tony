@@ -1,6 +1,4 @@
-import { Prec } from './enums'
-
-const sep1 = (sep: string) => (rule: RuleOrLiteral) =>
+export const sep1 = (sep: string) => (rule: RuleOrLiteral) =>
   seq(rule, repeat(seq(sep, rule)))
 
 const sep2 = (sep: string) => (rule: RuleOrLiteral) =>
@@ -9,6 +7,10 @@ const sep2 = (sep: string) => (rule: RuleOrLiteral) =>
 export const commaSep1 = sep1(',')
 
 const commaSep2 = sep2(',')
+
+export const newlineSep1 = <RuleName extends string>(
+  $: GrammarSymbols<RuleName>,
+) => sep1(($._newline as unknown) as string)
 
 const buildDataStructure = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
@@ -19,10 +21,10 @@ const buildDataStructure = <RuleName extends string>(
   rest
     ? optional(
         choice(
-          seq('...', field('rest', $.identifier_pattern)),
+          seq('...', field('rest', $.binding_pattern)),
           seq(
             commaSepImpl(element),
-            optional(seq(',', '...', field('rest', $.identifier_pattern))),
+            optional(seq(',', '...', field('rest', $.binding_pattern))),
           ),
         ),
       )
@@ -30,40 +32,38 @@ const buildDataStructure = <RuleName extends string>(
 
 export const buildStruct = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
+  fieldName: string,
   member: Rule,
-  rest = false,
-) => seq('{', buildDataStructure($, field('member', member), rest), '}')
+  rest: boolean,
+) => seq('{', buildDataStructure($, field(fieldName, member), rest), '}')
 
 export const buildTuple = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
+  fieldName: string,
   element: Rule,
-  rest = false,
-  allowSingle = false,
-  allowEmpty = true,
-) => {
-  const options: RuleOrLiteral[] = [
+  rest: boolean,
+  allowSingle: boolean,
+) =>
+  choice(
     seq(
       '(',
       buildDataStructure(
         $,
-        field('element', element),
+        field(fieldName, element),
         rest,
         allowSingle ? commaSep1 : commaSep2,
       ),
       ')',
     ),
-  ]
-
-  if (allowEmpty) options.push('()')
-
-  return choice(...options)
-}
+    '()',
+  )
 
 export const buildList = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
+  fieldName: string,
   element: Rule,
-  rest = false,
-) => seq('[', buildDataStructure($, field('element', element), rest), ']')
+  rest: boolean,
+) => seq('[', buildDataStructure($, field(fieldName, element), rest), ']')
 
 export const buildMember = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
@@ -92,49 +92,28 @@ export const buildString = <RuleName extends string>(
 export const buildGenericType = (name: string, rule: Rule) =>
   seq('<', commaSep1(field(name, rule)), '>')
 
-export const buildTypeConstraint = <RuleName extends string>(
-  $: GrammarSymbols<RuleName>,
-) =>
-  seq(
-    '<:',
-    choice(
-      field('constraint', $._type),
-      seq('(', sep2(';')(field('constraint', $._type)), ')'),
-    ),
-  )
-
-export const buildTypeDeclaration = <RuleName extends string>(
-  $: GrammarSymbols<RuleName>,
-) =>
-  seq(
-    field('name', $.type),
-    optional(buildGenericType('parameter', $.type_variable_declaration)),
-    optional(buildTuple($, $.identifier_pattern, false, true)),
-  )
-
-export const buildIdentifierPattern = <RuleName extends string>(
+export const buildBindingPattern = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
   allowDefaults: boolean,
 ) =>
-  prec.right(
-    Prec.Pattern,
-    seq(
-      field('name', alias($.identifier, $.identifier_pattern_name)),
-      optional(seq('::', field('type', $._type))),
-      allowDefaults ? optional(seq('=', field('default', $._term))) : seq(),
+  seq(
+    field(
+      'name',
+      choice(
+        alias($.identifier, $.identifier_pattern),
+        alias($.type, $.type_pattern),
+      ),
     ),
+    optional(seq(':', field('type', $.type))),
+    allowDefaults ? optional(seq('=', field('default', $._term))) : seq(),
   )
-
-const buildStatements =
-  <RuleName extends string>($: GrammarSymbols<RuleName>) =>
-  (rule: Rule) =>
-    seq(
-      optional($._newline),
-      sep1($._newline as unknown as string)(rule),
-      optional($._newline),
-    )
 
 export const buildBlock = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
-  ...rules: Rule[]
-) => seq('{', seq(...rules.map(buildStatements($))), '}')
+  rule: Rule
+) => seq('{', newlineSep1($)(rule), '}')
+
+export const line = <RuleName extends string>(
+  $: GrammarSymbols<RuleName>,
+  rule: Rule,
+) => seq(rule, choice($._newline, ';'))

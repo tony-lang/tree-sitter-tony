@@ -34,23 +34,23 @@ decimal
 (program
   term: (application
     name: (identifier)
-    element: (number))
+    argument: (decimal))
   term: (application
     name: (identifier)
-    element: (number))
-  term: (number)
-  term: (number)
-  term: (number)
-  term: (number)
-  term: (number)
-  term: (number)
-  term: (number)
-  term: (number)
-  term: (number)
-  term: (number)
+    argument: (decimal))
+  term: (decimal)
+  term: (decimal)
+  term: (decimal)
+  term: (decimal)
+  term: (decimal)
+  term: (decimal)
+  term: (decimal)
+  term: (decimal)
+  term: (decimal)
+  term: (decimal)
   term: (application
     name: (identifier)
-    element: (number)))
+    argument: (decimal)))
 
 ==================
 integer
@@ -70,14 +70,14 @@ integer
 (program
   term: (application
     name: (identifier)
-    element: (number))
-  term: (number)
-  term: (number)
-  term: (number)
-  term: (number)
-  term: (number)
-  term: (number)
-  term: (number))
+    argument: (integer))
+  term: (integer)
+  term: (integer)
+  term: (integer)
+  term: (integer)
+  term: (integer)
+  term: (integer)
+  term: (integer))
 
 =====================================
 identifier

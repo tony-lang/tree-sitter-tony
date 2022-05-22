@@ -1,20 +1,20 @@
+import { Prec } from './precedences'
 import {
-  buildIdentifierPattern,
+  buildBindingPattern,
   buildList,
   buildMember,
   buildStruct,
   buildTuple,
 } from './util'
-import { Prec } from './enums'
 
 export const _pattern = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
 ) =>
   prec(
-    Prec.Pattern,
+    'base',
     choice(
       $.wildcard_pattern,
-      $.identifier_pattern,
+      $.binding_pattern,
       $._assignable_pattern,
       $._literal_pattern,
     ),
@@ -23,28 +23,41 @@ export const _pattern = <RuleName extends string>(
 export const _assignable_pattern = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
 ) =>
-  choice(
-    alias($.root_identifier_pattern, $.identifier_pattern),
-    $.destructuring_pattern,
-    $.tagged_pattern,
-    $.pattern_group,
+  prec(
+    'base',
+    choice(
+      alias($.root_binding_pattern, $.binding_pattern),
+      $.destructuring_pattern,
+      $.pattern_group,
+    ),
   )
 
 export const destructuring_pattern = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
 ) =>
   prec(
-    Prec.Pattern,
+    'base',
     seq(
       optional(
         seq(
-          field('alias', alias($.identifier, $.identifier_pattern_name)),
+          field(
+            'alias',
+            choice(
+              alias($.identifier, $.identifier_pattern),
+              alias($.type, $.type_pattern),
+            ),
+          ),
           '@',
         ),
       ),
       field(
         'pattern',
-        choice($.struct_pattern, $.tuple_pattern, $.list_pattern),
+        choice(
+          $.struct_pattern,
+          $.tuple_pattern,
+          $.list_pattern,
+          $.tag_pattern,
+        ),
       ),
     ),
   )
@@ -53,12 +66,13 @@ export const struct_pattern = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
 ) =>
   prec(
-    Prec.Pattern,
+    'base',
     buildStruct(
       $,
+      'member',
       choice(
         $.member_pattern,
-        alias($.identifier_pattern, $.shorthand_member_pattern),
+        alias($.binding_pattern, $.shorthand_member_pattern),
       ),
       true,
     ),
@@ -66,38 +80,42 @@ export const struct_pattern = <RuleName extends string>(
 
 export const member_pattern = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
-) => buildMember($, $._term, $._pattern)
+) => prec('base', buildMember($, $._term, $._pattern))
 
 export const tuple_pattern = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
-) => prec(Prec.Pattern, buildTuple($, $._pattern, true))
+) => prec('base', buildTuple($, 'element', $._pattern, true, false))
 
 export const list_pattern = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
-) => prec(Prec.Pattern, buildList($, $._pattern, true))
+) => prec('base', buildList($, 'element', $._pattern, true))
 
-export const identifier_pattern = <RuleName extends string>(
+export const binding_pattern = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
-) => buildIdentifierPattern($, true)
+) => prec('base', buildBindingPattern($, true))
 
-export const root_identifier_pattern = <RuleName extends string>(
+export const root_binding_pattern = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
-) => buildIdentifierPattern($, false)
+) => prec('base', choice(buildBindingPattern($, false)))
 
 export const wildcard_pattern = () => '_'
 
-export const tagged_pattern = <RuleName extends string>(
+export const tag_pattern = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
 ) =>
-  seq(
-    field('name', alias($._identifier_without_operators, $.identifier)),
-    field('pattern', $._pattern),
+  prec(
+    'application',
+    seq(
+      field('name', alias($._identifier_without_operators, $.identifier)),
+      field('pattern', $._pattern),
+    ),
   )
 
 export const _literal_pattern = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
-) => choice($.boolean, $.number, $.raw_string, $.regex)
+) =>
+  prec('base', choice($.boolean, $.decimal, $.integer, $.raw_string, $.regex))
 
 export const pattern_group = <RuleName extends string>(
   $: GrammarSymbols<RuleName>,
-) => prec(Prec.Pattern, seq('(', field('pattern', $._pattern), ')'))
+) => prec('base', seq('(', field('pattern', $._pattern), ')'))
