@@ -1084,7 +1084,8 @@ type GreaterThan<T>(x :: T) = [y :: T | y > x]
 type hint
 ==================
 
-'string' as String
+'string' :: String
+x :: Promise<Number>
 
 ---
 
@@ -1092,7 +1093,13 @@ type hint
   term: (type_hint
     value: (string)
     type: (parametric_type
-      name: (type))))
+      name: (type)))
+  term: (type_hint
+    value: (identifier)
+    type: (parametric_type
+      name: (type)
+      argument: (parametric_type
+        name: (type)))))
 
 ==================
 hole
